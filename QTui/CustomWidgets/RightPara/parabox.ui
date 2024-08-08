@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>202</width>
+    <height>145</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_1">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_1">
+       <item>
+        <widget class="QLabel" name="label_eps_time">
+         <property name="text">
+          <string>曝光时间（us）</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinBox_eps_time">
+         <property name="minimum">
+          <number>1677</number>
+         </property>
+         <property name="maximum">
+          <number>100000</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QSlider" name="horizontalSlider_eps_time">
+       <property name="minimum">
+        <number>1677</number>
+       </property>
+       <property name="maximum">
+        <number>100000</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_f">
+         <property name="text">
+          <string>光圈大小（f-number）</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_f">
+         <property name="minimum">
+          <double>1.400000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>32.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_bright_2">
+         <property name="text">
+          <string>亮度</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_bright">
+         <property name="maximum">
+          <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLabel" name="label_eps">
+         <property name="text">
+          <string>曝光</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_eps">
+         <property name="minimum">
+          <double>1.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>16.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>spinBox_eps_time</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>horizontalSlider_eps_time</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>148</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>134</x>
+     <y>42</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider_eps_time</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_eps_time</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>77</x>
+     <y>43</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>108</x>
+     <y>24</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

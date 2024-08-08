@@ -1,0 +1,12 @@
+1.bmp
+*.ply
+*.pyc
+src/calib/hik/*.png
+src/calib/zivid_rgb/*.png
+tool/data/zivid_labels/*.pkl
+*.pt
+*.mp4
+*.pth
+*.zfc
+*.onnx
+*.dat
