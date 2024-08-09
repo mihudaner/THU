@@ -10,3 +10,4 @@ tool/data/zivid_labels/*.pkl
 *.zfc
 *.onnx
 *.dat
+data/
