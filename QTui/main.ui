@@ -974,6 +974,30 @@ background: transparent;
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_8">
                 <item>
+                 <widget class="QTreeWidget" name="treeWidget">
+                  <column>
+                   <property name="text">
+                    <string>项目</string>
+                   </property>
+                  </column>
+                  <item>
+                   <property name="text">
+                    <string>src</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>data</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>ccd</string>
+                    </property>
+                   </item>
+                  </item>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QPushButton" name="btn_home">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
