@@ -11,3 +11,5 @@ tool/data/zivid_labels/*.pkl
 *.onnx
 *.dat
 data/
+*.tiff
+src/molten/1021-CCD-旁轴同轴同时拍摄 .zip
