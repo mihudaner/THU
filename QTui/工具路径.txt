@@ -1,0 +1,2 @@
+D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\new_windows\QTui\main.py E:\Work\THU\code\new_windows\QTuid\main.ui
+D:\soft\Anaconda3\envs\py37\Lib\site-packages\qt5_applications\Qt\bin\designer.exe
