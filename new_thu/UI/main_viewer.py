@@ -1,14 +1,3 @@
-import json
-
-from main_viewer_ui import Ui_MainWindow
-from PySide2.QtWidgets import *
-from enum import Enum, unique
-from functools import partial
-import subprocess
-from pathlib import Path
-from MyDialog import *
-from PySide2.QtGui import QIcon
-from openpyxl import Workbook
 from utils import *
 @unique
 class NodeType(Enum):
@@ -27,19 +16,38 @@ class MainWindow(QMainWindow):
             self.setWindowIcon(QIcon(icon_path))
         else:
             print(f"Icon file not found: {icon_path}")
+        self.jt_cls = []
+        self.cl_styles = []
+        self.gy_styles = []
+        self.cx_styles = []
+        self.mxgy_styles = []
+        self.mx_styles = []
+
         self.initUI()  # 初始化窗口
 
     def initUI(self):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         #文件
+        dropdown_menu = QMenu()
+        dropdown_menu.addAction(self.ui.w_path)
+        dropdown_menu.addAction(self.ui.w_save)
+        dropdown_menu.addAction(self.ui.w_save_as)
+        dropdown_menu.addAction(self.ui.w_quit)
+
+        # self.ui.file_menu.setMenu(dropdown_menu)
+        # 连接 QAction 的触发信号到菜单
+        self.ui.file_menu.triggered.connect(lambda: dropdown_menu.exec_(self.ui.toolBar.mapToGlobal(self.ui.toolBar.rect().bottomLeft())))
         self.ui.w_quit.triggered.connect(QApplication.quit)
         self.ui.w_path.triggered.connect(self.select_database)
+        # 另存为
+        self.ui.w_save_as.triggered.connect(self.save_as)
 
         self.model = QFileSystemModel()
         self.treeWidget = self.ui.treeWidget
         self.root = "../database"
         self.dataroot = osp.join(self.root, "数据库")
+        self.projectroot = osp.join(self.root, "项目库")
         self.kupath = None
         self.treeWidget.itemClicked.connect(self.on_item_clicked)  # Connect the itemClicked signal to a slot function
         self.treeWidget.itemDoubleClicked.connect(self.on_item_double_clicked)  # 双击信号
@@ -55,39 +63,70 @@ class MainWindow(QMainWindow):
         self.ui.cx_open.triggered.connect(partial(self.select_data, note="程序"))
         # 模型
         self.ui.mx_open.triggered.connect(partial(self.select_data, note="模型"))
+        # 项目
+        self.ui.xm_open.triggered.connect(partial(self.select_data, note="项目"))
 
         # Enable custom context menu
         self.treeWidget.setContextMenuPolicy(Qt.CustomContextMenu)
         # 右击显示菜单
         self.treeWidget.customContextMenuRequested.connect(partial(show_context_menu, self))
+        self.initData()
+    def initData(self):
+        path1 = osp.join(self.dataroot, '材料库')
+        self.cl_styles = self.get_folder_names(path1)
+        self.jt_cls = []
+        for cl_style in self.cl_styles:
+            path = osp.join(path1, cl_style)
+            xlsx_files = self.get_xlsx_files(path)
+            # 将 xlsx_files 包含的文件名添加到 self.jt_cls
+            for xlsx_file in xlsx_files:
+                self.jt_cls.append(xlsx_file)
 
-        self.initTable()
-    def initTable(self):
-        cx = osp.join(self.dataroot, "程序库/程序目录.json")
-        mx = osp.join(self.dataroot, "模型库/模型目录.json")
-        with open(cx, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-        # 设置表格行数和列数
-        self.ui.table_cx.setRowCount(len(data))
-        self.ui.table_cx.setColumnCount(len(data[0]))  # 假设每个字典都有相同的键
-        # 设置表头
-        self.ui.table_cx.setHorizontalHeaderLabels(data[0].keys())
-        # 填充数据
-        for row_index, row_data in enumerate(data):
-            for col_index, (key, value) in enumerate(row_data.items()):
-                self.ui.table_cx.setItem(row_index, col_index, QTableWidgetItem(str(value)))
-        with open(mx, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-        # 设置表格行数和列数
-        self.ui.table_mx.setRowCount(len(data))
-        self.ui.table_mx.setColumnCount(len(data[0]))  # 假设每个字典都有相同的键
-        # 设置表头
-        self.ui.table_mx.setHorizontalHeaderLabels(data[0].keys())
-        # 填充数据
-        for row_index, row_data in enumerate(data):
-            for col_index, (key, value) in enumerate(row_data.items()):
-                self.ui.table_mx.setItem(row_index, col_index, QTableWidgetItem(str(value)))
+        path2 = osp.join(self.dataroot, '工艺库')
+        self.gy_styles = self.get_folder_names(path2)
 
+        path3 = osp.join(self.dataroot, '程序库')
+        self.cx_styles = self.get_folder_names(path3)
+
+        path4 = osp.join(self.dataroot, '模型库')
+        self.mx_styles = self.get_folder_names(path4)
+
+    def get_xlsx_files(self, path):
+        try:
+            # 列出目录中的所有内容
+            dir_contents = os.listdir(path)
+
+            # 过滤出 .xlsx 文件
+            xlsx_files = [osp.splitext(name)[0] for name in dir_contents if name.endswith('.xlsx') and osp.isfile(osp.join(path, name))]
+
+            return xlsx_files
+        except FileNotFoundError:
+            print(f"路径 {path} 不存在")
+            return []
+        except Exception as e:
+            print(f"遍历路径 {path} 时发生错误: {e}")
+            return []
+    def get_folder_names(self, path):
+        try:
+            # 列出目录中的所有内容
+            dir_contents = os.listdir(path)
+
+            # 过滤出文件夹
+            folders = [name for name in dir_contents if osp.isdir(osp.join(path, name))]
+
+            return folders
+        except FileNotFoundError:
+            print(f"路径 {path} 不存在")
+            return []
+        except Exception as e:
+            print(f"遍历路径 {path} 时发生错误: {e}")
+            return []
+
+
+    def save_as(self):
+        SaveAsDialog(self.root)
+        dialog = SaveAsDialog(self.root)
+        dialog.exec_()
     def filter(self, item):
         if item.text(0)=='程序库':
             dialog = FilterCX(item)
@@ -96,33 +135,6 @@ class MainWindow(QMainWindow):
         else:
             dialog = FilterMX(item)
         dialog.exec_()
-
-    def updateTable(self):
-        cx = osp.join(self.dataroot, "程序库/程序目录.json")
-        mx = osp.join(self.dataroot, "模型库/模型目录.json")
-        with open(cx, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-        # 设置表格行数和列数
-        self.ui.table_cx.setRowCount(len(data))
-        self.ui.table_cx.setColumnCount(len(data[0]))  # 假设每个字典都有相同的键
-        # 设置表头
-        self.ui.table_cx.setHorizontalHeaderLabels(data[0].keys())
-        # 填充数据
-        for row_index, row_data in enumerate(data):
-            for col_index, (key, value) in enumerate(row_data.items()):
-                self.ui.table_cx.setItem(row_index, col_index, QTableWidgetItem(str(value)))
-        with open(mx, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-        # 设置表格行数和列数
-        self.ui.table_mx.setRowCount(len(data))
-        self.ui.table_mx.setColumnCount(len(data[0]))  # 假设每个字典都有相同的键
-        # 设置表头
-        self.ui.table_mx.setHorizontalHeaderLabels(data[0].keys())
-        # 填充数据
-        for row_index, row_data in enumerate(data):
-            for col_index, (key, value) in enumerate(row_data.items()):
-                self.ui.table_mx.setItem(row_index, col_index, QTableWidgetItem(str(value)))
-
 
     #选择总库
     def select_database(self, note=None):
@@ -174,6 +186,10 @@ class MainWindow(QMainWindow):
             top_item = self.create_top_item(self.kupath, "模型")  # 创建topitem
             top_item.setExpanded(True)  # 固定展开 top_item
             self.list_dir(top_item, self.kupath, "模型")  # 递归遍历
+        elif note == "项目" or note == "xm_fresh":
+            top_item = self.create_top_item(self.projectroot, "项目")  # 创建topitem
+            top_item.setExpanded(True)  # 固定展开 top_item
+            self.list_dir(top_item, self.projectroot, "项目")  # 递归遍历
         else:
             return
 
@@ -219,8 +235,6 @@ class MainWindow(QMainWindow):
                 cl_item = self._generate_item(None, "项目库", osp.join(directory, "项目库"), NodeType.NodeDir.value)
                 self.ui.treeWidget.addTopLevelItem(cl_item)
                 self.list_dir(cl_item, osp.join(directory, "项目库"))
-
-
         else:
             for obj in os.listdir(directory):
                 tmp_path = osp.join(directory, obj)
@@ -231,16 +245,31 @@ class MainWindow(QMainWindow):
                     self._generate_item(parent, obj, tmp_path, NodeType.NodeFile.value)
 
     def _generate_item(self, parent, name, path, node_type):
-        item = QTreeWidgetItem(parent)
+        item = QTreeWidgetItem()
+        if name.endswith('json'):
+            name = name.rstrip('.json')
+        elif name.endswith('xlsx'):
+            name = name.rstrip('.xlsx')
         if name.endswith('bak'):
             item.setHidden(True)
-        if name.endswith('xlsx') or name.endswith('json'):
-            name = name.rstrip('.xlsx')
-            name = name.rstrip('.json')
+
 
         item.setText(0, name)
         item.setToolTip(0, path)
         item.setData(0, Qt.UserRole, path)
+
+        if parent is not None:
+            if '目录' in name:
+                # 将 item 插入到父节点的第一个子节点位置
+                parent.insertChild(0, item)  # 插入到第一个位置
+                print("将 item 插入到父节点的第一个子节点位置")
+            else:
+                parent.addChild(item)
+        else:
+            self.treeWidget.addTopLevelItem(item)
+
+        if name.endswith('bak'):
+            item.setHidden(True)
 
         if item.parent() is None: # 父节点为database
             if item.text(0) == "材料库":
@@ -255,27 +284,34 @@ class MainWindow(QMainWindow):
                 item.setData(0, Qt.UserRole + 1, "模型库")
             elif item.text(0) == "项目库":
                 item.setData(0, Qt.UserRole + 1, "项目库")
-
         else:
             if item.parent().text(0)=="材料库":
                 item.setData(0, Qt.UserRole+1, "材料类型")
+            elif item.parent().data(0, Qt.UserRole + 1) == "材料类型":
+                item.setData(0, Qt.UserRole + 1, "具体材料")
             elif item.parent().text(0)=="设备库":
                 item.setData(0, Qt.UserRole+1, "设备类型")
                 item.setExpanded(True)
+            elif item.parent().data(0, Qt.UserRole + 1) == "设备类型":
+                item.setData(0, Qt.UserRole + 1, "具体设备")
+            elif item.parent().text(0)=="工艺库":
+                item.setData(0, Qt.UserRole+1, "工艺类型")
+            elif item.parent().data(0, Qt.UserRole + 1)=="工艺类型":
+                item.setData(0, Qt.UserRole+1, "具体工艺")
             elif item.parent().text(0)=="程序库":
                 item.setData(0, Qt.UserRole+1, "程序类型")
                 item.setExpanded(True)
                 if "目录" in item.text(0):
                     item.setData(0, Qt.UserRole + 1, "程序目录")
             elif item.parent().text(0)=="模型库":
+                item.setData(0, Qt.UserRole+1, "模型工艺类型")
+                item.setExpanded(True)
+            elif item.parent().data(0, Qt.UserRole + 1)=="模型工艺类型":
                 item.setData(0, Qt.UserRole+1, "模型类型")
                 item.setExpanded(True)
-            elif item.parent().text(0)=="工艺库":
-                item.setData(0, Qt.UserRole+1, "具体工艺")
-            elif item.parent().data(0, Qt.UserRole + 1) == "材料类型":
-                item.setData(0, Qt.UserRole + 1, "具体材料")
-            elif item.parent().data(0, Qt.UserRole + 1) == "设备类型":
-                item.setData(0, Qt.UserRole + 1, "具体设备")
+            elif item.parent().data(0, Qt.UserRole + 1)=="模型类型":
+                item.setData(0, Qt.UserRole+1, "具体模型")
+                item.setExpanded(True)
         # 设置图标路径
         if node_type == NodeType.NodeDir.value:
             icon_path = os.path.join('..', 'resource', 'icon', 'dir.png')
@@ -399,6 +435,31 @@ class MainWindow(QMainWindow):
         self.ui.status.showMessage("Tree content cleared")
 
     def rename(self, item):
+        project_path = item.data(0, Qt.UserRole)
+        note = item.data(0, Qt.UserRole + 1)
+        text, ok = QInputDialog.getText(self, '重命名', '输入新名称:')
+        if ok and text:
+            # 获取父目录路径
+            parent_dir = os.path.dirname(project_path)
+            # 构建新的文件/文件夹路径
+            new_path = os.path.join(parent_dir, text)
+
+            try:
+                # 重命名文件/文件夹
+                os.rename(project_path, new_path)
+
+                # 更新 item 显示的名称
+                item.setText(0, text)
+
+                # 更新 item 中存储的路径
+                item.setData(0, Qt.UserRole, new_path)
+
+                print(f"Successfully renamed {project_path} to {new_path}")
+            except OSError as e:
+                print(f"Error renaming {project_path} to {new_path}: {e}")
+
+
+    def copy(self, item):
         project_path = item.data(0, Qt.UserRole)
 
     def unfolder(self, item):

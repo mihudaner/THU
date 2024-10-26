@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1202</width>
-    <height>855</height>
+    <width>1340</width>
+    <height>905</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,17 +31,11 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QStackedWidget" name="stackedWidget">
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <widget class="QWidget" name="page">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+     <widget class="QTabWidget" name="tabWidget">
+      <widget class="QWidget" name="tabWidgetPage1" native="true">
+       <attribute name="title">
+        <string/>
+       </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QTreeWidget" name="treeWidget">
@@ -49,20 +43,20 @@
            <bool>true</bool>
           </property>
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>330</width>
+            <width>350</width>
             <height>0</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>600</width>
+            <width>350</width>
             <height>16777215</height>
            </size>
           </property>
@@ -86,7 +80,7 @@
         <item>
          <widget class="QFrame" name="frame">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -127,335 +121,16 @@ background-color: rgb(232, 232, 232);</string>
            <property name="bottomMargin">
             <number>0</number>
            </property>
-           <item>
-            <widget class="QTabWidget" name="tabWidget">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>500</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>11</pointsize>
-              </font>
-             </property>
-             <property name="whatsThis">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;程序库&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">border:0px;
-background-color: rgb(240, 240, 240);</string>
-             </property>
-             <property name="currentIndex">
-              <number>2</number>
-             </property>
-             <widget class="QWidget" name="tab">
-              <property name="contextMenuPolicy">
-               <enum>Qt::DefaultContextMenu</enum>
-              </property>
-              <attribute name="title">
-               <string>程序库</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout">
-               <item row="0" column="0">
-                <widget class="QTableWidget" name="table_cx">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                   <horstretch>10</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>500</width>
-                   <height>400</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>5000</width>
-                   <height>5000</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QHeaderView::section {  
-        background-color: rgb(172, 187, 203); /* 背景色 */     
-		color: rgb(20, 20, 20);/* 表头文字颜色 */
-        font-size: 18px; 
-		border:0px solid #7B95AF;
-		border-bottom:1px solid #7B95AF;
-		outline:1px;
-    } </string>
-                 </property>
-                 <property name="sizeAdjustPolicy">
-                  <enum>QAbstractScrollArea::AdjustIgnored</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab_2">
-              <attribute name="title">
-               <string>模型库</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_2">
-               <item row="0" column="0">
-                <widget class="QTableWidget" name="table_mx">
-                 <property name="styleSheet">
-                  <string notr="true">QHeaderView::section {  
-        background-color: rgb(172, 187, 203); /* 背景色 */     
-		color: rgb(20, 20, 20);/* 表头文字颜色 */
-        font-size: 18px; 
-		border:0px solid #7B95AF;
-		border-bottom:1px solid #7B95AF;
-		outline:1px;
-    } </string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab_3">
-              <attribute name="title">
-               <string>项目库</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_3">
-               <item row="0" column="0">
-                <widget class="QTableWidget" name="table_xm">
-                 <property name="minimumSize">
-                  <size>
-                   <width>500</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-           </item>
           </layout>
          </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_2">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QTreeWidget" name="treeWidget_2">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>500</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <column>
-           <property name="text">
-            <string>索引</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-          </column>
-         </widget>
-        </item>
-        <item>
-         <widget class="QFrame" name="frame_2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>500</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>10000</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border: 1px solid rgb(150, 150, 150);
-border-left-color: 1px solid rgb(255, 255, 255);
-background-color: rgb(232, 232, 232);</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QTabWidget" name="tabWidget_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>500</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>11</pointsize>
-              </font>
-             </property>
-             <property name="whatsThis">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;程序库&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">border:0px;</string>
-             </property>
-             <property name="currentIndex">
-              <number>2</number>
-             </property>
-             <widget class="QWidget" name="tab_4">
-              <property name="contextMenuPolicy">
-               <enum>Qt::DefaultContextMenu</enum>
-              </property>
-              <attribute name="title">
-               <string>程序库</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_4">
-               <item row="0" column="0">
-                <widget class="QTableWidget" name="table_cx_2">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                   <horstretch>10</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>500</width>
-                   <height>400</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>5000</width>
-                   <height>5000</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QHeaderView::section {  
-        background-color: rgb(172, 187, 203); /* 背景色 */     
-		color: rgb(20, 20, 20);/* 表头文字颜色 */
-        font-size: 18px; 
-		border:0px solid #7B95AF;
-		border-bottom:1px solid #7B95AF;
-		outline:1px;
-    } </string>
-                 </property>
-                 <property name="sizeAdjustPolicy">
-                  <enum>QAbstractScrollArea::AdjustIgnored</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab_5">
-              <attribute name="title">
-               <string>模型库</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_5">
-               <item row="0" column="0">
-                <widget class="QTableWidget" name="table_mx_2">
-                 <property name="styleSheet">
-                  <string notr="true">QHeaderView::section {  
-        background-color: rgb(172, 187, 203); /* 背景色 */     
-		color: rgb(20, 20, 20);/* 表头文字颜色 */
-        font-size: 18px; 
-		border:0px solid #7B95AF;
-		border-bottom:1px solid #7B95AF;
-		outline:1px;
-    } </string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="tab_6">
-              <attribute name="title">
-               <string>项目库</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_6">
-               <item row="0" column="0">
-                <widget class="QTableWidget" name="table_xm_2">
-                 <property name="styleSheet">
-                  <string notr="true">QHeaderView::section {  
-        background-color: rgb(172, 187, 203); /* 背景色 */     
-		color: rgb(20, 20, 20);/* 表头文字颜色 */
-        font-size: 18px; 
-		border:0px solid #7B95AF;
-		border-bottom:1px solid #7B95AF;
-		outline:1px;
-    } </string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-       </layout>
+      <widget class="QWidget" name="tabWidgetPage2" native="true">
+       <attribute name="title">
+        <string/>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2"/>
       </widget>
      </widget>
     </item>
@@ -477,7 +152,7 @@ background-color: rgb(232, 232, 232);</string>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="w_path"/>
+   <addaction name="file_menu"/>
    <addaction name="show_all"/>
    <addaction name="cl_open"/>
    <addaction name="sb_open"/>
@@ -485,6 +160,7 @@ background-color: rgb(232, 232, 232);</string>
    <addaction name="cx_open"/>
    <addaction name="mx_open"/>
    <addaction name="xm_open"/>
+   <addaction name="action_fresh"/>
   </widget>
   <action name="w_save">
    <property name="text">
@@ -595,6 +271,31 @@ background-color: rgb(232, 232, 232);</string>
    </property>
   </action>
   <action name="w_path">
+   <property name="text">
+    <string>文件</string>
+   </property>
+  </action>
+  <action name="action_path">
+   <property name="text">
+    <string>路径选择</string>
+   </property>
+  </action>
+  <action name="action_fresh">
+   <property name="text">
+    <string>刷新</string>
+   </property>
+  </action>
+  <action name="action_save">
+   <property name="text">
+    <string>保存</string>
+   </property>
+  </action>
+  <action name="action_other">
+   <property name="text">
+    <string>另存为</string>
+   </property>
+  </action>
+  <action name="file_menu">
    <property name="text">
     <string>文件</string>
    </property>
