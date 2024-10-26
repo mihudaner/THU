@@ -1,0 +1,1146 @@
+# -*- coding: mbcs -*-
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.openAuxMdb(pathName=
+    'E:/04-DED of TC11/2-Thermo-mechanical/Single_Pass/20240329_exp_ju/test1.cae')
+mdb.copyAuxMdbModel(fromName='Model-1', toName='Model-1')
+mdb.copyAuxMdbModel(fromName='Model-1', toName='Model-1')
+mdb.closeAuxMdb()
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+del mdb.models['Model-1'].parts['CJ']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=200.0)
+mdb.models['Model-1'].sketches['__profile__'].rectangle(point1=(-5.0, 5.0), 
+    point2=(30.0, -5.0))
+mdb.models['Model-1'].sketches['__profile__'].VerticalDimension(textPoint=(
+    -9.14656829833984, -0.220821380615234), value=6.4, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[0], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1])
+mdb.models['Model-1'].sketches['__profile__'].HorizontalDimension(textPoint=(
+    16.9707489013672, -9.05362701416016), value=50.0, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2])
+mdb.models['Model-1'].Part(dimensionality=THREE_D, name='CJ', type=
+    DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['CJ'].BaseSolidExtrude(depth=0.9, sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+del mdb.models['Model-1'].parts['Part-1']
+del mdb.models['Model-1'].materials['TC4_Material']
+del mdb.models['Model-1'].materials['TC11_Material']
+mdb.models['Model-1'].Material(name='TC11_Material_1')
+mdb.models['Model-1'].materials['TC11_Material_1'].SpecificHeat(dependencies=0, 
+    law=CONSTANTVOLUME, table=((541040000.0, 273.15), (733910000.0, 773.15), (
+    647500000.0, 1273.15), (747220000.0, 1773.15), (952990000.0, 2273.15), (
+    954550000.0, 2773.15), (954810000.0, 3273.15), (954810000.0, 3773.15)), 
+    temperatureDependency=ON)
+mdb.models['Model-1'].materials['TC11_Material_1'].setValues(
+    materialIdentifier='')
+mdb.models['Model-1'].materials['TC11_Material_1'].setValues(description='')
+mdb.models['Model-1'].materials['TC11_Material_1'].Elastic(dependencies=0, 
+    moduli=LONG_TERM, noCompression=OFF, noTension=OFF, table=((114000.0, 
+    0.256), ), temperatureDependency=OFF, type=ISOTROPIC)
+mdb.models['Model-1'].materials['TC11_Material_1'].Density(dependencies=0, 
+    distributionType=UNIFORM, fieldName='', table=((4.511e-09, 298.15), (
+    4.44654e-09, 773.15), (4.36285e-09, 1273.15), (4.26449e-09, 1773.15), (
+    3.95811e-09, 2273.15), (3.79151e-09, 2773.15), (3.61507e-09, 3273.15)), 
+    temperatureDependency=ON)
+mdb.models['Model-1'].materials['TC11_Material_1'].LatentHeat(table=((
+    286000000000.0, 1938.0, 1978.0), ))
+mdb.models['Model-1'].materials['TC11_Material_1'].Plastic(dataType=HALF_CYCLE, 
+    dependencies=0, extrapolation=CONSTANT, hardening=ISOTROPIC, 
+    numBackstresses=1, rate=OFF, scaleStress=None, staticRecovery=OFF, 
+    strainRangeDependency=OFF, table=((851.0, 0.0), ), temperatureDependency=
+    OFF)
+mdb.models['Model-1'].materials['TC11_Material_1'].Conductivity(dependencies=0, 
+    table=((6.63, 298.15), (14.91, 773.15), (23.27, 1273.15), (30.74, 1773.15), 
+    (34.67, 2273.15), (42.08, 2773.15), (49.51, 3273.15)), 
+    temperatureDependency=ON, type=ISOTROPIC)
+mdb.models['Model-1'].materials['TC11_Material_1'].Expansion(dependencies=0, 
+    table=((8.76339e-06, 299.15), (1.01737e-05, 773.15), (1.16096e-05, 
+    1273.15), (1.30635e-05, 1773.15), (2.35901e-05, 2273.15), (2.55696e-05, 
+    2773.15), (2.77791e-05, 3273.15)), temperatureDependency=ON, type=ISOTROPIC
+    , userSubroutine=OFF, zero=0.0)
+mdb.models['Model-1'].Material(name='TC4_Material')
+mdb.models['Model-1'].materials['TC4_Material'].SpecificHeat(dependencies=0, 
+    law=CONSTANTVOLUME, table=((561610000.0, 298.15), (712680000.0, 773.15), (
+    659730000.0, 1273.15), (764200000.0, 1773.15), (978190000.0, 2273.15), (
+    978190000.0, 2773.15), (978190000.0, 3273.15), (978190000.0, 3773.15)), 
+    temperatureDependency=ON)
+mdb.models['Model-1'].materials['TC4_Material'].setValues(materialIdentifier=
+    '')
+mdb.models['Model-1'].materials['TC4_Material'].setValues(description='')
+mdb.models['Model-1'].materials['TC4_Material'].Elastic(dependencies=0, moduli=
+    LONG_TERM, noCompression=OFF, noTension=OFF, table=((114000.0, 0.256), ), 
+    temperatureDependency=OFF, type=ISOTROPIC)
+mdb.models['Model-1'].materials['TC4_Material'].Density(dependencies=0, 
+    distributionType=UNIFORM, fieldName='', table=((4.42078e-09, 298.15), (
+    4.357e-09, 773.15), (4.30999e-09, 1273.15), (4.21291e-09, 1773.15), (
+    3.92627e-09, 2273.15), (3.76362e-09, 2773.15), (3.59105e-09, 3273.15)), 
+    temperatureDependency=ON)
+mdb.models['Model-1'].materials['TC4_Material'].LatentHeat(table=((
+    286000000000.0, 1954.0, 1978.0), ))
+mdb.models['Model-1'].materials['TC4_Material'].Plastic(dataType=HALF_CYCLE, 
+    dependencies=0, extrapolation=CONSTANT, hardening=ISOTROPIC, 
+    numBackstresses=1, rate=OFF, scaleStress=None, staticRecovery=OFF, 
+    strainRangeDependency=OFF, table=((851.0, 0.0), ), temperatureDependency=
+    OFF)
+mdb.models['Model-1'].materials['TC4_Material'].Conductivity(dependencies=0, 
+    table=((6.60763, 298.15), (14.81486, 773.15), (24.14928, 1273.15), (
+    32.06768, 1773.15), (36.79134, 2273.15), (44.67601, 2773.15), (52.56068, 
+    3273.15)), temperatureDependency=ON, type=ISOTROPIC)
+mdb.models['Model-1'].materials['TC4_Material'].Expansion(dependencies=0, 
+    table=((8.9159e-06, 299.15), (1.02731e-05, 773.15), (8.78821e-06, 1273.15), 
+    (1.11506e-05, 1773.15), (2.12907e-05, 2273.15), (2.3544e-05, 2773.15), (
+    2.59128e-05, 3273.15)), temperatureDependency=ON, type=ISOTROPIC, 
+    userSubroutine=OFF, zero=0.0)
+del mdb.models['Model-1'].sections['TC4']
+del mdb.models['Model-1'].sections['TC11']
+mdb.models['Model-1'].HomogeneousSolidSection(material='TC11_Material_1', name=
+    'TC11', thickness=None)
+mdb.models['Model-1'].HomogeneousSolidSection(material='TC4_Material', name=
+    'TC4', thickness=None)
+mdb.models['Model-1'].parts['CJ'].SectionAssignment(offset=0.0, offsetField='', 
+    offsetType=MIDDLE_SURFACE, region=Region(
+    cells=mdb.models['Model-1'].parts['CJ'].cells.getSequenceFromMask(mask=(
+    '[#1 ]', ), )), sectionName='TC11', thicknessAssignment=FROM_SECTION)
+del mdb.models['Model-1'].parts['JB']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=100.0)
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, 8.0), point2=(
+    0.0, -8.0))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[2])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, -8.0), point2=(
+    60.0, -8.0))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, 8.0), point2=(
+    60.0, 8.0))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(60.0, 8.0), point2=(
+    60.0, -8.0))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[5])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5])
+mdb.models['Model-1'].Part(dimensionality=THREE_D, name='JB', type=
+    DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['JB'].BaseSolidExtrude(depth=10.0, sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].parts['JB'].setValues(space=THREE_D, type=
+    DEFORMABLE_BODY)
+del mdb.models['Model-1'].parts['JB']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=100.0)
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, 8.0), point2=(
+    0.0, -8.0))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[2])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, -8.0), point2=(
+    34.0, -8.0))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(34.0, -8.0), point2=
+    (34.0, 8.0))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(34.0, 8.0), point2=(
+    0.0, 8.0))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5])
+mdb.models['Model-1'].sketches['__profile__'].ObliqueDimension(textPoint=(
+    6.33647918701172, -11.6482639312744), value=60.0, vertex1=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[1], vertex2=
+    mdb.models['Model-1'].sketches['__profile__'].vertices[2])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=100.0)
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].ConstrainedSketch(name='__profile__', sheetSize=120.0)
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, 8.0), point2=(
+    0.0, -8.0))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[2])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(0.0, -8.0), point2=(
+    60.0, -8.0))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[2], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(60.0, -8.0), point2=
+    (60.0, 8.0))
+mdb.models['Model-1'].sketches['__profile__'].VerticalConstraint(addUndoState=
+    False, entity=mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[3], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4])
+mdb.models['Model-1'].sketches['__profile__'].Line(point1=(60.0, 8.0), point2=(
+    0.0, 8.0))
+mdb.models['Model-1'].sketches['__profile__'].HorizontalConstraint(
+    addUndoState=False, entity=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5])
+mdb.models['Model-1'].sketches['__profile__'].PerpendicularConstraint(
+    addUndoState=False, entity1=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[4], entity2=
+    mdb.models['Model-1'].sketches['__profile__'].geometry[5])
+mdb.models['Model-1'].Part(dimensionality=THREE_D, name='JB', type=
+    DEFORMABLE_BODY)
+mdb.models['Model-1'].parts['JB'].BaseSolidExtrude(depth=5.0, sketch=
+    mdb.models['Model-1'].sketches['__profile__'])
+del mdb.models['Model-1'].sketches['__profile__']
+mdb.models['Model-1'].parts['JB'].SectionAssignment(offset=0.0, offsetField='', 
+    offsetType=MIDDLE_SURFACE, region=Region(
+    cells=mdb.models['Model-1'].parts['JB'].cells.getSequenceFromMask(mask=(
+    '[#1 ]', ), )), sectionName='TC4', thicknessAssignment=FROM_SECTION)
+mdb.models['Model-1'].rootAssembly.suppressFeatures(featureNames=('Part-1-1', 
+    ))
+del mdb.models['Model-1'].rootAssembly.features['CJ-1']
+del mdb.models['Model-1'].rootAssembly.features['JB-1']
+mdb.models['Model-1'].rootAssembly.deleteFeatures(('Part-1-1', 
+    'Partition cell-8', 'Partition cell-9', 'Partition cell-7', 
+    'Partition cell-10', 'Datum plane-1', 'Partition cell-6', 
+    'Partition cell-4', 'Datum plane-2', 'Partition cell-5', 
+    'Partition cell-3', 'Partition cell-2', 'Partition cell-1'))
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name='CJ-1', part=
+    mdb.models['Model-1'].parts['CJ'])
+mdb.models['Model-1'].rootAssembly.Instance(dependent=ON, name='JB-1', part=
+    mdb.models['Model-1'].parts['JB'])
+mdb.models['Model-1'].rootAssembly.translate(instanceList=('JB-1', ), vector=(
+    0.0, 0.0, -5.0))
+mdb.models['Model-1'].rootAssembly.translate(instanceList=('CJ-1', ), vector=(
+    15.0, 1.8, 0.0))
+mdb.models['Model-1'].rootAssembly.translate(instanceList=('CJ-1', ), vector=(
+    -5.0, 0.0, 0.0))
+mdb.models['Model-1'].rootAssembly.InstanceFromBooleanMerge(domain=GEOMETRY, 
+    instances=(mdb.models['Model-1'].rootAssembly.instances['CJ-1'], 
+    mdb.models['Model-1'].rootAssembly.instances['JB-1']), name='Part-1', 
+    originalInstances=SUPPRESS)
+mdb.models['Model-1'].rootAssembly.makeIndependent(instances=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ))
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[13], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].vertices[3])
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#2 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[13], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[11], 
+    MIDDLE))
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[8], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[14], 
+    MIDDLE))
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[6], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].vertices[9])
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[35], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[35], 
+    MIDDLE))
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#2 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[29], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].vertices[1])
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#8 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[27], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].vertices[1])
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[27], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[27], 
+    MIDDLE))
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[6], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].vertices[1])
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[31], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].InterestingPoint(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[31], 
+    MIDDLE))
+mdb.models['Model-1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ), size=1.0)
+mdb.models['Model-1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ), size=0.5)
+mdb.models['Model-1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ), size=0.4)
+mdb.models['Model-1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ), size=0.3)
+mdb.models['Model-1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ), size=0.4)
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#0 #42000 ]', ), ), number=3)
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#0:2 #140000 ]', ), ), number=3)
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#0:2 #80 ]', ), ), number=3)
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#20 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#100 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#400 ]', ), ))
+mdb.models['Model-1'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ))
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#0 #42000 ]', ), ), number=4)
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#20080000 ]', ), ), number=3)
+mdb.models['Model-1'].rootAssembly.setMeshControls(algorithm=ADVANCING_FRONT, 
+    regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#200 ]', ), ), technique=SWEEP)
+mdb.models['Model-1'].rootAssembly.setSweepPath(edge=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[85], region=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells[9], sense=
+    FORWARD)
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#200 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#2 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#20 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#10 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#100 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#40 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#400 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#8 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#80 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#7ff ]', ), ), seedConstraintOverride=ON)
+mdb.models['Model-1'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ))
+mdb.models['Model-1'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
+    minSizeFactor=0.1, regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ), size=0.5)
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#200 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#2 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#8 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#20 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#10 ]', ), ))
+mdb.models['Model-1'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ))
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#20080000 ]', ), ), number=2)
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#200 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#20 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#100 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#400 ]', ), ))
+mdb.models['Model-1'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ))
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#0:2 #100 ]', ), ), number=2)
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#0:2 #80 ]', ), ), number=2)
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#200 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#2 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#8 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#20 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#10 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#100 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#40 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#80 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#400 ]', ), ))
+mdb.models['Model-1'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ))
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#0 #1000000 #80000 ]', ), ), number=14)
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#200 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ))
+mdb.models['Model-1'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ))
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#0 #1000000 #80000 ]', ), ), number=12)
+mdb.models['Model-1'].rootAssembly.DatumPlaneByOffset(flip=SIDE1, offset=0.0, 
+    plane=mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].faces[50])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ), datumPlane=mdb.models['Model-1'].rootAssembly.datums[285])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#40 ]', ), ), datumPlane=mdb.models['Model-1'].rootAssembly.datums[285])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#400 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[285])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#2000 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[285])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#20 ]', ), ), datumPlane=mdb.models['Model-1'].rootAssembly.datums[285])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#200 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[285])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#1000 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[285])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#8 ]', ), ), datumPlane=mdb.models['Model-1'].rootAssembly.datums[285])
+#* Feature creation failed.
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#400 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[285])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#100 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[285])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#10000 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[285])
+mdb.models['Model-1'].rootAssembly.DatumPlaneByOffset(flip=SIDE1, offset=0.0, 
+    plane=mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].faces[88])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ), datumPlane=mdb.models['Model-1'].rootAssembly.datums[296])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ), datumPlane=mdb.models['Model-1'].rootAssembly.datums[296])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ), datumPlane=mdb.models['Model-1'].rootAssembly.datums[296])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#800000 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[296])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#200 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[296])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#80000 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[296])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#400000 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[296])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#8000000 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[296])
+#* Feature creation failed.
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#8000000 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[95], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].vertices[42])
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#10000000 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[104], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].vertices[54])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#40000 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[296])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#40000 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[296])
+mdb.models['Model-1'].rootAssembly.PartitionCellByDatumPlane(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#40000 ]', ), ), datumPlane=
+    mdb.models['Model-1'].rootAssembly.datums[296])
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#140050 #0 #2 ]', ), ), number=12)
+mdb.models['Model-1'].rootAssembly.seedEdgeByNumber(constraint=FINER, edges=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges.getSequenceFromMask(
+    ('[#0:2 #10004088 #2 ]', ), ), number=12)
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#80000000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#40000 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[156], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].vertices[71])
+mdb.models['Model-1'].rootAssembly.PartitionCellByPlanePointNormal(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#80000 ]', ), ), normal=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].edges[10], point=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].vertices[8])
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#80000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#10000000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#80 ]', ), ))
+mdb.models['Model-1'].rootAssembly.deleteMesh(regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'], ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#0 #2 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4000000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#20000000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#0 #1 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#100000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#10 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#8 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#400 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#80000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#10000000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#80 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#2000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#8000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#800 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#8000000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#1000000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#80000000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#2 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#10000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#1000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#4000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#40 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#2000000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#40000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#20000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#200 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#100 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#40000000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#0 #4 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#800000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#400000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#200000 ]', ), ))
+mdb.models['Model-1'].rootAssembly.generateMesh(regions=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#20 ]', ), ))
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-Natural-conv', 
+    side1Faces=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].faces.getSequenceFromMask(
+    ('[#d4d2aa #cac2458 #ce324540 #cee9cddc #1fb ]', ), ))
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-Forced-conv', side1Faces=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].faces.getSequenceFromMask(
+    ('[#0:4 #3e00 ]', ), ))
+mdb.models['Model-1'].rootAssembly.Surface(name='Surf-all', side1Faces=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].faces.getSequenceFromMask(
+    ('[#d4d2aa #cac2458 #ce324540 #cee9cddc #3ffb ]', ), ))
+mdb.models['Model-1'].keywordBlock.synchVersions(storeNodesAndElements=False)
+mdb.models['Model-1'].keywordBlock.replace(60, '\n')
+mdb.models['Model-1'].keywordBlock.replace(71, '\n')
+mdb.models['Model-1'].keywordBlock.replace(90, '\n')
+mdb.models['Model-1'].keywordBlock.replace(101, '\n')
+mdb.models['Model-1'].keywordBlock.replace(112, '\n')
+mdb.models['Model-1'].keywordBlock.replace(123, '\n')
+mdb.models['Model-1'].keywordBlock.replace(134, '\n')
+mdb.models['Model-1'].keywordBlock.replace(145, '\n')
+mdb.models['Model-1'].keywordBlock.replace(156, '\n')
+mdb.models['Model-1'].keywordBlock.replace(167, '\n')
+mdb.models['Model-1'].keywordBlock.replace(178, '\n')
+mdb.models['Model-1'].keywordBlock.replace(189, '\n')
+mdb.models['Model-1'].keywordBlock.replace(200, '\n')
+mdb.models['Model-1'].keywordBlock.replace(211, '\n')
+mdb.models['Model-1'].keywordBlock.replace(222, '\n')
+mdb.models['Model-1'].keywordBlock.replace(233, '\n')
+mdb.models['Model-1'].keywordBlock.replace(244, '\n')
+mdb.models['Model-1'].keywordBlock.replace(255, '\n')
+mdb.models['Model-1'].keywordBlock.replace(266, '\n')
+mdb.models['Model-1'].keywordBlock.replace(277, '\n')
+mdb.models['Model-1'].keywordBlock.replace(288, '\n')
+mdb.models['Model-1'].keywordBlock.replace(299, '\n')
+mdb.models['Model-1'].keywordBlock.replace(310, '\n')
+mdb.models['Model-1'].keywordBlock.replace(321, '\n')
+mdb.models['Model-1'].keywordBlock.replace(332, '\n')
+mdb.models['Model-1'].keywordBlock.replace(343, '\n')
+mdb.models['Model-1'].keywordBlock.replace(354, '\n')
+mdb.models['Model-1'].keywordBlock.replace(365, '\n')
+mdb.models['Model-1'].keywordBlock.replace(376, '\n')
+mdb.models['Model-1'].keywordBlock.replace(387, '\n')
+mdb.models['Model-1'].keywordBlock.replace(398, '\n')
+del mdb.models['Model-1'].loads['Hot_Source']
+mdb.models['Model-1'].rootAssembly.Set(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#0 #2 ]', ), ), name='Set-CJ-GEO')
+mdb.models['Model-1'].rootAssembly.Set(cells=
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#ffffffff #5 ]', ), ), name='Set-JB')
+del mdb.models['Model-1'].predefinedFields['CJ']
+del mdb.models['Model-1'].predefinedFields['JB']
+del mdb.models['Model-1'].steps['Step-31']
+del mdb.models['Model-1'].steps['Step-30']
+del mdb.models['Model-1'].steps['Step-29']
+del mdb.models['Model-1'].steps['Step-28']
+del mdb.models['Model-1'].steps['Step-27']
+del mdb.models['Model-1'].steps['Step-26']
+del mdb.models['Model-1'].steps['Step-25']
+del mdb.models['Model-1'].steps['Step-24']
+del mdb.models['Model-1'].steps['Step-23']
+del mdb.models['Model-1'].steps['Step-22']
+del mdb.models['Model-1'].steps['Step-21']
+del mdb.models['Model-1'].steps['Step-20']
+del mdb.models['Model-1'].steps['Step-19']
+del mdb.models['Model-1'].steps['Step-18']
+del mdb.models['Model-1'].steps['Step-17']
+del mdb.models['Model-1'].steps['Step-16']
+del mdb.models['Model-1'].steps['Step-15']
+del mdb.models['Model-1'].steps['Step-14']
+del mdb.models['Model-1'].steps['Step-13']
+del mdb.models['Model-1'].steps['Step-12']
+del mdb.models['Model-1'].steps['Step-11']
+del mdb.models['Model-1'].steps['Step-10']
+del mdb.models['Model-1'].steps['Step-9']
+del mdb.models['Model-1'].steps['Step-8']
+del mdb.models['Model-1'].steps['Step-7']
+del mdb.models['Model-1'].steps['Step-6']
+del mdb.models['Model-1'].steps['Step-5']
+del mdb.models['Model-1'].steps['Step-4']
+del mdb.models['Model-1'].steps['Step-3']
+del mdb.models['Model-1'].steps['Step-2']
+del mdb.models['Model-1'].steps['Step-1']
+mdb.models['Model-1'].keywordBlock.synchVersions(storeNodesAndElements=False)
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].HeatTransferStep(deltmx=1000.0, initialInc=1e-08, maxInc=
+    1e-08, maxNumInc=1500, minInc=1e-20, name='Step-1', previous='Initial', 
+    timePeriod=1e-08)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-2', previous='Step-1', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-3', previous='Step-2', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-4', previous='Step-3', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-5', previous='Step-4', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-6', previous='Step-5', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-7', previous='Step-6', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-8', previous='Step-7', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-9', previous='Step-8', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-10', previous='Step-9', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-11', previous='Step-10', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-12', previous='Step-11', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-13', previous='Step-12', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-14', previous='Step-13', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-15', previous='Step-14', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-16', previous='Step-15', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-17', previous='Step-16', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-18', previous='Step-17', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-19', previous='Step-18', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-20', previous='Step-19', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-21', previous='Step-20', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-22', previous='Step-21', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-23', previous='Step-22', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-24', previous='Step-23', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-25', previous='Step-24', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-26', previous='Step-25', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-27', previous='Step-26', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-28', previous='Step-27', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-29', previous='Step-28', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-30', previous='Step-29', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-31', previous='Step-30', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-32', previous='Step-31', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-33', previous='Step-32', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-34', previous='Step-33', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-35', previous='Step-34', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-36', previous='Step-35', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-37', previous='Step-36', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-38', previous='Step-37', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-39', previous='Step-38', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-40', previous='Step-39', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-41', previous='Step-40', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-42', previous='Step-41', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-43', previous='Step-42', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-44', previous='Step-43', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-45', previous='Step-44', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-46', previous='Step-45', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-47', previous='Step-46', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-48', previous='Step-47', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-49', previous='Step-48', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-50', previous='Step-49', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-51', previous='Step-50', 
+    timePeriod=0.2)
+mdb.models['Model-1'].HeatTransferStep(deltmx=1500.0, initialInc=0.02, maxInc=
+    0.2, maxNumInc=10000, minInc=1e-20, name='Step-52', previous='Step-51', 
+    timePeriod=0.2)
+mdb.models['Model-1'].steps['Step-52'].setValues(maxInc=2.0, timePeriod=2.0)
+mdb.models['Model-1'].steps.changeKey(fromName='Step-52', toName=
+    'Step-52-cool')
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].keywordBlock.synchVersions(storeNodesAndElements=False)
+mdb.models['Model-1'].keywordBlock.synchVersions(storeNodesAndElements=False)
+mdb.models['Model-1'].keywordBlock.replace(59, 
+    '\n*Heat Transfer, end=PERIOD, deltmx=1000.\n1e-08, 1e-08, 1e-20, 1e-08, \n*element')
+mdb.models['Model-1'].keywordBlock.replace(68, 
+    '\n*Heat Transfer, end=PERIOD, deltmx=1500.\n0.02, 0.2, 1e-20, 0.2, \n*element')
+mdb.models['Model-1'].keywordBlock.synchVersions(storeNodesAndElements=False)
+mdb.models['Model-1'].keywordBlock.replace(60, '\n')
+mdb.models['Model-1'].keywordBlock.replace(69, '\n')
+mdb.models['Model-1'].keywordBlock.setValues(edited=0)
+mdb.models['Model-1'].keywordBlock.synchVersions(storeNodesAndElements=False)
+mdb.models['Model-1'].keywordBlock.insert(59, 
+    '\n*MODEL CHANGE, TYPE=ELEMENT, REMOVE\nSet-CJ-GEO')
+mdb.models['Model-1'].keywordBlock.synchVersions(storeNodesAndElements=False)
+mdb.models['Model-1'].keywordBlock.insert(70, 
+    '*MODEL CHANGE, TYPE=ELEMENT, ADD\nPart-1-1.1, Part-1-1.2, Part-1-1.3, Part-1-1.4, Part-1-1.5,\nPart-1-1.6, Part-1-1.7, Part-1-1.8, Part-1-1.9, Part-1-1.10,\nPart-1-1.11, Part-1-1.12, Part-1-1.13, Part-1-1.14, Part-1-1.15,\nPart-1-1.16, Part-1-1.17, Part-1-1.18, Part-1-1.19, Part-1-1.20,\nPart-1-1.21, Part-1-1.22, Part-1-1.23, Part-1-1.24, Part-1-1.25,\nPart-1-1.26, Part-1-1.27, Part-1-1.28, Part-1-1.29, Part-1-1.30,\nPart-1-1.31, Part-1-1.32, Part-1-1.33, Part-1-1.34, Part-1-1.35,\nPart-1-1.36, Part-1-1.37, Part-1-1.38, Part-1-1.39, Part-1-1.40,\nPart-1-1.41, Part-1-1.42, Part-1-1.43, Part-1-1.44, Part-1-1.45,\nPart-1-1.46, Part-1-1.47, Part-1-1.48, Part-1-1.49, Part-1-1.50,\nPart-1-1.51, Part-1-1.52, Part-1-1.53, Part-1-1.54, Part-1-1.55,\nPart-1-1.56, Part-1-1.57, Part-1-1.58, Part-1-1.59, Part-1-1.60,\nPart-1-1.61, Part-1-1.62, Part-1-1.63, Part-1-1.64, Part-1-1.65,\nPart-1-1.66, Part-1-1.67, Part-1-1.68, Part-1-1.69, Part-1-1.70,\nPart-1-1.71, Part-1-1.72, ')
+mdb.models['Model-1'].keywordBlock.synchVersions(storeNodesAndElements=False)
+mdb.models['Model-1'].keywordBlock.insert(81, 
+# Save by 23860 on 2024_03_29-20.55.06; build 2022 2021_09_16-01.57.30 176069
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.saveAs(pathName='E:/04-DED of TC11/2-Thermo-mechanical/Single_Pass/20240329_exp_ju/T-SP.cae')
+mdb.models['Model-1'].keywordBlock.setValues(edited=0)
+mdb.models['Model-1'].keywordBlock.synchVersions(storeNodesAndElements=False)
+mdb.models['Model-1'].keywordBlock.insert(59, 
+    '\n*MODEL CHANGE, TYPE=ELEMENT, REMOVE\nSet-CJ-GEO')
+mdb.models['Model-1'].keywordBlock.synchVersions(storeNodesAndElements=False)
+mdb.models['Model-1'].keywordBlock.insert(70, 
+    '*MODEL CHANGE, TYPE=ELEMENT, ADD\nPart-1-1.1, Part-1-1.2, Part-1-1.3, Part-1-1.4, Part-1-1.5,\nPart-1-1.6, Part-1-1.7, Part-1-1.8, Part-1-1.9, Part-1-1.10,\nPart-1-1.11, Part-1-1.12, Part-1-1.13, Part-1-1.14, Part-1-1.15,\nPart-1-1.16, Part-1-1.17, Part-1-1.18, Part-1-1.19, Part-1-1.20,\nPart-1-1.21, Part-1-1.22, Part-1-1.23, Part-1-1.24, Part-1-1.25,\nPart-1-1.26, Part-1-1.27, Part-1-1.28, Part-1-1.29, Part-1-1.30,\nPart-1-1.31, Part-1-1.32, Part-1-1.33, Part-1-1.34, Part-1-1.35,\nPart-1-1.36, Part-1-1.37, Part-1-1.38, Part-1-1.39, Part-1-1.40,\nPart-1-1.41, Part-1-1.42, Part-1-1.43, Part-1-1.44, Part-1-1.45,\nPart-1-1.46, Part-1-1.47, Part-1-1.48, Part-1-1.49, Part-1-1.50,\nPart-1-1.51, Part-1-1.52, Part-1-1.53, Part-1-1.54, Part-1-1.55,\nPart-1-1.56, Part-1-1.57, Part-1-1.58, Part-1-1.59, Part-1-1.60,\nPart-1-1.61, Part-1-1.62, Part-1-1.63, Part-1-1.64, Part-1-1.65,\nPart-1-1.66, Part-1-1.67, Part-1-1.68, Part-1-1.69, Part-1-1.70,\nPart-1-1.71, Part-1-1.72, ')
+mdb.models['Model-1'].keywordBlock.synchVersions(storeNodesAndElements=False)
+mdb.models['Model-1'].keywordBlock.insert(81, 
+# Save by 23860 on 2024_03_29-21.00.45; build 2022 2021_09_16-01.57.30 176069
+# Save by 23860 on 2024_03_29-21.06.38; build 2022 2021_09_16-01.57.30 176069
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.models['Model-1'].Temperature(createStepName='Initial', 
+    crossSectionDistribution=CONSTANT_THROUGH_THICKNESS, distributionType=
+    UNIFORM, magnitudes=(300.0, ), name='CJ', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-CJ-GEO'])
+mdb.models['Model-1'].Temperature(createStepName='Initial', 
+    crossSectionDistribution=CONSTANT_THROUGH_THICKNESS, distributionType=
+    UNIFORM, magnitudes=(300.0, ), name='JB', region=
+    mdb.models['Model-1'].rootAssembly.sets['Set-JB'])
+mdb.Job(atTime=None, contactPrint=OFF, description='', echoPrint=OFF, 
+    explicitPrecision=SINGLE, getMemoryFromAnalysis=True, historyPrint=OFF, 
+    memory=90, memoryUnits=PERCENTAGE, model='Model-1', modelPrint=OFF, 
+    multiprocessingMode=DEFAULT, name='Job-T-SP', nodalOutputPrecision=SINGLE, 
+    numCpus=1, numGPUs=0, numThreadsPerMpiProcess=1, queue=None, resultsFormat=
+    ODB, scratch='', type=ANALYSIS, userSubroutine=
+    'E:\\04-DED of TC11\\2-Thermo-mechanical\\Single_Pass\\20240329_exp_ju\\H_S_1500_045_036.for'
+    , waitHours=0, waitMinutes=0)
+mdb.jobs['Job-T-SP'].submit(consistencyChecking=OFF, datacheckJob=True)
+mdb.jobs['Job-T-SP']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'LLC-BJ', 'handle': 0, 'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(ERROR, {'phase': BATCHPRE_PHASE, 
+    'message': 'STRESS-DISPLACEMENT ELEMENTS OR OTHER ELEMENTS WITHOUT TEMPERATURE DEGREE OF FREEDOM ARE NOT ALLOWED IN A HEAT TRANSFER ANALYSIS', 
+    'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(ABORTED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase failed due to errors', 'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(ERROR, {
+    'message': 'Analysis Input File Processor exited with an error - Please see the  Job-T-SP.dat file for possible error messages if the file exists.', 
+    'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(JOB_ABORTED, {
+    'message': 'Analysis Input File Processor exited with an error - Please see the  Job-T-SP.dat file for possible error messages if the file exists.', 
+    'jobName': 'Job-T-SP'})
+mdb.models['Model-1'].rootAssembly.setElementType(elemTypes=(ElemType(
+    elemCode=DC3D8R, elemLibrary=STANDARD), ElemType(elemCode=DC3D6, 
+    elemLibrary=STANDARD), ElemType(elemCode=DC3D4, elemLibrary=STANDARD)), 
+    regions=(
+    mdb.models['Model-1'].rootAssembly.instances['Part-1-1'].cells.getSequenceFromMask(
+    ('[#ffffffff #7 ]', ), ), ))
+mdb.jobs['Job-T-SP'].submit(consistencyChecking=OFF, datacheckJob=True)
+mdb.jobs['Job-T-SP']._Message(STARTED, {'phase': BATCHPRE_PHASE, 
+    'clientHost': 'LLC-BJ', 'handle': 0, 'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'DENSITY HAS BEEN DEFINED AS A FUNCTION OF TEMPERATURE AND/OR FIELD VARIABLES. FOR ALL ELEMENTS EXCEPT ACOUSTIC, HEAT TRANSFER, COUPLED TEMPERATURE-DISPLACEMENT AND COUPLED THERMAL-ELECTRICAL ELEMENTS THE DENSITY IS A FUNCTION OF THE INITIAL VALUES OF TEMPERATURE AND FIELD VARIABLES. IT WILL NOT BE UPDATED IF TEMPERATURES AND FIELD VARIABLES CHANGE DURING THE ANALYSIS.', 
+    'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'DENSITY HAS BEEN DEFINED AS A FUNCTION OF TEMPERATURE AND/OR FIELD VARIABLES. FOR ALL ELEMENTS EXCEPT ACOUSTIC, HEAT TRANSFER, COUPLED TEMPERATURE-DISPLACEMENT AND COUPLED THERMAL-ELECTRICAL ELEMENTS THE DENSITY IS A FUNCTION OF THE INITIAL VALUES OF TEMPERATURE AND FIELD VARIABLES. IT WILL NOT BE UPDATED IF TEMPERATURES AND FIELD VARIABLES CHANGE DURING THE ANALYSIS.', 
+    'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(WARNING, {'phase': BATCHPRE_PHASE, 
+    'message': 'The initial conditions defined on 1313 nodes are not unique. The nodes have been identified in node set WarnNodeICDef.', 
+    'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(ODB_FILE, {'phase': BATCHPRE_PHASE, 
+    'file': 'E:\\04-DED of TC11\\2-Thermo-mechanical\\Single_Pass\\20240329_exp_ju\\Job-T-SP.odb', 
+    'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(COMPLETED, {'phase': BATCHPRE_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(STARTED, {'phase': STANDARD_PHASE, 
+    'clientHost': 'LLC-BJ', 'handle': 7720, 'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(STEP, {'phase': STANDARD_PHASE, 'stepId': 1, 
+    'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(ODB_FRAME, {'phase': STANDARD_PHASE, 'step': 0, 
+    'frame': 0, 'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(MEMORY_ESTIMATE, {'phase': STANDARD_PHASE, 
+    'jobName': 'Job-T-SP', 'memory': 256.0})
+mdb.jobs['Job-T-SP']._Message(PHYSICAL_MEMORY, {'phase': STANDARD_PHASE, 
+    'physical_memory': 16335.0, 'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(MINIMUM_MEMORY, {'minimum_memory': 83.0, 
+    'phase': STANDARD_PHASE, 'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(COMPLETED, {'phase': STANDARD_PHASE, 
+    'message': 'Analysis phase complete', 'jobName': 'Job-T-SP'})
+mdb.jobs['Job-T-SP']._Message(JOB_COMPLETED, {
+    'time': 'Fri Mar 29 21:10:20 2024', 'jobName': 'Job-T-SP'})
+# Save by 23860 on 2024_03_29-21.26.58; build 2022 2021_09_16-01.57.30 176069
