@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1340</width>
+    <height>905</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="center">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <widget class="QWidget" name="tabWidgetPage1" native="true">
+       <attribute name="title">
+        <string/>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QTreeWidget" name="treeWidget">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>350</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>350</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <column>
+           <property name="text">
+            <string>索引</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>500</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10000</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: 1px solid rgb(150, 150, 150);
+border-color: rgb(150, 150, 150);
+background-color: rgb(232, 232, 232);</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabWidgetPage2" native="true">
+       <attribute name="title">
+        <string/>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="status"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="file_menu"/>
+   <addaction name="show_all"/>
+   <addaction name="cl_open"/>
+   <addaction name="sb_open"/>
+   <addaction name="gy_open"/>
+   <addaction name="cx_open"/>
+   <addaction name="mx_open"/>
+   <addaction name="xm_open"/>
+   <addaction name="action_fresh"/>
+  </widget>
+  <action name="w_save">
+   <property name="text">
+    <string>保存</string>
+   </property>
+  </action>
+  <action name="w_save_as">
+   <property name="text">
+    <string>另存为</string>
+   </property>
+  </action>
+  <action name="w_quit">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="cl_open">
+   <property name="text">
+    <string>材料</string>
+   </property>
+   <property name="toolTip">
+    <string>展示材料库</string>
+   </property>
+  </action>
+  <action name="sb_open">
+   <property name="text">
+    <string>设备</string>
+   </property>
+   <property name="toolTip">
+    <string>展示设备库</string>
+   </property>
+  </action>
+  <action name="gy_open">
+   <property name="text">
+    <string>工艺</string>
+   </property>
+   <property name="toolTip">
+    <string>展示工艺库</string>
+   </property>
+  </action>
+  <action name="ku_all">
+   <property name="text">
+    <string>全部</string>
+   </property>
+   <property name="iconText">
+    <string>全部</string>
+   </property>
+  </action>
+  <action name="ku_cl">
+   <property name="text">
+    <string>材料</string>
+   </property>
+  </action>
+  <action name="ku_sb">
+   <property name="text">
+    <string>设备</string>
+   </property>
+  </action>
+  <action name="show_all">
+   <property name="text">
+    <string>全部</string>
+   </property>
+   <property name="toolTip">
+    <string>展示数据库</string>
+   </property>
+  </action>
+  <action name="cx_open">
+   <property name="text">
+    <string>程序</string>
+   </property>
+  </action>
+  <action name="mx_open">
+   <property name="text">
+    <string>模型</string>
+   </property>
+  </action>
+  <action name="help">
+   <property name="text">
+    <string>查看文档</string>
+   </property>
+  </action>
+  <action name="xm_open">
+   <property name="text">
+    <string>项目</string>
+   </property>
+   <property name="toolTip">
+    <string>打开</string>
+   </property>
+  </action>
+  <action name="xm_filter">
+   <property name="text">
+    <string>筛选</string>
+   </property>
+  </action>
+  <action name="ku_gy">
+   <property name="text">
+    <string>工艺</string>
+   </property>
+  </action>
+  <action name="ku_cx">
+   <property name="text">
+    <string>程序</string>
+   </property>
+  </action>
+  <action name="ku_mx">
+   <property name="text">
+    <string>模型</string>
+   </property>
+  </action>
+  <action name="w_path">
+   <property name="text">
+    <string>文件</string>
+   </property>
+  </action>
+  <action name="action_path">
+   <property name="text">
+    <string>路径选择</string>
+   </property>
+  </action>
+  <action name="action_fresh">
+   <property name="text">
+    <string>刷新</string>
+   </property>
+  </action>
+  <action name="action_save">
+   <property name="text">
+    <string>保存</string>
+   </property>
+  </action>
+  <action name="action_other">
+   <property name="text">
+    <string>另存为</string>
+   </property>
+  </action>
+  <action name="file_menu">
+   <property name="text">
+    <string>文件</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
