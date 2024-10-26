@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1202, 855)
+        MainWindow.resize(1340, 905)
         self.w_save = QAction(MainWindow)
         self.w_save.setObjectName(u"w_save")
         self.w_save_as = QAction(MainWindow)
@@ -56,6 +56,16 @@ class Ui_MainWindow(object):
         self.ku_mx.setObjectName(u"ku_mx")
         self.w_path = QAction(MainWindow)
         self.w_path.setObjectName(u"w_path")
+        self.action_path = QAction(MainWindow)
+        self.action_path.setObjectName(u"action_path")
+        self.action_fresh = QAction(MainWindow)
+        self.action_fresh.setObjectName(u"action_fresh")
+        self.action_save = QAction(MainWindow)
+        self.action_save.setObjectName(u"action_save")
+        self.action_other = QAction(MainWindow)
+        self.action_other.setObjectName(u"action_other")
+        self.file_menu = QAction(MainWindow)
+        self.file_menu.setObjectName(u"file_menu")
         self.center = QWidget(MainWindow)
         self.center.setObjectName(u"center")
         self.verticalLayout = QVBoxLayout(self.center)
@@ -81,13 +91,13 @@ class Ui_MainWindow(object):
         self.treeWidget.setHeaderItem(__qtreewidgetitem)
         self.treeWidget.setObjectName(u"treeWidget")
         self.treeWidget.setEnabled(True)
-        sizePolicy1 = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Expanding)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.treeWidget.sizePolicy().hasHeightForWidth())
         self.treeWidget.setSizePolicy(sizePolicy1)
-        self.treeWidget.setMinimumSize(QSize(330, 0))
-        self.treeWidget.setMaximumSize(QSize(600, 16777215))
+        self.treeWidget.setMinimumSize(QSize(350, 0))
+        self.treeWidget.setMaximumSize(QSize(350, 16777215))
         font1 = QFont()
         font1.setPointSize(11)
         self.treeWidget.setFont(font1)
@@ -96,11 +106,8 @@ class Ui_MainWindow(object):
 
         self.frame = QFrame(self.page)
         self.frame.setObjectName(u"frame")
-        sizePolicy2 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Expanding)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
-        self.frame.setSizePolicy(sizePolicy2)
+        sizePolicy1.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
+        self.frame.setSizePolicy(sizePolicy1)
         self.frame.setMinimumSize(QSize(500, 0))
         self.frame.setMaximumSize(QSize(10000, 16777215))
         self.frame.setStyleSheet(u"border: 1px solid rgb(150, 150, 150);\n"
@@ -111,77 +118,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QVBoxLayout(self.frame)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.tabWidget = QTabWidget(self.frame)
-        self.tabWidget.setObjectName(u"tabWidget")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
-        self.tabWidget.setSizePolicy(sizePolicy3)
-        self.tabWidget.setMinimumSize(QSize(0, 500))
-        self.tabWidget.setFont(font1)
-        self.tabWidget.setStyleSheet(u"border:0px;\n"
-"background-color: rgb(240, 240, 240);")
-        self.tab = QWidget()
-        self.tab.setObjectName(u"tab")
-        self.tab.setContextMenuPolicy(Qt.DefaultContextMenu)
-        self.gridLayout = QGridLayout(self.tab)
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.table_cx = QTableWidget(self.tab)
-        self.table_cx.setObjectName(u"table_cx")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy4.setHorizontalStretch(10)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.table_cx.sizePolicy().hasHeightForWidth())
-        self.table_cx.setSizePolicy(sizePolicy4)
-        self.table_cx.setMinimumSize(QSize(500, 400))
-        self.table_cx.setMaximumSize(QSize(5000, 5000))
-        self.table_cx.setStyleSheet(u"QHeaderView::section {  \n"
-"        background-color: rgb(172, 187, 203); /* \u80cc\u666f\u8272 */     \n"
-"		color: rgb(20, 20, 20);/* \u8868\u5934\u6587\u5b57\u989c\u8272 */\n"
-"        font-size: 18px; \n"
-"		border:0px solid #7B95AF;\n"
-"		border-bottom:1px solid #7B95AF;\n"
-"		outline:1px;\n"
-"    } ")
-        self.table_cx.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
-
-        self.gridLayout.addWidget(self.table_cx, 0, 0, 1, 1)
-
-        self.tabWidget.addTab(self.tab, "")
-        self.tab_2 = QWidget()
-        self.tab_2.setObjectName(u"tab_2")
-        self.gridLayout_2 = QGridLayout(self.tab_2)
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.table_mx = QTableWidget(self.tab_2)
-        self.table_mx.setObjectName(u"table_mx")
-        self.table_mx.setStyleSheet(u"QHeaderView::section {  \n"
-"        background-color: rgb(172, 187, 203); /* \u80cc\u666f\u8272 */     \n"
-"		color: rgb(20, 20, 20);/* \u8868\u5934\u6587\u5b57\u989c\u8272 */\n"
-"        font-size: 18px; \n"
-"		border:0px solid #7B95AF;\n"
-"		border-bottom:1px solid #7B95AF;\n"
-"		outline:1px;\n"
-"    } ")
-
-        self.gridLayout_2.addWidget(self.table_mx, 0, 0, 1, 1)
-
-        self.tabWidget.addTab(self.tab_2, "")
-        self.tab_3 = QWidget()
-        self.tab_3.setObjectName(u"tab_3")
-        self.gridLayout_3 = QGridLayout(self.tab_3)
-        self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.table_xm = QTableWidget(self.tab_3)
-        self.table_xm.setObjectName(u"table_xm")
-        self.table_xm.setMinimumSize(QSize(500, 0))
-        self.table_xm.setStyleSheet(u"")
-
-        self.gridLayout_3.addWidget(self.table_xm, 0, 0, 1, 1)
-
-        self.tabWidget.addTab(self.tab_3, "")
-
-        self.verticalLayout_2.addWidget(self.tabWidget)
-
 
         self.horizontalLayout.addWidget(self.frame)
 
@@ -196,11 +132,11 @@ class Ui_MainWindow(object):
         self.treeWidget_2.setHeaderItem(__qtreewidgetitem1)
         self.treeWidget_2.setObjectName(u"treeWidget_2")
         self.treeWidget_2.setEnabled(True)
-        sizePolicy5 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.treeWidget_2.sizePolicy().hasHeightForWidth())
-        self.treeWidget_2.setSizePolicy(sizePolicy5)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.treeWidget_2.sizePolicy().hasHeightForWidth())
+        self.treeWidget_2.setSizePolicy(sizePolicy2)
         self.treeWidget_2.setMinimumSize(QSize(300, 0))
         self.treeWidget_2.setMaximumSize(QSize(500, 16777215))
         self.treeWidget_2.setFont(font1)
@@ -209,8 +145,11 @@ class Ui_MainWindow(object):
 
         self.frame_2 = QFrame(self.page_2)
         self.frame_2.setObjectName(u"frame_2")
-        sizePolicy2.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
-        self.frame_2.setSizePolicy(sizePolicy2)
+        sizePolicy3 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Expanding)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
+        self.frame_2.setSizePolicy(sizePolicy3)
         self.frame_2.setMinimumSize(QSize(500, 0))
         self.frame_2.setMaximumSize(QSize(10000, 16777215))
         self.frame_2.setStyleSheet(u"border: 1px solid rgb(150, 150, 150);\n"
@@ -223,8 +162,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.tabWidget_2 = QTabWidget(self.frame_2)
         self.tabWidget_2.setObjectName(u"tabWidget_2")
-        sizePolicy3.setHeightForWidth(self.tabWidget_2.sizePolicy().hasHeightForWidth())
-        self.tabWidget_2.setSizePolicy(sizePolicy3)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.tabWidget_2.sizePolicy().hasHeightForWidth())
+        self.tabWidget_2.setSizePolicy(sizePolicy4)
         self.tabWidget_2.setMinimumSize(QSize(0, 500))
         self.tabWidget_2.setFont(font1)
         self.tabWidget_2.setStyleSheet(u"border:0px;")
@@ -235,8 +177,11 @@ class Ui_MainWindow(object):
         self.gridLayout_4.setObjectName(u"gridLayout_4")
         self.table_cx_2 = QTableWidget(self.tab_4)
         self.table_cx_2.setObjectName(u"table_cx_2")
-        sizePolicy4.setHeightForWidth(self.table_cx_2.sizePolicy().hasHeightForWidth())
-        self.table_cx_2.setSizePolicy(sizePolicy4)
+        sizePolicy5 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy5.setHorizontalStretch(10)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.table_cx_2.sizePolicy().hasHeightForWidth())
+        self.table_cx_2.setSizePolicy(sizePolicy5)
         self.table_cx_2.setMinimumSize(QSize(500, 400))
         self.table_cx_2.setMaximumSize(QSize(5000, 5000))
         self.table_cx_2.setStyleSheet(u"QHeaderView::section {  \n"
@@ -307,7 +252,7 @@ class Ui_MainWindow(object):
         self.toolBar.setFont(font1)
         MainWindow.addToolBar(Qt.TopToolBarArea, self.toolBar)
 
-        self.toolBar.addAction(self.w_path)
+        self.toolBar.addAction(self.file_menu)
         self.toolBar.addAction(self.show_all)
         self.toolBar.addAction(self.cl_open)
         self.toolBar.addAction(self.sb_open)
@@ -315,11 +260,11 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.cx_open)
         self.toolBar.addAction(self.mx_open)
         self.toolBar.addAction(self.xm_open)
+        self.toolBar.addAction(self.action_fresh)
 
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(0)
-        self.tabWidget.setCurrentIndex(2)
         self.tabWidget_2.setCurrentIndex(2)
 
 
@@ -363,14 +308,13 @@ class Ui_MainWindow(object):
         self.ku_cx.setText(QCoreApplication.translate("MainWindow", u"\u7a0b\u5e8f", None))
         self.ku_mx.setText(QCoreApplication.translate("MainWindow", u"\u6a21\u578b", None))
         self.w_path.setText(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6", None))
+        self.action_path.setText(QCoreApplication.translate("MainWindow", u"\u8def\u5f84\u9009\u62e9", None))
+        self.action_fresh.setText(QCoreApplication.translate("MainWindow", u"\u5237\u65b0", None))
+        self.action_save.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58", None))
+        self.action_other.setText(QCoreApplication.translate("MainWindow", u"\u53e6\u5b58\u4e3a", None))
+        self.file_menu.setText(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6", None))
         ___qtreewidgetitem = self.treeWidget.headerItem()
         ___qtreewidgetitem.setText(0, QCoreApplication.translate("MainWindow", u"\u7d22\u5f15", None));
-#if QT_CONFIG(whatsthis)
-        self.tabWidget.setWhatsThis(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>\u7a0b\u5e8f\u5e93</p></body></html>", None))
-#endif // QT_CONFIG(whatsthis)
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u7a0b\u5e8f\u5e93", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u6a21\u578b\u5e93", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u9879\u76ee\u5e93", None))
         ___qtreewidgetitem1 = self.treeWidget_2.headerItem()
         ___qtreewidgetitem1.setText(0, QCoreApplication.translate("MainWindow", u"\u7d22\u5f15", None));
 #if QT_CONFIG(whatsthis)
