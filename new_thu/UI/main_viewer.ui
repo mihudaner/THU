@@ -14,124 +14,107 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="center">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="spacing">
-     <number>0</number>
+     <number>5</number>
     </property>
     <property name="leftMargin">
-     <number>0</number>
+     <number>5</number>
     </property>
     <property name="topMargin">
-     <number>0</number>
+     <number>5</number>
     </property>
     <property name="rightMargin">
-     <number>0</number>
+     <number>5</number>
     </property>
     <property name="bottomMargin">
-     <number>0</number>
+     <number>5</number>
     </property>
     <item>
-     <widget class="QTabWidget" name="tabWidget">
-      <widget class="QWidget" name="tabWidgetPage1" native="true">
-       <attribute name="title">
-        <string/>
-       </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QTreeWidget" name="treeWidget">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>350</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>350</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <column>
-           <property name="text">
-            <string>索引</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>8</pointsize>
-            </font>
-           </property>
-          </column>
-         </widget>
-        </item>
-        <item>
-         <widget class="QFrame" name="frame">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>500</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>10000</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border: 1px solid rgb(150, 150, 150);
+     <widget class="QTreeWidget" name="treeWidget">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>350</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>350</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <column>
+       <property name="text">
+        <string>索引</string>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="frame">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>500</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>10000</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 1px solid rgb(150, 150, 150);
 border-color: rgb(150, 150, 150);
 background-color: rgb(232, 232, 232);</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-          </layout>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="tabWidgetPage2" native="true">
-       <attribute name="title">
-        <string/>
-       </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_2"/>
-      </widget>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -153,7 +136,6 @@ background-color: rgb(232, 232, 232);</string>
     <bool>false</bool>
    </attribute>
    <addaction name="file_menu"/>
-   <addaction name="show_all"/>
    <addaction name="cl_open"/>
    <addaction name="sb_open"/>
    <addaction name="gy_open"/>
@@ -201,24 +183,6 @@ background-color: rgb(232, 232, 232);</string>
     <string>展示工艺库</string>
    </property>
   </action>
-  <action name="ku_all">
-   <property name="text">
-    <string>全部</string>
-   </property>
-   <property name="iconText">
-    <string>全部</string>
-   </property>
-  </action>
-  <action name="ku_cl">
-   <property name="text">
-    <string>材料</string>
-   </property>
-  </action>
-  <action name="ku_sb">
-   <property name="text">
-    <string>设备</string>
-   </property>
-  </action>
   <action name="show_all">
    <property name="text">
     <string>全部</string>
@@ -255,26 +219,6 @@ background-color: rgb(232, 232, 232);</string>
     <string>筛选</string>
    </property>
   </action>
-  <action name="ku_gy">
-   <property name="text">
-    <string>工艺</string>
-   </property>
-  </action>
-  <action name="ku_cx">
-   <property name="text">
-    <string>程序</string>
-   </property>
-  </action>
-  <action name="ku_mx">
-   <property name="text">
-    <string>模型</string>
-   </property>
-  </action>
-  <action name="w_path">
-   <property name="text">
-    <string>文件</string>
-   </property>
-  </action>
   <action name="action_path">
    <property name="text">
     <string>路径选择</string>
@@ -296,6 +240,11 @@ background-color: rgb(232, 232, 232);</string>
    </property>
   </action>
   <action name="file_menu">
+   <property name="text">
+    <string>文件</string>
+   </property>
+  </action>
+  <action name="w_path">
    <property name="text">
     <string>文件</string>
    </property>

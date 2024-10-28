@@ -1189,7 +1189,7 @@ class FilterCX(QDialog):
         self.table_cx.setColumnWidth(0, 200)
         self.table_cx.setColumnWidth(5, 150)
         # 设置窗口标题和大小
-        self.setWindowTitle("数据筛选程序")
+        self.setWindowTitle("程序筛选")
         self.resize(800, 600)
 
     def get_folder_names(self, path):
@@ -1308,6 +1308,12 @@ class FilterMX(QDialog):
     def __init__(self, item):
         super().__init__()
         self.path = item.data(0, Qt.UserRole)
+        # 设置窗口图标
+        icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
+        if os.path.exists(icon_path):
+            self.setWindowIcon(QIcon(icon_path))
+        else:
+            print(f"Icon file not found: {icon_path}")
         # self.data = self.load_data_from_json(osp.join(self.path, "模型目录.json"))
         self.data = []
         gy_styles = self.get_folder_names(self.path)

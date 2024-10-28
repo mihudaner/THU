@@ -40,6 +40,7 @@ class MainWindow(QMainWindow):
         self.ui.file_menu.triggered.connect(lambda: dropdown_menu.exec_(self.ui.toolBar.mapToGlobal(self.ui.toolBar.rect().bottomLeft())))
         self.ui.w_quit.triggered.connect(QApplication.quit)
         self.ui.w_path.triggered.connect(self.select_database)
+        self.ui.w_save.triggered.connect(self.saveAll)
         # 另存为
         self.ui.w_save_as.triggered.connect(self.save_as)
 
@@ -122,6 +123,25 @@ class MainWindow(QMainWindow):
             print(f"遍历路径 {path} 时发生错误: {e}")
             return []
 
+    def saveAll(self):
+        target_directory = QFileDialog.getExistingDirectory(self, "选择目标文件夹")
+        # 确保目标目录存在
+        if not os.path.exists(target_directory):
+            os.makedirs(target_directory)
+        # 定义源目录
+        dir_path = self.root
+        # 确保源目录存在
+        if not os.path.exists(dir_path):
+            print(f"源目录 {dir_path} 不存在。")
+            return
+        # 复制文件夹
+        try:
+            # 计算目标路径
+            target_path = os.path.join(target_directory, os.path.basename(dir_path))
+            shutil.copytree(dir_path, target_path)
+            print(f"成功将 {dir_path} 复制到 {target_path}")
+        except Exception as e:
+            print(f"复制过程中发生错误: {e}")
 
     def save_as(self):
         SaveAsDialog(self.root)
@@ -208,7 +228,6 @@ class MainWindow(QMainWindow):
         self.updateShow()
 
     def list_dir(self, parent, directory, value=None):
-
         if parent==None:
             # 首先处理 "材料库"
             if "材料库" in os.listdir(directory):
@@ -235,6 +254,8 @@ class MainWindow(QMainWindow):
                 cl_item = self._generate_item(None, "项目库", osp.join(directory, "项目库"), NodeType.NodeDir.value)
                 self.ui.treeWidget.addTopLevelItem(cl_item)
                 self.list_dir(cl_item, osp.join(directory, "项目库"))
+        elif parent.data(0, Qt.UserRole + 1) == "具体模型":
+            pass
         else:
             for obj in os.listdir(directory):
                 tmp_path = osp.join(directory, obj)
@@ -396,7 +417,7 @@ class MainWindow(QMainWindow):
                 else:
                     self._generate_item(item, obj, tmp_path, NodeType.NodeFile.value)
 
-    def delete(self,item):
+    def delete(self, item):
         project_path = item.data(0, Qt.UserRole)
         print("delete")
         print(project_path)
@@ -436,31 +457,76 @@ class MainWindow(QMainWindow):
 
     def rename(self, item):
         project_path = item.data(0, Qt.UserRole)
-        note = item.data(0, Qt.UserRole + 1)
+        item_style = item.data(0, Qt.UserRole + 1)
+        parent = item.parent()
         text, ok = QInputDialog.getText(self, '重命名', '输入新名称:')
+        text0 = text
         if ok and text:
             # 获取父目录路径
-            parent_dir = os.path.dirname(project_path)
+            parent_dir = parent.data(0, Qt.UserRole)
             # 构建新的文件/文件夹路径
+            if item_style == "具体工艺":
+                text = f"{text}.json"
+            elif item_style == "具体材料":
+                text = f"{text}.xlsx"
             new_path = os.path.join(parent_dir, text)
-
             try:
                 # 重命名文件/文件夹
                 os.rename(project_path, new_path)
-
                 # 更新 item 显示的名称
-                item.setText(0, text)
-
+                item.setText(0, text0)
                 # 更新 item 中存储的路径
                 item.setData(0, Qt.UserRole, new_path)
-
                 print(f"Successfully renamed {project_path} to {new_path}")
             except OSError as e:
                 print(f"Error renaming {project_path} to {new_path}: {e}")
 
-
     def copy(self, item):
+        parent = item.parent()
+        target_path = parent.data(0, Qt.UserRole)
         project_path = item.data(0, Qt.UserRole)
+        item_style = item.data(0, Qt.UserRole + 1)
+        text, ok = QInputDialog.getText(self, '复制', '输入新名称:')
+        text0 = text
+        if ok and text:  # 如果用户确认并输入了名称
+            # 计算目标目录路径
+            if item_style == "具体工艺":
+                text = f"{text}.json"
+            elif item_style == "具体材料":
+                text = f"{text}.xlsx"
+            new_project_path = os.path.join(target_path, text)
+            print(project_path)
+            print(new_project_path)
+            # 确保目标路径不存在
+            if os.path.exists(new_project_path):
+                QMessageBox.warning(self, '错误', f'目标 {new_project_path} 已存在，请选择其他名称。')
+                return
+            try:
+                # 复制项目到新路径
+                new_item = QTreeWidgetItem(parent)
+                new_item.setText(0, text0)
+                new_item.setData(0, Qt.UserRole, new_project_path)
+                if item_style == "具体工艺":
+                    shutil.copy(project_path, new_project_path)
+                    # 设置窗口图标
+                    icon_path = os.path.join('..', 'resource', 'icon', 'doc.png')
+                    new_item.setIcon(0, QIcon(icon_path))
+                    new_item.setData(0, Qt.UserRole + 1, "具体工艺")
+                elif item_style == "具体材料":
+                    shutil.copy(project_path, new_project_path)
+                    # 设置窗口图标
+                    icon_path = os.path.join('..', 'resource', 'icon', 'doc.png')
+                    new_item.setIcon(0, QIcon(icon_path))
+                    new_item.setData(0, Qt.UserRole + 1, "具体材料")
+                else:
+                    shutil.copytree(project_path, new_project_path)
+                    # 设置窗口图标
+                    icon_path = os.path.join('..', 'resource', 'icon', 'dir.png')
+                    new_item.setIcon(0, QIcon(icon_path))
+                    new_item.setData(0, Qt.UserRole + 1, item_style)
+                QMessageBox.information(self, '成功', f'项目已成功复制到 {new_project_path}')
+            except Exception as e:
+                QMessageBox.critical(self, '错误', f'复制过程中发生错误: {e}')
 
     def unfolder(self, item):
         # 展开当前项
