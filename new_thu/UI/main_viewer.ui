@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1340</width>
+    <width>1063</width>
     <height>905</height>
    </rect>
   </property>
@@ -32,7 +32,7 @@
     </property>
     <item>
      <widget class="QTabWidget" name="tabWidget">
-      <widget class="QWidget" name="tabWidgetPage1" native="true">
+      <widget class="QWidget" name="tabWidgetPage1">
        <attribute name="title">
         <string/>
        </attribute>
@@ -121,12 +121,39 @@ background-color: rgb(232, 232, 232);</string>
            <property name="bottomMargin">
             <number>0</number>
            </property>
+           <item>
+            <widget class="QTabWidget" name="tabWidget_2">
+             <property name="currentIndex">
+              <number>3</number>
+             </property>
+             <widget class="QWidget" name="tab">
+              <attribute name="title">
+               <string>实时反馈</string>
+              </attribute>
+             </widget>
+             <widget class="QWidget" name="tab_2">
+              <attribute name="title">
+               <string>熔池状态</string>
+              </attribute>
+             </widget>
+             <widget class="QWidget" name="tab_3">
+              <attribute name="title">
+               <string>熔池尺寸</string>
+              </attribute>
+             </widget>
+             <widget class="QWidget" name="tab_4">
+              <attribute name="title">
+               <string>页</string>
+              </attribute>
+             </widget>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabWidgetPage2" native="true">
+      <widget class="QWidget" name="tabWidgetPage2">
        <attribute name="title">
         <string/>
        </attribute>

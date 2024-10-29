@@ -17,8 +17,9 @@ import time
 # D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  .\DAM8888_widget.py .\DAM8888_widget.ui
 # pyside2-rcc ./icon/icon.qrc -o icon_rc.py
 from PySide2.QtWidgets import *
-from QTui.CustomWidgets.Cardpage.QplotWidget import RealTimePlotWidget
+from QplotWidget import RealTimePlotWidget
 from QTui.CustomWidgets.Cardpage import DIOwidget, AIOwidget
+import AIO_CCD_Table
 import card.DAM8888_dll as dll
 import sys
 import threading
@@ -53,33 +54,14 @@ class AIINThread(threading.Thread):
 
     def do_run(self):
         global DIOWindow_widgts
+
         while not self.threadStop:
             time.sleep(self.AI_updatetime * 0.001)
             # 索引从 0 开始
-            for widgetid in range(1, 7):
-                combox_cannel = getattr(AIOWindow_widgts.widgets, f"comboBox_plotcannel_{widgetid}")
-                waveview = getattr(AIOWindow_widgts.widgets, f"waveview_{widgetid}")
-                AOshow_channel = combox_cannel.currentIndex() % 8
-                DIOWindow_widgts.read_AI_state()
-                waveview.update_data(PlotBuffer[AOshow_channel], AOshow_channel)
 
-    # 老采集卡的保存csv的代码
-    # def write_oneline(self, time_stamp_str, DI_state, AD_buffer, checkcomboBox):
-    #     global Card_widgts
-    #     for i in range(16):
-    #         if not checkcomboBox.model().item(i).checkState():
-    #             AD_buffer[i][:] = np.ones(len(AD_buffer[0]), dtype=int) * -1
-    #     for i in range(0, len(AD_buffer[0]), 4):
-    #         mul = int(len(DI_state[0]) / len(AD_buffer[0]))
-    #         self.writer.writerow(
-    #             [time_stamp_str[11:], DI_state[0][i * mul], DI_state[1][i * mul], DI_state[2][i * mul], DI_state[3][i * mul],
-    #              DI_state[4][i * mul], DI_state[5][i * mul], DI_state[6][i * mul], DI_state[7][i * mul],
-    #              AD_buffer[0][i], AD_buffer[1][i], AD_buffer[2][i], AD_buffer[3][i], AD_buffer[4][i], AD_buffer[5][i], AD_buffer[6][i], AD_buffer[7][i],
-    #              AD_buffer[8][i], AD_buffer[9][i], AD_buffer[10][i], AD_buffer[11][i], AD_buffer[12][i], AD_buffer[13][i], AD_buffer[14][i], AD_buffer[15][i]])
-    #         # self.writer.writerow(["wk", 1.1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-    # def close(self):
-    #     self.f.close()
-
+            waveview = getattr(AIOWindow_widgts.widgets, f"waveview_{1}")
+            DIOWindow_widgts.read_AI_state()
+            waveview.update_data(PlotBuffer)
 
 class DIOWidget(QWidget):
 
@@ -319,6 +301,82 @@ class AIOWidget(QWidget):
         self.widgets.Layout_wave_6.addWidget(self.widgets.waveview_6)
 
 
+class AIOWidget_ShowOne(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        # 从文件中加载UI定义
+        # 从 UI 定义中动态 创建一个相应的窗口对象
+        # 注意：里面的控件对象也成为窗口对象的属性了
+        # 比如 self.ui.button , self.ui.textEdit
+        # self.ui = QUiLoader().load('windows.ui')
+        self.SampleNumber = None
+        self.AD_channe_number = None
+
+        self.ui = AIOwidget.Ui_Form()
+        self.ui.setupUi(self)
+        self.widgets = self.ui
+        global AIOWindow_widgts
+        AIOWindow_widgts = self
+        self.show()
+
+        # 绘图控件
+        self.widgets.waveview_1 = RealTimePlotWidget()
+        self.widgets.Layout_wave_1 = QVBoxLayout(self.widgets.groupBox_waveview_1)
+        self.widgets.Layout_wave_1.addWidget(self.widgets.waveview_1)
+
+        # 绘图控件
+        self.widgets.waveview_2 = RealTimePlotWidget()
+        self.widgets.Layout_wave_2 = QVBoxLayout(self.widgets.groupBox_waveview_2)
+        self.widgets.Layout_wave_2.addWidget(self.widgets.waveview_2)
+
+        # 绘图控件
+        self.widgets.waveview_3 = RealTimePlotWidget()
+        self.widgets.Layout_wave_3 = QVBoxLayout(self.widgets.groupBox_waveview_3)
+        self.widgets.Layout_wave_3.addWidget(self.widgets.waveview_3)
+
+        # 绘图控件
+        self.widgets.waveview_4 = RealTimePlotWidget()
+        self.widgets.Layout_wave_4 = QVBoxLayout(self.widgets.groupBox_waveview_4)
+        self.widgets.Layout_wave_4.addWidget(self.widgets.waveview_4)
+
+        # 绘图控件
+        self.widgets.waveview_5 = RealTimePlotWidget()
+        self.widgets.Layout_wave_5 = QVBoxLayout(self.widgets.groupBox_waveview_5)
+        self.widgets.Layout_wave_5.addWidget(self.widgets.waveview_5)
+
+        # 绘图控件
+        self.widgets.waveview_6 = RealTimePlotWidget()
+        self.widgets.Layout_wave_6 = QVBoxLayout(self.widgets.groupBox_waveview_6)
+        self.widgets.Layout_wave_6.addWidget(self.widgets.waveview_6)
+
+
+class AIOWidget_ShowOne(QWidget):
+
+    def __init__(self):
+        super().__init__()
+        # 从文件中加载UI定义
+        # 从 UI 定义中动态 创建一个相应的窗口对象
+        # 注意：里面的控件对象也成为窗口对象的属性了
+        # 比如 self.ui.button , self.ui.textEdit
+        # self.ui = QUiLoader().load('windows.ui')
+        self.SampleNumber = None
+        self.AD_channe_number = None
+
+        self.ui = AIO_CCD_Table.Ui_Form()
+        self.ui.setupUi(self)
+        self.widgets = self.ui
+        global AIOWindow_widgts
+        AIOWindow_widgts = self
+        self.show()
+
+
+        # 绘图控件
+        self.widgets.waveview_1 = RealTimePlotWidget()
+        self.widgets.Layout_wave_1 = QVBoxLayout(self.widgets.groupBox_waveview_1)
+        self.widgets.Layout_wave_1.addWidget(self.widgets.waveview_1)
+
+
 def boot_windows():
     app = QApplication.instance()
     if app is None:
@@ -328,7 +386,7 @@ def boot_windows():
     window1.show()
 
     # 创建并显示第二个窗口
-    window2 = AIOWidget()
+    window2 = AIOWidget_ShowOne()
     window2.show()
 
     sys.exit(app.exec_())

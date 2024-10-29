@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_viewer.ui'
+## Form generated from reading UI file 'main_viewerxBNfIl.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1340, 905)
+        MainWindow.resize(1063, 905)
         self.w_save = QAction(MainWindow)
         self.w_save.setObjectName(u"w_save")
         self.w_save_as = QAction(MainWindow)
@@ -72,18 +72,13 @@ class Ui_MainWindow(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.stackedWidget = QStackedWidget(self.center)
-        self.stackedWidget.setObjectName(u"stackedWidget")
-        self.page = QWidget()
-        self.page.setObjectName(u"page")
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.page.sizePolicy().hasHeightForWidth())
-        self.page.setSizePolicy(sizePolicy)
-        self.horizontalLayout = QHBoxLayout(self.page)
+        self.tabWidget = QTabWidget(self.center)
+        self.tabWidget.setObjectName(u"tabWidget")
+        self.tabWidgetPage1 = QWidget()
+        self.tabWidgetPage1.setObjectName(u"tabWidgetPage1")
+        self.horizontalLayout = QHBoxLayout(self.tabWidgetPage1)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.treeWidget = QTreeWidget(self.page)
+        self.treeWidget = QTreeWidget(self.tabWidgetPage1)
         font = QFont()
         font.setPointSize(8)
         __qtreewidgetitem = QTreeWidgetItem()
@@ -91,11 +86,11 @@ class Ui_MainWindow(object):
         self.treeWidget.setHeaderItem(__qtreewidgetitem)
         self.treeWidget.setObjectName(u"treeWidget")
         self.treeWidget.setEnabled(True)
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.treeWidget.sizePolicy().hasHeightForWidth())
-        self.treeWidget.setSizePolicy(sizePolicy1)
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.treeWidget.sizePolicy().hasHeightForWidth())
+        self.treeWidget.setSizePolicy(sizePolicy)
         self.treeWidget.setMinimumSize(QSize(350, 0))
         self.treeWidget.setMaximumSize(QSize(350, 16777215))
         font1 = QFont()
@@ -104,10 +99,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.treeWidget)
 
-        self.frame = QFrame(self.page)
+        self.frame = QFrame(self.tabWidgetPage1)
         self.frame.setObjectName(u"frame")
-        sizePolicy1.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
-        self.frame.setSizePolicy(sizePolicy1)
+        sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
+        self.frame.setSizePolicy(sizePolicy)
         self.frame.setMinimumSize(QSize(500, 0))
         self.frame.setMaximumSize(QSize(10000, 16777215))
         self.frame.setStyleSheet(u"border: 1px solid rgb(150, 150, 150);\n"
@@ -118,130 +113,34 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QVBoxLayout(self.frame)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.tabWidget_2 = QTabWidget(self.frame)
+        self.tabWidget_2.setObjectName(u"tabWidget_2")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.tabWidget_2.addTab(self.tab, "")
+        self.tab_2 = QWidget()
+        self.tab_2.setObjectName(u"tab_2")
+        self.tabWidget_2.addTab(self.tab_2, "")
+        self.tab_3 = QWidget()
+        self.tab_3.setObjectName(u"tab_3")
+        self.tabWidget_2.addTab(self.tab_3, "")
+        self.tab_4 = QWidget()
+        self.tab_4.setObjectName(u"tab_4")
+        self.tabWidget_2.addTab(self.tab_4, "")
+
+        self.verticalLayout_2.addWidget(self.tabWidget_2)
+
 
         self.horizontalLayout.addWidget(self.frame)
 
-        self.stackedWidget.addWidget(self.page)
-        self.page_2 = QWidget()
-        self.page_2.setObjectName(u"page_2")
-        self.horizontalLayout_2 = QHBoxLayout(self.page_2)
+        self.tabWidget.addTab(self.tabWidgetPage1, "")
+        self.tabWidgetPage2 = QWidget()
+        self.tabWidgetPage2.setObjectName(u"tabWidgetPage2")
+        self.horizontalLayout_2 = QHBoxLayout(self.tabWidgetPage2)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.treeWidget_2 = QTreeWidget(self.page_2)
-        __qtreewidgetitem1 = QTreeWidgetItem()
-        __qtreewidgetitem1.setFont(0, font);
-        self.treeWidget_2.setHeaderItem(__qtreewidgetitem1)
-        self.treeWidget_2.setObjectName(u"treeWidget_2")
-        self.treeWidget_2.setEnabled(True)
-        sizePolicy2 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.treeWidget_2.sizePolicy().hasHeightForWidth())
-        self.treeWidget_2.setSizePolicy(sizePolicy2)
-        self.treeWidget_2.setMinimumSize(QSize(300, 0))
-        self.treeWidget_2.setMaximumSize(QSize(500, 16777215))
-        self.treeWidget_2.setFont(font1)
+        self.tabWidget.addTab(self.tabWidgetPage2, "")
 
-        self.horizontalLayout_2.addWidget(self.treeWidget_2)
-
-        self.frame_2 = QFrame(self.page_2)
-        self.frame_2.setObjectName(u"frame_2")
-        sizePolicy3 = QSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Expanding)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
-        self.frame_2.setSizePolicy(sizePolicy3)
-        self.frame_2.setMinimumSize(QSize(500, 0))
-        self.frame_2.setMaximumSize(QSize(10000, 16777215))
-        self.frame_2.setStyleSheet(u"border: 1px solid rgb(150, 150, 150);\n"
-"border-left-color: 1px solid rgb(255, 255, 255);\n"
-"background-color: rgb(232, 232, 232);")
-        self.frame_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_3 = QVBoxLayout(self.frame_2)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.tabWidget_2 = QTabWidget(self.frame_2)
-        self.tabWidget_2.setObjectName(u"tabWidget_2")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.tabWidget_2.sizePolicy().hasHeightForWidth())
-        self.tabWidget_2.setSizePolicy(sizePolicy4)
-        self.tabWidget_2.setMinimumSize(QSize(0, 500))
-        self.tabWidget_2.setFont(font1)
-        self.tabWidget_2.setStyleSheet(u"border:0px;")
-        self.tab_4 = QWidget()
-        self.tab_4.setObjectName(u"tab_4")
-        self.tab_4.setContextMenuPolicy(Qt.DefaultContextMenu)
-        self.gridLayout_4 = QGridLayout(self.tab_4)
-        self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.table_cx_2 = QTableWidget(self.tab_4)
-        self.table_cx_2.setObjectName(u"table_cx_2")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy5.setHorizontalStretch(10)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.table_cx_2.sizePolicy().hasHeightForWidth())
-        self.table_cx_2.setSizePolicy(sizePolicy5)
-        self.table_cx_2.setMinimumSize(QSize(500, 400))
-        self.table_cx_2.setMaximumSize(QSize(5000, 5000))
-        self.table_cx_2.setStyleSheet(u"QHeaderView::section {  \n"
-"        background-color: rgb(172, 187, 203); /* \u80cc\u666f\u8272 */     \n"
-"		color: rgb(20, 20, 20);/* \u8868\u5934\u6587\u5b57\u989c\u8272 */\n"
-"        font-size: 18px; \n"
-"		border:0px solid #7B95AF;\n"
-"		border-bottom:1px solid #7B95AF;\n"
-"		outline:1px;\n"
-"    } ")
-        self.table_cx_2.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
-
-        self.gridLayout_4.addWidget(self.table_cx_2, 0, 0, 1, 1)
-
-        self.tabWidget_2.addTab(self.tab_4, "")
-        self.tab_5 = QWidget()
-        self.tab_5.setObjectName(u"tab_5")
-        self.gridLayout_5 = QGridLayout(self.tab_5)
-        self.gridLayout_5.setObjectName(u"gridLayout_5")
-        self.table_mx_2 = QTableWidget(self.tab_5)
-        self.table_mx_2.setObjectName(u"table_mx_2")
-        self.table_mx_2.setStyleSheet(u"QHeaderView::section {  \n"
-"        background-color: rgb(172, 187, 203); /* \u80cc\u666f\u8272 */     \n"
-"		color: rgb(20, 20, 20);/* \u8868\u5934\u6587\u5b57\u989c\u8272 */\n"
-"        font-size: 18px; \n"
-"		border:0px solid #7B95AF;\n"
-"		border-bottom:1px solid #7B95AF;\n"
-"		outline:1px;\n"
-"    } ")
-
-        self.gridLayout_5.addWidget(self.table_mx_2, 0, 0, 1, 1)
-
-        self.tabWidget_2.addTab(self.tab_5, "")
-        self.tab_6 = QWidget()
-        self.tab_6.setObjectName(u"tab_6")
-        self.gridLayout_6 = QGridLayout(self.tab_6)
-        self.gridLayout_6.setObjectName(u"gridLayout_6")
-        self.table_xm_2 = QTableWidget(self.tab_6)
-        self.table_xm_2.setObjectName(u"table_xm_2")
-        self.table_xm_2.setStyleSheet(u"QHeaderView::section {  \n"
-"        background-color: rgb(172, 187, 203); /* \u80cc\u666f\u8272 */     \n"
-"		color: rgb(20, 20, 20);/* \u8868\u5934\u6587\u5b57\u989c\u8272 */\n"
-"        font-size: 18px; \n"
-"		border:0px solid #7B95AF;\n"
-"		border-bottom:1px solid #7B95AF;\n"
-"		outline:1px;\n"
-"    } ")
-
-        self.gridLayout_6.addWidget(self.table_xm_2, 0, 0, 1, 1)
-
-        self.tabWidget_2.addTab(self.tab_6, "")
-
-        self.verticalLayout_3.addWidget(self.tabWidget_2)
-
-
-        self.horizontalLayout_2.addWidget(self.frame_2)
-
-        self.stackedWidget.addWidget(self.page_2)
-
-        self.verticalLayout.addWidget(self.stackedWidget)
+        self.verticalLayout.addWidget(self.tabWidget)
 
         MainWindow.setCentralWidget(self.center)
         self.status = QStatusBar(MainWindow)
@@ -264,8 +163,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
-        self.tabWidget_2.setCurrentIndex(2)
+        self.tabWidget_2.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -315,14 +213,12 @@ class Ui_MainWindow(object):
         self.file_menu.setText(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6", None))
         ___qtreewidgetitem = self.treeWidget.headerItem()
         ___qtreewidgetitem.setText(0, QCoreApplication.translate("MainWindow", u"\u7d22\u5f15", None));
-        ___qtreewidgetitem1 = self.treeWidget_2.headerItem()
-        ___qtreewidgetitem1.setText(0, QCoreApplication.translate("MainWindow", u"\u7d22\u5f15", None));
-#if QT_CONFIG(whatsthis)
-        self.tabWidget_2.setWhatsThis(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>\u7a0b\u5e8f\u5e93</p></body></html>", None))
-#endif // QT_CONFIG(whatsthis)
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"\u7a0b\u5e8f\u5e93", None))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_5), QCoreApplication.translate("MainWindow", u"\u6a21\u578b\u5e93", None))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_6), QCoreApplication.translate("MainWindow", u"\u9879\u76ee\u5e93", None))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u5b9e\u65f6\u53cd\u9988", None))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u7194\u6c60\u72b6\u6001", None))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u7194\u6c60\u5c3a\u5bf8", None))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"IO\u63a7\u5236", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage1), "")
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage2), "")
         self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 

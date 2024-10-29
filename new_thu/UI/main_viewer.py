@@ -1,4 +1,5 @@
 from utils import *
+from main_Pwindow import *
 @unique
 class NodeType(Enum):
     """节点类型，文件还是文件夹"""
@@ -475,6 +476,6 @@ class MainWindow(QMainWindow):
 if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)
-    MainWindow = MainWindow()
+    MainWindow = PWindow()
     MainWindow.show()
     sys.exit(app.exec_())
