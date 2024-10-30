@@ -328,7 +328,7 @@ def boot_windows():
     window1.show()
 
     # 创建并显示第二个窗口
-    window2 = DIOWidget()
+    window2 = AIOWidget()
     window2.show()
 
     sys.exit(app.exec_())
