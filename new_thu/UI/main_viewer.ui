@@ -48,7 +48,7 @@
       </property>
       <column>
        <property name="text">
-        <string/>
+        <string>  </string>
        </property>
        <property name="font">
         <font>
@@ -141,7 +141,6 @@
    <addaction name="mx_open"/>
    <addaction name="xm_open"/>
    <addaction name="action_fresh"/>
-   <addaction name="action_set"/>
   </widget>
   <action name="w_save">
    <property name="text">
@@ -279,16 +278,6 @@
   <action name="file_menu">
    <property name="text">
     <string>文件</string>
-   </property>
-  </action>
-  <action name="action_apppath">
-   <property name="text">
-    <string>环境变量路径</string>
-   </property>
-  </action>
-  <action name="action_set">
-   <property name="text">
-    <string>设置</string>
    </property>
   </action>
  </widget>

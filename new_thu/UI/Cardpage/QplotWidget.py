@@ -13,17 +13,6 @@ import PySide2.QtCore as QtCore
 
 
 class RealTimePlotWidget(QtWidgets.QWidget):
-    colors = [
-        QtGui.QColor(98, 114, 165),  # 蓝色
-        QtGui.QColor(50, 50, 50),  # 番茄红
-        QtGui.QColor(60, 179, 113),  # 海洋绿
-        QtGui.QColor(255, 215, 0),  # 金色
-        QtGui.QColor(75, 0, 130),  # 靛蓝
-        QtGui.QColor(255, 105, 180),  # 粉色
-        QtGui.QColor(0, 191, 255),  # 深天蓝
-        QtGui.QColor(255, 69, 0)  # 橙红色
-    ]
-
     def __init__(self):
         super().__init__()
         self.data8 = np.zeros((8, 500))  # 初始化数据数组，这里假设波形数组长度为100
@@ -33,11 +22,10 @@ class RealTimePlotWidget(QtWidgets.QWidget):
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.update_plot)
         self.timer.start(self.timer_interval)
-        self.Checked_AI = np.zeros(8)
+        self.current_ad_port = None
 
-    def update_data(self, new_data, Checked_AI):
+    def update_data(self, new_data):
         self.data8 = new_data  # 更新波形数据
-        self.Checked_AI = Checked_AI
 
     def update_plot(self):
         self.update()  # 调用QWidget的update()方法，触发绘图事件
@@ -45,8 +33,6 @@ class RealTimePlotWidget(QtWidgets.QWidget):
     def paintEvent(self, event):
 
         for i in range(8):
-            if self.Checked_AI[i] == 0:
-                continue
             self.current_ad_port = i
             self.data = self.data8[i]
 
@@ -57,8 +43,7 @@ class RealTimePlotWidget(QtWidgets.QWidget):
             painter.setRenderHint(QtGui.QPainter.Antialiasing)
 
             # 绘制波形
-            # pen = QtGui.QPen(QtGui.QColor(98, 114, 165))  # 设置画笔颜色为蓝色
-            pen = QtGui.QPen(self.colors[i])  # 设置画笔颜色为蓝色
+            pen = QtGui.QPen(QtGui.QColor(98, 114, 165))  # 设置画笔颜色为蓝色
             pen.setWidth(2)  # 设置画笔宽度
             painter.setPen(pen)
 
@@ -82,10 +67,10 @@ class RealTimePlotWidget(QtWidgets.QWidget):
                 y2 = (V_MAX - self.data[i + 1]) * height / V_MAX + TOP_MARGIN
                 painter.drawLine(x1, y1, x2, y2)
 
-            # if self.current_ad_port == 4:
-            #     painter.drawText(QtCore.QPoint(width / 2, 20), str((self.data[0] - 2.5) * 14)[:5] + "mm")
-            # else:
-            #     painter.drawText(QtCore.QPoint(width / 2, 20), str(self.data[0])[:5] + "V")
+            if self.current_ad_port == 4:
+                painter.drawText(QtCore.QPoint(width / 2, 20), str((self.data[0] - 2.5) * 14)[:5] + "mm")
+            else:
+                painter.drawText(QtCore.QPoint(width / 2, 20), str(self.data[0])[:5] + "V")
             painter.end()
 
 

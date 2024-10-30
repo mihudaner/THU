@@ -137,7 +137,7 @@ def new_type(self, item):
                 for type in project_list:
                     new_file = osp.join(file_path, type)
                     os.makedirs(new_file, exist_ok=True)
-                jk_list = ["尺寸计算", "熔池监控", "实时反馈", "温度监控", "形貌监控"]
+                jk_list = ["熔池温度", "熔池状态", "实时反馈", "熔池流动", "熔池尺寸", "熔覆形貌"]
                 jk_path = osp.join(file_path, "熔覆监控")
                 for type in jk_list:
                     new_file = osp.join(jk_path, type)

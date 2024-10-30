@@ -1213,7 +1213,11 @@ class FilterCX(QDialog):
 
         # 初始化表格
         self.populate_table(self.data)
-        self.table_cx.setColumnWidth(0, 200)
+        self.table_cx.setColumnWidth(0, 300)
+        self.table_cx.setColumnWidth(1, 120)
+        self.table_cx.setColumnWidth(2, 120)
+        self.table_cx.setColumnWidth(3, 120)
+        self.table_cx.setColumnWidth(4, 120)
         self.table_cx.setColumnWidth(5, 150)
         # 设置窗口标题和大小
         self.setWindowTitle("程序筛选")
@@ -1299,7 +1303,9 @@ class FilterCX(QDialog):
 
         for row_index, row_data in enumerate(data):
             for col_index, (key, value) in enumerate(row_data.items()):
-                self.table_cx.setItem(row_index, col_index, QTableWidgetItem(str(value)))
+                item = QTableWidgetItem(str(value))
+                item.setTextAlignment(Qt.AlignCenter)  # 设置文本居中对齐
+                self.table_cx.setItem(row_index, col_index, item)
 
     def apply_filter(self):
 

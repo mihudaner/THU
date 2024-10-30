@@ -1,7 +1,7 @@
-from main_viewer import  *
+from main_viewer import  MainWindow,Ui_MainWindow
 from utils import *
 from typing import cast
-from Cardpage.Two_widget_debug import DIOWidget,AIOWidget_ShowOne
+# from Cardpage.Two_widget_debug import DIOWidget,AIOWidget
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
 class PWindow(MainWindow):
     def __init__(self, parent=None):
@@ -30,9 +30,9 @@ class PWindow(MainWindow):
         self.ui.tab_4.setLayout(self.ui.tab4Layout)
 
 
-        # 添加DIO TAB
-        self.ui.DIOControlWidget = DIOWidget()
-        self.ui.tab4Layout.addWidget(self.ui.DIOControlWidget)
-        # 添加AIO TAB
-        self.ui.AIOControlWidget = AIOWidget_ShowOne()
-        self.ui.tabLayout.addWidget(self.ui.AIOControlWidget)
+        # # 添加DIO TAB
+        # self.ui.DIOControlWidget = DIOWidget()
+        # self.ui.tab4Layout.addWidget(self.ui.DIOControlWidget)
+        # # 添加AIO TAB
+        # self.ui.AIOControlWidget = AIOWidget()
+        # self.ui.tabLayout.addWidget(self.ui.AIOControlWidget)

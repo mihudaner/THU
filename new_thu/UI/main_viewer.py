@@ -37,24 +37,12 @@ class MainWindow(QMainWindow):
         dropdown_menu.addAction(self.ui.w_save_as)
         dropdown_menu.addAction(self.ui.w_quit)
 
-
-        # 设置路径环境
-        dropdown_menu_set = QMenu()
-        dropdown_menu_set.addAction(self.ui.action_apppath)
-        self.ui.action_set.setMenu(dropdown_menu_set)
-        self.ui.action_set.triggered.connect(self.show_dropdown_menu)
-        # 另存为
-        self.ui.action_apppath.triggered.connect(self.show_apppath)
-
-
         # self.ui.file_menu.setMenu(dropdown_menu)
         # 连接 QAction 的触发信号到菜单
         self.ui.file_menu.triggered.connect(lambda: dropdown_menu.exec_(self.ui.toolBar.mapToGlobal(self.ui.toolBar.rect().bottomLeft())))
         self.ui.w_quit.triggered.connect(QApplication.quit)
         self.ui.w_path.triggered.connect(self.select_database)
-
         self.ui.w_save.triggered.connect(self.saveAll)
-
         # 另存为
         self.ui.w_save_as.triggered.connect(self.save_as)
 
@@ -63,9 +51,7 @@ class MainWindow(QMainWindow):
         self.root = "../database"
         self.dataroot = osp.join(self.root, "数据库")
         self.projectroot = osp.join(self.root, "项目库")
-
         self.choosed_project = osp.join(self.projectroot, "项目一")
-
         self.kupath = None
         self.treeWidget.itemClicked.connect(self.on_item_clicked)  # Connect the itemClicked signal to a slot function
         self.treeWidget.itemDoubleClicked.connect(self.on_item_double_clicked)  # 双击信号
@@ -107,7 +93,6 @@ class MainWindow(QMainWindow):
         self.cx_styles = self.get_folder_names(path3)
 
         path4 = osp.join(self.dataroot, '模型库')
-
         self.mxgy_styles = self.get_folder_names(path4)
         path4_1 = osp.join(path4, self.mxgy_styles[0])
         self.mx_styles = self.get_folder_names(path4_1)
@@ -172,7 +157,6 @@ class MainWindow(QMainWindow):
 
     def save_as(self):
         dialog = SaveAsDialog(self)
-
         dialog.exec_()
     def filter(self, item):
         if item.text(0)=='程序库':
@@ -291,10 +275,8 @@ class MainWindow(QMainWindow):
                 cl_item = self._generate_item(None, "项目库", osp.join(directory, "项目库"), NodeType.NodeDir.value)
                 self.ui.treeWidget.addTopLevelItem(cl_item)
                 self.list_dir(cl_item, osp.join(directory, "项目库"))
-
-        elif parent.data(0, Qt.UserRole + 1) in ["具体模型", "具体项目"]:
-            pass
-
+        # elif parent.data(0, Qt.UserRole + 1) in ["具体模型", "具体项目"]:
+        #     pass
         else:
             for obj in os.listdir(directory):
                 tmp_path = osp.join(directory, obj)
@@ -318,12 +300,116 @@ class MainWindow(QMainWindow):
         item.setData(0, Qt.UserRole, path)
 
         if parent is not None:
-            if '目录' in name:
-                # 将 item 插入到父节点的第一个子节点位置
-                parent.insertChild(0, item)  # 插入到第一个位置
-                print("将 item 插入到父节点的第一个子节点位置")
+            if parent.data(0, Qt.UserRole + 1) == "具体项目":
+                # 设置插入顺序的优先级
+                order = {
+                    '类型及设备': 0,
+                    '材料及工艺': 1,
+                    '项目程序': 2,
+                    '熔覆监控': 3,
+                    '分析预测': 4,
+                }
+                insert_priority = order.get(name, None)
+                if insert_priority is not None:
+                    # 确定插入位置
+                    current_count = parent.childCount()
+                    inserted = False
+                    for i in range(current_count):
+                        current_child = parent.child(i)
+                        current_name = current_child.text(0)
+                        current_priority = order.get(current_name, float('inf'))
+
+                        if insert_priority < current_priority:
+                            parent.insertChild(i, item)
+                            inserted = True
+                            break
+                    if not inserted:
+                        parent.addChild(item)  # 如果没有合适的位置，添加到最后
+                else:
+                    parent.addChild(item)
+            elif parent.data(0, Qt.UserRole + 1) == "项目包含项" and parent.text(0) == "熔覆监控":
+                # 设置插入顺序的优先级
+                order = {
+                    '实时反馈': 0,
+                    '熔池状态': 1,
+                    '熔池温度': 2,
+                    '熔池流动': 3,
+                    '熔池尺寸': 4,
+                    '熔覆形貌': 5,
+                }
+                insert_priority = order.get(name, None)
+                if insert_priority is not None:
+                    # 确定插入位置
+                    current_count = parent.childCount()
+                    inserted = False
+                    for i in range(current_count):
+                        current_child = parent.child(i)
+                        current_name = current_child.text(0)
+                        current_priority = order.get(current_name, float('inf'))
+                        if insert_priority < current_priority:
+                            parent.insertChild(i, item)
+                            inserted = True
+                            break
+                    if not inserted:
+                        parent.addChild(item)  # 如果没有合适的位置，添加到最后
+                else:
+                    parent.addChild(item)
+            elif parent.data(0, Qt.UserRole + 1) == "项目包含项" and parent.text(0) == "分析预测":
+                # 设置插入顺序的优先级
+                order = {
+                    '熔池多相流': 0,
+                    '热力耦合': 1,
+                    'PINN': 2,
+                    'LBM': 3,
+                }
+                insert_priority = order.get(name, None)
+                if insert_priority is not None:
+                    # 确定插入位置
+                    current_count = parent.childCount()
+                    inserted = False
+                    for i in range(current_count):
+                        current_child = parent.child(i)
+                        current_name = current_child.text(0)
+                        current_priority = order.get(current_name, float('inf'))
+                        if insert_priority < current_priority:
+                            parent.insertChild(i, item)
+                            inserted = True
+                            break
+                    if not inserted:
+                        parent.addChild(item)  # 如果没有合适的位置，添加到最后
+                else:
+                    parent.addChild(item)
+            elif parent.data(0, Qt.UserRole + 1) == "设备库":
+                # 设置插入顺序的优先级
+                order = {
+                    '能量': 0,
+                    '质量': 1,
+                    '运动': 2,
+                    '激光头': 3,
+                    '气氛': 4,
+                    '冷却': 5,
+                    '监控': 6,
+                    '其他': 7,
+                }
+                insert_priority = order.get(name, None)
+                if insert_priority is not None:
+                    # 确定插入位置
+                    current_count = parent.childCount()
+                    inserted = False
+                    for i in range(current_count):
+                        current_child = parent.child(i)
+                        current_name = current_child.text(0)
+                        current_priority = order.get(current_name, float('inf'))
+                        if insert_priority < current_priority:
+                            parent.insertChild(i, item)
+                            inserted = True
+                            break
+                    if not inserted:
+                        parent.addChild(item)  # 如果没有合适的位置，添加到最后
+                else:
+                    parent.addChild(item)
             else:
-                parent.addChild(item)
+                parent.addChild(item)  # 如果不是"具体项目"，默认添加到最后
         else:
             self.treeWidget.addTopLevelItem(item)
 
@@ -331,7 +417,6 @@ class MainWindow(QMainWindow):
             item.setHidden(True)
 
         if item.parent() is None:  # 父节点为database
-
             if item.text(0) == "材料库":
                 item.setData(0, Qt.UserRole + 1, "材料库")
             elif item.text(0) == "设备库":
@@ -349,9 +434,7 @@ class MainWindow(QMainWindow):
                 item.setData(0, Qt.UserRole+1, "材料类型")
             elif item.parent().data(0, Qt.UserRole + 1) == "材料类型":
                 item.setData(0, Qt.UserRole + 1, "具体材料")
-
             elif item.parent().data(0, Qt.UserRole + 1) == "设备库":
-
                 item.setData(0, Qt.UserRole+1, "设备类型")
                 item.setExpanded(True)
             elif item.parent().data(0, Qt.UserRole + 1) == "设备类型":
@@ -378,6 +461,14 @@ class MainWindow(QMainWindow):
             elif item.parent().data(0, Qt.UserRole + 1) == "项目库":
                 item.setData(0, Qt.UserRole + 1, "具体项目")
                 item.setExpanded(True)
+            elif item.parent().data(0, Qt.UserRole + 1) == "具体项目":
+                item.setData(0, Qt.UserRole + 1, "项目包含项")
+                if item.text(0) in ["分析预测", "熔覆监控"]:
+                    item.setExpanded(True)
+            elif item.parent().data(0, Qt.UserRole + 1) == "项目包含项" and item.parent().text(0) == "熔覆监控":
+                item.setData(0, Qt.UserRole + 1, "熔覆监控")
+            elif item.parent().data(0, Qt.UserRole + 1) == "项目包含项" and item.parent().text(0) == "分析预测":
+                item.setData(0, Qt.UserRole + 1, "分析预测")
 
         # 设置图标路径
         if node_type == NodeType.NodeDir.value:
@@ -442,6 +533,23 @@ class MainWindow(QMainWindow):
             self.edit(item)
         elif item.data(0, Qt.UserRole + 1) == "具体工艺":
             self.edit(item)
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "实时反馈":
+            # item.data(0, Qt.UserRole)是当前节点的实际路径，设计函数时把item传进去来获得保存路径
+            # 你也可以设计函数，在里面根据item.text(0)来选择操作逻辑
+            pass
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池状态":
+            pass
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池温度":
+            pass
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池流动":
+            pass
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池尺寸":
+            pass
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔覆形貌":
+            pass
+        elif item.data(0, Qt.UserRole + 1) == "分析预测":
+            # 可以设计函数，在里面根据item.text(0)来选择操作逻辑 ['PINN','LBM',...]
+            pass
 
     #编辑
     def edit(self, item):
@@ -523,7 +631,6 @@ class MainWindow(QMainWindow):
 
     def rename(self, item):
         project_path = item.data(0, Qt.UserRole)
-
         item_style = item.data(0, Qt.UserRole + 1)
         name = item.text(0)
         parent = item.parent()
@@ -545,11 +652,9 @@ class MainWindow(QMainWindow):
                 item.setText(0, text0)
                 # 更新 item 中存储的路径
                 item.setData(0, Qt.UserRole, new_path)
-
                 print(f"Successfully renamed {project_path} to {new_path}")
             except OSError as e:
                 print(f"Error renaming {project_path} to {new_path}: {e}")
-
 
     def copy(self, item):
         parent = item.parent()
@@ -606,23 +711,6 @@ class MainWindow(QMainWindow):
         for index in range(item.childCount()):
             child_item = item.child(index)
             self.unfolder(child_item)  # 递归调用
-
-    def show_dropdown_menu(self):
-        # 获取工具栏的全局坐标
-        toolbar_rect = self.ui.toolBar.geometry()  # 获取工具栏的几何位置
-        global_pos = self.ui.toolBar.mapToGlobal(toolbar_rect.bottomLeft())  # 转换为全局坐标
-
-        # 根据 action_set 在工具栏中的位置调整菜单位置
-        action_pos = self.ui.toolBar.actionGeometry(self.ui.action_set)
-        global_action_pos = self.ui.toolBar.mapToGlobal(action_pos.bottomLeft())
-
-        # 显示下拉菜单
-        dropdown_menu_set = self.ui.action_set.menu()  # 获取菜单
-        dropdown_menu_set.exec_(global_action_pos)
-
-    def show_apppath(self):
-        # 获取工具栏的全局坐标
-        toolbar_rect = self.ui.toolBar.geometry()
 
 if __name__ == '__main__':
     import sys

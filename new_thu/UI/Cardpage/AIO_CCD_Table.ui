@@ -354,126 +354,62 @@ QTabBar::tab {
        <property name="title">
         <string>模拟量输入</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1">
+       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,1">
         <item>
          <layout class="QGridLayout" name="gridLayout">
           <item row="3" column="0">
-           <widget class="QCheckBox" name="checkBox_7">
-            <property name="styleSheet">
-             <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(0, 191, 255); /* 选中状态背景色 */
-}</string>
-            </property>
+           <widget class="QCheckBox" name="checkBox_6">
             <property name="text">
              <string>AI7</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QCheckBox" name="checkBox_8">
-            <property name="styleSheet">
-             <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(255, 69, 0); /* 选中状态背景色 */
-}</string>
-            </property>
+           <widget class="QCheckBox" name="checkBox_5">
             <property name="text">
              <string>AI8</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QCheckBox" name="checkBox_2">
-            <property name="styleSheet">
-             <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(50, 50, 50); /* 选中状态背景色 */
-}</string>
-            </property>
+           <widget class="QCheckBox" name="checkBox_4">
             <property name="text">
              <string>AI2</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="0" column="0">
-           <widget class="QCheckBox" name="checkBox_1">
-            <property name="styleSheet">
-             <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(98, 114, 165); /* 选中状态背景色 */
-}</string>
-            </property>
+           <widget class="QCheckBox" name="checkBox">
             <property name="text">
              <string>AI1</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QCheckBox" name="checkBox_3">
-            <property name="styleSheet">
-             <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(60, 179, 113); /* 选中状态背景色 */
-}</string>
-            </property>
+           <widget class="QCheckBox" name="checkBox_2">
             <property name="text">
              <string>AI3</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QCheckBox" name="checkBox_4">
-            <property name="styleSheet">
-             <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(255, 215, 0); /* 选中状态背景色 */
-}</string>
-            </property>
+           <widget class="QCheckBox" name="checkBox_3">
             <property name="text">
              <string>AI4</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="2" column="0">
-           <widget class="QCheckBox" name="checkBox_5">
-            <property name="styleSheet">
-             <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(75, 0, 130); /* 选中状态背景色 */
-}</string>
-            </property>
+           <widget class="QCheckBox" name="checkBox_7">
             <property name="text">
              <string>AI5</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QCheckBox" name="checkBox_6">
-            <property name="styleSheet">
-             <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(255, 105, 180); /* 选中状态背景色 */
-}</string>
-            </property>
+           <widget class="QCheckBox" name="checkBox_8">
             <property name="text">
              <string>AI6</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -490,6 +426,90 @@ QTabBar::tab {
           <property name="title">
            <string/>
           </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBox_plotcannel_1">
+          <item>
+           <property name="text">
+            <string>AD1_实时激光功率</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD2_激光功率</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD3_粉筒1送粉电压</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD4_粉筒2送粉电压</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD5_光斑电压</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD6_未定义</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD7_未定义</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD8_未定义</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD9_未定义</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD10_未定义</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD11_未定义</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD12_未定义</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD13_未定义</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD14_未定义</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD15_未定义</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AD16_未定义</string>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>
