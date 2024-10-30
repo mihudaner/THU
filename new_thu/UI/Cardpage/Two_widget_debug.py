@@ -17,9 +17,9 @@ import time
 # D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  .\DAM8888_widget.py .\DAM8888_widget.ui
 # pyside2-rcc ./icon/icon.qrc -o icon_rc.py
 from PySide2.QtWidgets import *
-from QplotWidget import RealTimePlotWidget
+from .QplotWidget import RealTimePlotWidget
 from QTui.CustomWidgets.Cardpage import DIOwidget, AIOwidget
-import AIO_CCD_Table
+from .AIO_CCD_Table import Ui_Form as AIO_CCD_Table
 import card.DAM8888_dll as dll
 import sys
 import threading
@@ -28,6 +28,7 @@ import numpy as np
 DEBUG = True
 global PlotBuffer
 PlotBuffer = np.zeros((8, 500))
+Checked_AI = np.zeros(8)
 global DIOWindow_widgts
 global AIOWindow_widgts
 ai = [0, 500, 10000, 2000, 5000, 8888, 7777, 2222]
@@ -61,7 +62,16 @@ class AIINThread(threading.Thread):
 
             waveview = getattr(AIOWindow_widgts.widgets, f"waveview_{1}")
             DIOWindow_widgts.read_AI_state()
-            waveview.update_data(PlotBuffer)
+
+            for i in range(8):
+
+                ckbox = getattr(AIOWindow_widgts.widgets, f"checkBox_{i+1}")
+                if ckbox.isChecked():
+                    Checked_AI[i] = 1
+                else:
+                    Checked_AI[i] = 0
+
+            waveview.update_data(PlotBuffer, Checked_AI)
 
 class DIOWidget(QWidget):
 
@@ -363,7 +373,7 @@ class AIOWidget_ShowOne(QWidget):
         self.SampleNumber = None
         self.AD_channe_number = None
 
-        self.ui = AIO_CCD_Table.Ui_Form()
+        self.ui = AIO_CCD_Table()
         self.ui.setupUi(self)
         self.widgets = self.ui
         global AIOWindow_widgts

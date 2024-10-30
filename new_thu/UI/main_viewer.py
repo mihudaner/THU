@@ -36,6 +36,14 @@ class MainWindow(QMainWindow):
         dropdown_menu.addAction(self.ui.w_save_as)
         dropdown_menu.addAction(self.ui.w_quit)
 
+        # 设置路径环境
+        dropdown_menu_set = QMenu()
+        dropdown_menu_set.addAction(self.ui.action_apppath)
+        self.ui.action_set.setMenu(dropdown_menu_set)
+        self.ui.action_set.triggered.connect(self.show_dropdown_menu)
+        # 另存为
+        self.ui.action_apppath.triggered.connect(self.show_apppath)
+
         # self.ui.file_menu.setMenu(dropdown_menu)
         # 连接 QAction 的触发信号到菜单
         self.ui.file_menu.triggered.connect(lambda: dropdown_menu.exec_(self.ui.toolBar.mapToGlobal(self.ui.toolBar.rect().bottomLeft())))
@@ -472,6 +480,22 @@ class MainWindow(QMainWindow):
             child_item = item.child(index)
             self.unfolder(child_item)  # 递归调用
 
+    def show_dropdown_menu(self):
+        # 获取工具栏的全局坐标
+        toolbar_rect = self.ui.toolBar.geometry()  # 获取工具栏的几何位置
+        global_pos = self.ui.toolBar.mapToGlobal(toolbar_rect.bottomLeft())  # 转换为全局坐标
+
+        # 根据 action_set 在工具栏中的位置调整菜单位置
+        action_pos = self.ui.toolBar.actionGeometry(self.ui.action_set)
+        global_action_pos = self.ui.toolBar.mapToGlobal(action_pos.bottomLeft())
+
+        # 显示下拉菜单
+        dropdown_menu_set = self.ui.action_set.menu()  # 获取菜单
+        dropdown_menu_set.exec_(global_action_pos)
+
+    def show_apppath(self):
+        # 获取工具栏的全局坐标
+        toolbar_rect = self.ui.toolBar.geometry()
 
 if __name__ == '__main__':
     import sys

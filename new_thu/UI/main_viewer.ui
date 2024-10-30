@@ -188,6 +188,7 @@ background-color: rgb(232, 232, 232);</string>
    <addaction name="mx_open"/>
    <addaction name="xm_open"/>
    <addaction name="action_fresh"/>
+   <addaction name="action_set"/>
   </widget>
   <action name="w_save">
    <property name="text">
@@ -325,6 +326,16 @@ background-color: rgb(232, 232, 232);</string>
   <action name="file_menu">
    <property name="text">
     <string>文件</string>
+   </property>
+  </action>
+  <action name="action_set">
+   <property name="text">
+    <string>设置</string>
+   </property>
+  </action>
+  <action name="action_apppath">
+   <property name="text">
+    <string>环境变量</string>
    </property>
   </action>
  </widget>
