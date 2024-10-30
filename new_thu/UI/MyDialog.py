@@ -6,7 +6,7 @@ import subprocess
 import numpy as np
 import openpyxl
 from os import path as osp
-from PySide2.QtGui import QIcon, QDoubleValidator, QFont
+from PySide2.QtGui import QIcon, QFont
 import pandas as pd
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import (
@@ -15,10 +15,8 @@ from PySide2.QtWidgets import (
     QFormLayout, QTextEdit, QMessageBox, QTreeWidgetItem, QFileDialog, QSpinBox, QSpacerItem
 )
 from openpyxl.utils import get_column_letter
-
-
 class MaterialDialog(QDialog):
-    def __init__(self, pitem, absolute_path=None, note=None):
+    def __init__(self, item):
         super().__init__()
         # 设置窗口图标
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
@@ -30,36 +28,54 @@ class MaterialDialog(QDialog):
         font = QFont()
         font.setPointSize(10)  # 设置字体大小为10
         self.setFont(font)
-
-        self.absolute_path = pitem.data(0, Qt.UserRole)
-        self.pitem = pitem
-        self.note = note
+        self.note = "create"
+        self.absolute_path = item.data(0, Qt.UserRole)
+        self.item = item
+        type = self.item.text(0)
+        if item.data(0, Qt.UserRole + 1) == "具体材料":
+            self.note = "edit"
+            self.parent = item.parent()
         self.setWindowTitle("编辑材料")
-        self.setFixedSize(700, 600)
+        self.setFixedSize(750, 650)
         # 主布局
-        layout = QVBoxLayout()
-
+        self.layout = QVBoxLayout()
+        self.layout.setSpacing(15)
         # 名称和类型
         form_layout = QFormLayout()
         self.name_input = QLineEdit()
         self.type_combo = QLineEdit()
-        type = pitem.text(0)
+
         self.type_combo.setText(type)
         self.type_combo.setReadOnly(True)
         form_layout.addRow(QLabel("名称:"), self.name_input)
         form_layout.addRow(QLabel("类型:"), self.type_combo)
         # 添加到布局中
-        layout.addLayout(form_layout)
+        self.layout.addLayout(form_layout)
 
         # 材料成分
         self.composition_table = QTableWidget(2, 10)
         self.composition_table.setVerticalHeaderLabels(["元素", "Wt.%"])
-        layout.addWidget(QLabel("材料成分"))
-        layout.addWidget(self.composition_table)
+        self.layout.addWidget(QLabel("材料成分"))
+        self.layout.addWidget(self.composition_table)
+        # 设置行高和最大高度
+        for row in range(self.composition_table.rowCount()):
+            self.composition_table.setRowHeight(row, 40)  # 设置行高为25像素
+        self.composition_table.setMaximumHeight(140)  # 设置最大高度为60像素
+        # 设置表格的边框和网格线
+        self.composition_table.setStyleSheet("""
+            QTableWidget {
+                border: 1px solid black;  /* 设置表格外边框 */
+                gridline-color: gray;     /* 设置网格线颜色 */
+            }
+            QTableWidget::item {
+                border: 1px solid lightgray;  /* 设置单元格边框 */
+            }
+        """)
 
-        hlayout = QHBoxLayout()
+        self.cl_layout = QHBoxLayout()
         # 材料属性列表
         self.property_list = QListWidget()
+        self.property_list.setFixedWidth(200)
         self.property_list.addItems([
             "密度", "比热", "热导率", "电阻率", "热膨胀系数", "潜热", "弹性", "塑性"
         ])
@@ -106,24 +122,25 @@ class MaterialDialog(QDialog):
                 temp_table = QTableWidget(100, 2)
                 temp_table.setHorizontalHeaderLabels(["温度 (K)", f"{unit}"])
                 for row in range(100):
-                    # Create QLineEdit for temperature
-                    temp_line_edit = QLineEdit()
-                    temp_validator = QDoubleValidator()  # Allow only double values
-                    temp_line_edit.setValidator(temp_validator)
-
-                    # Create QLineEdit for other attributes
-                    other_line_edit = QLineEdit()
-
-                    # Set QLineEdit as cell widget
-                    temp_table.setCellWidget(row, 0, temp_line_edit)  # 温度 (K)
-                    temp_table.setCellWidget(row, 1, other_line_edit)  # 其他属性值
+                    temp_table.setItem(row, 0, QTableWidgetItem(""))   # 温度 (K)
+                    temp_table.setItem(row, 1, QTableWidgetItem(""))   # 其他属性值
 
                 self.temp_tables[name] = temp_table
 
         # 默认显示第一个属性的温度表
         self.current_property = self.property_list.item(0).text()
         self.temp_table = self.temp_tables[self.current_property]
-        if note == "edit":
+        # 设置表格的边框和网格线
+        self.temp_table.setStyleSheet("""
+                            QTableWidget {
+                                border: 1px solid black;  /* 设置表格外边框 */
+                                gridline-color: gray;     /* 设置网格线颜色 */
+                            }
+                            QTableWidget::item {
+                                border: 1px solid lightgray;  /* 设置单元格边框 */
+                            }
+                        """)
+        if self.note == "edit":
             self.initdata()
 
         # 当选择材料属性时，更新对应的温度表
@@ -132,10 +149,10 @@ class MaterialDialog(QDialog):
         # layout.addLayout(btn_layout)
 
         # 温度和属性值表
-        layout.addWidget(QLabel("材料属性"))
-        hlayout.addWidget(self.property_list)
-        hlayout.addWidget(self.temp_table)
-        layout.addLayout(hlayout)
+        self.layout.addWidget(QLabel("材料属性"))
+        self.cl_layout.addWidget(self.property_list)
+        self.cl_layout.addWidget(self.temp_table)
+        self.layout.addLayout(self.cl_layout)
         # 确定和取消按钮
         button_layout = QHBoxLayout()
         ok_button = QPushButton("确定")
@@ -144,14 +161,14 @@ class MaterialDialog(QDialog):
         button_layout.addWidget(ok_button)
         button_layout.addWidget(cancel_button)
 
-        layout.addLayout(button_layout)
-        self.setLayout(layout)
+        self.layout.addLayout(button_layout)
+        self.setLayout(self.layout)
 
         # 连接按钮功能
-        ok_button.clicked.connect(lambda: self.accept(pitem))
+        ok_button.clicked.connect(self.accept)
         cancel_button.clicked.connect(self.reject)
 
-    def accept(self, pitem):
+    def accept(self):
         # 获取材料名称
         material_name = self.name_input.text()
         if not material_name:
@@ -193,7 +210,7 @@ class MaterialDialog(QDialog):
             name_type_df.to_excel(writer, sheet_name='名称-类型-成分', index=False, header=False)
 
             # 将 composition_df 的数据写入，从第三行开始
-            composition_df.to_excel(writer, sheet_name='名称-类型-成分', index=False, startrow=3)
+            composition_df.to_excel(writer, sheet_name='名称-类型-成分', index=False, startrow=1)
 
             # 获取工作表对象
             worksheet = writer.sheets['名称-类型-成分']
@@ -212,13 +229,9 @@ class MaterialDialog(QDialog):
                 for row in range(temp_table.rowCount()):
                     row_data = []
                     for col in range(temp_table.columnCount()):
-                        if name in ["潜热", "弹性", "塑性"]:
-                            item = temp_table.item(row, col)
-                            row_data.append(item.text() if item else "")
-                        else:
-                            line_edit = temp_table.cellWidget(row, col)
-                            row_data.append(line_edit.text() if line_edit is not None else "")
-
+                        # if name in ["潜热", "弹性", "塑性"]:
+                        item = temp_table.item(row, col)
+                        row_data.append(item.text() if item else "")
                     temp_data.append(row_data)
 
                 # 为不同属性创建 DataFrame
@@ -248,7 +261,7 @@ class MaterialDialog(QDialog):
         if self.note == 'edit':
             pass
         else:
-            new_item = QTreeWidgetItem(pitem)  # 只传入父项
+            new_item = QTreeWidgetItem(self.item)  # 只传入父项
             new_item.setText(0, material_name)
             new_item.setToolTip(0, osp.join(self.absolute_path, f'{material_name}.xlsx'))
             print(f'新建节点absolute_path：{self.absolute_path}')
@@ -264,52 +277,34 @@ class MaterialDialog(QDialog):
         self.workbook = openpyxl.load_workbook(self.absolute_path)  # 替换为您的文件路径
         # 选择工作表
         sheet1 = self.workbook['名称-类型-成分']
-        name = self.pitem.text(0)
-
+        name = self.item.text(0)
         self.name_input.setText(name)
         self.name_input.setReadOnly(True)  # 使材料名只读
-        cltype = self.pitem.parent().text(0)
-        self.type_combo.setText(cltype)
+        type = self.parent.text(0)
+        self.type_combo.setText(type)
         self.type_combo.setReadOnly(True)
 
         # 读取材料类型和成分并填入self.composition_table
-        for row in range(5, 15):  # 从 A5 到 A14
+        for row in range(3, 13):  # 从 A5 到 A14
             A = sheet1.cell(row=row, column=1).value  # 读取 A 列
             B = sheet1.cell(row=row, column=2).value  # 读取 B 列
             A_value = str(A) if A is not None else ''
             B_value = str(B) if B is not None else ''
             # 将数据填充到 QTableWidget
-            self.composition_table.setItem(0, row - 5, QTableWidgetItem(A_value))  # 设置元素
-            self.composition_table.setItem(1, row - 5, QTableWidgetItem(B_value))  # 设置 Wt.%
+            self.composition_table.setItem(0, row - 3, QTableWidgetItem(A_value))  # 设置元素
+            self.composition_table.setItem(1, row - 3, QTableWidgetItem(B_value))  # 设置 Wt.%
 
         sheets = {}
         for property_name in self.property_list.findItems("*", Qt.MatchWildcard):
             name = property_name.text()
             sheets[name] = self.workbook[name]  # 正确使用字典
 
-            if name == "潜热":
-                self.load_data_to_table(sheets[name], self.temp_tables[name], range(2, 12))
-            elif name in ["弹性", "塑性"]:
+            # if name == "潜热":
+            #     self.load_data_to_table(sheets[name], self.temp_tables[name], range(2, 12))
+            if name in ["潜热", "弹性", "塑性"]:
                 self.load_data_to_table(sheets[name], self.temp_tables[name], range(2, 12))
             else:
-                for row in range(2, 102):
-                    # A = sheets[name].cell(row=row, column=1).value
-                    # B = sheets[name].cell(row=row, column=2).value
-                    #
-                    # self.temp_tables[name].setItem(row - 2, 0, QTableWidgetItem(A))
-                    # self.temp_tables[name].setItem(row - 2, 1, QTableWidgetItem(B))
-
-                    A = sheets[name].cell(row=row, column=1).value
-                    B = sheets[name].cell(row=row, column=2).value
-
-                    # 获取 QLineEdit 并设置其值
-                    temp_line_edit = self.temp_tables[name].cellWidget(row - 2, 0)  # 获取温度的 QLineEdit
-                    other_line_edit = self.temp_tables[name].cellWidget(row - 2, 1)  # 获取其他属性的 QLineEdit
-
-                    if A is not None:
-                        temp_line_edit.setText(str(A))  # 设置温度 (K)
-                    if B is not None:
-                        other_line_edit.setText(str(B))  # 设置其他属性值
+                self.load_data_to_table(sheets[name], self.temp_tables[name], range(2, 102))
 
     def load_data_to_table(self, sheet, temp_table, row_range):  # 添加 self 参数
         for row in row_range:
@@ -332,13 +327,22 @@ class MaterialDialog(QDialog):
         if current_item:
             self.current_property = current_item.text()
             # 更新显示的 temp_table
-            self.layout().itemAt(5).widget().setParent(None)  # 移除旧的temp_table
+            self.cl_layout.itemAt(1).widget().setParent(None)  # 移除旧的temp_table
             self.temp_table = self.temp_tables[self.current_property]
-            self.layout().insertWidget(5, self.temp_table)  # 在相同位置添加新的temp_table
-
+            # 设置表格的边框和网格线
+            self.temp_table.setStyleSheet("""
+                                QTableWidget {
+                                    border: 1px solid black;  /* 设置表格外边框 */
+                                    gridline-color: gray;     /* 设置网格线颜色 */
+                                }
+                                QTableWidget::item {
+                                    border: 1px solid lightgray;  /* 设置单元格边框 */
+                                }
+                            """)
+            self.cl_layout.insertWidget(1, self.temp_table)  # 在相同位置添加新的temp_table
 
 class EquipmentDialog(QDialog):
-    def __init__(self, item):
+    def __init__(self, mainWindo, item):
         super().__init__()
         # 设置窗口图标
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
@@ -419,7 +423,8 @@ class EquipmentDialog(QDialog):
         self.initData()
 
     def initData(self):
-        filepath = osp.join(self.item.data(0, Qt.UserRole), self.name_input.text())
+        # filepath = osp.join(self.item.data(0, Qt.UserRole), self.name_input.text())
+        filepath = osp.join(self.item.data(0, Qt.UserRole), "设备描述")
         filepath = f"{filepath}.txt"  # 添加文件扩展名
         # 确保文件存在
         if not osp.exists(filepath):
@@ -454,7 +459,8 @@ class EquipmentDialog(QDialog):
 
     def accept(self):
         description = self.description_input.toPlainText()
-        file = osp.join(self.item.data(0, Qt.UserRole), self.name_input.text())
+        # file = osp.join(self.item.data(0, Qt.UserRole), self.name_input.text())
+        file = osp.join(self.item.data(0, Qt.UserRole), "设备描述")
         filepath = f"{file}.txt"  # 添加文件扩展名
         try:
             with open(filepath, 'w', encoding='utf-8') as file:  # 以写入模式打开文件
@@ -534,9 +540,8 @@ class EquipmentDialog(QDialog):
         for item in selected_items:
             self.file_list.takeItem(self.file_list.row(item))  # 从列表中删除选中的项
 
-
 class ProcessDialog(QDialog):
-    def __init__(self, item):
+    def __init__(self, mainWindow, item):
         super().__init__()
         self.item = item
         self.path = item.data(0, Qt.UserRole)
@@ -564,10 +569,12 @@ class ProcessDialog(QDialog):
         form_layout2.setSpacing(10)  # 设置表单布局中控件间隙
 
         # 创建输入字段
-        self.material_edit = QLineEdit()
+        self.material_edit = QComboBox()
+        self.material_edit.addItems(mainWindow.info_dict["具体材料"])
         form_layout1.addRow("熔覆材料", self.material_edit)
 
-        self.base_material_edit = QLineEdit()
+        self.base_material_edit = QComboBox()
+        self.base_material_edit.addItems(mainWindow.info_dict["具体材料"])
         form_layout2.addRow("基板材料", self.base_material_edit)
 
         self.fmd_edit = QDoubleSpinBox()
@@ -673,8 +680,8 @@ class ProcessDialog(QDialog):
                 data = json.load(f)
             # 填入控件
             if self.item.parent().text(0) == "送粉":
-                self.material_edit.setText(data.get("熔覆材料", ""))
-                self.base_material_edit.setText(data.get("基板材料", ""))
+                self.material_edit.setCurrentText(data.get("熔覆材料", ""))
+                self.base_material_edit.setCurrentText(data.get("基板材料", ""))
                 self.fmd_edit.setValue(data.get("粉末粒径(μm)", 0))
                 self.bansize_edit.setValue(data.get("基板尺寸(mm)", 0))
                 self.laser_power_edit.setValue(data.get("激光功率(W)", 0))
@@ -690,8 +697,8 @@ class ProcessDialog(QDialog):
                 self.protect_gas_flow_edit.setValue(data.get("保护气及流量(L/min)", 0))
                 self.carrier_gas_flow_edit.setValue(data.get("载气及流量(L/min)", 0))
             else:
-                self.material_edit.setText(data.get("熔覆材料", ""))
-                self.base_material_edit.setText(data.get("基板材料", ""))
+                self.material_edit.setCurrentText(data.get("熔覆材料", ""))
+                self.base_material_edit.setCurrentText(data.get("基板材料", ""))
                 self.scd_edit.setValue(data.get("丝材直径(mm)", 0))
                 self.bansize_edit.setValue(data.get("基板尺寸(mm)", 0))
                 self.laser_power_edit.setValue(data.get("激光功率(W)", 0))
@@ -708,8 +715,8 @@ class ProcessDialog(QDialog):
     def save_to_json(self):
         if self.item.parent().text(0) == "送粉":
             data = {
-                "熔覆材料": self.material_edit.text(),
-                "基板材料": self.base_material_edit.text(),
+                "熔覆材料": self.material_edit.currentText(),
+                "基板材料": self.base_material_edit.currentText(),
                 "粉末粒径(μm)": self.fmd_edit.value(),
                 "基板尺寸(mm)": self.bansize_edit.value(),
                 "激光功率(W)": self.laser_power_edit.value(),
@@ -727,8 +734,8 @@ class ProcessDialog(QDialog):
             }
         else:
             data = {
-                "熔覆材料": self.material_edit.text(),
-                "基板材料": self.base_material_edit.text(),
+                "熔覆材料": self.material_edit.currentText(),
+                "基板材料": self.base_material_edit.currentText(),
                 "丝材直径(mm)": self.scd_edit.value(),
                 "基板尺寸(mm)": self.bansize_edit.value(),
                 "激光功率(W)": self.laser_power_edit.value(),
@@ -745,13 +752,12 @@ class ProcessDialog(QDialog):
                 json.dump(data, f, ensure_ascii=False, indent=4)
             self.accept()
 
-
 class ProgramDialog(QDialog):
-    def __init__(self, item):
+    def __init__(self, mainWindow, item):
         super().__init__()
         self.setWindowTitle("编辑程序")
         self.setFixedSize(600, 350)  # (w,h)
-
+        self.info_dict = mainWindow.info_dict
         # 设置窗口图标
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
         if os.path.exists(icon_path):
@@ -810,9 +816,9 @@ class ProgramDialog(QDialog):
         # vlayout2.addRow("激光功率(W)", self.laser_power_edit)
 
         # 使用 QDoubleSpinBox 只允许输入浮点数
-        self.melting_speed_edit = QDoubleSpinBox()
+        self.melting_speed_edit = QSpinBox()
         self.melting_speed_edit.setRange(0, 100)  # 设置范围
-        self.melting_speed_edit.setDecimals(2)  # 设置小数位数
+        # self.melting_speed_edit.setDecimals(2)  # 设置小数位数
         # 创建 QLabel 并设置单位
         unit_label = QLabel("(mm/s)")
         unit_label.setFixedWidth(52)
@@ -821,8 +827,14 @@ class ProgramDialog(QDialog):
         rf_layout.addWidget(self.melting_speed_edit)  # 添加 QSpinBox
         rf_layout.addWidget(unit_label)  # 添加单位标签
         # 将水平布局添加到表单布局
-        vlayout2.addRow("熔融速度", rf_layout)  # 修改这里的标签
-        # vlayout2.addRow("熔融速度(mm/s)", self.melting_speed_edit)
+        vlayout2.addRow("熔覆速度", rf_layout)  # 修改这里的标签
+        # vlayout2.addRow("熔覆速度(mm/s)", self.melting_speed_edit)
+
+        # 连接信号
+        self.layer_count_edit.valueChanged.connect(self.update_name)
+        self.path_count_edit.valueChanged.connect(self.update_name)
+        self.laser_power_edit.valueChanged.connect(self.update_name)
+        self.melting_speed_edit.valueChanged.connect(self.update_name)
 
         layout1.addLayout(vlayout1)
         layout1.addLayout(vlayout2)
@@ -863,6 +875,13 @@ class ProgramDialog(QDialog):
         self.ok_button.clicked.connect(self.save_to_json)
         self.cancel_button.clicked.connect(self.reject)
 
+    def update_name(self):
+        # 获取当前值并拼接
+        layer_count = self.layer_count_edit.value()  # 获取层数
+        dao_count = self.layer_count_edit.value()  # 获取道数
+        laser_power = self.laser_power_edit.value()
+        melting_speed = self.melting_speed_edit.value()
+        self.name.setText(f"L{layer_count}P{dao_count}-{laser_power}-{melting_speed}")  # 拼接并设置到名称中
     def add_file(self):
         # 打开文件对话框选择文件
         options = QFileDialog.Options()
@@ -891,7 +910,8 @@ class ProgramDialog(QDialog):
         }
 
         # 设置文件名和路径
-        name = f'{self.name.text()}.json'
+        # name = f'{self.name.text()}.json'
+        name = '程序描述.json'
         dir_path = os.path.join(self.path, self.name.text())  # 目录路径
         file_path = os.path.join(dir_path, name)  # 完整文件路径
         # 创建目录（如果不存在的话）
@@ -914,13 +934,12 @@ class ProgramDialog(QDialog):
                     print(f"Error copying {file_path}: {e}")
         self.accept()  # 关闭对话框
 
-
 class ModelDialog(QDialog):
-    def __init__(self, item):
+    def __init__(self, mainWindow, item):
         super().__init__()
         self.setWindowTitle("编辑模型")
         self.setFixedSize(600, 400)
-
+        self.info_dict = mainWindow.info_dict
         # 设置窗口图标
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
         if os.path.exists(icon_path):
@@ -931,9 +950,12 @@ class ModelDialog(QDialog):
         font = QFont()
         font.setPointSize(10)  # 设置字体大小为10
         self.setFont(font)
-
+        self.note = "新建"
         self.item = item
-        self.path = item.data(0, Qt.UserRole)
+        if item.data(0, Qt.UserRole + 1) == "具体模型":
+            self.note = "编辑"
+            self.item = item.parent()
+        self.path = self.item.data(0, Qt.UserRole)
         # 创建主布局
         layout = QVBoxLayout()
         layout.setSpacing(15)
@@ -951,16 +973,17 @@ class ModelDialog(QDialog):
         vlayout1.addRow("名称", self.name_edit)
 
         self.gy_combo = QLineEdit()
-        self.gy_combo.setText(item.parent().text(0))
+        self.gy_combo.setText(self.item.parent().text(0))
         self.gy_combo.setReadOnly(True)
         vlayout2.addRow("工艺类型", self.gy_combo)
 
         self.type_combo = QLineEdit()
-        self.type_combo.setText(item.text(0))
+        self.type_combo.setText(self.item.text(0))
         self.type_combo.setReadOnly(True)
         vlayout1.addRow("模型类型", self.type_combo)
 
-        self.material_edit = QLineEdit()
+        self.material_edit = QComboBox()
+        self.material_edit.addItems(self.info_dict["具体材料"])
         vlayout2.addRow("熔覆材料", self.material_edit)
 
         self.laser_efficiency_edit = QSpinBox()
@@ -976,8 +999,8 @@ class ModelDialog(QDialog):
         # 将水平布局添加到表单布局
         vlayout1.addRow("激光功率", jg_layout)  # 修改这里的标签
 
-
-        self.base_material_combo = QLineEdit()
+        self.base_material_combo = QComboBox()
+        self.base_material_combo.addItems(self.info_dict["具体材料"])
         vlayout2.addRow("基板材料", self.base_material_combo)
 
         self.melting_speed_edit = QDoubleSpinBox()
@@ -991,8 +1014,8 @@ class ModelDialog(QDialog):
         rf_layout.addWidget(self.melting_speed_edit)  # 添加 QSpinBox
         rf_layout.addWidget(unit_label1)  # 添加单位标签
         # 将水平布局添加到表单布局
-        vlayout1.addRow("熔融速度", rf_layout)  # 修改这里的标签
-        # vlayout1.addRow("熔融速度(mm/s)", self.melting_speed_edit)
+        vlayout1.addRow("熔覆速度", rf_layout)  # 修改这里的标签
+        # vlayout1.addRow("熔覆速度(mm/s)", self.melting_speed_edit)
 
         self.melting_shape_edit = QLineEdit()
         vlayout2.addRow("熔覆形式", self.melting_shape_edit)
@@ -1061,8 +1084,8 @@ class ModelDialog(QDialog):
             "名称": self.name_edit.text(),
             "工艺类型": self.gy_combo.text(),
             "模型类型": self.type_combo.text(),
-            "熔覆材料": self.material_edit.text(),
-            "基板材料": self.base_material_combo.text(),
+            "熔覆材料": self.material_edit.currentText(),
+            "基板材料": self.base_material_combo.currentText(),
             "激光功率(W)": self.laser_efficiency_edit.value(),  # 确保为整数
             "熔覆速度(mm/s)": self.melting_speed_edit.value(),
             "熔覆形式": self.melting_shape_edit.text(),
@@ -1094,10 +1117,10 @@ class ModelDialog(QDialog):
                     print(f"Error copying {file_path}: {e}")
         self.accept()  # 关闭对话框
 
-
 class FilterCX(QDialog):
-    def __init__(self, item):
+    def __init__(self, mainWindow, item):
         super().__init__()
+        self.info_dict = mainWindow.info_dict
         self.path = item.data(0, Qt.UserRole)
         # 设置窗口图标
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
@@ -1130,24 +1153,28 @@ class FilterCX(QDialog):
         self.filter_type.addItems(["全部", "送粉", "送丝"])
         # 层数
         self.filter_layer_min = QSpinBox()
-        self.filter_layer_min.setRange(1, 10)
+        self.filter_layer_min.setRange(1, 100)
         self.filter_layer_max = QSpinBox()
-        self.filter_layer_max.setRange(1, 10)
+        self.filter_layer_max.setRange(1, 100)
+        self.filter_layer_max.setValue(100)
         # 道数
         self.filter_dao_min = QSpinBox()
-        self.filter_dao_min.setRange(1, 10)
+        self.filter_dao_min.setRange(1, 100)
         self.filter_dao_max = QSpinBox()
-        self.filter_dao_max.setRange(1, 10)
+        self.filter_dao_max.setRange(1, 100)
+        self.filter_dao_max.setValue(100)
         # 功率
         self.filter_power_min = QSpinBox()
         self.filter_power_min.setRange(0, 10000)
         self.filter_power_max = QSpinBox()
         self.filter_power_max.setRange(0, 10000)
+        self.filter_power_max.setValue(10000)
         # 熔覆速度
         self.filter_rfsd_min = QSpinBox()
-        self.filter_rfsd_min.setRange(0, 1000)
+        self.filter_rfsd_min.setRange(0, 100)
         self.filter_rfsd_max = QSpinBox()
-        self.filter_rfsd_max.setRange(0, 1000)
+        self.filter_rfsd_max.setRange(0, 100)
+        self.filter_rfsd_max.setValue(100)
 
         filter_button = QPushButton("筛选")
         filter_button.clicked.connect(self.apply_filter)
@@ -1303,11 +1330,11 @@ class FilterCX(QDialog):
 
         self.populate_table(filtered_data)
 
-
 class FilterMX(QDialog):
-    def __init__(self, item):
+    def __init__(self, mainWindow, item):
         super().__init__()
         self.path = item.data(0, Qt.UserRole)
+        self.info_dict = mainWindow.info_dict
         # 设置窗口图标
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
         if os.path.exists(icon_path):
@@ -1351,18 +1378,24 @@ class FilterMX(QDialog):
         self.filter_type2.addItem("PINN")
         self.filter_type2.addItem("LBM")  # 其他类型可以根据需要添加
 
-        self.filter_material = QLineEdit()  # 熔覆材料
-        self.filter_substrate = QLineEdit()  # 基板材料
+        self.filter_material = QComboBox()  # 熔覆材料
+        self.filter_material.addItem("全部")
+        self.filter_material.addItems(self.info_dict["具体材料"])
+        self.filter_substrate = QComboBox()  # 基板材料
+        self.filter_substrate.addItem("全部")
+        self.filter_substrate.addItems(self.info_dict["具体材料"])
         # 激光功率
         self.filter_jg_min = QSpinBox()
         self.filter_jg_min.setRange(0, 10000)
         self.filter_jg_max = QSpinBox()
         self.filter_jg_max.setRange(0, 10000)
+        self.filter_jg_max.setValue(10000)  # 设置默认值为最大值
         # 熔覆速度
         self.filter_speed_min = QSpinBox()
         self.filter_speed_min.setRange(0, 100)
         self.filter_speed_max = QSpinBox()
         self.filter_speed_max.setRange(0, 100)
+        self.filter_speed_max.setValue(10000)  # 设置默认值为最大值
 
         filter_button = QPushButton("筛选")
         filter_button.clicked.connect(self.apply_filter)
@@ -1485,8 +1518,8 @@ class FilterMX(QDialog):
     def apply_filter(self):
         type_filter = self.filter_type.currentText()
         type2_filter = self.filter_type2.currentText()
-        material_filter = self.filter_material.text().strip().lower()
-        substrate_filter = self.filter_substrate.text().strip().lower()
+        material_filter = self.filter_material.currentText()
+        substrate_filter = self.filter_substrate.currentText()
         jg_min = self.filter_jg_min.value()
         jg_max = self.filter_jg_max.value()
         speed_min = self.filter_speed_min.value()
@@ -1497,8 +1530,8 @@ class FilterMX(QDialog):
         for item in self.data:
             type_matches = (type_filter == "全部" or item["工艺类型"] == type_filter)
             type2_matches = (type2_filter == "全部" or item["模型类型"] == type2_filter)
-            material_matches = material_filter in item["熔覆材料"].lower()
-            substrate_matches = substrate_filter in item["基板材料"].lower()
+            material_matches = (material_filter == "全部" or item["熔覆材料"] == material_filter)
+            substrate_matches = (substrate_filter == "全部" or item["基板材料"] == substrate_filter)
             jg_matches = (jg_min <= item["激光功率(W)"] <= jg_max)
             speed_matches = (speed_min <= item["熔覆速度(mm/s)"] <= speed_max)
 
@@ -1507,9 +1540,8 @@ class FilterMX(QDialog):
 
         self.populate_table(filtered_data)
 
-
 class SaveAsDialog(QDialog):
-    def __init__(self, root):
+    def __init__(self, mainWindows):
         super().__init__()
         # 设置窗口图标
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
@@ -1517,7 +1549,10 @@ class SaveAsDialog(QDialog):
             self.setWindowIcon(QIcon(icon_path))
         else:
             print(f"Icon file not found: {icon_path}")
-        self.datapath = osp.join(root, '数据库')
+        self.root = mainWindows.root
+        self.datapath = osp.join(self.root, '数据库')
+        self.projectpath = osp.join(self.root, '项目库')
+        self.pro_list = self.get_folder_names(self.projectpath)
         self.savepath = './'
         self.setWindowTitle("数据库另存")
         self.setFixedSize(400, 300)  # 设置窗口大小
@@ -1558,9 +1593,10 @@ class SaveAsDialog(QDialog):
         layout.addItem(QSpacerItem(70, 0, QSizePolicy.Fixed, QSizePolicy.Expanding))
         # layout.addLayout(right_layout)
         # layout.addLayout(left_layout)
+
         # 创建项目库列表框
         self.list_widget = QListWidget()
-        self.list_widget.addItems(["项目1", "项目2", "项目3"])
+        self.list_widget.addItems(self.pro_list)
         self.list_widget.setSelectionMode(QListWidget.MultiSelection)
 
         right_layout = QVBoxLayout()
@@ -1585,18 +1621,37 @@ class SaveAsDialog(QDialog):
         confirm_button.clicked.connect(self.accept)
         cancel_button.clicked.connect(self.reject)
 
+    def get_folder_names(self, path):
+        try:
+            # 列出目录中的所有内容
+            dir_contents = os.listdir(path)
+
+            # 过滤出文件夹
+            folders = [name for name in dir_contents if osp.isdir(osp.join(path, name))]
+
+            return folders
+        except FileNotFoundError:
+            print(f"路径 {path} 不存在")
+            return []
+        except Exception as e:
+            print(f"遍历路径 {path} 时发生错误: {e}")
+            return []
     def accept(self):
         # 获取保存路径
         file_path = self.path_input.text()
         if not file_path:
             QMessageBox.warning(self, "警告", "请先选择保存路径！")
             return
-        file_path = osp.join(file_path, '数据库')
+        file_path = osp.join(file_path, 'database')
+        data_path = osp.join(file_path, '数据库')
+        pro_path = osp.join(file_path, '项目库')
         libraries = ['材料库', '设备库', '工艺库', '程序库', '模型库']
-        os.makedirs(file_path, exist_ok=True)  # 创建数据库文件夹，若已存在则不会抛出异常
+        # os.makedirs(file_path, exist_ok=True)  # 创建数据库文件夹，若已存在则不会抛出异常
+        os.makedirs(data_path, exist_ok=True)
+        os.makedirs(pro_path, exist_ok=True)
         # 创建子文件夹
         for library in libraries:
-            library_folder_path = os.path.join(file_path, library)
+            library_folder_path = os.path.join(data_path, library)
             os.makedirs(library_folder_path, exist_ok=True)
         selected_libraries = []
         for checkbox in self.checkboxes:
@@ -1610,7 +1665,7 @@ class SaveAsDialog(QDialog):
         # 保存选中的库到文件夹
         for library in selected_libraries:
             path1 = osp.join(self.datapath, library)
-            path2 = osp.join(file_path, library)
+            path2 = osp.join(data_path, library)
             print(path2)
             # 如果目标文件夹已存在，先删除
             if os.path.exists(path2):
@@ -1618,7 +1673,19 @@ class SaveAsDialog(QDialog):
             # 复制文件夹
             shutil.copytree(path1, path2)
 
-        msg_box = QMessageBox.information(self, "成功", "选中的库已经保存！")
+        selected_items = self.list_widget.selectedItems()  # 获取所有选中的项目
+        selected_names = [item.text() for item in selected_items]  # 提取每个项目的名称
+        # 保存选中的库到文件夹
+        for library in selected_names:
+            path1 = osp.join(self.projectpath, library)
+            path2 = osp.join(pro_path, library)
+            # 如果目标文件夹已存在，先删除
+            if os.path.exists(path2):
+                shutil.rmtree(path2)
+            # 复制文件夹
+            shutil.copytree(path1, path2)
+
+        msg_box = QMessageBox.information(self, "成功", "选中的库和项目已经保存！")
         if msg_box == QMessageBox.Ok:
             super().accept()  # 关闭对话框
 

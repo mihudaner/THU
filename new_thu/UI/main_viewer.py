@@ -1,10 +1,12 @@
 from utils import *
+from main_Pwindow import *
 @unique
 class NodeType(Enum):
     """节点类型，文件还是文件夹"""
     NodeDir = 0
     NodeFile = 1
 class MainWindow(QMainWindow):
+    info_dict = {"具体材料": [], "材料类型": [], "工艺类型": [], "模型类型": [], "模型工艺类型":[]}
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setWindowTitle('Main Window')
@@ -49,6 +51,7 @@ class MainWindow(QMainWindow):
         self.root = "../database"
         self.dataroot = osp.join(self.root, "数据库")
         self.projectroot = osp.join(self.root, "项目库")
+        self.choosed_project = osp.join(self.projectroot, "项目一")
         self.kupath = None
         self.treeWidget.itemClicked.connect(self.on_item_clicked)  # Connect the itemClicked signal to a slot function
         self.treeWidget.itemDoubleClicked.connect(self.on_item_double_clicked)  # 双击信号
@@ -90,7 +93,16 @@ class MainWindow(QMainWindow):
         self.cx_styles = self.get_folder_names(path3)
 
         path4 = osp.join(self.dataroot, '模型库')
-        self.mx_styles = self.get_folder_names(path4)
+        self.mxgy_styles = self.get_folder_names(path4)
+        path4_1 = osp.join(path4, self.mxgy_styles[0])
+        self.mx_styles = self.get_folder_names(path4_1)
+
+        MainWindow.info_dict["材料类型"] = self.cl_styles
+        MainWindow.info_dict["具体材料"] = self.jt_cls
+        MainWindow.info_dict["工艺类型"] = self.gy_styles
+        MainWindow.info_dict["程序类型"] = self.cx_styles
+        MainWindow.info_dict["模型工艺类型"] = self.mxgy_styles
+        MainWindow.info_dict["模型类型"] = self.mx_styles
 
     def get_xlsx_files(self, path):
         try:
@@ -144,16 +156,15 @@ class MainWindow(QMainWindow):
             print(f"复制过程中发生错误: {e}")
 
     def save_as(self):
-        SaveAsDialog(self.root)
-        dialog = SaveAsDialog(self.root)
+        dialog = SaveAsDialog(self)
         dialog.exec_()
     def filter(self, item):
         if item.text(0)=='程序库':
-            dialog = FilterCX(item)
+            dialog = FilterCX(self, item)
         elif item.text(0)=='模型库':
-            dialog = FilterMX(item)
+            dialog = FilterMX(self, item)
         else:
-            dialog = FilterMX(item)
+            dialog = FilterMX(self, item)
         dialog.exec_()
 
     #选择总库
@@ -212,6 +223,7 @@ class MainWindow(QMainWindow):
             self.list_dir(top_item, self.projectroot, "项目")  # 递归遍历
         else:
             return
+        self.initData()
 
     #实现打开功能的槽函数
     def open_type_library(self, item):
@@ -226,6 +238,15 @@ class MainWindow(QMainWindow):
     # 实现刷新的槽函数
     def refresh_type_library(self):
         self.updateShow()
+
+    def list_project_dir(self, parent, directory):
+        for obj in os.listdir(directory):
+            tmp_path = osp.join(directory, obj)
+            if osp.isdir(tmp_path):
+                dir_item = self._generate_item(parent, obj, tmp_path, NodeType.NodeDir.value)
+                self.list_dir(dir_item, tmp_path)
+            else:
+                self._generate_item(parent, obj, tmp_path, NodeType.NodeFile.value)
 
     def list_dir(self, parent, directory, value=None):
         if parent==None:
@@ -254,7 +275,7 @@ class MainWindow(QMainWindow):
                 cl_item = self._generate_item(None, "项目库", osp.join(directory, "项目库"), NodeType.NodeDir.value)
                 self.ui.treeWidget.addTopLevelItem(cl_item)
                 self.list_dir(cl_item, osp.join(directory, "项目库"))
-        elif parent.data(0, Qt.UserRole + 1) == "具体模型":
+        elif parent.data(0, Qt.UserRole + 1) in ["具体模型", "具体项目"]:
             pass
         else:
             for obj in os.listdir(directory):
@@ -274,7 +295,6 @@ class MainWindow(QMainWindow):
         if name.endswith('bak'):
             item.setHidden(True)
 
-
         item.setText(0, name)
         item.setToolTip(0, path)
         item.setData(0, Qt.UserRole, path)
@@ -292,7 +312,7 @@ class MainWindow(QMainWindow):
         if name.endswith('bak'):
             item.setHidden(True)
 
-        if item.parent() is None: # 父节点为database
+        if item.parent() is None:  # 父节点为database
             if item.text(0) == "材料库":
                 item.setData(0, Qt.UserRole + 1, "材料库")
             elif item.text(0) == "设备库":
@@ -306,32 +326,36 @@ class MainWindow(QMainWindow):
             elif item.text(0) == "项目库":
                 item.setData(0, Qt.UserRole + 1, "项目库")
         else:
-            if item.parent().text(0)=="材料库":
+            if item.parent().data(0, Qt.UserRole + 1) == "材料库":
                 item.setData(0, Qt.UserRole+1, "材料类型")
             elif item.parent().data(0, Qt.UserRole + 1) == "材料类型":
                 item.setData(0, Qt.UserRole + 1, "具体材料")
-            elif item.parent().text(0)=="设备库":
+            elif item.parent().data(0, Qt.UserRole + 1) == "设备库":
                 item.setData(0, Qt.UserRole+1, "设备类型")
                 item.setExpanded(True)
             elif item.parent().data(0, Qt.UserRole + 1) == "设备类型":
                 item.setData(0, Qt.UserRole + 1, "具体设备")
-            elif item.parent().text(0)=="工艺库":
+            elif item.parent().data(0, Qt.UserRole + 1) == "工艺库":
                 item.setData(0, Qt.UserRole+1, "工艺类型")
             elif item.parent().data(0, Qt.UserRole + 1)=="工艺类型":
                 item.setData(0, Qt.UserRole+1, "具体工艺")
-            elif item.parent().text(0)=="程序库":
+            elif item.parent().data(0, Qt.UserRole + 1) == "程序库":
                 item.setData(0, Qt.UserRole+1, "程序类型")
                 item.setExpanded(True)
-                if "目录" in item.text(0):
-                    item.setData(0, Qt.UserRole + 1, "程序目录")
-            elif item.parent().text(0)=="模型库":
+            elif item.parent().data(0, Qt.UserRole + 1)=="程序类型":
+                item.setData(0, Qt.UserRole+1, "具体程序")
+                item.setExpanded(True)
+            elif item.parent().data(0, Qt.UserRole + 1) == "模型库":
                 item.setData(0, Qt.UserRole+1, "模型工艺类型")
                 item.setExpanded(True)
-            elif item.parent().data(0, Qt.UserRole + 1)=="模型工艺类型":
+            elif item.parent().data(0, Qt.UserRole + 1) == "模型工艺类型":
                 item.setData(0, Qt.UserRole+1, "模型类型")
                 item.setExpanded(True)
-            elif item.parent().data(0, Qt.UserRole + 1)=="模型类型":
+            elif item.parent().data(0, Qt.UserRole + 1) == "模型类型":
                 item.setData(0, Qt.UserRole+1, "具体模型")
+                item.setExpanded(True)
+            elif item.parent().data(0, Qt.UserRole + 1) == "项目库":
+                item.setData(0, Qt.UserRole + 1, "具体项目")
                 item.setExpanded(True)
         # 设置图标路径
         if node_type == NodeType.NodeDir.value:
@@ -371,6 +395,10 @@ class MainWindow(QMainWindow):
             top_item.setData(0, Qt.UserRole + 1, "程序库")
         elif value == "模型":
             top_item.setData(0, Qt.UserRole + 1, "模型库")
+        elif value == "项目":
+            top_item.setData(0, Qt.UserRole + 1, "项目库")
+        elif value == "所选项目":
+            top_item.setData(0, Qt.UserRole + 1, "所选项目")
         # 将顶级项添加到树形控件中
         self.ui.treeWidget.addTopLevelItem(top_item)
 
@@ -398,13 +426,29 @@ class MainWindow(QMainWindow):
         project_path = item.data(0, Qt.UserRole)
         print(project_path)
         if item.data(0, Qt.UserRole + 1) == "具体材料":
-            dialog = MaterialDialog(item, project_path, note="edit")
+            dialog = MaterialDialog(item)
             dialog.exec_()
         elif item.data(0, Qt.UserRole + 1) == "具体工艺":
-            dialog = ProcessDialog(item)
+            dialog = ProcessDialog(self, item)
             dialog.exec_()
         elif item.data(0, Qt.UserRole + 1) == "具体设备":
-            dialog = EquipmentDialog(item)
+            dialog = EquipmentDialog(self, item)
+            dialog.exec_()
+            while item.childCount() > 0:
+                item.removeChild(item.child(0))
+            # 重新生成子项
+            for obj in os.listdir(item.data(0, Qt.UserRole)):
+                tmp_path = osp.join(item.data(0, Qt.UserRole), obj)
+                if osp.isdir(tmp_path):
+                    dir_item = self._generate_item(item, obj, tmp_path, NodeType.NodeDir.value)
+                    self.list_dir(dir_item, tmp_path)  # 递归调用
+                else:
+                    self._generate_item(item, obj, tmp_path, NodeType.NodeFile.value)
+        elif item.data(0, Qt.UserRole + 1) == "具体模型":
+            dialog = ModelDialog(self, item)
+            dialog.exec_()
+        elif item.data(0, Qt.UserRole + 1) == "具体程序":
+            dialog = ProgramDialog(self, item)
             dialog.exec_()
             while item.childCount() > 0:
                 item.removeChild(item.child(0))
@@ -435,10 +479,10 @@ class MainWindow(QMainWindow):
                 try:
                     if os.path.isdir(project_path):
                         shutil.rmtree(project_path)  # 删除文件夹及其中的内容
-                        QMessageBox.information(self, '提示', f'文件夹已删除: {project_path}')
+                        # QMessageBox.information(self, '提示', f'文件夹已删除: {project_path}')
                     else:
                         os.remove(project_path)  # 删除文件
-                        QMessageBox.information(self, '提示', f'文件已删除: {project_path}')
+                        # QMessageBox.information(self, '提示', f'文件已删除: {project_path}')
                     # 从树中删除该项，因为是子项，使用父项来删除
                     parent_item = item.parent()
                     index = parent_item.indexOfChild(item)
@@ -458,8 +502,9 @@ class MainWindow(QMainWindow):
     def rename(self, item):
         project_path = item.data(0, Qt.UserRole)
         item_style = item.data(0, Qt.UserRole + 1)
+        name = item.text(0)
         parent = item.parent()
-        text, ok = QInputDialog.getText(self, '重命名', '输入新名称:')
+        text, ok = QInputDialog.getText(self, '重命名', '输入新名称:', text=name)
         text0 = text
         if ok and text:
             # 获取父目录路径
@@ -537,10 +582,9 @@ class MainWindow(QMainWindow):
             child_item = item.child(index)
             self.unfolder(child_item)  # 递归调用
 
-
 if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)
-    MainWindow = MainWindow()
+    MainWindow = PWindow()
     MainWindow.show()
     sys.exit(app.exec_())
