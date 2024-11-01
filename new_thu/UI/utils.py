@@ -6,6 +6,9 @@ import subprocess
 from pathlib import Path
 from MyDialog import *
 from PySide2.QtGui import QIcon
+import json
+import subprocess
+
 
 @unique
 class NodeType(Enum):
@@ -481,6 +484,15 @@ def show_context_menu(self, position):
         del_action.triggered.connect(lambda: self.delete(item))
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
 
+    elif item and item.data(0, Qt.UserRole + 1) == "熔覆监控":
+        menu = QMenu()
+        setapppath = menu.addAction("设置路径")
+        exeapppath = menu.addAction("运行应用")
+        setapppath.triggered.connect(lambda: self.open_file_dialog(item.text(0)))
+        exeapppath.triggered.connect(lambda: run_exe(self.apppath[item.text(0)]))
+        menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
+
+
 def choose_project(self, item):
     project_name = item.text(0)
     self.treeWidget.clear()
@@ -488,3 +500,29 @@ def choose_project(self, item):
     top_item = self.create_top_item(self.choosed_project, "所选项目")  # 创建topitem
     top_item.setExpanded(True)  # 固定展开 top_item
     self.list_project_dir(top_item, self.choosed_project)  # 递归遍历
+
+
+def load_apppath():
+
+    # 要存储的配置数据
+    config = {
+        "path1": "/path/to/file1",
+        "path2": "/path/to/file2",
+        "path3": "/path/to/file3"
+    }
+    # 读取 JSON 文件
+    with open('../resource/config.json', 'r') as json_file:
+        loaded_config = json.load(json_file)
+
+    print(loaded_config)
+    return loaded_config
+
+def save_apppath(config):
+    # 写入 JSON 文件
+    with open('../resource/config.json', 'w') as json_file:
+        json.dump(config, json_file, indent=4)
+
+def run_exe(exePath):
+    # exePath = r"C:\Program Files (x86)\KUKA\WorkVisual 6.0\WorkVisual.exe"
+    # # exePath = "D:\\soft\\XTranslator\\Xtranslator\\Xtranslator.exe"
+    subprocess.Popen(exePath)

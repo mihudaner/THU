@@ -1,0 +1,9 @@
+diff a/new_thu/UI/Cardpage/Two_widget_debug.py b/new_thu/UI/Cardpage/Two_widget_debug.py	(rejected hunks)
+@@ -28,6 +28,7 @@
+ DEBUG = True
+ global PlotBuffer
+ PlotBuffer = np.zeros((8, 500))
++Checked_AI = np.zeros(8)
+ global DIOWindow_widgts
+ global AIOWindow_widgts
+ ai = [0, 500, 10000, 2000, 5000, 8888, 7777, 2222]

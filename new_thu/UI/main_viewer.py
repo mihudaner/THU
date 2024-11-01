@@ -25,6 +25,8 @@ class MainWindow(QMainWindow):
         self.mxgy_styles = []
         self.mx_styles = []
 
+        self.apppath = load_apppath()
+
         self.initUI()  # 初始化窗口
 
     def initUI(self):
@@ -527,7 +529,7 @@ class MainWindow(QMainWindow):
     #设置双击事件
     def on_item_double_clicked(self, item):
         project_path = item.data(0, Qt.UserRole)
-        if osp.isdir(project_path):
+        if osp.isdir(project_path) and item.data(0, Qt.UserRole + 1) != "熔覆监控":
             self.open_type_library(item)
         elif item.data(0, Qt.UserRole + 1) == "具体材料":
             self.edit(item)
@@ -537,16 +539,18 @@ class MainWindow(QMainWindow):
             # item.data(0, Qt.UserRole)是当前节点的实际路径，设计函数时把item传进去来获得保存路径
             # 你也可以设计函数，在里面根据item.text(0)来选择操作逻辑
             pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池状态":
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "尺寸计算":
             pass
         elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池温度":
             pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池流动":
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "形貌监控":
+            # run_exe(self.apppath['形貌监控'])
             pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池尺寸":
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "温度监控":
             pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔覆形貌":
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池监控":
             pass
+
         elif item.data(0, Qt.UserRole + 1) == "分析预测":
             # 可以设计函数，在里面根据item.text(0)来选择操作逻辑 ['PINN','LBM',...]
             pass
@@ -711,6 +715,17 @@ class MainWindow(QMainWindow):
         for index in range(item.childCount()):
             child_item = item.child(index)
             self.unfolder(child_item)  # 递归调用
+
+    def open_file_dialog(self,itemtext):
+        # 弹出文件对话框，获取选择的路径
+        options = QFileDialog.Options()
+        path, _ = QFileDialog.getOpenFileName(self, "选择一个文件", "", "所有文件 (*);;文本文件 (*.txt)", options=options)
+
+        # 如果用户选择了一个路径，更新标签
+        if path:
+            print(f'选择的路径: {path}')
+            self.apppath[itemtext] = path
+            save_apppath(self.apppath)
 
 if __name__ == '__main__':
     import sys

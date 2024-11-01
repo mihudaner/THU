@@ -1702,6 +1702,9 @@ class SaveAsDialog(QDialog):
         if folder_name:
             self.path_input.setText(folder_name)
 
+
+
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     dialog = FilterMX('55')

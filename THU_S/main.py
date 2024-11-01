@@ -1,16 +1,19 @@
-# This is a sample Python script.
+import json
+import os
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# 要存储的配置数据
+config = {
+    "path1": "/path/to/file1",
+    "path2": "/path/to/file2",
+    "path3": "/path/to/file3"
+}
 
+# 写入 JSON 文件
+with open('../new_thu/resource/config.json', 'w') as json_file:
+    json.dump(config, json_file, indent=4)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# 读取 JSON 文件
+with open('../new_thu/resource/config.json', 'r') as json_file:
+    loaded_config = json.load(json_file)
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print(loaded_config)

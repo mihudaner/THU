@@ -48,7 +48,7 @@
       </property>
       <column>
        <property name="text">
-        <string>  </string>
+        <string/>
        </property>
        <property name="font">
         <font>
@@ -88,7 +88,7 @@
           <string notr="true">border:0px solid rgb(86, 86, 86);</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -104,10 +104,45 @@
           <attribute name="title">
            <string>熔池尺寸</string>
           </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="label_showpre">
+             <property name="text">
+              <string>TextLabel</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_pre_w">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>TextLabel</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btn_pre">
+             <property name="text">
+              <string>PushButton</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="tab_4">
           <attribute name="title">
-           <string>页</string>
+           <string>工艺更新</string>
           </attribute>
          </widget>
         </widget>

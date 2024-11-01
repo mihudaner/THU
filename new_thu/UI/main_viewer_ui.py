@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_viewer.ui'
+## Form generated from reading UI file 'main_vieweruWvsaH.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -115,6 +115,26 @@ class Ui_MainWindow(object):
         self.tabWidget_2.addTab(self.tab_2, "")
         self.tab_3 = QWidget()
         self.tab_3.setObjectName(u"tab_3")
+        self.verticalLayout = QVBoxLayout(self.tab_3)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.label_showpre = QLabel(self.tab_3)
+        self.label_showpre.setObjectName(u"label_showpre")
+        self.label_showpre.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout.addWidget(self.label_showpre)
+
+        self.label_pre_w = QLabel(self.tab_3)
+        self.label_pre_w.setObjectName(u"label_pre_w")
+        self.label_pre_w.setMaximumSize(QSize(16777215, 50))
+        self.label_pre_w.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout.addWidget(self.label_pre_w)
+
+        self.btn_pre = QPushButton(self.tab_3)
+        self.btn_pre.setObjectName(u"btn_pre")
+
+        self.verticalLayout.addWidget(self.btn_pre)
+
         self.tabWidget_2.addTab(self.tab_3, "")
         self.tab_4 = QWidget()
         self.tab_4.setObjectName(u"tab_4")
@@ -145,7 +165,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget_2.setCurrentIndex(3)
+        self.tabWidget_2.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -195,8 +215,11 @@ class Ui_MainWindow(object):
         self.file_menu.setText(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6", None))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u5b9e\u65f6\u53cd\u9988", None))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u7194\u6c60\u72b6\u6001", None))
+        self.label_showpre.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.label_pre_w.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.btn_pre.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u7194\u6c60\u5c3a\u5bf8", None))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"\u9875", None))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"\u5de5\u827a\u66f4\u65b0", None))
         self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 
