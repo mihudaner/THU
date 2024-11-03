@@ -108,7 +108,7 @@
            <item>
             <widget class="QLabel" name="label_showpre">
              <property name="text">
-              <string>TextLabel</string>
+              <string>待显示</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -124,7 +124,7 @@
               </size>
              </property>
              <property name="text">
-              <string>TextLabel</string>
+              <string>熔池宽度：   mm</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -134,7 +134,7 @@
            <item>
             <widget class="QPushButton" name="btn_pre">
              <property name="text">
-              <string>PushButton</string>
+              <string>启动预测</string>
              </property>
             </widget>
            </item>

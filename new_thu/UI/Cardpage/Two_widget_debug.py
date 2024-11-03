@@ -18,9 +18,9 @@ import time
 # pyside2-rcc ./icon/icon.qrc -o icon_rc.py
 from PySide2.QtWidgets import *
 from .QplotWidget import RealTimePlotWidget
-from QTui.CustomWidgets.Cardpage import DIOwidget, AIOwidget
+from UI.Cardpage import DIOwidget
 from .AIO_CCD_Table import Ui_Form as AIO_CCD_Table
-import card.DAM8888_dll as dll
+from UI.Cardpage import DAM8888_dll as dll
 import sys
 import threading
 import numpy as np

@@ -529,9 +529,8 @@ class MainWindow(QMainWindow):
     #设置双击事件
     def on_item_double_clicked(self, item):
         project_path = item.data(0, Qt.UserRole)
-        if osp.isdir(project_path) and item.data(0, Qt.UserRole + 1) != "熔覆监控":
-            self.open_type_library(item)
-        elif item.data(0, Qt.UserRole + 1) == "具体材料":
+
+        if item.data(0, Qt.UserRole + 1) == "具体材料":
             self.edit(item)
         elif item.data(0, Qt.UserRole + 1) == "具体工艺":
             self.edit(item)
@@ -539,22 +538,23 @@ class MainWindow(QMainWindow):
             # item.data(0, Qt.UserRole)是当前节点的实际路径，设计函数时把item传进去来获得保存路径
             # 你也可以设计函数，在里面根据item.text(0)来选择操作逻辑
             pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "尺寸计算":
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池状态":
             pass
         elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池温度":
             pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "形貌监控":
-            # run_exe(self.apppath['形貌监控'])
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池流动":
+            # run_exe(self.apppath['熔池流动'])
             pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "温度监控":
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池尺寸":
             pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池监控":
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池形貌":
             pass
 
         elif item.data(0, Qt.UserRole + 1) == "分析预测":
             # 可以设计函数，在里面根据item.text(0)来选择操作逻辑 ['PINN','LBM',...]
             pass
-
+        elif osp.isdir(project_path):
+            self.open_type_library(item)
     #编辑
     def edit(self, item):
         project_path = item.data(0, Qt.UserRole)

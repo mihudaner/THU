@@ -12,7 +12,7 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
-import QTui.CustomWidgets.Cardpage.icon_rc
+import UI.Cardpage.icon_rc
 
 class Ui_Form(object):
     def setupUi(self, Form):
