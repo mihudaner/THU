@@ -1,4 +1,5 @@
 from utils import *
+from openpyxl import load_workbook
 from main_Pwindow import *
 @unique
 class NodeType(Enum):
@@ -6,7 +7,7 @@ class NodeType(Enum):
     NodeDir = 0
     NodeFile = 1
 class MainWindow(QMainWindow):
-    info_dict = {"具体材料": [], "材料类型": [], "工艺类型": [], "模型类型": [], "模型工艺类型":[]}
+    info_dict = {"具体材料": [], "材料类型": [], "工艺类型": [], "具体设备": [], "模型类型": [], "模型工艺类型": []}
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setWindowTitle('Main Window')
@@ -19,6 +20,7 @@ class MainWindow(QMainWindow):
         else:
             print(f"Icon file not found: {icon_path}")
         self.jt_cls = []
+        self.jt_sb = []
         self.cl_styles = []
         self.gy_styles = []
         self.cx_styles = []
@@ -94,11 +96,25 @@ class MainWindow(QMainWindow):
 
         path4 = osp.join(self.dataroot, '模型库')
         self.mxgy_styles = self.get_folder_names(path4)
-        path4_1 = osp.join(path4, self.mxgy_styles[0])
-        self.mx_styles = self.get_folder_names(path4_1)
+        mx_styles_set = set()
+        for i in range(len(self.mxgy_styles)):
+            path4_1 = osp.join(path4, self.mxgy_styles[i])  # 使用 i 而不是 0
+            mx_styles = self.get_folder_names(path4_1)
+            for j in range(len(mx_styles)):
+                mx_styles_set.add(mx_styles[j])  # 将获取的文件夹名称添加到集合中
+        self.mx_styles = list(mx_styles_set)  # 转换为列表（可选）
+
+        path5 = osp.join(self.dataroot, '设备库')
+        styles_sb = self.get_folder_names(path5)
+        for style_sb in styles_sb:
+            path = osp.join(path5, style_sb)
+            sb_files = self.get_folder_names(path)
+            for sb_file in sb_files:
+                self.jt_sb.append(sb_file)
 
         MainWindow.info_dict["材料类型"] = self.cl_styles
         MainWindow.info_dict["具体材料"] = self.jt_cls
+        MainWindow.info_dict["具体设备"] = self.jt_sb
         MainWindow.info_dict["工艺类型"] = self.gy_styles
         MainWindow.info_dict["程序类型"] = self.cx_styles
         MainWindow.info_dict["模型工艺类型"] = self.mxgy_styles
@@ -162,6 +178,8 @@ class MainWindow(QMainWindow):
         if item.text(0)=='程序库':
             dialog = FilterCX(self, item)
         elif item.text(0)=='模型库':
+            dialog = FilterMX(self, item)
+        elif item.text(0)=='项目库':
             dialog = FilterMX(self, item)
         else:
             dialog = FilterMX(self, item)
@@ -299,6 +317,7 @@ class MainWindow(QMainWindow):
         item.setToolTip(0, path)
         item.setData(0, Qt.UserRole, path)
 
+        # 设置列表展示顺序
         if parent is not None:
             if parent.data(0, Qt.UserRole + 1) == "具体项目":
                 # 设置插入顺序的优先级
@@ -408,15 +427,14 @@ class MainWindow(QMainWindow):
                         parent.addChild(item)  # 如果没有合适的位置，添加到最后
                 else:
                     parent.addChild(item)
+            elif parent.data(0, Qt.UserRole + 1) == "具体设备":
+                if item.text(0) == "设备文件":
+                    parent.insertChild(0, item)
+                else:
+                    parent.addChild(item)
             else:
-                parent.addChild(item)  # 如果不是"具体项目"，默认添加到最后
+                parent.addChild(item)  # 如果不是以上，默认添加到最后
         else:
-            self.treeWidget.addTopLevelItem(item)
-
-        if name.endswith('bak'):
-            item.setHidden(True)
-
-        if item.parent() is None:  # 父节点为database
             if item.text(0) == "材料库":
                 item.setData(0, Qt.UserRole + 1, "材料库")
             elif item.text(0) == "设备库":
@@ -429,7 +447,12 @@ class MainWindow(QMainWindow):
                 item.setData(0, Qt.UserRole + 1, "模型库")
             elif item.text(0) == "项目库":
                 item.setData(0, Qt.UserRole + 1, "项目库")
-        else:
+            self.treeWidget.addTopLevelItem(item)
+
+        if name.endswith('bak'):
+            item.setHidden(True)
+
+        if item.parent() is not None:  # 父节点为database
             if item.parent().data(0, Qt.UserRole + 1) == "材料库":
                 item.setData(0, Qt.UserRole+1, "材料类型")
             elif item.parent().data(0, Qt.UserRole + 1) == "材料类型":
@@ -439,6 +462,11 @@ class MainWindow(QMainWindow):
                 item.setExpanded(True)
             elif item.parent().data(0, Qt.UserRole + 1) == "设备类型":
                 item.setData(0, Qt.UserRole + 1, "具体设备")
+            elif item.parent().data(0, Qt.UserRole + 1) == "具体设备":
+                if item.text(0) == "设备文件":
+                    item.setData(0, Qt.UserRole + 1, "设备文件")
+                elif item.text(0) == "设备图片":
+                    item.setData(0, Qt.UserRole + 1, "设备图片")
             elif item.parent().data(0, Qt.UserRole + 1) == "工艺库":
                 item.setData(0, Qt.UserRole+1, "工艺类型")
             elif item.parent().data(0, Qt.UserRole + 1)=="工艺类型":
@@ -448,7 +476,7 @@ class MainWindow(QMainWindow):
                 item.setExpanded(True)
             elif item.parent().data(0, Qt.UserRole + 1)=="程序类型":
                 item.setData(0, Qt.UserRole+1, "具体程序")
-                item.setExpanded(True)
+                # item.setExpanded(True)
             elif item.parent().data(0, Qt.UserRole + 1) == "模型库":
                 item.setData(0, Qt.UserRole+1, "模型工艺类型")
                 item.setExpanded(True)
@@ -457,7 +485,6 @@ class MainWindow(QMainWindow):
                 item.setExpanded(True)
             elif item.parent().data(0, Qt.UserRole + 1) == "模型类型":
                 item.setData(0, Qt.UserRole+1, "具体模型")
-                item.setExpanded(True)
             elif item.parent().data(0, Qt.UserRole + 1) == "项目库":
                 item.setData(0, Qt.UserRole + 1, "具体项目")
                 item.setExpanded(True)
@@ -526,6 +553,11 @@ class MainWindow(QMainWindow):
 
     #设置双击事件
     def on_item_double_clicked(self, item):
+        # 防止双击节点展开/收起
+        if item.isExpanded():
+            item.setExpanded(False)
+        else:
+            item.setExpanded(True)
         project_path = item.data(0, Qt.UserRole)
         if osp.isdir(project_path):
             self.open_type_library(item)
@@ -533,6 +565,9 @@ class MainWindow(QMainWindow):
             self.edit(item)
         elif item.data(0, Qt.UserRole + 1) == "具体工艺":
             self.edit(item)
+        elif item.parent().data(0, Qt.UserRole + 1) in ["设备文件", "设备图片"]:
+            path = item.data(0, Qt.UserRole)
+            subprocess.run(['start', '', path], shell=True)
         elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "实时反馈":
             # item.data(0, Qt.UserRole)是当前节点的实际路径，设计函数时把item传进去来获得保存路径
             # 你也可以设计函数，在里面根据item.text(0)来选择操作逻辑
@@ -577,6 +612,16 @@ class MainWindow(QMainWindow):
         elif item.data(0, Qt.UserRole + 1) == "具体模型":
             dialog = ModelDialog(self, item)
             dialog.exec_()
+            while item.childCount() > 0:
+                item.removeChild(item.child(0))
+            # 重新生成子项
+            for obj in os.listdir(item.data(0, Qt.UserRole)):
+                tmp_path = osp.join(item.data(0, Qt.UserRole), obj)
+                if osp.isdir(tmp_path):
+                    dir_item = self._generate_item(item, obj, tmp_path, NodeType.NodeDir.value)
+                    self.list_dir(dir_item, tmp_path)  # 递归调用
+                else:
+                    self._generate_item(item, obj, tmp_path, NodeType.NodeFile.value)
         elif item.data(0, Qt.UserRole + 1) == "具体程序":
             dialog = ProgramDialog(self, item)
             dialog.exec_()
@@ -639,7 +684,7 @@ class MainWindow(QMainWindow):
         if ok and text:
             # 获取父目录路径
             parent_dir = parent.data(0, Qt.UserRole)
-            # 构建新的文件/文件夹路径
+            # 给文件重命名
             if item_style == "具体工艺":
                 text = f"{text}.json"
             elif item_style == "具体材料":
@@ -655,7 +700,22 @@ class MainWindow(QMainWindow):
                 print(f"Successfully renamed {project_path} to {new_path}")
             except OSError as e:
                 print(f"Error renaming {project_path} to {new_path}: {e}")
-
+            # 修改文件记录中的名称信息
+            if item_style == "具体材料":
+                # 加载 Excel 文件
+                workbook = load_workbook(new_path)
+                sheet = workbook['名称-类型-成分']  # 或 workbook['SheetName']
+                # 修改 A1 单元格的值
+                sheet['A1'] = text0  # 替换为你想要输入的值
+                workbook.save(new_path)  # 保存修改
+            elif item_style == "具体程序":
+                new_path = os.path.join(new_path, '程序描述.json')
+                # 加载 JSON 文件
+                with open(new_path, 'r', encoding='utf-8') as file:
+                    data = json.load(file)
+                data["名称"] = text0  # 替换为你想要的新值
+                with open(new_path, 'w', encoding='utf-8') as file:
+                    json.dump(data, file, ensure_ascii=False, indent=4)
     def copy(self, item):
         parent = item.parent()
         target_path = parent.data(0, Qt.UserRole)

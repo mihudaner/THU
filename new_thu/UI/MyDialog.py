@@ -15,6 +15,23 @@ from PySide2.QtWidgets import (
     QFormLayout, QTextEdit, QMessageBox, QTreeWidgetItem, QFileDialog, QSpinBox, QSpacerItem
 )
 from openpyxl.utils import get_column_letter
+
+
+def get_folder_names(path):
+    try:
+        # 列出目录中的所有内容
+        dir_contents = os.listdir(path)
+
+        # 过滤出文件夹
+        folders = [name for name in dir_contents if osp.isdir(osp.join(path, name))]
+
+        return folders
+    except FileNotFoundError:
+        print(f"路径 {path} 不存在")
+        return []
+    except Exception as e:
+        print(f"遍历路径 {path} 时发生错误: {e}")
+        return []
 class MaterialDialog(QDialog):
     def __init__(self, item):
         super().__init__()
@@ -342,7 +359,7 @@ class MaterialDialog(QDialog):
             self.cl_layout.insertWidget(1, self.temp_table)  # 在相同位置添加新的temp_table
 
 class EquipmentDialog(QDialog):
-    def __init__(self, mainWindo, item):
+    def __init__(self, mainWindow, item):
         super().__init__()
         # 设置窗口图标
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
@@ -350,9 +367,19 @@ class EquipmentDialog(QDialog):
             self.setWindowIcon(QIcon(icon_path))
         else:
             print(f"Icon file not found: {icon_path}")
+        self.mainWindow = mainWindow
+        self.info_dict = mainWindow.info_dict
         self.item = item
-        self.path = item.data(0, Qt.UserRole)
-        self.setWindowTitle("编辑设备")
+        self.setWindowTitle("新建设备")
+        self.note = "create"
+        if self.item.data(0, Qt.UserRole + 1) == "具体设备":
+            self.note = "edit"
+            self.setWindowTitle("编辑设备")
+
+        if self.note == "edit":
+            self.path = item.parent().data(0, Qt.UserRole)
+        else:
+            self.path = item.data(0, Qt.UserRole)
         self.setFixedSize(600, 600)
 
         # 主布局
@@ -361,8 +388,8 @@ class EquipmentDialog(QDialog):
         # 名称和类型
         name_layout = QHBoxLayout()
         self.name_input = QLineEdit()
-        self.name_input.setText(item.text(0))
-        self.name_input.setReadOnly(True)
+        if self.note == "edit":
+            self.name_input.setText(item.text(0))
         self.type_combo = QLineEdit()
         self.type_combo.setText(item.parent().text(0))
         self.type_combo.setReadOnly(True)
@@ -420,12 +447,27 @@ class EquipmentDialog(QDialog):
         remove_file_button.clicked.connect(self.remove_file)
         ok_button.clicked.connect(self.accept)
         cancel_button.clicked.connect(self.reject)
-        self.initData()
+        if self.note == "edit":
+            self.initData()
 
+    def get_folder_names(self, path):
+        try:
+            # 列出目录中的所有内容
+            dir_contents = os.listdir(path)
+
+            # 过滤出文件夹
+            folders = [name for name in dir_contents if osp.isdir(osp.join(path, name))]
+
+            return folders
+        except FileNotFoundError:
+            print(f"路径 {path} 不存在")
+            return []
+        except Exception as e:
+            print(f"遍历路径 {path} 时发生错误: {e}")
+            return []
     def initData(self):
         # filepath = osp.join(self.item.data(0, Qt.UserRole), self.name_input.text())
-        filepath = osp.join(self.item.data(0, Qt.UserRole), "设备描述")
-        filepath = f"{filepath}.txt"  # 添加文件扩展名
+        filepath = osp.join(self.item.data(0, Qt.UserRole), "设备描述.txt")
         # 确保文件存在
         if not osp.exists(filepath):
             QMessageBox.warning(self, "警告", f"文件 {filepath} 不存在")
@@ -440,27 +482,70 @@ class EquipmentDialog(QDialog):
             QMessageBox.critical(self, "错误", f"无法读取文件: {e}")
         tu_dir = osp.join(self.item.data(0, Qt.UserRole), '设备图片')
         # 列出目录下的所有文件
-        try:
-            for filename in os.listdir(tu_dir):
-                # 过滤出图片文件（根据扩展名）
-                if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
-                    self.image_list.addItem(filename)  # 添加文件名到 QListWidget
-        except Exception as e:
-            QMessageBox.critical(self, "错误", f"无法加载图片: {e}")
+        for filename in os.listdir(tu_dir):
+            self.image_list.addItem(filename)  # 添加文件名到 QListWidget
         wen_dir = osp.join(self.item.data(0, Qt.UserRole), '设备文件')
         # 列出目录下的所有文件
-        try:
-            for filename in os.listdir(wen_dir):
-                # 过滤出pdf文件（根据扩展名）
-                if filename.lower().endswith(('.pdf', '.txt', '.doc', '.docx')):
-                    self.file_list.addItem(filename)  # 添加文件名到 QListWidget
-        except Exception as e:
-            QMessageBox.critical(self, "错误", f"无法加载文件: {e}")
+        for filename in os.listdir(wen_dir):
+            self.file_list.addItem(filename)  # 添加文件名到 QListWidget
 
     def accept(self):
+        # 名称检查
+        name = self.name_input.text()
+        names = self.get_folder_names(self.path)
+        if not self.name_input.text():
+            QMessageBox.warning(self, "警告", "请输入设备名称")
+            return
+        # 新建模式先创建文件
+        if self.note == "edit":
+            ori_name = self.item.text(0)
+            if name != ori_name:
+                if name in names:
+                    QMessageBox.warning(self, "警告", "该设备已存在")
+                    return
+                os.rename(osp.join(self.path, ori_name), osp.join(self.path, name))
+                self.item.setText(0, name)
+                self.item.setData(0, Qt.UserRole, osp.join(self.path, name))
+        else:
+            if name in names:
+                QMessageBox.warning(self, "警告", "该设备名已存在")
+                return
+            new_item = QTreeWidgetItem(self.item)
+            new_item.setText(0, name)
+            new_item.setData(0, Qt.UserRole, osp.join(self.path, name))
+            new_item.setData(0, Qt.UserRole + 1, "具体设备")
+            # 设置窗口图标
+            icon_path = os.path.join('..', 'resource', 'icon', 'dir.png')
+            if os.path.exists(icon_path):
+                new_item.setIcon(0, QIcon(icon_path))
+            else:
+                print(f"Icon file not found: {icon_path}")
+            dir_path = osp.join(self.path, name)
+            os.makedirs(dir_path, exist_ok=True)
+            # 新建图片和文件dir
+            miaoshu = osp.join(dir_path, '设备描述.txt')
+            tu_dir = osp.join(dir_path, '设备图片')
+            wen_dir = osp.join(dir_path, '设备文件')
+            try:
+                # 创建设备图片和设备文件的文件夹
+                os.makedirs(tu_dir, exist_ok=True)  # exist_ok=True表示如果文件夹已存在，不会抛出异常
+                os.makedirs(wen_dir, exist_ok=True)
+                # 创建一个空的文本文件
+                with open(miaoshu, 'w', encoding='utf-8') as file:
+                    file.write('')  # 可以在文件中写入一些初始内容，如果需要的话
+            except Exception as e:
+                print(f'创建文件夹或文件时出错: {e}')
+            for obj in os.listdir(new_item.data(0, Qt.UserRole)):
+                tmp_path = osp.join(new_item.data(0, Qt.UserRole), obj)
+                if osp.isdir(tmp_path):
+                    dir_item = self.mainWindow._generate_item(new_item, obj, tmp_path, 0)
+                    self.mainWindow.list_dir(dir_item, tmp_path)
+                else:
+                    self.mainWindow._generate_item(new_item, obj, tmp_path, 1)
+
         description = self.description_input.toPlainText()
         # file = osp.join(self.item.data(0, Qt.UserRole), self.name_input.text())
-        file = osp.join(self.item.data(0, Qt.UserRole), "设备描述")
+        file = osp.join(self.path, name, "设备描述")
         filepath = f"{file}.txt"  # 添加文件扩展名
         try:
             with open(filepath, 'w', encoding='utf-8') as file:  # 以写入模式打开文件
@@ -468,8 +553,8 @@ class EquipmentDialog(QDialog):
             QMessageBox.information(self, '成功', f'描述已保存到 {filepath}')
         except Exception as e:
             QMessageBox.critical(self, '错误', f'无法保存文件: {e}')
-        tu_dir = osp.join(self.item.data(0, Qt.UserRole), '设备图片')
-        wen_dir = osp.join(self.item.data(0, Qt.UserRole), '设备文件')
+        tu_dir = osp.join(self.path, name, '设备图片')
+        wen_dir = osp.join(self.path, name, '设备文件')
         # 遍历 QListWidget 中的所有项
         for index in range(self.image_list.count()):
             item = self.image_list.item(index)  # 获取 QListWidget 中的项
@@ -502,8 +587,8 @@ class EquipmentDialog(QDialog):
     def add_image(self):
         # 打开文件对话框选择图片文件
         options = QFileDialog.Options()
-        files, _ = QFileDialog.getOpenFileNames(self, "选择图片文件", "",
-                                                "Image Files (*.png *.jpg *.jpeg);;All Files (*)",
+        files, _ = QFileDialog.getOpenFileNames(self, "选择文件", "",
+                                                "All Files (*)",  # 只使用 "All Files (*)"
                                                 options=options)
         if files:  # 如果用户选择了文件
             for file in files:
@@ -515,7 +600,6 @@ class EquipmentDialog(QDialog):
         if not selected_items:
             QMessageBox.warning(self, "警告", "请先选择要删除的项目")
             return
-
         for item in selected_items:
             self.image_list.takeItem(self.image_list.row(item))  # 从列表中删除选中的项
 
@@ -523,9 +607,8 @@ class EquipmentDialog(QDialog):
         # 打开文件对话框选择文件
         options = QFileDialog.Options()
         files, _ = QFileDialog.getOpenFileNames(self, "选择文件", "",
-                                                "Image Files (*.pdf *.txt *.doc *.docx);;All Files (*)",
+                                                "All Files (*)",  # 只使用 "All Files (*)"
                                                 options=options)
-
         if files:  # 如果用户选择了文件
             for file in files:
                 self.file_list.addItem(file)  # 将文件路径添加到 QListWidget
@@ -544,6 +627,9 @@ class ProcessDialog(QDialog):
     def __init__(self, mainWindow, item):
         super().__init__()
         self.item = item
+        self.note = "create"
+        if self.item.data(0, Qt.UserRole + 1) == "具体工艺":
+            self.note = "edit"
         self.path = item.data(0, Qt.UserRole)
         if item.parent().text(0) == "送粉":
             self.setWindowTitle("送粉工艺")
@@ -551,7 +637,7 @@ class ProcessDialog(QDialog):
             self.setWindowTitle("送丝工艺")
         else:
             self.setWindowTitle("编辑工艺")
-        self.setFixedSize(600, 300)
+        self.setFixedSize(650, 350)
         # 设置窗口图标（可选）
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
         if os.path.exists(icon_path):
@@ -564,25 +650,28 @@ class ProcessDialog(QDialog):
         layout = QVBoxLayout()
         form = QHBoxLayout()
         form_layout1 = QFormLayout()
-        form_layout1.setSpacing(10)  # 设置表单布局中控件间隙
+        form_layout1.setSpacing(13)  # 设置表单布局中控件间隙
         form_layout2 = QFormLayout()
-        form_layout2.setSpacing(10)  # 设置表单布局中控件间隙
+        form_layout2.setSpacing(13)  # 设置表单布局中控件间隙
 
         # 创建输入字段
+        self.name = QLineEdit()
         self.material_edit = QComboBox()
         self.material_edit.addItems(mainWindow.info_dict["具体材料"])
+        form_layout1.addRow("工艺名称", self.name)
         form_layout1.addRow("熔覆材料", self.material_edit)
 
         self.base_material_edit = QComboBox()
         self.base_material_edit.addItems(mainWindow.info_dict["具体材料"])
+        form_layout2.addRow("   ", QLabel("  "))
         form_layout2.addRow("基板材料", self.base_material_edit)
 
-        self.fmd_edit = QDoubleSpinBox()
-        self.fmd_edit.setRange(0, 1000)  # 设置范围 粉末粒径(μm)
-        self.bansize_edit = QDoubleSpinBox()
-        self.bansize_edit.setRange(0, 500)  # 设置范围 基板尺寸(mm)
+        self.fmd_edit = QLineEdit()
+        # self.fmd_edit.setRange(0, 1000)  # 设置范围 粉末粒径(μm)
+        self.bansize_edit = QLineEdit()
+        # self.bansize_edit.setRange(0, 500)  # 设置范围 基板尺寸(mm)
         self.scd_edit = QDoubleSpinBox()
-        self.scd_edit.setRange(0, 100)  # 设置范围 丝材直径(mm)
+        self.scd_edit.setRange(0, 10000)  # 设置范围 丝材直径(mm)
         if item.parent().text(0) == "送粉":
             form_layout1.addRow("粉末粒径(μm)", self.fmd_edit)
             form_layout2.addRow("基板尺寸(mm)", self.bansize_edit)
@@ -594,30 +683,30 @@ class ProcessDialog(QDialog):
         self.laser_power_edit.setRange(0, 10000)  # 设置范围 激光功率(W)
         form_layout1.addRow("激光功率(W)", self.laser_power_edit)
         self.welding_speed_edit = QDoubleSpinBox()
-        self.welding_speed_edit.setRange(0, 100)  # 设置范围 熔覆速度(mm/s)
+        self.welding_speed_edit.setRange(0, 10000)  # 设置范围 熔覆速度(mm/s)
         form_layout2.addRow("熔覆速度(mm/s)", self.welding_speed_edit)
 
         self.sf_rate_edit = QDoubleSpinBox()
-        self.sf_rate_edit.setRange(0, 100)  # 设置范围 送粉转速(r/min)
+        self.sf_rate_edit.setRange(0, 10000)  # 设置范围 送粉转速(r/min)
         self.ss_rate_edit = QDoubleSpinBox()
-        self.ss_rate_edit.setRange(0, 100)  # 设置范围 送丝速度(m/min)
+        self.ss_rate_edit.setRange(0, 10000)  # 设置范围 送丝速度(m/min)
         if item.parent().text(0) == "送粉":
             form_layout1.addRow("送粉转速(r/min)", self.sf_rate_edit)
         else:
             form_layout1.addRow("送丝速度(m/min)", self.ss_rate_edit)
 
         self.addition_rate_edit = QDoubleSpinBox()
-        self.addition_rate_edit.setRange(0, 1000)  # 设置范围 质量添加(g/min)
+        self.addition_rate_edit.setRange(0, 10000)  # 设置范围 质量添加(g/min)
         form_layout2.addRow("质量添加(g/min)", self.addition_rate_edit)
 
         self.spot_voltage_edit = QDoubleSpinBox()
-        self.spot_voltage_edit.setRange(0, 100)  # 设置范围 光斑电压(V)
+        self.spot_voltage_edit.setRange(0, 10000)  # 设置范围 光斑电压(V)
         self.spot_diameter_edit = QDoubleSpinBox()
-        self.spot_diameter_edit.setRange(0, 500)  # 设置范围 光斑直径(mm)
+        self.spot_diameter_edit.setRange(0, 10000)  # 设置范围 光斑直径(mm)
         self.gap_interval_edit = QDoubleSpinBox()
-        self.gap_interval_edit.setRange(0, 100)  # 设置范围 道间间隔(s)
+        self.gap_interval_edit.setRange(0, 10000)  # 设置范围 道间间隔(s)
         self.layer_interval_edit = QDoubleSpinBox()
-        self.layer_interval_edit.setRange(0, 100)  # 设置范围 层间间隔(s)
+        self.layer_interval_edit.setRange(0, 10000)  # 设置范围 层间间隔(s)
 
         if item.parent().text(0) == "送粉":
             form_layout1.addRow("光斑电压(V)", self.spot_voltage_edit)
@@ -626,26 +715,26 @@ class ProcessDialog(QDialog):
             form_layout2.addRow("层间间隔(s)", self.layer_interval_edit)
 
         self.offset_edit = QDoubleSpinBox()
-        self.offset_edit.setRange(0, 100)  # 设置范围 道间偏移(mm)
+        self.offset_edit.setRange(0, 10000)  # 设置范围 道间偏移(mm)
         form_layout1.addRow("道间偏移(mm)", self.offset_edit)
 
         self.lift_height_edit = QDoubleSpinBox()
-        self.lift_height_edit.setRange(0, 100)  # 设置范围 层间抬升(mm)
+        self.lift_height_edit.setRange(0, 10000)  # 设置范围 层间抬升(mm)
         form_layout2.addRow("层间抬升(mm)", self.lift_height_edit)
 
         self.protect_gas_flow_edit = QDoubleSpinBox()
-        self.protect_gas_flow_edit.setRange(0, 500)  # 设置范围 保护气及流量(L/min)
+        self.protect_gas_flow_edit.setRange(0, 10000)  # 设置范围 保护气及流量(L/min)
 
         self.carrier_gas_flow_edit = QDoubleSpinBox()
-        self.carrier_gas_flow_edit.setRange(0, 500)  # 设置范围 载气及流量(L/min)
+        self.carrier_gas_flow_edit.setRange(0, 10000)  # 设置范围 载气及流量(L/min)
 
         self.qd_flow_edit = QDoubleSpinBox()
-        self.qd_flow_edit.setRange(0, 100)  # 设置范围 气刀流量(L/min)
+        self.qd_flow_edit.setRange(0, 10000)  # 设置范围 气刀流量(L/min)
 
         self.pre_time_edit = QDoubleSpinBox()
-        self.pre_time_edit.setRange(0, 1000)  # 设置范围 加工前保护气时长(s)
+        self.pre_time_edit.setRange(0, 10000)  # 设置范围 加工前保护气时长(s)
         self.keep_time_edit = QDoubleSpinBox()
-        self.keep_time_edit.setRange(0, 1000)  # 设置范围 保护气保持时间(s)
+        self.keep_time_edit.setRange(0, 10000)  # 设置范围 保护气保持时间(s)
 
         if item.parent().text(0) == "送粉":
             form_layout1.addRow("保护气及流量(L/min)", self.protect_gas_flow_edit)
@@ -672,9 +761,11 @@ class ProcessDialog(QDialog):
         self.ok_button.clicked.connect(self.save_to_json)
         self.cancel_button.clicked.connect(self.reject)
 
-        self.initData()
-
+        if self.note == "edit":
+            self.initData()
     def initData(self):
+        name = self.item.text(0)
+        self.name.setText(name)
         if os.path.exists(self.path):
             with open(self.path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
@@ -682,8 +773,8 @@ class ProcessDialog(QDialog):
             if self.item.parent().text(0) == "送粉":
                 self.material_edit.setCurrentText(data.get("熔覆材料", ""))
                 self.base_material_edit.setCurrentText(data.get("基板材料", ""))
-                self.fmd_edit.setValue(data.get("粉末粒径(μm)", 0))
-                self.bansize_edit.setValue(data.get("基板尺寸(mm)", 0))
+                self.fmd_edit.setText(data.get("粉末粒径(μm)", ""))
+                self.bansize_edit.setText(data.get("基板尺寸(mm)", ""))
                 self.laser_power_edit.setValue(data.get("激光功率(W)", 0))
                 self.welding_speed_edit.setValue(data.get("熔覆速度(mm/s)", 0))
                 self.sf_rate_edit.setValue(data.get("送粉转速(r/min)", 0))
@@ -700,7 +791,7 @@ class ProcessDialog(QDialog):
                 self.material_edit.setCurrentText(data.get("熔覆材料", ""))
                 self.base_material_edit.setCurrentText(data.get("基板材料", ""))
                 self.scd_edit.setValue(data.get("丝材直径(mm)", 0))
-                self.bansize_edit.setValue(data.get("基板尺寸(mm)", 0))
+                self.bansize_edit.setText(data.get("基板尺寸(mm)", ""))
                 self.laser_power_edit.setValue(data.get("激光功率(W)", 0))
                 self.welding_speed_edit.setValue(data.get("熔覆速度(mm/s)", 0))
                 self.ss_rate_edit.setValue(data.get("送丝速度(m/min)", 0))
@@ -712,13 +803,63 @@ class ProcessDialog(QDialog):
                 self.pre_time_edit.setValue(data.get("加工前保护气时长(s)", 0))
                 self.keep_time_edit.setValue(data.get("保护气保持时间(s)", 0))
 
+    def get_folder_names(self, path):
+        try:
+            # 列出目录中的所有内容
+            dir_contents = os.listdir(path)
+
+            # 过滤出文件夹
+            folders = [name for name in dir_contents if osp.isdir(osp.join(path, name))]
+
+            return folders
+        except FileNotFoundError:
+            print(f"路径 {path} 不存在")
+            return []
+        except Exception as e:
+            print(f"遍历路径 {path} 时发生错误: {e}")
+            return []
     def save_to_json(self):
-        if self.item.parent().text(0) == "送粉":
+        # 名称检查
+        if self.note == "edit":
+            path = self.item.parent().data(0, Qt.UserRole)
+        else:
+            path = self.item.data(0, Qt.UserRole)
+        names = self.get_folder_names(path)
+        if not self.name.text():
+            QMessageBox.warning(self, "警告", "请输入工艺名称")
+            return
+
+        if self.note == "edit":
+            ori_name = self.item.text(0)
+            if self.name.text() != ori_name:
+                if self.name.text() in names:
+                    QMessageBox.warning(self, "警告", "该工艺名已存在")
+                    return
+            if os.path.exists(self.path):
+                os.remove(self.path)
+            file_path = osp.join(self.item.parent().data(0, Qt.UserRole), f"{self.name.text()}.json")
+            self.item.setText(0, self.name.text())
+            self.item.setData(0, Qt.UserRole, file_path)
+            type = self.item.parent().text(0)
+        else:
+            if self.name.text() in names:
+                QMessageBox.warning(self, "警告", "该工艺名已存在")
+                return
+            new_item = QTreeWidgetItem(self.item)
+            file_path = osp.join(self.item.data(0, Qt.UserRole), f"{self.name.text()}.json")
+            new_item.setText(0, self.name.text())
+            new_item.setData(0, Qt.UserRole, file_path)
+            new_item.setData(0, Qt.UserRole + 1, "具体工艺")
+            # 设置图标
+            icon_path = os.path.join('..', 'resource', 'icon', 'doc.png')
+            new_item.setIcon(0, QIcon(icon_path))
+            type = self.item.text(0)
+        if type == "送粉":
             data = {
                 "熔覆材料": self.material_edit.currentText(),
                 "基板材料": self.base_material_edit.currentText(),
-                "粉末粒径(μm)": self.fmd_edit.value(),
-                "基板尺寸(mm)": self.bansize_edit.value(),
+                "粉末粒径(μm)": self.fmd_edit.text(),
+                "基板尺寸(mm)": self.bansize_edit.text(),
                 "激光功率(W)": self.laser_power_edit.value(),
                 "熔覆速度(mm/s)": self.welding_speed_edit.value(),
                 "送粉转速(r/min)": self.ss_rate_edit.value(),
@@ -737,7 +878,7 @@ class ProcessDialog(QDialog):
                 "熔覆材料": self.material_edit.currentText(),
                 "基板材料": self.base_material_edit.currentText(),
                 "丝材直径(mm)": self.scd_edit.value(),
-                "基板尺寸(mm)": self.bansize_edit.value(),
+                "基板尺寸(mm)": self.bansize_edit.text(),
                 "激光功率(W)": self.laser_power_edit.value(),
                 "熔覆速度(mm/s)": self.welding_speed_edit.value(),
                 "送丝速度(m/min)": self.ss_rate_edit.value(),
@@ -747,15 +888,15 @@ class ProcessDialog(QDialog):
                 "加工前保护气时长(s)": self.pre_time_edit.value(),
                 "保护气保持时间(s)": self.keep_time_edit.value()
             }
-        if self.path:
-            with open(self.path, 'w', encoding='utf-8') as f:
+        if file_path:
+            with open(file_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
             self.accept()
 
 class ProgramDialog(QDialog):
     def __init__(self, mainWindow, item):
         super().__init__()
-        self.setWindowTitle("编辑程序")
+        self.setWindowTitle("新建程序")
         self.setFixedSize(600, 350)  # (w,h)
         self.info_dict = mainWindow.info_dict
         # 设置窗口图标
@@ -771,8 +912,13 @@ class ProgramDialog(QDialog):
         self.setFont(font)
 
         self.item = item
-        self.path = item.data(0, Qt.UserRole)
-
+        self.note = "create"
+        if self.item.data(0, Qt.UserRole + 1) == "具体程序":
+            self.note = "edit"
+            self.setWindowTitle("编辑程序")
+            self.path = item.parent().data(0, Qt.UserRole)
+        else:
+            self.path = item.data(0, Qt.UserRole)
         # 创建布局
         layout = QVBoxLayout()
         layout.setSpacing(30)
@@ -874,11 +1020,36 @@ class ProgramDialog(QDialog):
         self.remove_button.clicked.connect(self.remove_file)
         self.ok_button.clicked.connect(self.save_to_json)
         self.cancel_button.clicked.connect(self.reject)
-
+        if self.note == "edit":
+            self.initData()
+            self.name.setText(self.item.text(0))
+    def initData(self):
+        filepath = osp.join(self.item.data(0, Qt.UserRole), "程序描述.json")
+        # 确保文件存在
+        if not osp.exists(filepath):
+            QMessageBox.warning(self, "警告", f"程序描述文件不存在")
+            return
+        try:
+            with open(filepath, 'r', encoding='utf-8') as json_file:
+                data = json.load(json_file)
+            # 将数据赋值到相应的控件
+            self.name.setText(data["名称"])
+            self.type_combo.setText(data["类型"])
+            self.path_count_edit.setValue(data["道数"])
+            self.layer_count_edit.setValue(data["层数"])
+            self.laser_power_edit.setValue(data["激光功率(W)"])
+            self.melting_speed_edit.setValue(data["熔覆速度(mm/s)"])
+        except Exception as e:
+            QMessageBox.critical(self, "错误", f"无法读取文件: {e}")
+        pro_dir = self.item.data(0, Qt.UserRole)
+        # 列出目录下的所有文件
+        for filename in os.listdir(pro_dir):
+            if not filename.endswith(".json"):
+                self.file_list.addItem(filename)  # 添加文件名到 QListWidget
     def update_name(self):
         # 获取当前值并拼接
         layer_count = self.layer_count_edit.value()  # 获取层数
-        dao_count = self.layer_count_edit.value()  # 获取道数
+        dao_count = self.path_count_edit.value()  # 获取道数
         laser_power = self.laser_power_edit.value()
         melting_speed = self.melting_speed_edit.value()
         self.name.setText(f"L{layer_count}P{dao_count}-{laser_power}-{melting_speed}")  # 拼接并设置到名称中
@@ -899,6 +1070,12 @@ class ProgramDialog(QDialog):
             self.file_list.takeItem(self.file_list.row(item))
 
     def save_to_json(self):
+        # 名称检查
+        name = self.name.text()
+        names = get_folder_names(self.path)
+        if not self.name.text():
+            QMessageBox.warning(self, "警告", "请输入程序名称")
+            return
         # 收集输入数据
         data = {
             "名称": self.name.text(),
@@ -908,37 +1085,53 @@ class ProgramDialog(QDialog):
             "激光功率(W)": self.laser_power_edit.value(),
             "熔覆速度(mm/s)": self.melting_speed_edit.value()
         }
-
         # 设置文件名和路径
-        # name = f'{self.name.text()}.json'
-        name = '程序描述.json'
         dir_path = os.path.join(self.path, self.name.text())  # 目录路径
-        file_path = os.path.join(dir_path, name)  # 完整文件路径
-        # 创建目录（如果不存在的话）
-        os.makedirs(dir_path, exist_ok=True)
+        file_path = os.path.join(dir_path, '程序描述.json')  # 完整文件路径
+        # 新建模式先创建文件
+        if self.note == "edit":
+            ori_name = self.item.text(0)
+            if name != ori_name:
+                if name in names:
+                    QMessageBox.warning(self, "警告", "该程序名已存在")
+                    return
+                # 重命名
+                os.rename(osp.join(self.path, ori_name), osp.join(self.path, name))
+                self.item.setText(0, name)
+                self.item.setData(0, Qt.UserRole, osp.join(self.path, name))
+        else:
+            if name in names:
+                QMessageBox.warning(self, "警告", "该程序名已存在")
+                return
+            # 创建目录（如果不存在的话）
+            os.makedirs(dir_path, exist_ok=True)
         # 将数据写入 JSON 文件
         with open(file_path, 'w', encoding='utf-8') as json_file:
             json.dump(data, json_file, ensure_ascii=False, indent=4)
-
         # 遍历 QListWidget 中的所有项
         for index in range(self.file_list.count()):
             item = self.file_list.item(index)
             file_path = item.text()  # 获取文件路径
 
             if os.path.isfile(file_path):  # 确保路径是一个有效的文件
-                # 复制文件到目标目录
-                try:
-                    shutil.copy(file_path, dir_path)  # 复制文件
-                    print(f"Copied {file_path} to {dir_path}")
-                except Exception as e:
-                    print(f"Error copying {file_path}: {e}")
+                # 检查文件路径是否为绝对路径
+                if not os.path.isabs(file_path):
+                    pass
+                else:
+                    # 复制文件到目标目录
+                    try:
+                        shutil.copy(file_path, dir_path)  # 复制文件
+                        print(f"Copied {file_path} to {dir_path}")
+                    except Exception as e:
+                        print(f"Error copying {file_path}: {e}")
         self.accept()  # 关闭对话框
 
 class ModelDialog(QDialog):
     def __init__(self, mainWindow, item):
         super().__init__()
-        self.setWindowTitle("编辑模型")
+        self.setWindowTitle("新建模型")
         self.setFixedSize(600, 400)
+        self.mainWindow = mainWindow
         self.info_dict = mainWindow.info_dict
         # 设置窗口图标
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
@@ -950,12 +1143,14 @@ class ModelDialog(QDialog):
         font = QFont()
         font.setPointSize(10)  # 设置字体大小为10
         self.setFont(font)
-        self.note = "新建"
         self.item = item
-        if item.data(0, Qt.UserRole + 1) == "具体模型":
-            self.note = "编辑"
-            self.item = item.parent()
-        self.path = self.item.data(0, Qt.UserRole)
+        self.note = "create"
+        if self.item.data(0, Qt.UserRole + 1) == "具体模型":
+            self.note = "edit"
+            self.setWindowTitle("编辑模型")
+            self.path = self.item.parent().data(0, Qt.UserRole)
+        else:
+            self.path = self.item.data(0, Qt.UserRole)
         # 创建主布局
         layout = QVBoxLayout()
         layout.setSpacing(15)
@@ -1004,7 +1199,7 @@ class ModelDialog(QDialog):
         vlayout2.addRow("基板材料", self.base_material_combo)
 
         self.melting_speed_edit = QDoubleSpinBox()
-        self.melting_speed_edit.setRange(0, 500)  # 设置范围
+        self.melting_speed_edit.setRange(0, 100)  # 设置范围
         self.melting_speed_edit.setDecimals(2)  # 设置小数位数
         # 创建 QLabel 并设置单位
         unit_label1 = QLabel("(mm/s)")
@@ -1014,8 +1209,7 @@ class ModelDialog(QDialog):
         rf_layout.addWidget(self.melting_speed_edit)  # 添加 QSpinBox
         rf_layout.addWidget(unit_label1)  # 添加单位标签
         # 将水平布局添加到表单布局
-        vlayout1.addRow("熔覆速度", rf_layout)  # 修改这里的标签
-        # vlayout1.addRow("熔覆速度(mm/s)", self.melting_speed_edit)
+        vlayout1.addRow("熔覆速度", rf_layout)
 
         self.melting_shape_edit = QLineEdit()
         vlayout2.addRow("熔覆形式", self.melting_shape_edit)
@@ -1062,7 +1256,9 @@ class ModelDialog(QDialog):
         self.remove_button.clicked.connect(self.remove_file)
         self.ok_button.clicked.connect(self.save_to_json)  # 修改此处来保存为 JSON
         self.cancel_button.clicked.connect(self.reject)
-
+        if self.note == "edit":
+            self.name_edit.setText(self.item.text(0))
+            self.initData()
     def add_file(self):
         # 打开文件对话框选择文件
         options = QFileDialog.Options()
@@ -1073,12 +1269,46 @@ class ModelDialog(QDialog):
             for file in files:
                 self.file_list.addItem(file)  # 将文件路径添加到 QListWidget
 
+    def initData(self):
+        filepath = osp.join(self.item.data(0, Qt.UserRole), "模型描述.json")
+        # 确保文件存在
+        if not osp.exists(filepath):
+            QMessageBox.warning(self, "警告", f"模型描述文件不存在")
+            return
+        try:
+            with open(filepath, 'r', encoding='utf-8') as json_file:
+                data = json.load(json_file)
+            # 将数据赋值到相应的控件
+            self.name_edit.setText(data["名称"])
+            self.gy_combo.setText(data["工艺类型"])
+            self.type_combo.setText(data["模型类型"])
+            self.material_edit.setCurrentText(data["熔覆材料"])
+            self.base_material_combo.setCurrentText(data["基板材料"])
+            self.laser_efficiency_edit.setValue(data["激光功率(W)"])
+            self.melting_speed_edit.setValue(data["熔覆速度(mm/s)"])
+            self.melting_shape_edit.setText(data["熔覆形式"])
+            self.initial_condition_edit.setText(data["初始条件"])
+            self.boundary_condition_edit.setText(data["边界条件"])
+        except Exception as e:
+            QMessageBox.critical(self, "错误", f"无法读取文件: {e}")
+        pro_dir = self.item.data(0, Qt.UserRole)
+
+        # 列出目录下的所有文件
+        for filename in os.listdir(pro_dir):
+            if not filename.endswith(".json"):
+                self.file_list.addItem(filename)  # 添加文件名到 QListWidget
     def remove_file(self):
         selected_items = self.file_list.selectedItems()
         for item in selected_items:
             self.file_list.takeItem(self.file_list.row(item))
 
     def save_to_json(self):
+        # 名称检查
+        name = self.name_edit.text()
+        names = get_folder_names(self.path)
+        if not self.name_edit.text():
+            QMessageBox.warning(self, "警告", "请输入程序名称")
+            return
         # 提取输入数据
         data = {
             "名称": self.name_edit.text(),
@@ -1094,27 +1324,44 @@ class ModelDialog(QDialog):
         }
 
         # 设置文件名和路径
-        name = f'{self.name_edit.text()}.json'
         dir_path = os.path.join(self.path, self.name_edit.text())  # 目录路径
-        file_path = os.path.join(dir_path, name)  # 完整文件路径
-        # 创建目录（如果不存在的话）
-        os.makedirs(dir_path, exist_ok=True)
+        file_path = os.path.join(dir_path, '模型描述.json')  # 完整文件路径
+        # 新建模式先创建文件
+        if self.note == "edit":
+            ori_name = self.item.text(0)
+            if name != ori_name:
+                if name in names:
+                    QMessageBox.warning(self, "警告", "该模型名已存在")
+                    return
+                # 重命名
+                os.rename(osp.join(self.path, ori_name), osp.join(self.path, name))
+                self.item.setText(0, name)
+                self.item.setData(0, Qt.UserRole, osp.join(self.path, name))
+        else:
+            if name in names:
+                QMessageBox.warning(self, "警告", "该模型名已存在")
+                return
+            # 创建目录（如果不存在的话）
+            os.makedirs(dir_path, exist_ok=True)
         # 将数据写入 JSON 文件
         with open(file_path, 'w', encoding='utf-8') as json_file:
             json.dump(data, json_file, ensure_ascii=False, indent=4)
-
         # 遍历 QListWidget 中的所有项
         for index in range(self.file_list.count()):
             item = self.file_list.item(index)
             file_path = item.text()  # 获取文件路径
 
             if os.path.isfile(file_path):  # 确保路径是一个有效的文件
-                # 复制文件到目标目录
-                try:
-                    shutil.copy(file_path, dir_path)  # 复制文件
-                    print(f"Copied {file_path} to {dir_path}")
-                except Exception as e:
-                    print(f"Error copying {file_path}: {e}")
+                # 检查文件路径是否为绝对路径
+                if not os.path.isabs(file_path):
+                    pass
+                else:
+                    # 复制文件到目标目录
+                    try:
+                        shutil.copy(file_path, dir_path)  # 复制文件
+                        print(f"Copied {file_path} to {dir_path}")
+                    except Exception as e:
+                        print(f"Error copying {file_path}: {e}")
         self.accept()  # 关闭对话框
 
 class FilterCX(QDialog):
@@ -1150,7 +1397,7 @@ class FilterCX(QDialog):
         self.table_cx.customContextMenuRequested.connect(self.show_context_menu)
         # 类型
         self.filter_type = QComboBox()
-        self.filter_type.addItems(["全部", "送粉", "送丝"])
+        self.filter_type.addItems(self.info_dict["程序类型"])
         # 层数
         self.filter_layer_min = QSpinBox()
         self.filter_layer_min.setRange(1, 100)
@@ -1214,14 +1461,14 @@ class FilterCX(QDialog):
         # 初始化表格
         self.populate_table(self.data)
         self.table_cx.setColumnWidth(0, 300)
-        self.table_cx.setColumnWidth(1, 120)
-        self.table_cx.setColumnWidth(2, 120)
-        self.table_cx.setColumnWidth(3, 120)
-        self.table_cx.setColumnWidth(4, 120)
-        self.table_cx.setColumnWidth(5, 150)
+        self.table_cx.setColumnWidth(1, 150)
+        self.table_cx.setColumnWidth(2, 150)
+        self.table_cx.setColumnWidth(3, 150)
+        self.table_cx.setColumnWidth(4, 180)
+        self.table_cx.setColumnWidth(5, 180)
         # 设置窗口标题和大小
         self.setWindowTitle("程序筛选")
-        self.resize(800, 600)
+        self.resize(1000, 600)
 
     def get_folder_names(self, path):
         try:
@@ -1374,15 +1621,11 @@ class FilterMX(QDialog):
         # 创建筛选器组件
         self.filter_type = QComboBox()
         self.filter_type.addItem("全部")
-        self.filter_type.addItem("送粉")
-        self.filter_type.addItem("送丝")  # 其他类型可以根据需要添加
+        self.filter_type.addItems(self.info_dict["模型工艺类型"])
 
         self.filter_type2 = QComboBox()
         self.filter_type2.addItem("全部")
-        self.filter_type2.addItem("热力耦合")
-        self.filter_type2.addItem("熔池多相流")
-        self.filter_type2.addItem("PINN")
-        self.filter_type2.addItem("LBM")  # 其他类型可以根据需要添加
+        self.filter_type2.addItems(self.info_dict["模型类型"])
 
         self.filter_material = QComboBox()  # 熔覆材料
         self.filter_material.addItem("全部")
