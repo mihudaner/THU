@@ -135,6 +135,7 @@ class Ui_MainWindow(object):
         MainWindow.addToolBar(Qt.TopToolBarArea, self.toolBar)
 
         self.toolBar.addAction(self.file_menu)
+        self.toolBar.addAction(self.show_all)
         self.toolBar.addAction(self.cl_open)
         self.toolBar.addAction(self.sb_open)
         self.toolBar.addAction(self.gy_open)

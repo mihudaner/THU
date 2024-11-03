@@ -1400,16 +1400,16 @@ class FilterCX(QDialog):
         self.filter_type.addItems(self.info_dict["程序类型"])
         # 层数
         self.filter_layer_min = QSpinBox()
-        self.filter_layer_min.setRange(1, 100)
+        self.filter_layer_min.setRange(1, 10000)
         self.filter_layer_max = QSpinBox()
-        self.filter_layer_max.setRange(1, 100)
-        self.filter_layer_max.setValue(100)
+        self.filter_layer_max.setRange(1, 10000)
+        self.filter_layer_max.setValue(10000)
         # 道数
         self.filter_dao_min = QSpinBox()
-        self.filter_dao_min.setRange(1, 100)
+        self.filter_dao_min.setRange(1, 10000)
         self.filter_dao_max = QSpinBox()
-        self.filter_dao_max.setRange(1, 100)
-        self.filter_dao_max.setValue(100)
+        self.filter_dao_max.setRange(1, 10000)
+        self.filter_dao_max.setValue(10000)
         # 功率
         self.filter_power_min = QSpinBox()
         self.filter_power_min.setRange(0, 10000)
@@ -1418,10 +1418,10 @@ class FilterCX(QDialog):
         self.filter_power_max.setValue(10000)
         # 熔覆速度
         self.filter_rfsd_min = QSpinBox()
-        self.filter_rfsd_min.setRange(0, 100)
+        self.filter_rfsd_min.setRange(0, 10000)
         self.filter_rfsd_max = QSpinBox()
-        self.filter_rfsd_max.setRange(0, 100)
-        self.filter_rfsd_max.setValue(100)
+        self.filter_rfsd_max.setRange(0, 10000)
+        self.filter_rfsd_max.setValue(10000)
 
         filter_button = QPushButton("筛选")
         filter_button.clicked.connect(self.apply_filter)
@@ -1641,9 +1641,9 @@ class FilterMX(QDialog):
         self.filter_jg_max.setValue(10000)  # 设置默认值为最大值
         # 熔覆速度
         self.filter_speed_min = QSpinBox()
-        self.filter_speed_min.setRange(0, 100)
+        self.filter_speed_min.setRange(0, 10000)
         self.filter_speed_max = QSpinBox()
-        self.filter_speed_max.setRange(0, 100)
+        self.filter_speed_max.setRange(0, 10000)
         self.filter_speed_max.setValue(10000)  # 设置默认值为最大值
 
         filter_button = QPushButton("筛选")

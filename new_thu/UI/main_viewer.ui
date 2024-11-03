@@ -48,7 +48,7 @@
       </property>
       <column>
        <property name="text">
-        <string>  </string>
+        <string/>
        </property>
        <property name="font">
         <font>
@@ -134,6 +134,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="file_menu"/>
+   <addaction name="show_all"/>
    <addaction name="cl_open"/>
    <addaction name="sb_open"/>
    <addaction name="gy_open"/>

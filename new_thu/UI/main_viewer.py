@@ -190,23 +190,28 @@ class MainWindow(QMainWindow):
         self.treeWidget.clear()
         if note != "fresh":
             #新的database路径
-            dataroot = QFileDialog.getExistingDirectory(self, "选择工程目录", ".",
+            root = QFileDialog.getExistingDirectory(self, "选择工程目录", ".",
                             QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
-            if dataroot:
-                self.dataroot = dataroot
-        if self.dataroot:
-            # top_item = self.create_top_item(self.root, value='all')  # 创建topitem
-            self.list_dir(None, self.dataroot)  # 递归遍历
-
+            if root:
+                self.root = root
+                self.dataroot = osp.join(root, "数据库")
+                self.projectroot = osp.join(self.root, "项目库")
+                self.list_dir(None, self.dataroot)  # 递归遍历
+                top_item = self.create_top_item(self.projectroot, "项目")  # 创建topitem
+                self.list_dir(top_item, self.projectroot, "项目")  # 递归遍历
+            else:
+                # 创建一个警告对话框
+                warning_box = QMessageBox(self)
+                warning_box.setIcon(QMessageBox.Warning)  # 设置图标为警告图标
+                warning_box.setText("数据库未选择！")  # 警告文本
+                warning_box.setWindowTitle("警告")  # 对话框标题
+                warning_box.setStandardButtons(QMessageBox.Ok)  # 添加按钮
+                # 显示对话框并获取用户选择
+                warning_box.exec_()
         else:
-            # 创建一个警告对话框
-            warning_box = QMessageBox(self)
-            warning_box.setIcon(QMessageBox.Warning)  # 设置图标为警告图标
-            warning_box.setText("数据库未选择！")  # 警告文本
-            warning_box.setWindowTitle("警告")  # 对话框标题
-            warning_box.setStandardButtons(QMessageBox.Ok)  # 添加按钮
-            # 显示对话框并获取用户选择
-            warning_box.exec_()
+            self.list_dir(None, self.dataroot)  # 递归遍历
+            top_item = self.create_top_item(self.projectroot, "项目")  # 创建topitem
+            self.list_dir(top_item, self.projectroot, "项目")  # 递归遍历
     #选择数据库
     def select_data(self, note=None):
         self.treeWidget.clear()
@@ -487,7 +492,6 @@ class MainWindow(QMainWindow):
                 item.setData(0, Qt.UserRole+1, "具体模型")
             elif item.parent().data(0, Qt.UserRole + 1) == "项目库":
                 item.setData(0, Qt.UserRole + 1, "具体项目")
-                item.setExpanded(True)
             elif item.parent().data(0, Qt.UserRole + 1) == "具体项目":
                 item.setData(0, Qt.UserRole + 1, "项目包含项")
                 if item.text(0) in ["分析预测", "熔覆监控"]:
