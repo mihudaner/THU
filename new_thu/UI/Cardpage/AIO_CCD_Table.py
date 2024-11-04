@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'AIO_CCD_TableUTHCjI.ui'
+## Form generated from reading UI file 'AIO_CCD_TableLjPLoX.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -11,8 +11,6 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-
-import icon_rc
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -366,45 +364,77 @@ class Ui_Form(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.checkBox_6 = QCheckBox(self.groupBox_6)
-        self.checkBox_6.setObjectName(u"checkBox_6")
-
-        self.gridLayout.addWidget(self.checkBox_6, 3, 0, 1, 1)
-
-        self.checkBox_5 = QCheckBox(self.groupBox_6)
-        self.checkBox_5.setObjectName(u"checkBox_5")
-
-        self.gridLayout.addWidget(self.checkBox_5, 3, 1, 1, 1)
-
-        self.checkBox_4 = QCheckBox(self.groupBox_6)
-        self.checkBox_4.setObjectName(u"checkBox_4")
-
-        self.gridLayout.addWidget(self.checkBox_4, 0, 1, 1, 1)
-
-        self.checkBox = QCheckBox(self.groupBox_6)
-        self.checkBox.setObjectName(u"checkBox")
-
-        self.gridLayout.addWidget(self.checkBox, 0, 0, 1, 1)
-
-        self.checkBox_2 = QCheckBox(self.groupBox_6)
-        self.checkBox_2.setObjectName(u"checkBox_2")
-
-        self.gridLayout.addWidget(self.checkBox_2, 1, 0, 1, 1)
-
-        self.checkBox_3 = QCheckBox(self.groupBox_6)
-        self.checkBox_3.setObjectName(u"checkBox_3")
-
-        self.gridLayout.addWidget(self.checkBox_3, 1, 1, 1, 1)
-
         self.checkBox_7 = QCheckBox(self.groupBox_6)
         self.checkBox_7.setObjectName(u"checkBox_7")
+        self.checkBox_7.setStyleSheet(u"QCheckBox::indicator:checked {\n"
+"    background-color: rgb(0, 191, 255); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
+"}")
+        self.checkBox_7.setChecked(True)
 
-        self.gridLayout.addWidget(self.checkBox_7, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.checkBox_7, 3, 0, 1, 1)
 
         self.checkBox_8 = QCheckBox(self.groupBox_6)
         self.checkBox_8.setObjectName(u"checkBox_8")
+        self.checkBox_8.setStyleSheet(u"QCheckBox::indicator:checked {\n"
+"    background-color: rgb(255, 69, 0); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
+"}")
+        self.checkBox_8.setChecked(True)
 
-        self.gridLayout.addWidget(self.checkBox_8, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.checkBox_8, 3, 1, 1, 1)
+
+        self.checkBox_2 = QCheckBox(self.groupBox_6)
+        self.checkBox_2.setObjectName(u"checkBox_2")
+        self.checkBox_2.setStyleSheet(u"QCheckBox::indicator:checked {\n"
+"    background-color: rgb(50, 50, 50); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
+"}")
+        self.checkBox_2.setChecked(True)
+
+        self.gridLayout.addWidget(self.checkBox_2, 0, 1, 1, 1)
+
+        self.checkBox_1 = QCheckBox(self.groupBox_6)
+        self.checkBox_1.setObjectName(u"checkBox_1")
+        self.checkBox_1.setStyleSheet(u"QCheckBox::indicator:checked {\n"
+"    background-color: rgb(98, 114, 165); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
+"}")
+        self.checkBox_1.setChecked(True)
+
+        self.gridLayout.addWidget(self.checkBox_1, 0, 0, 1, 1)
+
+        self.checkBox_3 = QCheckBox(self.groupBox_6)
+        self.checkBox_3.setObjectName(u"checkBox_3")
+        self.checkBox_3.setStyleSheet(u"QCheckBox::indicator:checked {\n"
+"    background-color: rgb(60, 179, 113); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
+"}")
+        self.checkBox_3.setChecked(True)
+
+        self.gridLayout.addWidget(self.checkBox_3, 1, 0, 1, 1)
+
+        self.checkBox_4 = QCheckBox(self.groupBox_6)
+        self.checkBox_4.setObjectName(u"checkBox_4")
+        self.checkBox_4.setStyleSheet(u"QCheckBox::indicator:checked {\n"
+"    background-color: rgb(255, 215, 0); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
+"}")
+        self.checkBox_4.setChecked(True)
+
+        self.gridLayout.addWidget(self.checkBox_4, 1, 1, 1, 1)
+
+        self.checkBox_5 = QCheckBox(self.groupBox_6)
+        self.checkBox_5.setObjectName(u"checkBox_5")
+        self.checkBox_5.setStyleSheet(u"QCheckBox::indicator:checked {\n"
+"    background-color: rgb(75, 0, 130); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
+"}")
+        self.checkBox_5.setChecked(True)
+
+        self.gridLayout.addWidget(self.checkBox_5, 2, 0, 1, 1)
+
+        self.checkBox_6 = QCheckBox(self.groupBox_6)
+        self.checkBox_6.setObjectName(u"checkBox_6")
+        self.checkBox_6.setStyleSheet(u"QCheckBox::indicator:checked {\n"
+"    background-color: rgb(255, 105, 180); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
+"}")
+        self.checkBox_6.setChecked(True)
+
+        self.gridLayout.addWidget(self.checkBox_6, 2, 1, 1, 1)
 
 
         self.verticalLayout.addLayout(self.gridLayout)
@@ -415,29 +445,7 @@ class Ui_Form(object):
 
         self.verticalLayout.addWidget(self.groupBox_waveview_1)
 
-        self.comboBox_plotcannel_1 = QComboBox(self.groupBox_6)
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.addItem("")
-        self.comboBox_plotcannel_1.setObjectName(u"comboBox_plotcannel_1")
-
-        self.verticalLayout.addWidget(self.comboBox_plotcannel_1)
-
         self.verticalLayout.setStretch(1, 1)
-        self.verticalLayout.setStretch(2, 1)
 
         self.gridLayout_3.addWidget(self.groupBox_6, 0, 0, 1, 1)
 
@@ -474,32 +482,15 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("Form", u"\u6a21\u62df\u91cf\u8f93\u5165", None))
-        self.checkBox_6.setText(QCoreApplication.translate("Form", u"AI7", None))
-        self.checkBox_5.setText(QCoreApplication.translate("Form", u"AI8", None))
-        self.checkBox_4.setText(QCoreApplication.translate("Form", u"AI2", None))
-        self.checkBox.setText(QCoreApplication.translate("Form", u"AI1", None))
-        self.checkBox_2.setText(QCoreApplication.translate("Form", u"AI3", None))
-        self.checkBox_3.setText(QCoreApplication.translate("Form", u"AI4", None))
-        self.checkBox_7.setText(QCoreApplication.translate("Form", u"AI5", None))
-        self.checkBox_8.setText(QCoreApplication.translate("Form", u"AI6", None))
+        self.checkBox_7.setText(QCoreApplication.translate("Form", u"AI7", None))
+        self.checkBox_8.setText(QCoreApplication.translate("Form", u"AI8", None))
+        self.checkBox_2.setText(QCoreApplication.translate("Form", u"AI2", None))
+        self.checkBox_1.setText(QCoreApplication.translate("Form", u"AI1", None))
+        self.checkBox_3.setText(QCoreApplication.translate("Form", u"AI3", None))
+        self.checkBox_4.setText(QCoreApplication.translate("Form", u"AI4", None))
+        self.checkBox_5.setText(QCoreApplication.translate("Form", u"AI5", None))
+        self.checkBox_6.setText(QCoreApplication.translate("Form", u"AI6", None))
         self.groupBox_waveview_1.setTitle("")
-        self.comboBox_plotcannel_1.setItemText(0, QCoreApplication.translate("Form", u"AD1_\u5b9e\u65f6\u6fc0\u5149\u529f\u7387", None))
-        self.comboBox_plotcannel_1.setItemText(1, QCoreApplication.translate("Form", u"AD2_\u6fc0\u5149\u529f\u7387", None))
-        self.comboBox_plotcannel_1.setItemText(2, QCoreApplication.translate("Form", u"AD3_\u7c89\u7b521\u9001\u7c89\u7535\u538b", None))
-        self.comboBox_plotcannel_1.setItemText(3, QCoreApplication.translate("Form", u"AD4_\u7c89\u7b522\u9001\u7c89\u7535\u538b", None))
-        self.comboBox_plotcannel_1.setItemText(4, QCoreApplication.translate("Form", u"AD5_\u5149\u6591\u7535\u538b", None))
-        self.comboBox_plotcannel_1.setItemText(5, QCoreApplication.translate("Form", u"AD6_\u672a\u5b9a\u4e49", None))
-        self.comboBox_plotcannel_1.setItemText(6, QCoreApplication.translate("Form", u"AD7_\u672a\u5b9a\u4e49", None))
-        self.comboBox_plotcannel_1.setItemText(7, QCoreApplication.translate("Form", u"AD8_\u672a\u5b9a\u4e49", None))
-        self.comboBox_plotcannel_1.setItemText(8, QCoreApplication.translate("Form", u"AD9_\u672a\u5b9a\u4e49", None))
-        self.comboBox_plotcannel_1.setItemText(9, QCoreApplication.translate("Form", u"AD10_\u672a\u5b9a\u4e49", None))
-        self.comboBox_plotcannel_1.setItemText(10, QCoreApplication.translate("Form", u"AD11_\u672a\u5b9a\u4e49", None))
-        self.comboBox_plotcannel_1.setItemText(11, QCoreApplication.translate("Form", u"AD12_\u672a\u5b9a\u4e49", None))
-        self.comboBox_plotcannel_1.setItemText(12, QCoreApplication.translate("Form", u"AD13_\u672a\u5b9a\u4e49", None))
-        self.comboBox_plotcannel_1.setItemText(13, QCoreApplication.translate("Form", u"AD14_\u672a\u5b9a\u4e49", None))
-        self.comboBox_plotcannel_1.setItemText(14, QCoreApplication.translate("Form", u"AD15_\u672a\u5b9a\u4e49", None))
-        self.comboBox_plotcannel_1.setItemText(15, QCoreApplication.translate("Form", u"AD16_\u672a\u5b9a\u4e49", None))
-
         self.groupBox_2.setTitle(QCoreApplication.translate("Form", u"CCD\u56fe\u50cf:", None))
         self.label.setText("")
         self.groupBox.setTitle(QCoreApplication.translate("Form", u"CCD\u53c2\u6570", None))
