@@ -191,10 +191,10 @@ class Window(ProjectWindow, CardWindow):
         self.timestamp = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
 
         # 数据库
-        self.mysqlviewer = MySQLViewer(self)
-        self.mysqlviewer.widgets.tableWidget.itemDoubleClicked.connect(self.mysqlviewer_double_clicked)
-        widgets.verticalLayout_db.addWidget(self.mysqlviewer)
-        self.resize(2300, 1200)
+        # self.mysqlviewer = MySQLViewer(self)
+        # self.mysqlviewer.widgets.tableWidget.itemDoubleClicked.connect(self.mysqlviewer_double_clicked)
+        # widgets.verticalLayout_db.addWidget(self.mysqlviewer)
+        # self.resize(2300, 1200)
 
     def all_capture_detect(self, pipe_sam, pipe_hik):
         """

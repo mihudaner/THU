@@ -13,51 +13,529 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#styleSheet{
+border: none;
+margin: 0px;
+}
+
+
+QPushButton {
+    background-repeat: no-repeat;
+	border: none;
+	background-color: transparent;
+	text-align: center;
+    color: #f8f8f2;
+}
+QPushButton:hover {
+	background-color: #bd93f9;
+}
+QPushButton:pressed {
+	background-color: #ff79c6;
+	color: rgb(255, 255, 255);
+}
+
+QTableWidget {
+	background-color: transparent;
+	padding: 10px;
+	border-radius: 5px;
+	gridline-color: #9faeda;
+    outline: none;
+}
+QTableWidget::item{
+	border-color: #9faeda;
+	padding-left: 5px;
+	padding-right: 5px;
+	gridline-color: #9faeda;
+}
+QTableWidget::item:selected{
+	background-color: rgb(189, 147, 249);
+    color: #f8f8f2;
+}
+QWidget{
+	color: #333;
+	font: 10pt &quot;Segoe UI&quot;;
+}
+QToolTip {
+	color: #333;
+	background-color: #f8f8f2;
+	border: 1px solid #CCC;
+	background-image: none;
+	background-position: left center;
+    background-repeat: no-repeat;
+	border: none;
+	border-left: 2px solid rgb(255, 121, 198);
+	text-align: left;
+	padding-left: 8px;
+	margin: 0px;
+}
+
+QTableWidget::horizontalHeader {
+	background-color: #6272a4;
+}
+
+
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+LineEdit */
+QLineEdit {
+	background-color: #6272a4;
+	border-radius: 5px;
+	border: 2px solid #6272a4;
+	padding-left: 10px;
+	selection-color: rgb(255, 255, 255);
+	selection-background-color: rgb(255, 121, 198);
+    color: #f8f8f2;
+}
+QLineEdit:hover {
+	border: 2px solid rgb(64, 71, 88);
+}
+QLineEdit:focus {
+	border: 2px solid #ff79c6;
+}
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+PlainTextEdit */
+QPlainTextEdit {
+	background-color: #6272a4;
+	border-radius: 5px;
+	padding: 10px;
+	selection-color: rgb(255, 255, 255);
+	selection-background-color: rgb(255, 121, 198);
+    color: #f8f8f2;
+}
+QPlainTextEdit  QScrollBar:vertical {
+    width: 8px;
+ }
+QPlainTextEdit  QScrollBar:horizontal {
+    height: 8px;
+ }
+QPlainTextEdit:hover {
+	border: 2px solid rgb(64, 71, 88);
+}
+QPlainTextEdit:focus {
+	border: 2px solid #ff79c6;
+}
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+ScrollBars */
+QScrollBar:horizontal {
+    border: none;
+    background: #6272a4;
+    height: 8px;
+    margin: 0px 21px 0 21px;
+	border-radius: 0px;
+}
+QScrollBar::handle:horizontal {
+    background: rgb(189, 147, 249);
+    min-width: 25px;
+	border-radius: 4px
+}
+QScrollBar::add-line:horizontal {
+    border: none;
+    background: #6272a4;
+    width: 20px;
+	border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+QScrollBar::sub-line:horizontal {
+    border: none;
+    background: #6272a4;
+    width: 20px;
+	border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal
+{
+     background: none;
+}
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
+{
+     background: none;
+}
+ QScrollBar:vertical {
+	border: none;
+    background-color: #6272a4;
+    width: 8px;
+    margin: 21px 0 21px 0;
+	border-radius: 0px;
+ }
+ QScrollBar::handle:vertical {
+	background: rgb(189, 147, 249);
+    min-height: 25px;
+	border-radius: 4px
+ }
+ QScrollBar::add-line:vertical {
+     border: none;
+    background: #6272a4;
+     height: 20px;
+	border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+     subcontrol-position: bottom;
+     subcontrol-origin: margin;
+ }
+ QScrollBar::sub-line:vertical {
+	border: none;
+    background: #6272a4;
+     height: 20px;
+	border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+     subcontrol-position: top;
+     subcontrol-origin: margin;
+ }
+ QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+     background: none;
+ }
+
+ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+     background: none;
+ }
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+CheckBox 
+QCheckBox::indicator {
+    border: 3px solid #6272a4;
+	width: 15px;
+	height: 15px;
+	border-radius: 10px;
+    background: #6272a4;
+}
+QCheckBox::indicator:hover {
+    border: 3px solid rgb(119, 136, 187);
+}
+QCheckBox::indicator:checked {
+    background: 3px solid #bd93f9;
+	border: 3px solid #bd93f9;
+	background-image: url(:/icons/images/icons/cil-check-alt.png);
+}
+*/
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+RadioButton */
+QRadioButton::indicator {
+    border: 3px solid #6272a4;
+	width: 15px;
+	height: 15px;
+	border-radius: 10px;
+    background: #6272a4;
+}
+QRadioButton::indicator:hover {
+    border: 3px solid rgb(119, 136, 187);
+}
+QRadioButton::indicator:checked {
+    background: 3px solid #F72121;
+	border: 3px solid #bd93f9;
+}
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+ComboBox */
+QComboBox{
+	background-color: #6272a4;
+	border-radius: 5px;
+	border: 2px solid #6272a4;
+	padding: 5px;
+	padding-left: 10px;
+    color: #f8f8f2;
+}
+QComboBox:hover{
+	border: 2px solid #7284b9;
+}
+QComboBox::drop-down {
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	width: 25px;
+	border-left-width: 3px;
+	border-left-color: #6272a4;
+	border-left-style: solid;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	background-image: url(:/icons/images/icons/cil-arrow-bottom.png);
+	background-position: center;
+	background-repeat: no-reperat;
+ }
+QComboBox QAbstractItemView {
+	color: rgb(255, 255, 255);
+	background-color: #6272a4;
+	padding: 10px;
+	selection-background-color: rgb(255, 121, 198);
+}
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////
+Sliders */
+QSlider::groove:horizontal {
+    border-radius: 5px;
+    height: 10px;
+	margin: 0px;
+	background-color: rgb(255, 255, 255);
+}
+QSlider::groove:horizontal:hover {
+	background-color: rgb(255, 255, 255);
+}
+QSlider::handle:horizontal {
+    background-color: rgb(189, 147, 249);
+    border: none;
+    height: 10px;
+    width: 10px;
+    margin: 0px;
+	border-radius: 5px;
+}
+QSlider::handle:horizontal:hover {
+    background-color: rgb(195, 155, 255);
+}
+QSlider::handle:horizontal:pressed {
+    background-color: rgb(255, 121, 198);
+}
+
+QSlider::groove:vertical {
+    border-radius: 5px;
+    width: 10px;
+    margin: 0px;
+	background-color: #6272a4;
+}
+QSlider::groove:vertical:hover {
+	background-color: #6272a4;
+}
+QSlider::handle:vertical {
+    background-color: rgb(189, 147, 249);
+	border: none;
+    height: 10px;
+    width: 10px;
+    margin: 0px;
+	border-radius: 5px;
+}
+QSlider::handle:vertical:hover {
+    background-color: rgb(195, 155, 255);
+}
+QSlider::handle:vertical:pressed {
+    background-color: rgb(255, 121, 198);
+}
+
+
+QTabWidget {
+     border: none;
+}
+
+QTabWidget {
+     border: none;
+}
+
+QTabBar::tab {
+    color: rgb(0, 0, 0);
+}
+
+/***https://github.com/gnibuoz/QRibbon/blob/master/QRibbon/qribbon.ui***/
+
+QToolTip {
+  border: 1px solid rgb(255,255,255);
+  background: white;
+  color: rgb(51, 51, 51);
+}
+
+/**********菜单栏**********/
+QMenuBar {
+  background: rgb(255,255,255);
+  border: 1px solid rgb(255,255,255);
+  border-left: none;
+  border-right: none;
+}
+
+QMenuBar::item {
+  border: 1px solid transparent;
+  padding: 5px 10px 5px 10px;
+  background: transparent;
+}
+
+QMenuBar::item:enabled {
+  color: rgb(2, 65, 132);
+}
+
+QMenuBar::item:!enabled {
+  color: rgb(155, 155, 155);
+}
+
+QMenuBar::item:enabled:selected {
+  border-top-color: rgb(255,255,255);
+  border-bottom-color: rgb(255,255,255);
+  background: rgb(255,255,255);
+}
+
+
+/**********状态栏**********/
+QStatusBar {
+  background: rgb(255,255,255);
+  border: 1px solid rgb(255,255,255);
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+QStatusBar::item {
+  border: none;
+  border-right: 1px solid rgb(255,255,255);
+}
+
+
+
+QTreeView::item,QTreeWidget::item {
+    height: 25px;
+    border: none;
+    background-color: rgba(43,87,154,0);
+}
+
+QTreeView::item:hover, QTreeView::branch:hover,
+QTreeWidget::item:hover, QTreeWidget::branch:hover { 
+    background-color: rgba(43,87,154, 40);
+}
+
+QTreeWidget::item:hover{ 
+	color: rgb(255, 255, 255);
+    background-color: rgb(43,87,154);
+}
+
+QTreeView::item:selected { 
+    background-color: rgba(200, 200, 200, 50);
+	font-weight:bold;
+	color: rgb(43, 87, 154);
+}
+
+
+QTabBar{
+	background:rgb(43,87,154);
+}
+
+
+QTabBar::tab:selected {
+	  
+       background:rgb(43,87,154);
+      padding: 2px;
+	  height:24px;
+	  padding:2px 12px;
+	  color:#fff;
+  }
+
+
+QTabBar::tab:hover:!selected {
+     background:rgba(0,0,0,40);
+		color:#fff;
+  }
+
+
+QTabBar::tab {
+	background: rgb(243,243,243);
+	  color: rgb(10, 10, 10);
+color: rgb(10, 10, 10);
+color: rgb(43,87,154);
+
+  }
+
+
+QTabBar::tab:selected {
+      border-color: #9B9B9B;
+      border-bottom-color: #C2C7CB; /* same as pane color */
+  }
+
+
+ QDockWidget::title {
+     text-align: left; /* align the text to the left */
+     background: rgb(230,230,230);
+    background:rgb(43,87,154);
+	 padding:6px 4px;
+	 font-size:30pt;
+
+
+ }
+
+
+QDockWidget {
+     border: 1px solid rgb(255,0,255);
+	 margin:0px;
+	 color:rgb(240,240,240);
+     background: #fff;
+	color:rgb(10,10,10);
+color:#eee;
+	titlebar-close-icon: url(:/Resources/icon/dockwidget-close.png);
+     titlebar-normal-icon: url(:/Resources/icon/dockwidget-float.png);
+ }
+
+ QDockWidget::close-button, QDockWidget::float-button {
+     border: 1px solid transparent;
+     width: 24px;
+	 height:24px;
+ }
+
+QDockWidget::close-button:hover, QDockWidget::float-button:hover {
+      background: rgb(177,177,177);
+	background:rgba(0,0,0,40);
+}
+
+QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
+     padding: 1px -1px -1px 1px;
+background:rgba(0,0,0,80);
+ }
+
+ QDockWidget::close-button {
+      subcontrol-position: top right;
+      subcontrol-origin: margin;
+	top:-1px;
+	right:4px;
+      position: absolute;
+  }
+
+ QDockWidget::float-button {
+      subcontrol-position: top right;
+      subcontrol-origin: margin;
+	top:-1px;
+      position: absolute;
+	right:26px;
+  }
+
+
+QToolBar{
+	background:transparent;
+	background:rgb(43,87,154);
+}
+
+
+QToolButton{
+	background:transparent;
+	border:0px solid gray;
+	color: rgb(255, 255, 255);
+	margin:0;
+}
+
+QToolButton{
+	padding-bottom:10px;
+}
+
+QToolButton:hover,QToolButton:checked{
+	border:1px solid rgba(100,100,100,100);
+	border-radius:2px;
+	background:rgb(255,255,255);
+	color: rgb(0, 0, 0);
+}
+
+QToolButton::menu-button {
+    
+      /* 16px width + 4px for border = 20px allocated above */
+      width: 16px;
+	subcontrol-origin:margin;
+subcontrol-position: bottom center;
+	bottom:0px;
+	left:0px;
+	height:10px;
+	width:100%
+ }
+
+</string>
+  </property>
   <widget class="QWidget" name="center">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="sizeConstraint">
      <enum>QLayout::SetNoConstraint</enum>
     </property>
-    <item>
-     <widget class="QTreeWidget" name="treeWidget">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>360</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>11</pointsize>
-       </font>
-      </property>
-      <column>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
-      </column>
-     </widget>
-    </item>
     <item>
      <widget class="QWidget" name="widget" native="true">
       <property name="styleSheet">
@@ -84,11 +562,17 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true">border:0px solid rgb(86, 86, 86);</string>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -156,7 +640,11 @@
   <widget class="QToolBar" name="toolBar">
    <property name="font">
     <font>
-     <pointsize>11</pointsize>
+     <family>Segoe UI</family>
+     <pointsize>10</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
    </property>
    <property name="windowTitle">
@@ -177,6 +665,91 @@
    <addaction name="mx_open"/>
    <addaction name="xm_open"/>
    <addaction name="action_fresh"/>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="floating">
+    <bool>false</bool>
+   </property>
+   <property name="features">
+    <set>QDockWidget::DockWidgetMovable</set>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QTreeWidget" name="treeWidget">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>360</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="animated">
+        <bool>true</bool>
+       </property>
+       <column>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+       </column>
+       <item>
+        <property name="text">
+         <string>新建项目</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>新建项目</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>新建项目</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>新建项目</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="w_save">
    <property name="text">

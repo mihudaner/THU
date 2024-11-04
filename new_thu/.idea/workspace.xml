@@ -5,15 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a202e7a6-b1f8-4db7-9d01-7a73b03f7b17" name="更改" comment="更改">
-      <change afterPath="$PROJECT_DIR$/src/centor-ps.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../QTui/boot_mainwindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/../QTui/boot_mainwindow.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/Cardpage/AIO_CCD_Table.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Cardpage/AIO_CCD_Table.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/Cardpage/AIO_CCD_Table.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Cardpage/AIO_CCD_Table.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/Cardpage/DIOwidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Cardpage/DIOwidget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/Cardpage/Two_widget_debug.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Cardpage/Two_widget_debug.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/Cardpage/DIOwidget.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Cardpage/DIOwidget.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/main_Pwindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/main_Pwindow.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/main_viewer.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/main_viewer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UI/main_viewer.ui" beforeDir="false" afterPath="$PROJECT_DIR$/UI/main_viewer.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/main_viewer_ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/main_viewer_ui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/resource/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/molten_pool.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/molten_pool.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,19 +37,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "wk",
-    "last_opened_file_path": "E:/Work/THU/code/THU_Workspace",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;wk&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Work/THU/code/THU_Workspace&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="main_viewer" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="new_thu" />
@@ -86,6 +88,7 @@
       <option name="presentableId" value="Default" />
       <updated>1729257077796</updated>
       <workItem from="1730438396782" duration="6345000" />
+      <workItem from="1730702180036" duration="13332000" />
     </task>
     <servers />
   </component>
@@ -108,14 +111,24 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/UI/main_Pwindow.py</url>
-          <line>102</line>
+          <line>150</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/UI/main_Pwindow.py</url>
+          <line>161</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/UI/main_Pwindow.py</url>
+          <line>168</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/new_thu$main_viewer.coverage" NAME="main_viewer 覆盖结果" MODIFIED="1730445226480" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
+    <SUITE FILE_PATH="coverage/new_thu$main_viewer.coverage" NAME="main_viewer 覆盖结果" MODIFIED="1730718886653" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/new_thu$Two_widget_debug.coverage" NAME="Two_widget_debug 覆盖结果" MODIFIED="1730440303461" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI/Cardpage" />
     <SUITE FILE_PATH="coverage/new_thu$main_Pwindow.coverage" NAME="main_Pwindow 覆盖结果" MODIFIED="1730440109323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
   </component>

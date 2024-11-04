@@ -542,7 +542,7 @@ class CCD_Camera():
     img = None
     gray = None
     path = None
-    directory = r'E:\Work\THU\code\THU_Workspace\src\molten\1021-CCD-left\centor'
+    directory = r'..\\..\src\molten\1021-CCD-left\centor'
 
 
 
@@ -553,7 +553,7 @@ class CCD_Camera():
 
         calib_obg = Caliber(False)
         # calib_obg.read_img(r'.\1021-CCD-left\left-50du-ps.jpg')
-        calib_obg.read_img(r'E:\Work\THU\code\THU_Workspace\new_thu\src\centor-ps.jpg')
+        calib_obg.read_img(r'..\src\centor-ps.jpg')
         calib_obg.findHomography()
         # 替换为您的文件夹路径
         self.d = Ellipse_Detector(calib_obg, False)

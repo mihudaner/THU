@@ -21,6 +21,7 @@
 border: none;
 margin: 0px;
 }
+
 QPushButton {
     background-repeat: no-repeat;
 	border: none;
@@ -38,7 +39,7 @@ QPushButton:pressed {
 
 QWidget{
 	color: #333;
-	font: 13pt &quot;Segoe UI&quot;;
+	font: 10pt &quot;Segoe UI&quot;;
 }
 
 QToolTip {
@@ -351,10 +352,23 @@ QTabBar::tab {
     <layout class="QGridLayout" name="gridLayout_3" rowstretch="0" columnstretch="1">
      <item row="0" column="0">
       <widget class="QGroupBox" name="groupBox_6">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="title">
         <string>模拟量输入</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1">
+       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
         <item>
          <layout class="QGridLayout" name="gridLayout">
           <item row="3" column="0">
