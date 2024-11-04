@@ -370,6 +370,10 @@ class EquipmentDialog(QDialog):
         self.mainWindow = mainWindow
         self.info_dict = mainWindow.info_dict
         self.item = item
+        # 设置字体大小
+        font = QFont()
+        font.setPointSize(10)  # 设置字体大小为10
+        self.setFont(font)
         self.setWindowTitle("新建设备")
         self.note = "create"
         if self.item.data(0, Qt.UserRole + 1) == "具体设备":
@@ -384,7 +388,7 @@ class EquipmentDialog(QDialog):
 
         # 主布局
         layout = QVBoxLayout()
-
+        layout.setSpacing(10)
         # 名称和类型
         name_layout = QHBoxLayout()
         self.name_input = QLineEdit()
@@ -400,6 +404,8 @@ class EquipmentDialog(QDialog):
         name_layout.addWidget(self.type_combo)
         layout.addLayout(name_layout)
 
+        im_layout = QHBoxLayout()
+        wen_layout = QHBoxLayout()
         # 设备描述
         self.description_input = QTextEdit()
         self.description_input.setPlaceholderText("设备描述")
@@ -407,29 +413,32 @@ class EquipmentDialog(QDialog):
         layout.addWidget(self.description_input)
 
         # 设备照片管理
-        layout.addWidget(QLabel("设备照片:"))
         self.image_list = QListWidget()
-        layout.addWidget(self.image_list)
+        # layout.addWidget(self.image_list)
 
-        image_button_layout = QHBoxLayout()
+        image_button_layout = QVBoxLayout()
         add_image_button = QPushButton("添加")
         remove_image_button = QPushButton("删除")
         image_button_layout.addWidget(add_image_button)
         image_button_layout.addWidget(remove_image_button)
-        layout.addLayout(image_button_layout)
+        im_layout.addWidget(self.image_list)
+        im_layout.addLayout(image_button_layout)
 
         # 设备文件管理
-        layout.addWidget(QLabel("设备文件:"))
         self.file_list = QListWidget()
-        layout.addWidget(self.file_list)
+        # layout.addWidget(self.file_list)
 
-        file_button_layout = QHBoxLayout()
+        file_button_layout = QVBoxLayout()
         add_file_button = QPushButton("添加")
         remove_file_button = QPushButton("删除")
         file_button_layout.addWidget(add_file_button)
         file_button_layout.addWidget(remove_file_button)
-        layout.addLayout(file_button_layout)
-
+        wen_layout.addWidget(self.file_list)
+        wen_layout.addLayout(file_button_layout)
+        layout.addWidget(QLabel("设备照片:"))
+        layout.addLayout(im_layout)
+        layout.addWidget(QLabel("设备文件:"))
+        layout.addLayout(wen_layout)
         # 确定和取消按钮
         button_layout = QHBoxLayout()
         ok_button = QPushButton("确定")
@@ -940,12 +949,12 @@ class ProgramDialog(QDialog):
         vlayout2.addRow("类型", self.type_combo)
 
         self.layer_count_edit = QSpinBox()
-        self.layer_count_edit.setRange(0, 100)  # 设置范围
+        self.layer_count_edit.setRange(0, 10000)  # 设置范围
         vlayout1.addRow("层数", self.layer_count_edit)
 
         # 使用 QSpinBox 只允许输入整数
         self.path_count_edit = QSpinBox()
-        self.path_count_edit.setRange(0, 100)  # 设置范围
+        self.path_count_edit.setRange(0, 10000)  # 设置范围
         vlayout2.addRow("道数", self.path_count_edit)
 
         self.laser_power_edit = QSpinBox()
@@ -963,7 +972,7 @@ class ProgramDialog(QDialog):
 
         # 使用 QDoubleSpinBox 只允许输入浮点数
         self.melting_speed_edit = QSpinBox()
-        self.melting_speed_edit.setRange(0, 100)  # 设置范围
+        self.melting_speed_edit.setRange(0, 10000)  # 设置范围
         # self.melting_speed_edit.setDecimals(2)  # 设置小数位数
         # 创建 QLabel 并设置单位
         unit_label = QLabel("(mm/s)")
@@ -1198,9 +1207,9 @@ class ModelDialog(QDialog):
         self.base_material_combo.addItems(self.info_dict["具体材料"])
         vlayout2.addRow("基板材料", self.base_material_combo)
 
-        self.melting_speed_edit = QDoubleSpinBox()
-        self.melting_speed_edit.setRange(0, 100)  # 设置范围
-        self.melting_speed_edit.setDecimals(2)  # 设置小数位数
+        self.melting_speed_edit = QSpinBox()
+        self.melting_speed_edit.setRange(0, 10000)  # 设置范围
+        # self.melting_speed_edit.setDecimals(2)  # 设置小数位数
         # 创建 QLabel 并设置单位
         unit_label1 = QLabel("(mm/s)")
         unit_label1.setFixedWidth(52)

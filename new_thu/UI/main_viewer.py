@@ -763,6 +763,8 @@ class MainWindow(QMainWindow):
                     icon_path = os.path.join('..', 'resource', 'icon', 'dir.png')
                     new_item.setIcon(0, QIcon(icon_path))
                     new_item.setData(0, Qt.UserRole + 1, item_style)
+                    if os.path.isdir(new_project_path):
+                        self.list_dir(new_item, new_project_path)
                 QMessageBox.information(self, '成功', f'项目已成功复制到 {new_project_path}')
             except Exception as e:
                 QMessageBox.critical(self, '错误', f'复制过程中发生错误: {e}')
