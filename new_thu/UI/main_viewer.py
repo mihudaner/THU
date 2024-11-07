@@ -30,7 +30,6 @@ class MainWindow(QMainWindow):
         self.mx_styles = []
 
         self.initUI()  # 初始化窗口
-
     def initUI(self):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)

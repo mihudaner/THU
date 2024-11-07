@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'AIO_CCD_TableLjPLoX.ui'
+## Form generated from reading UI file 'AIO_CCD_TableHNLWZP.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -11,6 +11,7 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -39,7 +40,7 @@ class Ui_Form(object):
 "\n"
 "QWidget{\n"
 "	color: #333;\n"
-"	font: 13pt \"Segoe UI\";\n"
+"	font: 10pt \"Segoe UI\";\n"
 "}\n"
 "\n"
 "QToolTip {\n"
@@ -360,8 +361,18 @@ class Ui_Form(object):
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.groupBox_6 = QGroupBox(Form)
         self.groupBox_6.setObjectName(u"groupBox_6")
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.groupBox_6.sizePolicy().hasHeightForWidth())
+        self.groupBox_6.setSizePolicy(sizePolicy)
         self.verticalLayout = QVBoxLayout(self.groupBox_6)
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.label_2 = QLabel(self.groupBox_6)
+        self.label_2.setObjectName(u"label_2")
+
+        self.verticalLayout.addWidget(self.label_2)
+
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
         self.checkBox_7 = QCheckBox(self.groupBox_6)
@@ -445,7 +456,7 @@ class Ui_Form(object):
 
         self.verticalLayout.addWidget(self.groupBox_waveview_1)
 
-        self.verticalLayout.setStretch(1, 1)
+        self.verticalLayout.setStretch(2, 1)
 
         self.gridLayout_3.addWidget(self.groupBox_6, 0, 0, 1, 1)
 
@@ -482,6 +493,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("Form", u"\u6a21\u62df\u91cf\u8f93\u5165", None))
+        self.label_2.setText("")
         self.checkBox_7.setText(QCoreApplication.translate("Form", u"AI7", None))
         self.checkBox_8.setText(QCoreApplication.translate("Form", u"AI8", None))
         self.checkBox_2.setText(QCoreApplication.translate("Form", u"AI2", None))
