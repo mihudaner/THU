@@ -17,10 +17,10 @@ class PWindow(MainWindow):
         self.InitUI()
         self.PInit()
 
-<<<<<<< HEAD
-        # self.ccd_cam = CCD_Camera(False)
-=======
->>>>>>> origin/addProject
+# <<<<<<< HEAD
+#         # self.ccd_cam = CCD_Camera(False)
+# =======
+# >>>>>>> origin/addProject
 
 
 
@@ -99,7 +99,7 @@ class PWindow(MainWindow):
         self._resizing_edge = None
 
     def PInit(self):
-        self.ccd_cam = CCD_Camera(False)
+        # self.ccd_cam = CCD_Camera(False)
         self.ui.btn_pre.clicked.connect(self.start_pre)
 
 
