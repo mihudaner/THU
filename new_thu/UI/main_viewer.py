@@ -1,5 +1,6 @@
 from utils import *
 from openpyxl import load_workbook
+from XM_dialogs import *
 from main_Pwindow import *
 @unique
 class NodeType(Enum):
@@ -7,7 +8,8 @@ class NodeType(Enum):
     NodeDir = 0
     NodeFile = 1
 class MainWindow(QMainWindow):
-    info_dict = {"具体材料": [], "材料类型": [], "工艺类型": [], "具体设备": [], "模型类型": [], "模型工艺类型": []}
+    info_dict = {"具体材料": [], "材料类型": [], "工艺类型": [], "具体设备": [], "模型类型": [], "模型工艺类型": [],
+                 "能量": [], "质量": [], "运动": [], "气氛": [], "监控": []}
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setWindowTitle('Main Window')
@@ -26,8 +28,6 @@ class MainWindow(QMainWindow):
         self.cx_styles = []
         self.mxgy_styles = []
         self.mx_styles = []
-
-        self.apppath = load_apppath()
 
         self.initUI()  # 初始化窗口
 
@@ -113,7 +113,10 @@ class MainWindow(QMainWindow):
             sb_files = self.get_folder_names(path)
             for sb_file in sb_files:
                 self.jt_sb.append(sb_file)
-
+        for str in ["能量", "质量", "运动", "气氛", "监控"]:
+            path = osp.join(path5, str)
+            files = self.get_folder_names(path)
+            MainWindow.info_dict[str] = files
         MainWindow.info_dict["材料类型"] = self.cl_styles
         MainWindow.info_dict["具体材料"] = self.jt_cls
         MainWindow.info_dict["具体设备"] = self.jt_sb
@@ -182,9 +185,9 @@ class MainWindow(QMainWindow):
         elif item.text(0)=='模型库':
             dialog = FilterMX(self, item)
         elif item.text(0)=='项目库':
-            dialog = FilterMX(self, item)
+            dialog = ProjectFilterDialog(self, item)
         else:
-            dialog = FilterMX(self, item)
+            dialog = ProjectFilterDialog(self, item)
         dialog.exec_()
 
     #选择总库
@@ -221,31 +224,31 @@ class MainWindow(QMainWindow):
             self.kupath = osp.join(self.dataroot, "材料库")
             top_item = self.create_top_item(self.kupath, "材料")  # 创建topitem
             top_item.setExpanded(True)  # 固定展开 top_item
-            self.list_dir(top_item, self.kupath, "材料")  # 递归遍历
+            self.list_dir(top_item, self.kupath)  # 递归遍历
         elif note == "设备" or note == "sb_fresh":
             self.kupath = osp.join(self.dataroot, "设备库")
             top_item = self.create_top_item(self.kupath, "设备")  # 创建topitem
             top_item.setExpanded(True)  # 固定展开 top_item
-            self.list_dir(top_item, self.kupath, "设备")  # 递归遍历
+            self.list_dir(top_item, self.kupath)  # 递归遍历
         elif note == "工艺" or note == "gy_fresh":
             self.kupath = osp.join(self.dataroot, "工艺库")
             top_item = self.create_top_item(self.kupath, "工艺")  # 创建topitem
             top_item.setExpanded(True)  # 固定展开 top_item
-            self.list_dir(top_item, self.kupath, "工艺")  # 递归遍历
+            self.list_dir(top_item, self.kupath)  # 递归遍历
         elif note == "程序" or note == "cx_open":
             self.kupath = osp.join(self.dataroot, "程序库")
             top_item = self.create_top_item(self.kupath, "程序")  # 创建topitem
             top_item.setExpanded(True)  # 固定展开 top_item
-            self.list_dir(top_item, self.kupath, "程序")  # 递归遍历
+            self.list_dir(top_item, self.kupath)  # 递归遍历
         elif note == "模型" or note == "mx_fresh":
             self.kupath = osp.join(self.dataroot, "模型库")
             top_item = self.create_top_item(self.kupath, "模型")  # 创建topitem
             top_item.setExpanded(True)  # 固定展开 top_item
-            self.list_dir(top_item, self.kupath, "模型")  # 递归遍历
+            self.list_dir(top_item, self.kupath)  # 递归遍历
         elif note == "项目" or note == "xm_fresh":
             top_item = self.create_top_item(self.projectroot, "项目")  # 创建topitem
             top_item.setExpanded(True)  # 固定展开 top_item
-            self.list_dir(top_item, self.projectroot, "项目")  # 递归遍历
+            self.list_dir(top_item, self.projectroot)  # 递归遍历
         else:
             return
         self.initData()
@@ -273,7 +276,7 @@ class MainWindow(QMainWindow):
             else:
                 self._generate_item(parent, obj, tmp_path, NodeType.NodeFile.value)
 
-    def list_dir(self, parent, directory, value=None):
+    def list_dir(self, parent, directory):
         if parent==None:
             # 首先处理 "材料库"
             if "材料库" in os.listdir(directory):
@@ -300,14 +303,22 @@ class MainWindow(QMainWindow):
                 cl_item = self._generate_item(None, "项目库", osp.join(directory, "项目库"), NodeType.NodeDir.value)
                 self.ui.treeWidget.addTopLevelItem(cl_item)
                 self.list_dir(cl_item, osp.join(directory, "项目库"))
-        # elif parent.data(0, Qt.UserRole + 1) in ["具体模型", "具体项目"]:
+        # elif parent.data(0, Qt.UserRole) == "项目包含项" and parent.text(0) in ["类型及设备", "材料及工艺"]:
+        #     print("类型及设备")
         #     pass
         else:
             for obj in os.listdir(directory):
                 tmp_path = osp.join(directory, obj)
                 if osp.isdir(tmp_path):
-                    dir_item = self._generate_item(parent, obj, tmp_path, NodeType.NodeDir.value)
-                    self.list_dir(dir_item, tmp_path)
+                    if parent.data(0, Qt.UserRole + 1) == "具体项目":
+                        if obj not in ["类型及设备", "材料及工艺"]:
+                            dir_item = self._generate_item(parent, obj, tmp_path, NodeType.NodeDir.value)
+                            self.list_dir(dir_item, tmp_path)
+                        else:
+                            dir_item = self._generate_item(parent, obj, tmp_path, NodeType.NodeDir.value)
+                    else:
+                        dir_item = self._generate_item(parent, obj, tmp_path, NodeType.NodeDir.value)
+                        self.list_dir(dir_item, tmp_path)
                 else:
                     self._generate_item(parent, obj, tmp_path, NodeType.NodeFile.value)
 
@@ -476,7 +487,7 @@ class MainWindow(QMainWindow):
                     item.setData(0, Qt.UserRole + 1, "设备图片")
             elif item.parent().data(0, Qt.UserRole + 1) == "工艺库":
                 item.setData(0, Qt.UserRole+1, "工艺类型")
-            elif item.parent().data(0, Qt.UserRole + 1)=="工艺类型":
+            elif item.parent().data(0, Qt.UserRole + 1) == "工艺类型":
                 item.setData(0, Qt.UserRole+1, "具体工艺")
             elif item.parent().data(0, Qt.UserRole + 1) == "程序库":
                 item.setData(0, Qt.UserRole+1, "程序类型")
@@ -498,10 +509,11 @@ class MainWindow(QMainWindow):
                 item.setData(0, Qt.UserRole + 1, "项目包含项")
                 if item.text(0) in ["分析预测", "熔覆监控"]:
                     item.setExpanded(True)
-            elif item.parent().data(0, Qt.UserRole + 1) == "项目包含项" and item.parent().text(0) == "熔覆监控":
-                item.setData(0, Qt.UserRole + 1, "熔覆监控")
-            elif item.parent().data(0, Qt.UserRole + 1) == "项目包含项" and item.parent().text(0) == "分析预测":
-                item.setData(0, Qt.UserRole + 1, "分析预测")
+            elif item.parent().data(0, Qt.UserRole + 1) == "项目包含项":
+                if item.parent().text(0) == "熔覆监控":
+                    item.setData(0, Qt.UserRole + 1, "熔覆监控")
+                elif item.parent().text(0) == "分析预测":
+                    item.setData(0, Qt.UserRole + 1, "分析预测")
 
         # 设置图标路径
         if node_type == NodeType.NodeDir.value:
@@ -565,14 +577,30 @@ class MainWindow(QMainWindow):
         else:
             item.setExpanded(True)
         project_path = item.data(0, Qt.UserRole)
-
         if item.data(0, Qt.UserRole + 1) == "具体材料":
             self.edit(item)
         elif item.data(0, Qt.UserRole + 1) == "具体工艺":
             self.edit(item)
-        elif item.parent().data(0, Qt.UserRole + 1) in ["设备文件", "设备图片"]:
+        elif item.parent().text(0) in ["设备文件", "设备图片"]:
             path = item.data(0, Qt.UserRole)
             subprocess.run(['start', '', path], shell=True)
+        elif item.data(0, Qt.UserRole + 1) == "项目包含项":
+            if item.text(0) == "类型及设备":
+                dialog = style_equipment_Dialog(self, item)
+                dialog.exec_()
+            elif item.text(0) == "材料及工艺":
+                style_path = osp.join(item.parent().data(0, Qt.UserRole), "类型及设备", "类型及设备.json")
+                if not osp.exists(style_path):
+                    QMessageBox.information(self, "错误", "请先选择项目类型及设备")
+                else:
+                    with open(style_path, "r", encoding='utf-8') as f:
+                        data = json.load(f)
+                    style = data["项目类型"]
+                    if style == "粉丝同送":
+                        dialog = XMProcessDialog2(self, item)
+                    else:
+                        dialog = XMProcessDialog(self, item, style)
+                    dialog.exec_()
         elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "实时反馈":
             # item.data(0, Qt.UserRole)是当前节点的实际路径，设计函数时把item传进去来获得保存路径
             # 你也可以设计函数，在里面根据item.text(0)来选择操作逻辑
@@ -582,13 +610,11 @@ class MainWindow(QMainWindow):
         elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池温度":
             pass
         elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池流动":
-            # run_exe(self.apppath['熔池流动'])
             pass
         elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池尺寸":
             pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池形貌":
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔覆形貌":
             pass
-
         elif item.data(0, Qt.UserRole + 1) == "分析预测":
             # 可以设计函数，在里面根据item.text(0)来选择操作逻辑 ['PINN','LBM',...]
             pass
@@ -602,7 +628,10 @@ class MainWindow(QMainWindow):
             dialog = MaterialDialog(item)
             dialog.exec_()
         elif item.data(0, Qt.UserRole + 1) == "具体工艺":
-            dialog = ProcessDialog(self, item)
+            if item.parent().text(0) == "粉丝同送":
+                dialog = ProcessDialog2(self, item)
+            else:
+                dialog = ProcessDialog(self, item)
             dialog.exec_()
         elif item.data(0, Qt.UserRole + 1) == "具体设备":
             dialog = EquipmentDialog(self, item)
@@ -767,8 +796,6 @@ class MainWindow(QMainWindow):
                     icon_path = os.path.join('..', 'resource', 'icon', 'dir.png')
                     new_item.setIcon(0, QIcon(icon_path))
                     new_item.setData(0, Qt.UserRole + 1, item_style)
-                    if os.path.isdir(new_project_path):
-                        self.list_dir(new_item, new_project_path)
                 QMessageBox.information(self, '成功', f'项目已成功复制到 {new_project_path}')
             except Exception as e:
                 QMessageBox.critical(self, '错误', f'复制过程中发生错误: {e}')
@@ -781,17 +808,6 @@ class MainWindow(QMainWindow):
         for index in range(item.childCount()):
             child_item = item.child(index)
             self.unfolder(child_item)  # 递归调用
-
-    def open_file_dialog(self,itemtext):
-        # 弹出文件对话框，获取选择的路径
-        options = QFileDialog.Options()
-        path, _ = QFileDialog.getOpenFileName(self, "选择一个文件", "", "所有文件 (*);;文本文件 (*.txt)", options=options)
-
-        # 如果用户选择了一个路径，更新标签
-        if path:
-            print(f'选择的路径: {path}')
-            self.apppath[itemtext] = path
-            save_apppath(self.apppath)
 
 if __name__ == '__main__':
     import sys

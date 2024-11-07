@@ -1,9 +1,10 @@
+from pathlib import Path
+
 from main_viewer_ui import Ui_MainWindow
 from PySide2.QtWidgets import *
 from enum import Enum, unique
 from functools import partial
-import subprocess
-from pathlib import Path
+from XM_dialogs import *
 from MyDialog import *
 from PySide2.QtGui import QIcon
 import json
@@ -166,7 +167,10 @@ def new_type(self, item):
             file_path = osp.join(absolute_path, text)
             os.makedirs(file_path, exist_ok=True)
     elif item and item.data(0, Qt.UserRole + 1) == "工艺类型":
-        dialog = ProcessDialog(self, item)
+        if item.text(0) == "粉丝同送":
+            dialog = ProcessDialog2(self, item)
+        else:
+            dialog = ProcessDialog(self, item)
         dialog.exec_()
     elif item and item.data(0, Qt.UserRole + 1) == "材料类型":
         dialog = MaterialDialog(item)
@@ -425,7 +429,32 @@ def show_context_menu(self, position):
         del_action.triggered.connect(lambda: self.delete(item))
         unfolder.triggered.connect(lambda: self.unfolder(item))
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
-
+    elif item.data(0, Qt.UserRole + 1) == "项目包含项" and item.text(0) == "项目程序":
+        menu = QMenu()
+        # choose = menu.addAction("选择")
+        xmimport_action = menu.addAction("项目导入")
+        cxkimport_action = menu.addAction("程序库导入")
+        new_type_action = menu.addAction("新建程序")
+        open_action = menu.addAction("打开目录")
+        trans_action = menu.addAction("传输程序")
+        # choose.triggered.connect(lambda: choose_project(self, item))
+        xmimport_action.triggered.connect(lambda: xm_program_import(self, item))
+        cxkimport_action.triggered.connect(lambda: cx_program_import(self, item))
+        new_type_action.triggered.connect(lambda: new_type(self, item)) # pass
+        open_action.triggered.connect(lambda: self.open_type_library(item))
+        trans_action.triggered.connect(lambda: self.unfolder(item)) # pass
+        menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
+    elif item.data(0, Qt.UserRole + 1) == "分析预测":
+        menu = QMenu()
+        xmimport_action = menu.addAction("项目导入")
+        mxkimport_action = menu.addAction("模型库导入")
+        open_action = menu.addAction("打开目录")
+        del_action = menu.addAction("删除")
+        xmimport_action.triggered.connect(lambda: xm_model_import(self, item))
+        mxkimport_action.triggered.connect(lambda: mx_model_import(self, item))
+        open_action.triggered.connect(lambda: self.open_type_library(item))
+        del_action.triggered.connect(lambda: self.delete(item))
+        menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
     elif item and item.data(0, Qt.UserRole + 1) == "熔覆监控":
         menu = QMenu()
         setapppath = menu.addAction("设置路径")
@@ -443,6 +472,52 @@ def choose_project(self, item):
     top_item.setExpanded(True)  # 固定展开 top_item
     self.list_project_dir(top_item, self.choosed_project)  # 递归遍历
 
+def xm_program_import(self, item):
+    current_path = item.data(0, Qt.UserRole)
+    dialog = ProjectFilterDialog(self, item.parent().parent())
+    if dialog.exec_() == QDialog.Accepted:
+        selected_text = dialog.get_selected_text()
+        path = osp.join(self.projectroot, selected_text, "项目程序")
+        if osp.exists(path):
+            shutil.copy(path, current_path)
+
+def cx_program_import(self, item):
+    current_path = item.data(0, Qt.UserRole)
+    new_item = QTreeWidgetItem()
+    new_item.setText(0, "程序库")
+    new_item.setData(0, Qt.UserRole, osp.join(self.dataroot, "程序库"))
+    new_item.setData(0, Qt.UserRole + 1, "程序库")
+    dialog = FilterCX(self, new_item)
+    if dialog.exec_() == QDialog.Accepted:
+        selected_text = dialog.get_selected_text()
+        path = osp.join(self.dataroot, "程序库", selected_text)
+        if osp.exists(path):
+            shutil.copy(path, current_path)
+
+def xm_model_import(self, item):
+    current_path = item.data(0, Qt.UserRole)
+    type = item.text(0)
+    dialog = ProjectFilterDialog(self, item.parent().parent())
+    if dialog.exec_() == QDialog.Accepted:
+        selected_text = dialog.get_selected_text()
+        path = osp.join(self.projectroot, selected_text, "分析预测", type)
+        if osp.exists(path):
+            shutil.copy(path, current_path)
+
+def mx_model_import(self, item):
+    current_path = item.parent().data(0, Qt.UserRole)
+    new_item = QTreeWidgetItem()
+    new_item.setText(0, "模型库")
+    new_item.setData(0, Qt.UserRole, osp.join(self.dataroot, "模型库"))
+    new_item.setData(0, Qt.UserRole + 1, "模型库")
+    dialog = FilterMX(self, new_item)
+    if dialog.exec_() == QDialog.Accepted:
+        selected_text = dialog.get_selected_text()
+        gy = selected_text[0]
+        mx = selected_text[1]
+        path = osp.join(self.dataroot, "模型库", gy, mx)
+        if osp.exists(path):
+            shutil.copy(path, osp.join(current_path, mx))
 
 def load_apppath():
 

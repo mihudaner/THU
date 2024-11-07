@@ -20,7 +20,7 @@ class PWindow(MainWindow):
         self.resize(1400, 900)
         self.PInit()
 
-        self.ccd_cam = CCD_Camera(False)
+        # self.ccd_cam = CCD_Camera(False)
 
     def PInit(self):
         self.ui.btn_pre.clicked.connect(self.start_pre)
