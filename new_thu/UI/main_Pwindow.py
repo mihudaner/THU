@@ -6,23 +6,29 @@ from PySide2.QtCore import QTimer,QPoint, QRect
 from PySide2.QtGui import QPixmap,QImage
 from src.molten_pool import CCD_Camera
 import cv2
+
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
 global flag
 flag = False
 
-class PWindow(MainWindow):
+
+
+class CCD_Window(MainWindow):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        print("CCD_Window")
+
+
+class TabWindow(MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         print("PWindow")
         self.InitUI()
         self.PInit()
 
-
-
-
     def InitUI(self):
         print("PWindow Load")
-        self.resize(1800, 900)
+        self.resize(1900, 900)
 
         self.ui = cast(Ui_MainWindow, self.ui)
         # 使用生成的Python文件作为类型提示
@@ -232,3 +238,11 @@ class PWindow(MainWindow):
         else:
             self.showMaximized()  # 最大化窗口
             self.is_maximized = True
+
+
+
+
+class PWindow(CCD_Window,TabWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        pass
