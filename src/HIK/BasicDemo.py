@@ -313,6 +313,7 @@ def trigger_once(mainWindow):
     if ret != 0:
         strError = "TriggerSoftware failed ret:" + ToHexStr(ret)
         QMessageBox.warning(mainWindow, "Error", strError, QMessageBox.Ok)
+    return obj_cam_operation[nSelCamIndex].img_np
 
 
 # ch:存图 | en:save image

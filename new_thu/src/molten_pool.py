@@ -275,11 +275,11 @@ class Ellipse_Detector():
         cv2.destroyAllWindows()
 
         binary_out = self.cal_binary(gray, 30)
-        max_contour1 = find_biggest_Contours(binary_out, self.img)
+        max_contour1 = find_biggest_Contours(binary_out)
         self.draw_contours_filled(max_contour1, self.img)
 
         binary_in = self.cal_binary(gray, 200)
-        max_contour2 = find_biggest_Contours(binary_in,self.img)
+        max_contour2 = find_biggest_Contours(binary_in)
         self.draw_contours_filled(max_contour2, self.img)
 
 
@@ -535,7 +535,7 @@ class Caliber():
         else:
             print("未找到棋盘格角点。")
 
-class CCD_Camera():
+class CCD_Pretor():
     """
     通过椭圆拟合检测焊缝
     """
@@ -551,12 +551,12 @@ class CCD_Camera():
         self.image_files = self.load_image_files()
         self.current_index = 0
 
-        calib_obg = Caliber(False)
+        calib_obg = Caliber(Debug)
         # calib_obg.read_img(r'.\1021-CCD-left\left-50du-ps.jpg')
         calib_obg.read_img(r'..\src\centor-ps.jpg')
         calib_obg.findHomography()
         # 替换为您的文件夹路径
-        self.d = Ellipse_Detector(calib_obg, False)
+        self.d = Ellipse_Detector(calib_obg, Debug)
 
     def load_image_files(self):
         # 获取目录下所有的 TIFF 文件并排序
@@ -587,9 +587,9 @@ class CCD_Camera():
         if self.current_index < 117:
             return None,None
 
+        self.d.read_img(r'..\..\src\molten\1021-CCD-left\left\Basler_acA1600-60gm__21553543__20241021_102120526_0239.tiff')
+        self.d.pre_left()
 
-        # d.read_img(r'.\1021-CCD-left\left\Basler_acA1600-60gm__21553543__20241021_102120526_0239.tiff')
-        # d.pre_left()
         self.d.read_img(file_path)
         plotimg,dis = self.d.pre_centor()
         print(f"{plotimg.shape}{dis}")
@@ -598,7 +598,7 @@ class CCD_Camera():
 
 if __name__ == "__main__":
 
-    cam = CCD_Camera(False)
+    cam = CCD_Pretor(True)
     # 循环读取所有 TIFF 文件
     i =0
     while(1):

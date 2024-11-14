@@ -4,7 +4,7 @@ from typing import cast
 from Cardpage.Two_widget_debug import DIOWidget,AIOWidget_ShowOne
 from PySide2.QtCore import QTimer,QPoint, QRect
 from PySide2.QtGui import QPixmap,QImage
-from src.molten_pool import CCD_Camera
+from src.molten_pool import CCD_Pretor
 import cv2
 
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
@@ -101,7 +101,7 @@ class TabWindow(MainWindow):
         self._resizing_edge = None
 
     def PInit(self):
-        self.ccd_cam = CCD_Camera(False)
+        self.ccd_pretor = CCD_Pretor(False)
         self.ui.btn_pre.clicked.connect(self.start_pre)
 
 
@@ -157,7 +157,7 @@ class TabWindow(MainWindow):
         print("show_pre_ccd")
         # 循环读取所有 TIFF 文件
         while(1):
-            res_img, dis = self.ccd_cam.get_next_frame_res()
+            res_img, dis = self.ccd_pretor.get_next_frame_res()
             if dis is not None:
                 break
 

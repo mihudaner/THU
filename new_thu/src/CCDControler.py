@@ -39,27 +39,34 @@ class CCD_camera:
             print(self.tlf.EnumerateDevices())
             self.deviceList = self.tlf.EnumerateDevices()
         for dv in self.deviceList:
+            dv = f"{dv}"
             self.IsOpen[dv] = False
-        return self.deviceList
+        return [f"[{element}]" for element in self.deviceList]
 
     def get_state(self, idx):
         if self.Debug: pass
-        return self.IsOpen[self.deviceList[idx]]
+        name =  f"{self.deviceList[idx]}"
+        return self.IsOpen[name]
 
     def change_select(self, idx):
         if self.Debug:
             print(f"change_select {idx}")
             pass
         else:
-            self.cam = self.cams[self.deviceList[idx]]
+            name = f"{self.deviceList[idx]}"
+            if self.IsOpen[name]:
+                self.cam = self.cams[name]
+            else:
+                self.cam = None
 
     def open(self, idx):
+        name = f"{self.deviceList[idx]}"
         if self.Debug:
             print(f"open {idx}")
             pass
         elif self.cam is None:
-                name = self.deviceList[idx]
-                self.cam = py.InstantCamera(self.tlf.CreateDevice(name))
+                div = self.deviceList[idx]
+                self.cam = py.InstantCamera(self.tlf.CreateDevice(div))
                 self.cams[name] = self.cam
                 self.cam.Open()
                 self.cam.Height = self.cam.Height.Max
@@ -67,19 +74,21 @@ class CCD_camera:
                 self.cam.CenterX = True
                 self.cam.CenterY = True
                 self.cam.StartGrabbing()
-        self.IsOpen[self.deviceList[idx]] = True
+
+        self.IsOpen[name] = True
 
     def close(self,idx):
+        name = f"{self.deviceList[idx]}"
         if self.Debug:
             print(f"close {idx}")
             pass
         elif self.cam is not None:
             self.cam.StopGrabbing()
             self.cam.Close()
-            name = self.deviceList[idx]
+
             self.cams[name] = None
 
-        self.IsOpen[self.deviceList[idx]] = False
+        self.IsOpen[name] = False
 
     def set_hw(self,h,w):
         self.H = h
@@ -135,9 +144,14 @@ class CCD_camera:
         with self.cam.RetrieveResult(5000) as result:
             if result.GrabSucceeded():
                 self.img = result.Array
+                self.img = cv2.cvtColor(self.img, cv2.COLOR_GRAY2BGR)
             else:
                 pass
         return self.img
+
+    def setpara(self,gain,extime):
+        self.cam.GainRaw.SetValue(gain)
+        self.cam.ExposureTimeRaw.SetValue(extime)
 
 def first_test():
     tlf = py.TlFactory.GetInstance()

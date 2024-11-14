@@ -397,25 +397,15 @@ class AIOWidget_ShowOne(QWidget):
         self.ui.checkBox_openccd.clicked.connect(self.change_state)
         self.ui.comboBox_ccd_device.currentIndexChanged.connect(self.change_select)
         self.ui.btn_ccd_capture.clicked.connect(self.capture)
-        self.ui.btn_setpara.clicked.connect(self.setpara)
+        self.ui.btn_setpara.clicked.connect(self.setpara2)
 
-        # self.widgets.Slider_exposure.valueChanged[int].connect(
-        #     lambda: self.widgets.spinBox_exposure.setValue(self.widgets.Slider_exposure.value()))
-        # self.widgets.spinBox_exposure.editingFinished.connect(
-        #     lambda: self.widgets.Slider_exposure.setValue(self.widgets.spinBox_exposure.value()))
-        # self.widgets.Slider1_gain.valueChanged[int].connect(
-        #     lambda: self.widgets.spinBox_gain.setValue(self.widgets.Slider1_gain.value()))
-        # self.widgets.spinBox_gain.editingFinished.connect(
-        #     lambda: self.widgets.Slider1_gain.setValue(self.widgets.spinBox_gain.value()))
-        # self.widgets.Slider1_gain.valueChanged[int].connect(
-        #     lambda: self.widgets.spinBox_gain.setValue(self.widgets.Slider1_gain.value()))
-        # self.widgets.spinBox_gain.editingFinished.connect(
-        #     lambda: self.widgets.Slider1_gain.setValue(self.widgets.spinBox_gain.value()))
         self.widgets.spinBox_ccd_hoffset.editingFinished.connect(self.setpara)
         self.widgets.spinBox_ccd_woffset.editingFinished.connect(self.setpara)
         self.widgets.Slider_hoffset.valueChanged.connect(self.setpara)
         self.widgets.Slider_woffset.valueChanged.connect(self.setpara)
 
+    def setpara2(self):
+        self.cam.setpara(self.ui.spinBox_gain.value(),self.ui.spinBox_exposure.value())
     def setpara(self):
         self.cam.H = self.ui.spinBox_ccdh.value()
         self.cam.W = self.ui.spinBox_ccdw.value()
