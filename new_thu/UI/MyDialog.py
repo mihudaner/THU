@@ -1390,11 +1390,13 @@ class ModelDialog(QDialog):
         self.setFont(font)
         self.item = item
         self.note = "create"
-        style = self.item.text(0)
+        gy_style = self.item.parent().text(0)
+        mx_style = self.item.text(0)
         if self.item.data(0, Qt.UserRole + 1) == "具体模型":
             self.note = "edit"
             self.setWindowTitle("编辑模型")
-            style = self.item.parent().text(0)
+            gy_style = self.item.parent().parent().text(0)
+            mx_style = self.item.parent().text(0)
             self.path = self.item.parent().data(0, Qt.UserRole)
         else:
             self.path = self.item.data(0, Qt.UserRole)
@@ -1415,12 +1417,12 @@ class ModelDialog(QDialog):
         vlayout1.addRow("名称", self.name_edit)
 
         self.gy_combo = QLineEdit()
-        self.gy_combo.setText(style)
+        self.gy_combo.setText(gy_style)
         self.gy_combo.setReadOnly(True)
         vlayout2.addRow("工艺类型", self.gy_combo)
 
         self.type_combo = QLineEdit()
-        self.type_combo.setText(self.item.text(0))
+        self.type_combo.setText(mx_style)
         self.type_combo.setReadOnly(True)
         vlayout1.addRow("模型类型", self.type_combo)
 
@@ -1942,11 +1944,19 @@ class FilterMX(QDialog):
         filter_layout.addWidget(QLabel("到"))
         filter_layout.addWidget(self.filter_speed_max)
         filter_layout.addWidget(filter_button)
-
+        # 确定和取消按钮
+        button_layout = QHBoxLayout()
+        self.ok_button = QPushButton("确认")
+        self.cancel_button = QPushButton("取消")
+        button_layout.addWidget(self.ok_button)
+        button_layout.addWidget(self.cancel_button)
+        self.ok_button.clicked.connect(self.accept)
+        self.cancel_button.clicked.connect(self.reject)
         # 主布局
         main_layout = QVBoxLayout()
         main_layout.addLayout(filter_layout)
         main_layout.addWidget(self.table_cx)
+        main_layout.addLayout(button_layout)
         self.setLayout(main_layout)
 
         # 初始化表格
@@ -1959,11 +1969,13 @@ class FilterMX(QDialog):
     def accept(self):
         item = self.table_cx.currentItem()
         row = item.row()  # 获取当前项的行索引
+        col0_item = self.table_cx.item(row, 0)
+        col0_text = col0_item.text() if col0_item else "null"  # 获取工艺类型
         col1_item = self.table_cx.item(row, 1)  # 前第二列
         col1_text = col1_item.text() if col1_item else "null"  # 获取工艺类型
         col2_item = self.table_cx.item(row, 2)  # 前第三列
         col2_text = col2_item.text() if col2_item else "null"  # 获取模型类型
-        self.selected_text = [col1_text, col2_text]
+        self.selected_text = [col0_text, col1_text, col2_text]
         super().accept()
 
     def get_selected_text(self):

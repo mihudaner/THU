@@ -185,7 +185,6 @@ class Window(ProjectWindow, CardWindow):
         widgets.btn_orangedit.clicked.connect(lambda: run_exe(widgets.lineEdit_orangedit_path.text()))
         widgets.btn_workvisual.clicked.connect(lambda: run_exe(widgets.lineEdit_workvisual_path.text()))
 
-        DEBUG = False
         current_datetime = datetime.datetime.now()
         # Format it as a string with year, month, day, hour, minute, and second
         self.timestamp = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
@@ -211,11 +210,18 @@ class Window(ProjectWindow, CardWindow):
 
         """
         self.update_timestamp()
-        if not self.DEBUG:
-            trigger_once(self)
-            time.sleep(0.5)
-        else:
-            self.hik_img = self.init_hik_img(INIT_HIK_IMG)
+
+        # if not self.DEBUG:
+        #     self.hik_img = trigger_once(self)
+        #     time.sleep(0.5)
+        # else:
+        #     self.hik_img = self.init_hik_img(INIT_HIK_IMG)
+
+        # 单独调试HIK，检测极小的洞
+        self.DEBUG = False
+        self.hik_img = trigger_once(self)
+        time.sleep(0.5)
+        self.DEBUG = True
 
         self.capture(UPDATA_SHOW=False)
 
@@ -230,15 +236,17 @@ class Window(ProjectWindow, CardWindow):
         _ = pipe_hik.recv()
 
         # 与SAM进程通信交互
-        pipe_sam.send(self.hik_img)
-        pipe_sam.send(hik_labels)
-        #  vertex1_x, vertex1_y, vertex2_x, vertex2_y, vertex3_x, vertex3_y, vertex4_x, vertex4_y, short, long
-        sam_label = pipe_sam.recv()
-        sam_img = pipe_sam.recv()
+        if False:
+            pipe_sam.send(self.hik_img)
+            pipe_sam.send(hik_labels)
+            #  vertex1_x, vertex1_y, vertex2_x, vertex2_y, vertex3_x, vertex3_y, vertex4_x, vertex4_y, short, long
+            sam_label = pipe_sam.recv()
+            sam_img = pipe_sam.recv()
+            img = sam_img
+        else:
+            # 显示hik图像
+            img = hik_img_pipe_recv
 
-        # 显示hik图像
-        # img = hik_img_pipe_recv
-        img = sam_img
         img_Qimage = QImage(img, img.shape[1], img.shape[0], QImage.Format_BGR888)
         img_pix = QPixmap.fromImage(img_Qimage)
         widgets.label_hikimg.setScaledContents(True)  # 调用setScaledContents将图像比例化显示在QLabel上
@@ -255,19 +263,6 @@ class Window(ProjectWindow, CardWindow):
             self.updata_show_normal()
 
         if not self.DEBUG:
-
-
-
-
-
-
-
-
-
-
-
-
-
             self.add_mysql_db()
 
     def calib_camera(self):

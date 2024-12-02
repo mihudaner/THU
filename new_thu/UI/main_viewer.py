@@ -78,6 +78,8 @@ class MainWindow(QMainWindow):
         # 右击显示菜单
         self.treeWidget.customContextMenuRequested.connect(partial(show_context_menu, self))
         self.initData()
+
+        self.select_database(note = "fresh")
     def initData(self):
         path1 = osp.join(self.dataroot, '材料库')
         self.cl_styles = self.get_folder_names(path1)

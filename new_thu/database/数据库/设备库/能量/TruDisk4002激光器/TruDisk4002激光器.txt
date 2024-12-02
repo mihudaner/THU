@@ -1,8 +1,0 @@
-名称：
-TruDisk4002激光器
-
-类型：
-能量
-
-设备描述：
-      发射0-4000W激光。KUKA数字输出量OUT1 Laser_ON（激光开关）；KUKA模拟输出量ANOUT1 Laser_Power（激光功率）：0~1V对应0~4000W

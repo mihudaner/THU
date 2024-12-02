@@ -150,7 +150,17 @@ def new_type(self, item):
                 for type in yc_list:
                     new_file = osp.join(yc_path, type)
                     os.makedirs(new_file, exist_ok=True)
-                item.addChild(new_item)
+                # item.addChild(new_item)
+                # 重新生成子项
+                while item.childCount() > 0:
+                    item.removeChild(item.child(0))
+                for obj in os.listdir(item.data(0, Qt.UserRole)):
+                    tmp_path = osp.join(item.data(0, Qt.UserRole), obj)
+                    if osp.isdir(tmp_path):
+                        dir_item = self._generate_item(item, obj, tmp_path, NodeType.NodeDir.value)
+                        self.list_dir(dir_item, tmp_path)  # 递归调用
+                    else:
+                        self._generate_item(item, obj, tmp_path, NodeType.NodeFile.value)
     elif item and item.data(0, Qt.UserRole + 1) == "工艺库":
         text, ok = QInputDialog.getText(self, '新建工艺', '输入工艺类型名称:')
         if ok and text:
@@ -440,7 +450,7 @@ def show_context_menu(self, position):
         # choose.triggered.connect(lambda: choose_project(self, item))
         xmimport_action.triggered.connect(lambda: xm_program_import(self, item))
         cxkimport_action.triggered.connect(lambda: cx_program_import(self, item))
-        new_type_action.triggered.connect(lambda: new_type(self, item)) # pass
+        new_type_action.triggered.connect(lambda: self.unfolder(item)) # pass
         open_action.triggered.connect(lambda: self.open_type_library(item))
         trans_action.triggered.connect(lambda: self.unfolder(item)) # pass
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
@@ -479,7 +489,17 @@ def xm_program_import(self, item):
         selected_text = dialog.get_selected_text()
         path = osp.join(self.projectroot, selected_text, "项目程序")
         if osp.exists(path):
-            shutil.copy(path, current_path)
+            shutil.copytree(path, current_path, dirs_exist_ok=True)
+    while item.childCount() > 0:
+        item.removeChild(item.child(0))
+    # 重新生成子项
+    for obj in os.listdir(item.data(0, Qt.UserRole)):
+        tmp_path = osp.join(item.data(0, Qt.UserRole), obj)
+        if osp.isdir(tmp_path):
+            dir_item = self._generate_item(item, obj, tmp_path, NodeType.NodeDir.value)
+            self.list_dir(dir_item, tmp_path)  # 递归调用
+        else:
+            self._generate_item(item, obj, tmp_path, NodeType.NodeFile.value)
 
 def cx_program_import(self, item):
     current_path = item.data(0, Qt.UserRole)
@@ -492,17 +512,38 @@ def cx_program_import(self, item):
         selected_text = dialog.get_selected_text()
         path = osp.join(self.dataroot, "程序库", selected_text)
         if osp.exists(path):
-            shutil.copy(path, current_path)
+            shutil.copytree(path, current_path, dirs_exist_ok=True)
+    while item.childCount() > 0:
+        item.removeChild(item.child(0))
+    # 重新生成子项
+    for obj in os.listdir(item.data(0, Qt.UserRole)):
+        tmp_path = osp.join(item.data(0, Qt.UserRole), obj)
+        if osp.isdir(tmp_path):
+            dir_item = self._generate_item(item, obj, tmp_path, NodeType.NodeDir.value)
+            self.list_dir(dir_item, tmp_path)  # 递归调用
+        else:
+            self._generate_item(item, obj, tmp_path, NodeType.NodeFile.value)
 
 def xm_model_import(self, item):
     current_path = item.data(0, Qt.UserRole)
     type = item.text(0)
-    dialog = ProjectFilterDialog(self, item.parent().parent())
+    dialog = ProjectFilterDialog(self, item.parent().parent().parent())
     if dialog.exec_() == QDialog.Accepted:
         selected_text = dialog.get_selected_text()
         path = osp.join(self.projectroot, selected_text, "分析预测", type)
         if osp.exists(path):
-            shutil.copy(path, current_path)
+            shutil.copytree(path, current_path, dirs_exist_ok=True)
+    item = item.parent()
+    while item.childCount() > 0:
+        item.removeChild(item.child(0))
+    # 重新生成子项
+    for obj in os.listdir(item.data(0, Qt.UserRole)):
+        tmp_path = osp.join(item.data(0, Qt.UserRole), obj)
+        if osp.isdir(tmp_path):
+            dir_item = self._generate_item(item, obj, tmp_path, NodeType.NodeDir.value)
+            self.list_dir(dir_item, tmp_path)  # 递归调用
+        else:
+            self._generate_item(item, obj, tmp_path, NodeType.NodeFile.value)
 
 def mx_model_import(self, item):
     current_path = item.parent().data(0, Qt.UserRole)
@@ -513,12 +554,23 @@ def mx_model_import(self, item):
     dialog = FilterMX(self, new_item)
     if dialog.exec_() == QDialog.Accepted:
         selected_text = dialog.get_selected_text()
-        gy = selected_text[0]
-        mx = selected_text[1]
-        path = osp.join(self.dataroot, "模型库", gy, mx)
+        name = selected_text[0]
+        gy = selected_text[1]
+        mx = selected_text[2]
+        path = osp.join(self.dataroot, "模型库", gy, mx, name)
         if osp.exists(path):
-            shutil.copy(path, osp.join(current_path, mx))
-
+            shutil.copytree(path, osp.join(current_path, mx), dirs_exist_ok=True)
+    item = item.parent()
+    while item.childCount() > 0:
+        item.removeChild(item.child(0))
+    # 重新生成子项
+    for obj in os.listdir(item.data(0, Qt.UserRole)):
+        tmp_path = osp.join(item.data(0, Qt.UserRole), obj)
+        if osp.isdir(tmp_path):
+            dir_item = self._generate_item(item, obj, tmp_path, NodeType.NodeDir.value)
+            self.list_dir(dir_item, tmp_path)  # 递归调用
+        else:
+            self._generate_item(item, obj, tmp_path, NodeType.NodeFile.value)
 def load_apppath():
 
     # 要存储的配置数据

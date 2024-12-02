@@ -572,7 +572,7 @@ subcontrol-position: bottom center;
           <string notr="true">border:0px solid rgb(86, 86, 86);</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -585,12 +585,43 @@ subcontrol-position: bottom center;
           </attribute>
          </widget>
          <widget class="QWidget" name="tab_3">
+          <property name="styleSheet">
+           <string notr="true">#styleSheet{
+border: none;
+margin: 0px;
+}
+
+QPushButton {
+	border: none;
+	background-color: transparent;
+	text-align: center;
+	background-color: rgb(43, 87, 154);
+	color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: #bd93f9;
+}
+QPushButton:pressed {
+	background-color: #ff79c6;
+	color: rgb(255, 255, 255);
+}
+
+QLabel {
+	
+	background-color:  rgb(230, 230, 230);
+
+	
+}</string>
+          </property>
           <attribute name="title">
            <string>熔池尺寸</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
             <widget class="QLabel" name="label_showpre">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
              <property name="text">
               <string>待显示</string>
              </property>

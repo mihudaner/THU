@@ -17,13 +17,18 @@ import time
 # D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  .\DAM8888_widget.py .\DAM8888_widget.ui
 # pyside2-rcc ./icon/icon.qrc -o icon_rc.py
 from PySide2.QtWidgets import *
+from PySide2.QtGui import QPixmap,QImage
+from PySide2.QtCore import Qt
 from .QplotWidget import RealTimePlotWidget
 from UI.Cardpage import DIOwidget
 from .AIO_CCD_Table import Ui_Form as AIO_CCD_Table
 from UI.Cardpage import DAM8888_dll as dll
 import sys
 import threading
+import cv2
 import numpy as np
+from src.CCDControler import CCD_camera
+
 
 DEBUG = True
 global PlotBuffer
@@ -362,6 +367,7 @@ class AIOWidget_ShowOne(QWidget):
 
 
 class AIOWidget_ShowOne(QWidget):
+    select_idx = 0
 
     def __init__(self):
         super().__init__()
@@ -386,6 +392,64 @@ class AIOWidget_ShowOne(QWidget):
         self.widgets.Layout_wave_1 = QVBoxLayout(self.widgets.groupBox_waveview_1)
         self.widgets.Layout_wave_1.addWidget(self.widgets.waveview_1)
 
+        self.cam = CCD_camera()
+        self.ui.btn_enum.clicked.connect(self.enum)
+        self.ui.checkBox_openccd.clicked.connect(self.change_state)
+        self.ui.comboBox_ccd_device.currentIndexChanged.connect(self.change_select)
+        self.ui.btn_ccd_capture.clicked.connect(self.capture)
+        self.ui.btn_setpara.clicked.connect(self.setpara2)
+
+        self.widgets.spinBox_ccd_hoffset.editingFinished.connect(self.setpara)
+        self.widgets.spinBox_ccd_woffset.editingFinished.connect(self.setpara)
+        self.widgets.Slider_hoffset.valueChanged.connect(self.setpara)
+        self.widgets.Slider_woffset.valueChanged.connect(self.setpara)
+
+    def setpara2(self):
+        self.cam.setpara(self.ui.spinBox_gain.value(),self.ui.spinBox_exposure.value())
+    def setpara(self):
+        self.cam.H = self.ui.spinBox_ccdh.value()
+        self.cam.W = self.ui.spinBox_ccdw.value()
+        self.cam.Hoffset = self.ui.spinBox_ccd_hoffset.value()
+        self.cam.Woffset = self.ui.spinBox_ccd_woffset.value()
+        self.updateshow(self.cam.get_img())
+
+    def capture(self):
+        self.cam.capture()
+        rgb_image = cv2.cvtColor(self.cam.get_img(), cv2.COLOR_BGR2RGB)
+        self.updateshow(rgb_image)
+
+    def updateshow(self,rgb_image):
+        # 将图像转换为 QImage
+        height, width, channel = rgb_image.shape
+        bytes_per_line = 3 * width
+        q_image = QImage(rgb_image.data, width, height, bytes_per_line, QImage.Format_RGB888)
+
+        # 计算缩放比例
+        label_width = self.ui.label_ccd_img.width()
+        label_height = self.ui.label_ccd_img.height()
+
+        # 保持长宽比，缩放 QImage
+        scaled_pixmap = QPixmap.fromImage(q_image).scaled(label_width, label_height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        self.ui.label_ccd_img.setPixmap(scaled_pixmap)
+
+
+    def change_select(self):
+        self.select_idx = self.ui.comboBox_ccd_device.currentIndex()
+        self.cam.change_select(self.select_idx)
+        if self.cam.get_state(self.select_idx):
+            self.ui.checkBox_openccd.setChecked(True)
+        else:
+            self.ui.checkBox_openccd.setChecked(False)
+
+    def change_state(self):
+        if self.ui.checkBox_openccd.isChecked():
+            self.cam.open(self.select_idx)
+        else:
+            self.cam.close(self.select_idx)
+
+    def enum(self):
+        deviceList = self.cam.enum()
+        self.ui.comboBox_ccd_device.addItems(deviceList)
 
 def boot_windows():
     app = QApplication.instance()

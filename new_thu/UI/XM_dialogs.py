@@ -504,8 +504,15 @@ class ProjectFilterDialog(QDialog):
             type_matches = (type_filter == "全部" or item["项目类型"] == type_filter)
             material_matches = (material_filter == "全部" or item["熔覆材料"] == material_filter)
             substrate_matches = (substrate_filter == "全部" or item["基板材料"] == substrate_filter)
-            jg_matches = (jg_min <= item["激光功率"] <= jg_max)
-            speed_matches = (speed_min <= item["熔覆速度"] <= speed_max)
+            if item["激光功率"] is not None:
+                jg_matches = (jg_min <= item["激光功率"] <= jg_max)
+            else:
+                jg_matches = False
+            # speed_matches = (speed_min <= item["熔覆速度"] <= speed_max)
+            if item["熔覆速度"] is not None:
+                speed_matches = (jg_min <= item["激光功率"] <= jg_max)
+            else:
+                speed_matches = False
 
             # 检查其他过滤条件
             wen_matches = (filter_wen == "全部" or item["熔池温度"] == filter_wen)
