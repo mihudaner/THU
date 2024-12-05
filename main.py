@@ -65,7 +65,7 @@ if __name__ == "__main__":
     print_timestamp()
 
     # 创建HIK检测的进程
-    cfg_hik = Cfg(weights='./src/yolov7/hik_best.pt', imgsz=1280, conf_thres=0.3)
+    cfg_hik = Cfg(weights='./src/yolov7/hik_best.pt', imgsz=1280, conf_thres=0.1)
     # 全局变量进程间是独立的，所以只能参数传递
     p_yolo_hik = mp.Process(target=img2yolo, args=(pipe_hik[1], cfg_hik), name='yolo_hik')
     p_yolo_hik.daemon = True

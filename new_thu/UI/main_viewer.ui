@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1201</width>
-    <height>905</height>
+    <width>1203</width>
+    <height>912</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -572,7 +572,7 @@ subcontrol-position: bottom center;
           <string notr="true">border:0px solid rgb(86, 86, 86);</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -696,6 +696,7 @@ QLabel {
    <addaction name="mx_open"/>
    <addaction name="xm_open"/>
    <addaction name="action_fresh"/>
+   <addaction name="action_updateIO"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="enabled">
@@ -918,6 +919,11 @@ QLabel {
   <action name="file_menu">
    <property name="text">
     <string>文件</string>
+   </property>
+  </action>
+  <action name="action_updateIO">
+   <property name="text">
+    <string>工艺更新</string>
    </property>
   </action>
  </widget>

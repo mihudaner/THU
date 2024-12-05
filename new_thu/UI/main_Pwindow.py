@@ -1,16 +1,15 @@
-from main_viewer import  *
+from main_viewer import *
 from utils import *
 from typing import cast
-from Cardpage.Two_widget_debug import DIOWidget,AIOWidget_ShowOne
-from PySide2.QtCore import QTimer,QPoint, QRect
-from PySide2.QtGui import QPixmap,QImage
+from Cardpage.Two_widget_debug import DIOWidget, AIOWidget_ShowOne
+from PySide2.QtCore import QTimer, QPoint, QRect
+from PySide2.QtGui import QPixmap, QImage
 from src.molten_pool import CCD_Pretor
 import cv2
 
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
 global flag
 flag = False
-
 
 
 class CCD_Window(MainWindow):
@@ -23,8 +22,8 @@ class TabWindow(MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         print("PWindow")
+        self.DataInit()
         self.InitUI()
-        self.PInit()
 
     def InitUI(self):
         print("PWindow Load")
@@ -51,19 +50,10 @@ class TabWindow(MainWindow):
         self.ui.AIOControlWidget = AIOWidget_ShowOne()
         self.ui.tabLayout.addWidget(self.ui.AIOControlWidget)
 
-
         self.setWindowFlags(Qt.FramelessWindowHint)
         # 设置工具栏拖拽
         self._is_dragging = False
         self._drag_start_pos = QPoint()
-
-        # 假设 self.toolbar 是你的工具栏，设置鼠标事件
-        self.ui.toolBar.mousePressEvent = self.mousePressEvent_toolbar
-        self.ui.toolBar.mouseMoveEvent = self.mouseMoveEvent_toolbar
-        self.ui.toolBar.mouseReleaseEvent = self.mouseReleaseEvent_toolbar
-        spacer = QWidget()
-        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # 设置为可扩展的
-        self.ui.toolBar.addWidget(spacer)
 
         # 创建最小化按钮
         minimize_button = QPushButton("-")
@@ -84,11 +74,19 @@ class TabWindow(MainWindow):
         close_button.setStyleSheet("QPushButton { color: white; }")
         close_button.clicked.connect(self.close)  # 连接关闭信号
 
+        #### 工具栏功能
+        # 假设 self.toolbar 是你的工具栏，设置鼠标事件
+        self.ui.toolBar.mousePressEvent = self.mousePressEvent_toolbar
+        self.ui.toolBar.mouseMoveEvent = self.mouseMoveEvent_toolbar
+        self.ui.toolBar.mouseReleaseEvent = self.mouseReleaseEvent_toolbar
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # 设置为可扩展的
+        self.ui.toolBar.addWidget(spacer)
+
         # 将按钮添加到工具栏
         self.ui.toolBar.addWidget(minimize_button)
         self.ui.toolBar.addWidget(maximize_button)
         self.ui.toolBar.addWidget(close_button)
-
         self.ui.toolBar.setMouseTracking(True)  # 启用鼠标跟踪
 
         self.ui.center.mousePressEvent = self.mousePressEvent_centor
@@ -100,10 +98,23 @@ class TabWindow(MainWindow):
         self._is_resizing = False
         self._resizing_edge = None
 
-    def PInit(self):
-        self.ccd_pretor = CCD_Pretor(False)
+    def InitConnect(self):
+        self.ui.action_updateIO.triggered.connect(lambda: self.ui.tabWidget_2.setCurrentIndex(3))
+        # 点击预测轮廓
         self.ui.btn_pre.clicked.connect(self.start_pre)
+        self.treeWidget.itemDoubleClicked.connect(self.on_item_double_clicked)  # 双击信号
 
+    def DataInit(self):
+        self.ccd_pretor = CCD_Pretor(False)
+
+
+    def on_item_clicked(self, item):
+        if item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "实时反馈":
+            self.ui.action_updateIO.triggered.connect(lambda: self.ui.tabWidget_2.setCurrentIndex(0))
+            pass
+        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池状态":
+            self.ui.action_updateIO.triggered.connect(lambda: self.ui.tabWidget_2.setCurrentIndex(1))
+            pass
 
     # def open_file_dialog(self):
     #     # 弹出文件对话框，获取选择的 TIFF 文件路径
@@ -114,8 +125,7 @@ class TabWindow(MainWindow):
     #     if file_path:
     #         self.display_image(file_path)
 
-
-    def display_image(self, cv_image,dis):
+    def display_image(self, cv_image, dis):
         # 确保图像为 BGR 格式（OpenCV 默认格式）
         # 转换为 RGB 格式
         rgb_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
@@ -137,7 +147,6 @@ class TabWindow(MainWindow):
         self.ui.label_showpre.setPixmap(scaled_pixmap)
         self.ui.label_pre_w.setText(f"熔池宽度： {dis}  mm")
 
-
     def start_pre(self):
         global flag
         if flag == False:
@@ -156,13 +165,12 @@ class TabWindow(MainWindow):
         # self.ui.label_showpre.
         print("show_pre_ccd")
         # 循环读取所有 TIFF 文件
-        while(1):
+        while (1):
             res_img, dis = self.ccd_pretor.get_next_frame_res()
             if dis is not None:
                 break
 
-        self.display_image(res_img,dis)
-
+        self.display_image(res_img, dis)
 
     # 无标题栏窗口补充的基本功能
 
@@ -172,18 +180,15 @@ class TabWindow(MainWindow):
             self._drag_start_pos = event.globalPos() - self.frameGeometry().topLeft()
             event.accept()
 
-
     def mouseMoveEvent_toolbar(self, event):
         if self._is_dragging and event.buttons() == Qt.LeftButton:
             self.move(event.globalPos() - self._drag_start_pos)
             event.accept()
 
-
     def mouseReleaseEvent_toolbar(self, event):
         if event.button() == Qt.LeftButton:
             self._is_dragging = False
             event.accept()
-
 
     def mouseMoveEvent_centor(self, event):
         if not self._is_resizing:
@@ -210,7 +215,7 @@ class TabWindow(MainWindow):
         # 确定鼠标是否靠近窗口边缘，并相应地改变光标形状
         x, y, w, h = pos.x(), pos.y(), self.ui.center.width(), self.ui.center.height()
         margin = self._resize_margin
-        print( x ,y , w,h)
+        print(x, y, w, h)
         if x > w - margin and y > h - margin:  # 右下角
             self._resizing_edge = 'bottom-right'
             self.setCursor(Qt.SizeFDiagCursor)
@@ -240,9 +245,7 @@ class TabWindow(MainWindow):
             self.is_maximized = True
 
 
-
-
-class PWindow(CCD_Window,TabWindow):
+class PWindow(CCD_Window, TabWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         pass

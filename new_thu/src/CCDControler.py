@@ -18,7 +18,7 @@ from collections import namedtuple
 
 
 class CCD_camera:
-    Debug = True
+    Debug = False
     def __init__(self):
         self.H = 800
         self.W = 1200
