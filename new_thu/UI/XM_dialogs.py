@@ -23,6 +23,7 @@ class style_equipment_Dialog(QDialog):
         self.item = item
         self.path = item.data(0, Qt.UserRole)
         self.json_path = osp.join(self.path, '类型及设备.json')
+        self.save_path = osp.join(self.path, '类型及设备.json')
         self.mainWindow = mainWindow
         self.info_dict = mainWindow.info_dict
         # 设置窗口图标
@@ -36,6 +37,7 @@ class style_equipment_Dialog(QDialog):
         font.setPointSize(10)  # 设置字体大小为10
         self.setFont(font)
         self.setFixedSize(360, 400)
+        self.setWindowTitle('类型及设备')
         # 创建布局
         layout = QVBoxLayout()
 
@@ -214,7 +216,7 @@ class style_equipment_Dialog(QDialog):
         }
 
         # 保存为 JSON 文件
-        with open(self.json_path, 'w', encoding='utf-8') as json_file:
+        with open(self.save_path, 'w', encoding='utf-8') as json_file:
             json.dump(data, json_file, ensure_ascii=False, indent=4)
         super().accept()
 
@@ -231,7 +233,7 @@ class ProjectFilterDialog(QDialog):
             print(f"Icon file not found: {icon_path}")
         # 设置窗口标题和大小
         self.setWindowTitle("模型项目")
-        self.resize(900, 600)
+        self.resize(1425, 700)
 
         self.data = []  # 存储所有项目
         xm_names = self.get_folder_names(self.path)
@@ -329,41 +331,73 @@ class ProjectFilterDialog(QDialog):
         filter_layout1 = QHBoxLayout()
         filter_layout2 = QHBoxLayout()
         filter_layout = QVBoxLayout()
-        filter_layout1.addWidget(QLabel("名称:"))
-        filter_layout1.addWidget(self.filter_name)
-        filter_layout2.addWidget(QLabel("类型:"))
-        filter_layout2.addWidget(self.filter_type)
-        filter_layout1.addWidget(QLabel("日期:"))
-        filter_layout1.addWidget(self.filter_time_min)
-        filter_layout1.addWidget(QLabel("到"))
-        filter_layout1.addWidget(self.filter_time_max)
-        filter_layout1.addWidget(QLabel("熔覆材料:"))
-        filter_layout1.addWidget(self.filter_material)
-        filter_layout1.addWidget(QLabel("基板材料:"))
-        filter_layout1.addWidget(self.filter_substrate)
-        filter_layout1.addWidget(QLabel("激光功率:"))
-        filter_layout1.addWidget(self.filter_jg_min)
-        filter_layout1.addWidget(QLabel("到"))
-        filter_layout1.addWidget(self.filter_jg_max)
+        hl11 = QHBoxLayout()
+        hl12 = QHBoxLayout()
+        hl13 = QHBoxLayout()
+        hl14 = QHBoxLayout()
+        hl15 = QHBoxLayout()
+        hl21 = QHBoxLayout()
+        hl22 = QHBoxLayout()
+        hl23 = QHBoxLayout()
+        hl24 = QHBoxLayout()
+        hl25 = QHBoxLayout()
+        hl26 = QHBoxLayout()
+        hl11.setSpacing(15)
+        hl12.setSpacing(15)
+        hl13.setSpacing(15)
+        hl14.setSpacing(15)
+        hl15.setSpacing(15)
+        hl21.setSpacing(15)
+        hl22.setSpacing(15)
+        hl23.setSpacing(15)
+        hl24.setSpacing(15)
+        hl25.setSpacing(15)
+        hl26.setSpacing(15)
 
-        filter_layout2.addWidget(QLabel("熔覆速度:"))
-        filter_layout2.addWidget(self.filter_speed_min)
-        filter_layout2.addWidget(QLabel("到"))
-        filter_layout2.addWidget(self.filter_speed_max)
-        filter_layout2.addWidget(QLabel("熔池状态:"))
-        filter_layout2.addWidget(self.filter_state)
-        filter_layout2.addWidget(QLabel("熔池温度:"))
-        filter_layout2.addWidget(self.filter_wen)
-        filter_layout2.addWidget(QLabel("熔池流动:"))
-        filter_layout2.addWidget(self.filter_liu)
-        filter_layout2.addWidget(QLabel("熔覆形貌:"))
-        filter_layout2.addWidget(self.filter_mao)
+        hl11.addWidget(QLabel("名称:"))
+        hl11.addWidget(self.filter_name)
+        hl12.addWidget(QLabel("日期:"))
+        hl12.addWidget(self.filter_time_min)
+        hl12.addWidget(QLabel("到"))
+        hl12.addWidget(self.filter_time_max)
+        hl13.addWidget(QLabel("熔覆材料:"))
+        hl13.addWidget(self.filter_material)
+        hl14.addWidget(QLabel("基板材料:"))
+        hl14.addWidget(self.filter_substrate)
+        hl15.addWidget(QLabel("激光功率:"))
+        hl15.addWidget(self.filter_jg_min)
+        hl15.addWidget(QLabel("到"))
+        hl15.addWidget(self.filter_jg_max)
+        hl21.addWidget(QLabel("类型:"))
+        hl21.addWidget(self.filter_type)
+        hl22.addWidget(QLabel("熔覆速度:"))
+        hl22.addWidget(self.filter_speed_min)
+        hl22.addWidget(QLabel("到"))
+        hl22.addWidget(self.filter_speed_max)
+        hl23.addWidget(QLabel("熔池状态:"))
+        hl23.addWidget(self.filter_state)
+        hl24.addWidget(QLabel("熔池温度:"))
+        hl24.addWidget(self.filter_wen)
+        hl25.addWidget(QLabel("熔池流动:"))
+        hl25.addWidget(self.filter_liu)
+        hl26.addWidget(QLabel("熔覆形貌:"))
+        hl26.addWidget(self.filter_mao)
+
+        filter_layout1.addLayout(hl11)
+        filter_layout1.addLayout(hl21)
+        filter_layout1.addLayout(hl12)
+        filter_layout1.addLayout(hl13)
+        filter_layout1.addLayout(hl14)
+        filter_layout1.addLayout(hl15)
+        filter_layout2.addLayout(hl22)
+        filter_layout2.addLayout(hl23)
+        filter_layout2.addLayout(hl24)
+        filter_layout2.addLayout(hl25)
+        filter_layout2.addLayout(hl26)
         filter_layout2.addWidget(filter_button)
-
         filter_layout.addLayout(filter_layout1)
         filter_layout.addLayout(filter_layout2)
-        # layout1 = QHBoxLayout()
-        # layout1.addLayout(filter_layout)
+
         # 确定和取消按钮
         button_layout = QHBoxLayout()
         self.ok_button = QPushButton("确认")
@@ -628,14 +662,14 @@ class XMProcessDialog(QDialog):
         self.lift_height_edit.setRange(0, 10000)  # 设置范围 层间抬升(mm)
         form_layout2.addRow("层间抬升(mm)", self.lift_height_edit)
 
-        self.protect_gas_flow_edit = QDoubleSpinBox()
-        self.protect_gas_flow_edit.setRange(0, 10000)  # 设置范围 保护气及流量(L/min)
+        self.protect_gas_flow_edit = QLineEdit()
+        # self.protect_gas_flow_edit.setRange(0, 10000)  # 设置范围 保护气及流量(L/min)
 
-        self.carrier_gas_flow_edit = QDoubleSpinBox()
-        self.carrier_gas_flow_edit.setRange(0, 10000)  # 设置范围 载气及流量(L/min)
+        self.carrier_gas_flow_edit = QLineEdit()
+        # self.carrier_gas_flow_edit.setRange(0, 10000)  # 设置范围 载气及流量(L/min)
 
-        self.qd_flow_edit = QDoubleSpinBox()
-        self.qd_flow_edit.setRange(0, 10000)  # 设置范围 气刀流量(L/min)
+        self.qd_flow_edit = QLineEdit()
+        # self.qd_flow_edit.setRange(0, 10000)  # 设置范围 气刀及流量(L/min)
 
         self.pre_time_edit = QDoubleSpinBox()
         self.pre_time_edit.setRange(0, 10000)  # 设置范围 加工前保护气时长(s)
@@ -647,7 +681,7 @@ class XMProcessDialog(QDialog):
             form_layout2.addRow("载气及流量(L/min)", self.carrier_gas_flow_edit)
         else:
             form_layout1.addRow("保护气及流量(L/min)", self.protect_gas_flow_edit)
-            form_layout2.addRow("气刀流量(L/min)", self.qd_flow_edit)
+            form_layout2.addRow("气刀及流量(L/min)", self.qd_flow_edit)
             form_layout1.addRow("加工前保护气时长(s)", self.pre_time_edit)
             form_layout2.addRow("保护气保持时间(s)", self.keep_time_edit)
 
@@ -715,8 +749,8 @@ class XMProcessDialog(QDialog):
             self.layer_interval_edit.setValue(data.get("层间间隔(s)", 0))
             self.offset_edit.setValue(data.get("道间偏移(mm)", 0))
             self.lift_height_edit.setValue(data.get("层间抬升(mm)", 0))
-            self.protect_gas_flow_edit.setValue(data.get("保护气及流量(L/min)", 0))
-            self.carrier_gas_flow_edit.setValue(data.get("载气及流量(L/min)", 0))
+            self.protect_gas_flow_edit.setText(data.get("保护气及流量(L/min)", ""))
+            self.carrier_gas_flow_edit.setText(data.get("载气及流量(L/min)", ""))
         else:
             self.name.setText(data.get("工艺名称", ""))
             self.material_edit.setCurrentText(data.get("熔覆材料", ""))
@@ -729,8 +763,8 @@ class XMProcessDialog(QDialog):
             self.addition_rate_edit.setValue(data.get("质量添加(g/min)", 0))
             self.offset_edit.setValue(data.get("道间偏移(mm)", 0))
             self.lift_height_edit.setValue(data.get("层间抬升(mm)", 0))
-            self.protect_gas_flow_edit.setValue(data.get("保护气及流量(L/min)", 0))
-            self.qd_flow_edit.setValue(data.get("气刀流量(L/min)", 0))
+            self.protect_gas_flow_edit.setText(data.get("保护气及流量(L/min)", ""))
+            self.qd_flow_edit.setText(data.get("气刀及流量(L/min)", ""))
             self.pre_time_edit.setValue(data.get("加工前保护气时长(s)", 0))
             self.keep_time_edit.setValue(data.get("保护气保持时间(s)", 0))
 
@@ -766,8 +800,8 @@ class XMProcessDialog(QDialog):
                 "层间间隔(s)": self.layer_interval_edit.value(),
                 "道间偏移(mm)": self.offset_edit.value(),
                 "层间抬升(mm)": self.lift_height_edit.value(),
-                "保护气及流量(L/min)": self.protect_gas_flow_edit.value(),
-                "载气及流量(L/min)": self.carrier_gas_flow_edit.value()
+                "保护气及流量(L/min)": self.protect_gas_flow_edit.text(),
+                "载气及流量(L/min)": self.carrier_gas_flow_edit.text()
             }
         else:
             data = {
@@ -782,6 +816,8 @@ class XMProcessDialog(QDialog):
                 "质量添加(g/min)": self.addition_rate_edit.value(),
                 "道间偏移(mm)": self.offset_edit.value(),
                 "层间抬升(mm)": self.lift_height_edit.value(),
+                "保护气及流量(L/min)": self.protect_gas_flow_edit.text(),
+                "气刀及流量(L/min)": self.qd_flow_edit.text(),
                 "加工前保护气时长(s)": self.pre_time_edit.value(),
                 "保护气保持时间(s)": self.keep_time_edit.value()
             }
@@ -854,12 +890,12 @@ class XMProcessDialog2(QDialog):
         self.welding_speed_edit = QDoubleSpinBox()
         self.welding_speed_edit.setRange(0, 10000)  # 设置范围 熔覆速度(mm/s)
 
-        self.protect_gas_flow_edit = QDoubleSpinBox()
-        self.protect_gas_flow_edit.setRange(0, 10000)  # 设置范围 保护气及流量(L/min)
-        self.carrier_gas_flow_edit = QDoubleSpinBox()
-        self.carrier_gas_flow_edit.setRange(0, 10000)  # 设置范围 载气及流量(L/min)
-        self.qd_flow_edit = QDoubleSpinBox()
-        self.qd_flow_edit.setRange(0, 10000)  # 设置范围 气刀流量(L/min)
+        self.protect_gas_flow_edit = QLineEdit()
+        # self.protect_gas_flow_edit.setRange(0, 10000)  # 设置范围 保护气及流量(L/min)
+        self.carrier_gas_flow_edit = QLineEdit()
+        # self.carrier_gas_flow_edit.setRange(0, 10000)  # 设置范围 载气及流量(L/min)
+        self.qd_flow_edit = QLineEdit()
+        # self.qd_flow_edit.setRange(0, 10000)  # 设置范围 气刀及流量(L/min)
         self.pre_time_edit = QDoubleSpinBox()
         self.pre_time_edit.setRange(0, 10000)  # 设置范围 加工前保护气时长(s)
         self.keep_time_edit = QDoubleSpinBox()
@@ -887,7 +923,7 @@ class XMProcessDialog2(QDialog):
         form_layout2.addRow("层间抬升(mm)", self.lift_height_edit)
         form_layout2.addRow("保护气及流量(L/min)", self.protect_gas_flow_edit)
         form_layout2.addRow("保护气保持时间(s)", self.keep_time_edit)
-        form_layout2.addRow("气刀流量(L/min)", self.qd_flow_edit)
+        form_layout2.addRow("气刀及流量(L/min)", self.qd_flow_edit)
         form_layout2.addRow("加工前保护气时长(s)", self.pre_time_edit)
 
         form.addLayout(form_layout1)
@@ -942,7 +978,7 @@ class XMProcessDialog2(QDialog):
         self.fmd_edit.setText(data.get("粉末粒径(μm)", ""))
         self.sf_rate_edit.setValue(data.get("送粉转速(r/min)", 0))
         self.addition_rate_edit.setValue(data.get("粉末质量添加(g/min)", 0))
-        self.carrier_gas_flow_edit.setValue(data.get("粉末载气及流量(L/min)", 0))
+        self.carrier_gas_flow_edit.setText(data.get("粉末载气及流量(L/min)", ""))
         self.material_edit2.setCurrentText(data.get("送丝材料", ""))
         self.scd_edit.setValue(data.get("丝材直径(mm)", 0))
         self.ss_rate_edit.setValue(data.get("送丝速度(m/min)", 0))
@@ -954,9 +990,9 @@ class XMProcessDialog2(QDialog):
         self.welding_speed_edit.setValue(data.get("熔覆速度(mm/s)", 0))
         self.offset_edit.setValue(data.get("道间偏移(mm)", 0))
         self.lift_height_edit.setValue(data.get("层间抬升(mm)", 0))
-        self.protect_gas_flow_edit.setValue(data.get("保护气及流量(L/min)", 0))
+        self.protect_gas_flow_edit.setText(data.get("保护气及流量(L/min)", ""))
         self.keep_time_edit.setValue(data.get("保护气保持时间(s)", 0))
-        self.qd_flow_edit.setValue(data.get("气刀流量(L/min)", 0))
+        self.qd_flow_edit.setText(data.get("气刀及流量(L/min)", ""))
         self.pre_time_edit.setValue(data.get("加工前保护气时长(s)", 0))
 
     def get_file_names(self, path):
@@ -979,7 +1015,7 @@ class XMProcessDialog2(QDialog):
             "粉末粒径(μm)": self.fmd_edit.text(),
             "送粉转速(r/min)": self.ss_rate_edit.value(),
             "粉末质量添加(g/min)": self.addition_rate_edit.value(),
-            "粉末载气及流量(L/min)": self.carrier_gas_flow_edit.value(),
+            "粉末载气及流量(L/min)": self.carrier_gas_flow_edit.text(),
             "送丝材料": self.material_edit2.currentText(),
             "丝材直径(mm)": self.scd_edit.value(),
             "送丝速度(m/min)": self.ss_rate_edit.value(),
@@ -990,9 +1026,9 @@ class XMProcessDialog2(QDialog):
             "熔覆速度(mm/s)": self.welding_speed_edit.value(),
             "道间偏移(mm)": self.offset_edit.value(),
             "层间抬升(mm)": self.lift_height_edit.value(),
-            "保护气及流量(L/min)": self.protect_gas_flow_edit.value(),
+            "保护气及流量(L/min)": self.protect_gas_flow_edit.text(),
             "保护气保持时间(s)": self.keep_time_edit.value(),
-            "气刀流量(L/min)": self.qd_flow_edit.value(),
+            "气刀及流量(L/min)": self.qd_flow_edit.text(),
             "加工前保护气时长(s)": self.pre_time_edit.value(),
         }
         with open(file_path, 'w', encoding='utf-8') as f:

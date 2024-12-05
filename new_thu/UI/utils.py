@@ -9,7 +9,7 @@ from MyDialog import *
 from PySide2.QtGui import QIcon
 import json
 import subprocess
-
+from dialog2 import *
 
 @unique
 class NodeType(Enum):
@@ -25,7 +25,8 @@ def new_type(self, item):
     absolute_path = os.path.abspath(project_path)
     print(absolute_path)
     if item and item.data(0, Qt.UserRole + 1) == "材料库":
-        text, ok = QInputDialog.getText(self, '新建材料类型', '输入材料类型名称:')
+        # 调用输入对话框，获取用户输入
+        text, ok = CustomInputDialog.getText(None, '新建材料类型', '输入材料类型名称:')
         if ok and text:
             new_item = QTreeWidgetItem(item)
             new_item.setText(0, text)
@@ -45,7 +46,7 @@ def new_type(self, item):
             # 使用 Path.mkdir 创建目录，parents=True 表示递归创建，exist_ok=True 表示如果目录已存在，不会引发异常
             path_obj.mkdir(parents=True, exist_ok=True)
     elif item and item.data(0, Qt.UserRole + 1) == "设备库":
-        text, ok = QInputDialog.getText(self, '新建设备类型', '输入设备类型名称:')
+        text, ok = CustomInputDialog.getText(None, '新建设备类型', '输入设备类型名称:')
         if ok and text:
             new_item = QTreeWidgetItem(item)
             new_item.setText(0, text)
@@ -63,7 +64,7 @@ def new_type(self, item):
             path_obj = Path(dir_path)
             path_obj.mkdir(parents=True, exist_ok=True)
     elif item and item.data(0, Qt.UserRole + 1) == "程序库":
-        text, ok = QInputDialog.getText(self, '新建程序类型', '输入程序类型名称:')
+        text, ok = CustomInputDialog.getText(None, '新建程序类型', '输入程序类型名称:')
         if ok and text:
             new_item = QTreeWidgetItem(item)
             new_item.setText(0, text)
@@ -81,7 +82,7 @@ def new_type(self, item):
             path_obj = Path(dir_path)
             path_obj.mkdir(parents=True, exist_ok=True)
     elif item and item.data(0, Qt.UserRole + 1) == "模型库":
-        text, ok = QInputDialog.getText(self, '新建模型工艺类型', '输入工艺类型名称:')
+        text, ok = CustomInputDialog.getText(None, '新建模型工艺类型', '输入工艺类型名称:')
         if ok and text:
             new_item = QTreeWidgetItem(item)
             new_item.setText(0, text)
@@ -99,7 +100,7 @@ def new_type(self, item):
             path_obj = Path(dir_path)
             path_obj.mkdir(parents=True, exist_ok=True)
     elif item and item.data(0, Qt.UserRole + 1) == "模型工艺类型":
-        text, ok = QInputDialog.getText(self, '新建模型类型', '输入模型类型名称:')
+        text, ok = CustomInputDialog.getText(None, '新建模型类型', '输入模型类型名称:')
         if ok and text:
             new_item = QTreeWidgetItem(item)
             new_item.setText(0, text)
@@ -117,14 +118,14 @@ def new_type(self, item):
             path_obj = Path(dir_path)
             path_obj.mkdir(parents=True, exist_ok=True)
     elif item and item.data(0, Qt.UserRole + 1) == "项目库":
-        text, ok = QInputDialog.getText(self, '新建项目', '输入项目名称:')
+        text, ok = CustomInputDialog.getText(None, '新建项目', '输入项目名称:')
         if ok and text:
             file_path = osp.join(absolute_path, text)
             # 检查 file_path 是否已经存在
             if os.path.exists(file_path):
                 QMessageBox.warning(self, '警告', f'项目 "{text}" 已经存在!', QMessageBox.Ok)
             else:
-                new_item = QTreeWidgetItem(item)
+                new_item = QTreeWidgetItem()
                 new_item.setText(0, text)
                 new_item.setData(0, Qt.UserRole, file_path)
                 # 设置窗口图标
@@ -162,7 +163,7 @@ def new_type(self, item):
                     else:
                         self._generate_item(item, obj, tmp_path, NodeType.NodeFile.value)
     elif item and item.data(0, Qt.UserRole + 1) == "工艺库":
-        text, ok = QInputDialog.getText(self, '新建工艺', '输入工艺类型名称:')
+        text, ok = CustomInputDialog.getText(None, '新建工艺', '输入工艺类型名称:')
         if ok and text:
             new_item = QTreeWidgetItem(item)
             new_item.setText(0, text)
@@ -183,7 +184,7 @@ def new_type(self, item):
             dialog = ProcessDialog(self, item)
         dialog.exec_()
     elif item and item.data(0, Qt.UserRole + 1) == "材料类型":
-        dialog = MaterialDialog(item)
+        dialog = MaterialDialog1(item)
         dialog.exec_()
     elif item and item.data(0, Qt.UserRole + 1) == "设备类型":
         dialog = EquipmentDialog(self, item)

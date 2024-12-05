@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>894</width>
-    <height>640</height>
+    <width>1199</width>
+    <height>518</height>
    </rect>
   </property>
   <property name="contextMenuPolicy">
@@ -22,6 +22,20 @@ border: none;
 margin: 0px;
 }
 
+QPushButton {
+    background-repeat: no-repeat;
+	border: none;
+	background-color: transparent;
+	text-align: center;
+    color: #f8f8f2;
+}
+QPushButton:hover {
+	background-color: #bd93f9;
+}
+QPushButton:pressed {
+	background-color: #ff79c6;
+	color: rgb(255, 255, 255);
+}
 
 QWidget{
 	color: #333;
@@ -239,7 +253,7 @@ QRadioButton::indicator:checked {
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 ComboBox */
 QComboBox{
-	background-color: rgb(43, 87, 154);
+	background-color: #6272a4;
 	border-radius: 5px;
 	border: 2px solid #6272a4;
 	padding: 5px;
@@ -331,31 +345,12 @@ QTabWidget {
 QTabBar::tab {
     color: rgb(0, 0, 0);
 }
-
-QGroupBox{
-	background-color: rgb(245, 245, 245);
-}
-
-
-QPushButton {
-	border: none;
-	background-color: transparent;
-	text-align: center;
-	background-color: rgb(43, 87, 154);
-	color: rgb(255, 255, 255);
-}
-QPushButton:hover {
-	background-color: #bd93f9;
-}
-QPushButton:pressed {
-	background-color: #ff79c6;
-	color: rgb(255, 255, 255);
-}</string>
+</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
+  <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1">
    <item>
-    <layout class="QGridLayout" name="gridLayout_3" rowstretch="0" columnstretch="0,0">
-     <item row="0" column="1">
+    <layout class="QGridLayout" name="gridLayout_3" rowstretch="0" columnstretch="1">
+     <item row="0" column="0">
       <widget class="QGroupBox" name="groupBox_6">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -366,7 +361,7 @@ QPushButton:pressed {
        <property name="title">
         <string>模拟量输入</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,2">
+       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1">
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
@@ -375,498 +370,168 @@ QPushButton:pressed {
          </widget>
         </item>
         <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="checkBox_7">
+            <property name="styleSheet">
+             <string notr="true">QCheckBox::indicator:checked {
+    background-color: rgb(0, 191, 255); /* 选中状态背景色 */
+}</string>
+            </property>
+            <property name="text">
+             <string>AI7</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QCheckBox" name="checkBox_8">
+            <property name="styleSheet">
+             <string notr="true">QCheckBox::indicator:checked {
+    background-color: rgb(255, 69, 0); /* 选中状态背景色 */
+}</string>
+            </property>
+            <property name="text">
+             <string>AI8</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="checkBox_2">
+            <property name="styleSheet">
+             <string notr="true">QCheckBox::indicator:checked {
+    background-color: rgb(50, 50, 50); /* 选中状态背景色 */
+}</string>
+            </property>
+            <property name="text">
+             <string>AI2</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBox_1">
+            <property name="styleSheet">
+             <string notr="true">QCheckBox::indicator:checked {
+    background-color: rgb(98, 114, 165); /* 选中状态背景色 */
+}</string>
+            </property>
+            <property name="text">
+             <string>AI1</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBox_3">
+            <property name="styleSheet">
+             <string notr="true">QCheckBox::indicator:checked {
+    background-color: rgb(60, 179, 113); /* 选中状态背景色 */
+}</string>
+            </property>
+            <property name="text">
+             <string>AI3</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="checkBox_4">
+            <property name="styleSheet">
+             <string notr="true">QCheckBox::indicator:checked {
+    background-color: rgb(255, 215, 0); /* 选中状态背景色 */
+}</string>
+            </property>
+            <property name="text">
+             <string>AI4</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="checkBox_5">
+            <property name="styleSheet">
+             <string notr="true">QCheckBox::indicator:checked {
+    background-color: rgb(75, 0, 130); /* 选中状态背景色 */
+}</string>
+            </property>
+            <property name="text">
+             <string>AI5</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QCheckBox" name="checkBox_6">
+            <property name="styleSheet">
+             <string notr="true">QCheckBox::indicator:checked {
+    background-color: rgb(255, 105, 180); /* 选中状态背景色 */
+}</string>
+            </property>
+            <property name="text">
+             <string>AI6</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <widget class="QGroupBox" name="groupBox_waveview_1">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="minimumSize">
            <size>
             <width>0</width>
             <height>0</height>
            </size>
           </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(230, 230, 230);</string>
-          </property>
           <property name="title">
            <string/>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_2">
-          <property name="title">
-           <string>CCD图像:</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <widget class="QLabel" name="label_9">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_ccd_img">
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(230, 230, 230);</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
        </layout>
       </widget>
-     </item>
-     <item row="0" column="0">
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="4" column="0">
-        <widget class="QCheckBox" name="checkBox_5">
-         <property name="styleSheet">
-          <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(75, 0, 130); /* 选中状态背景色 */
-}</string>
-         </property>
-         <property name="text">
-          <string>AI5</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="checkBox_1">
-         <property name="styleSheet">
-          <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(98, 114, 165); /* 选中状态背景色 */
-}</string>
-         </property>
-         <property name="text">
-          <string>AI1</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="checkBox_4">
-         <property name="styleSheet">
-          <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(255, 215, 0); /* 选中状态背景色 */
-}</string>
-         </property>
-         <property name="text">
-          <string>AI4</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="checkBox_2">
-         <property name="styleSheet">
-          <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(50, 50, 50); /* 选中状态背景色 */
-}</string>
-         </property>
-         <property name="text">
-          <string>AI2</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QCheckBox" name="checkBox_7">
-         <property name="styleSheet">
-          <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(0, 191, 255); /* 选中状态背景色 */
-}</string>
-         </property>
-         <property name="text">
-          <string>AI7</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="checkBox_3">
-         <property name="styleSheet">
-          <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(60, 179, 113); /* 选中状态背景色 */
-}</string>
-         </property>
-         <property name="text">
-          <string>AI3</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QCheckBox" name="checkBox_6">
-         <property name="styleSheet">
-          <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(255, 105, 180); /* 选中状态背景色 */
-}</string>
-         </property>
-         <property name="text">
-          <string>AI6</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QCheckBox" name="checkBox_8">
-         <property name="styleSheet">
-          <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(255, 69, 0); /* 选中状态背景色 */
-}</string>
-         </property>
-         <property name="text">
-          <string>AI8</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
+    <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>CCD参数</string>
+      <string>CCD图像:</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_7">
       <item>
-       <widget class="QLabel" name="label_10">
+       <widget class="QLabel" name="label">
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QPushButton" name="btn_enum">
-          <property name="text">
-           <string>检测设备</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="checkBox_openccd">
-          <property name="styleSheet">
-           <string notr="true">
-
-        QCheckBox::indicator {
-            padding-top: 1px;
-            width: 40px;
-            height: 30px;
-            border: none;
-        }
-
-        QCheckBox::indicator:unchecked {
-            image: url(:/icon/check_on.png);
-        }
-
-        QCheckBox::indicator:checked {
-            image: url(:/icon/check_off.png);
-        }
-url(:/icon/check_off.png)</string>
-          </property>
-          <property name="text">
-           <string>打开相机</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboBox_ccd_device"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="btn_ccd_capture">
-        <property name="text">
-         <string>拍摄一帧</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Exposure:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="Slider_exposure">
-          <property name="maximum">
-           <number>10000</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBox_exposure">
-          <property name="maximum">
-           <number>10000</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-          <property name="value">
-           <number>0</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Gain:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="Slider1_gain">
-          <property name="maximum">
-           <number>10000</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBox_gain">
-          <property name="maximum">
-           <number>10000</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-          <property name="value">
-           <number>0</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>FPS</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="Slider_fps">
-          <property name="maximum">
-           <number>60</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBox_fps">
-          <property name="maximum">
-           <number>60</number>
-          </property>
-          <property name="singleStep">
-           <number>1</number>
-          </property>
-          <property name="value">
-           <number>0</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <item>
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>H</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="Slider_h">
-          <property name="maximum">
-           <number>3000</number>
-          </property>
-          <property name="value">
-           <number>800</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBox_ccdh">
-          <property name="maximum">
-           <number>3000</number>
-          </property>
-          <property name="value">
-           <number>600</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
-        <item>
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>W</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="Slider_w">
-          <property name="maximum">
-           <number>3000</number>
-          </property>
-          <property name="value">
-           <number>800</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBox_ccdw">
-          <property name="maximum">
-           <number>3000</number>
-          </property>
-          <property name="value">
-           <number>600</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_10">
-        <item>
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>Hoffset</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="Slider_hoffset">
-          <property name="maximum">
-           <number>3000</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBox_ccd_hoffset">
-          <property name="maximum">
-           <number>3000</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
-        <item>
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Woffset</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="Slider_woffset">
-          <property name="maximum">
-           <number>3000</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBox_ccd_woffset">
-          <property name="maximum">
-           <number>3000</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QPushButton" name="btn_setpara">
-        <property name="text">
-         <string>修改参数</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>CCD参数</string>
+     </property>
     </widget>
    </item>
   </layout>
@@ -874,230 +539,5 @@ url(:/icon/check_off.png)</string>
  <resources>
   <include location="icon/icon.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>Slider_exposure</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_exposure</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>871</x>
-     <y>175</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>957</x>
-     <y>172</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_exposure</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>Slider_exposure</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>946</x>
-     <y>180</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>895</x>
-     <y>173</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>Slider1_gain</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_gain</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>894</x>
-     <y>205</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>943</x>
-     <y>203</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_gain</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>Slider1_gain</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>943</x>
-     <y>210</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>888</x>
-     <y>201</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>Slider_fps</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_fps</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>893</x>
-     <y>232</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>939</x>
-     <y>232</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_fps</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>Slider_fps</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>948</x>
-     <y>235</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>882</x>
-     <y>232</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>Slider_h</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_ccdh</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>889</x>
-     <y>262</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>952</x>
-     <y>263</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>Slider_w</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_ccdw</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>898</x>
-     <y>290</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>945</x>
-     <y>292</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>Slider_hoffset</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_ccd_hoffset</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>899</x>
-     <y>319</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>947</x>
-     <y>317</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>Slider_woffset</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_ccd_woffset</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>898</x>
-     <y>346</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>949</x>
-     <y>349</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_ccdh</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>Slider_h</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>940</x>
-     <y>262</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>905</x>
-     <y>263</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_ccdw</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>Slider_w</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>946</x>
-     <y>293</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>903</x>
-     <y>293</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_ccd_hoffset</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>Slider_hoffset</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>951</x>
-     <y>320</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>891</x>
-     <y>320</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_ccd_woffset</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>Slider_woffset</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>953</x>
-     <y>351</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>887</x>
-     <y>350</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

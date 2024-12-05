@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'DIOwidgetBBVYzD.ui'
+## Form generated from reading UI file 'DIOwidgetVDKlbb.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -24,7 +24,20 @@ class Ui_Form(object):
 "border: none;\n"
 "margin: 0px;\n"
 "}\n"
-"\n"
+"QPushButton {\n"
+"    background-repeat: no-repeat;\n"
+"	border: none;\n"
+"	background-color: transparent;\n"
+"	text-align: center;\n"
+"    color: #f8f8f2;\n"
+"}\n"
+"QPushButton:hover {\n"
+"	background-color: #bd93f9;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"	background-color: #ff79c6;\n"
+"	color: rgb(255, 255, 255);\n"
+"}\n"
 "\n"
 "QWidget{\n"
 "	color: #333;\n"
@@ -54,7 +67,8 @@ class Ui_Form(object):
 "}\n"
 "QTableWidget::item{\n"
 "	border-color: #9faeda;\n"
-"	padding-left: 5px;\n"
+"	padding-lef"
+                        "t: 5px;\n"
 "	padding-right: 5px;\n"
 "	gridline-color: #9faeda;\n"
 "}\n"
@@ -68,8 +82,7 @@ class Ui_Form(object):
 "	border: none;\n"
 "	border-style: none;\n"
 "}\n"
-"QTableWidg"
-                        "et::horizontalHeader {\n"
+"QTableWidget::horizontalHeader {\n"
 "	background-color: #6272a4;\n"
 "}\n"
 "QHeaderView::section:horizontal\n"
@@ -94,7 +107,8 @@ class Ui_Form(object):
 "	border: 2px solid #6272a4;\n"
 "	padding-left: 10px;\n"
 "	selection-color: rgb(255, 255, 255);\n"
-"	selection-background-color: rgb(255, 121, 198);\n"
+"	selection-background-color: rgb"
+                        "(255, 121, 198);\n"
 "    color: #f8f8f2;\n"
 "}\n"
 "QLineEdit:hover {\n"
@@ -106,8 +120,7 @@ class Ui_Form(object):
 "\n"
 "/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
 "PlainTextEdit */\n"
-"QPlainTex"
-                        "tEdit {\n"
+"QPlainTextEdit {\n"
 "	background-color: #6272a4;\n"
 "	border-radius: 5px;\n"
 "	padding: 10px;\n"
@@ -133,7 +146,8 @@ class Ui_Form(object):
 "QScrollBar:horizontal {\n"
 "    border: none;\n"
 "    background: #6272a4;\n"
-"    height: 8px;\n"
+"    he"
+                        "ight: 8px;\n"
 "    margin: 0px 21px 0 21px;\n"
 "	border-radius: 0px;\n"
 "}\n"
@@ -146,8 +160,7 @@ class Ui_Form(object):
 "    border: none;\n"
 "    background: #6272a4;\n"
 "    width: 20px;\n"
-""
-                        "	border-top-right-radius: 4px;\n"
+"	border-top-right-radius: 4px;\n"
 "    border-bottom-right-radius: 4px;\n"
 "    subcontrol-position: right;\n"
 "    subcontrol-origin: margin;\n"
@@ -171,7 +184,8 @@ class Ui_Form(object):
 "}\n"
 " QScrollBar:vertical {\n"
 "	border: none;\n"
-"    background-color: #6272a4;\n"
+"    background-color: #6272a"
+                        "4;\n"
 "    width: 8px;\n"
 "    margin: 21px 0 21px 0;\n"
 "	border-radius: 0px;\n"
@@ -184,8 +198,7 @@ class Ui_Form(object):
 " QScrollBar::add-line:vertical {\n"
 "     border: none;\n"
 "    background: #6272a4;\n"
-"     height:"
-                        " 20px;\n"
+"     height: 20px;\n"
 "	border-bottom-left-radius: 4px;\n"
 "    border-bottom-right-radius: 4px;\n"
 "     subcontrol-position: bottom;\n"
@@ -208,7 +221,8 @@ class Ui_Form(object):
 "     background: none;\n"
 " }\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
+"/* //////////////////////////////////////////////////////////"
+                        "///////////////////////////////////////\n"
 "CheckBox \n"
 "QCheckBox::indicator {\n"
 "    border: 3px solid #6272a4;\n"
@@ -220,8 +234,7 @@ class Ui_Form(object):
 "QCheckBox::indicator:hover {\n"
 "    border: 3px solid rgb(119, 136, 187);\n"
 "}\n"
-"QCheckBox::indica"
-                        "tor:checked {\n"
+"QCheckBox::indicator:checked {\n"
 "    background: 3px solid #bd93f9;\n"
 "	border: 3px solid #bd93f9;\n"
 "	background-image: url(:/icons/images/icons/cil-check-alt.png);\n"
@@ -240,14 +253,15 @@ class Ui_Form(object):
 "    border: 3px solid rgb(119, 136, 187);\n"
 "}\n"
 "QRadioButton::indicator:checked {\n"
-"    background: 3px solid #bd93f9;\n"
+"    background: 3px solid #F72121;\n"
 "	border: 3px solid #bd93f9;\n"
 "}\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
+"/* /////////////////////////////////////"
+                        "////////////////////////////////////////////////////////////\n"
 "ComboBox */\n"
 "QComboBox{\n"
-"	background-color: rgb(43, 87, 154);\n"
+"	background-color: #6272a4;\n"
 "	border-radius: 5px;\n"
 "	border: 2px solid #6272a4;\n"
 "	padding: 5px;\n"
@@ -256,8 +270,7 @@ class Ui_Form(object):
 "}\n"
 "QComboBox:hover{\n"
 "	border: 2px solid #7284b9;\n"
-""
-                        "}\n"
+"}\n"
 "QComboBox::drop-down {\n"
 "	subcontrol-origin: padding;\n"
 "	subcontrol-position: top right;\n"
@@ -278,7 +291,8 @@ class Ui_Form(object):
 "	selection-background-color: rgb(255, 121, 198);\n"
 "}\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
+"/* /////////////////////////////////////////////////////////////////////////////////////////////"
+                        "////\n"
 "Sliders */\n"
 "QSlider::groove:horizontal {\n"
 "    border-radius: 5px;\n"
@@ -290,8 +304,7 @@ class Ui_Form(object):
 "	background-color: rgb(255, 255, 255);\n"
 "}\n"
 "QSlider::handle:horizontal {\n"
-"    background-co"
-                        "lor: rgb(189, 147, 249);\n"
+"    background-color: rgb(189, 147, 249);\n"
 "    border: none;\n"
 "    height: 10px;\n"
 "    width: 10px;\n"
@@ -320,7 +333,8 @@ class Ui_Form(object):
 "    height: 10px;\n"
 "    width: 10px;\n"
 "    margin: 0px;\n"
-"	border-radius: 5px;\n"
+"	bor"
+                        "der-radius: 5px;\n"
 "}\n"
 "QSlider::handle:vertical:hover {\n"
 "    background-color: rgb(195, 155, 255);\n"
@@ -337,37 +351,13 @@ class Ui_Form(object):
 "QTabWidget {\n"
 "     border: none;\n"
 "}\n"
-""
-                        "\n"
+"\n"
 "QTabBar::tab {\n"
 "    color: rgb(0, 0, 0);\n"
 "}\n"
-"\n"
-"QGroupBox{\n"
-"	background-color: rgb(245, 245, 245);\n"
-"}\n"
-"\n"
-"\n"
-"QPushButton {\n"
-"	border: none;\n"
-"	background-color: transparent;\n"
-"	text-align: center;\n"
-"	background-color: rgb(43, 87, 154);\n"
-"	color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"	background-color: #bd93f9;\n"
-"}\n"
-"QPushButton:pressed {\n"
-"	background-color: #ff79c6;\n"
-"	color: rgb(255, 255, 255);\n"
-"}")
+"")
         self.horizontalLayout_11 = QHBoxLayout(Form)
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.horizontalSpacer_17 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_11.addItem(self.horizontalSpacer_17)
-
         self.verticalLayout_11 = QVBoxLayout()
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Minimum)
@@ -1020,10 +1010,6 @@ class Ui_Form(object):
 
         self.verticalLayout_11.addWidget(self.groupBox_3)
 
-        self.verticalSpacer_8 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_11.addItem(self.verticalSpacer_8)
-
 
         self.horizontalLayout_11.addLayout(self.verticalLayout_11)
 
@@ -1481,8 +1467,8 @@ class Ui_Form(object):
 
         self.horizontalLayout_11.addLayout(self.verticalLayout_12)
 
-        self.horizontalLayout_11.setStretch(1, 2)
-        self.horizontalLayout_11.setStretch(2, 1)
+        self.horizontalLayout_11.setStretch(0, 2)
+        self.horizontalLayout_11.setStretch(1, 1)
 
         self.retranslateUi(Form)
 

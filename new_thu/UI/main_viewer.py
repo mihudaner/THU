@@ -78,8 +78,7 @@ class MainWindow(QMainWindow):
         # 右击显示菜单
         self.treeWidget.customContextMenuRequested.connect(partial(show_context_menu, self))
         self.initData()
-
-        self.select_database(note = "fresh")
+        self.select_database(note="fresh")
     def initData(self):
         path1 = osp.join(self.dataroot, '材料库')
         self.cl_styles = self.get_folder_names(path1)
@@ -198,13 +197,13 @@ class MainWindow(QMainWindow):
             #新的database路径
             root = QFileDialog.getExistingDirectory(self, "选择工程目录", ".",
                             QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
-            if root:
+            if root and root != '':
                 self.root = root
                 self.dataroot = osp.join(root, "数据库")
                 self.projectroot = osp.join(self.root, "项目库")
                 self.list_dir(None, self.dataroot)  # 递归遍历
                 top_item = self.create_top_item(self.projectroot, "项目")  # 创建topitem
-                self.list_dir(top_item, self.projectroot, "项目")  # 递归遍历
+                self.list_dir(top_item, self.projectroot)  # 递归遍历
             else:
                 # 创建一个警告对话框
                 warning_box = QMessageBox(self)
@@ -217,7 +216,7 @@ class MainWindow(QMainWindow):
         else:
             self.list_dir(None, self.dataroot)  # 递归遍历
             top_item = self.create_top_item(self.projectroot, "项目")  # 创建topitem
-            self.list_dir(top_item, self.projectroot, "项目")  # 递归遍历
+            self.list_dir(top_item, self.projectroot)  # 递归遍历
     #选择数据库
     def select_data(self, note=None):
         self.treeWidget.clear()
@@ -332,7 +331,12 @@ class MainWindow(QMainWindow):
         if name.endswith('bak'):
             item.setHidden(True)
 
+        if parent and parent.data(0, Qt.UserRole + 1) == "项目库":
+            font = QFont()
+            font.setBold(True)
+            item.setFont(0, font)  # 设置第0列的字体
         item.setText(0, name)
+
         item.setToolTip(0, path)
         item.setData(0, Qt.UserRole, path)
 
@@ -626,7 +630,7 @@ class MainWindow(QMainWindow):
         project_path = item.data(0, Qt.UserRole)
         print(project_path)
         if item.data(0, Qt.UserRole + 1) == "具体材料":
-            dialog = MaterialDialog(item)
+            dialog = MaterialDialog1(item)
             dialog.exec_()
         elif item.data(0, Qt.UserRole + 1) == "具体工艺":
             if item.parent().text(0) == "粉丝同送":
@@ -678,35 +682,65 @@ class MainWindow(QMainWindow):
         project_path = item.data(0, Qt.UserRole)
         print("delete")
         print(project_path)
-        # 弹出提示，询问是否确认删除文件project_path
-        reply = QMessageBox.question(
-            self,
-            '确认删除',
-            f'您确认要删除文件: {project_path} 吗？',
-            QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No
-        )
 
-        if reply == QMessageBox.Yes:
+        # 创建自定义对话框
+        dialog = QDialog()
+        dialog.setWindowTitle('确认删除')  # 设置标题
+        dialog.setModal(True)  # 设置为模态对话框
+        dialog.setWindowIcon(QIcon('../resource/icon/main.png'))
+        # 创建主布局
+        layout = QVBoxLayout(dialog)
+
+        # 添加消息文本
+        message_label = QLabel(f'您确认要删除文件: {project_path} 吗？')
+        layout.addWidget(message_label, alignment=Qt.AlignCenter)
+
+        # 创建按钮布局
+        button_layout = QHBoxLayout()
+
+        # 创建确认和取消按钮
+        confirm_button = QPushButton("确认")
+        cancel_button = QPushButton("取消")
+
+        # 将按钮添加到按钮布局中
+        button_layout.addWidget(confirm_button)
+        button_layout.addWidget(cancel_button)
+
+        # 设置按钮布局居中
+        button_layout.setAlignment(Qt.AlignCenter)
+
+        # 将按钮布局添加到主布局中
+        layout.addLayout(button_layout)
+
+        # 连接按钮事件
+        confirm_button.clicked.connect(lambda: self.confirmation_handler(dialog, True, project_path, item))
+        cancel_button.clicked.connect(lambda: self.confirmation_handler(dialog, False))
+
+        # 显示对话框
+        dialog.exec_()
+
+    def confirmation_handler(self, dialog, confirmed, project_path=None, item=None):
+        if confirmed:
             if os.path.exists(project_path):
                 try:
                     if os.path.isdir(project_path):
                         shutil.rmtree(project_path)  # 删除文件夹及其中的内容
-                        # QMessageBox.information(self, '提示', f'文件夹已删除: {project_path}')
                     else:
                         os.remove(project_path)  # 删除文件
-                        # QMessageBox.information(self, '提示', f'文件已删除: {project_path}')
-                    # 从树中删除该项，因为是子项，使用父项来删除
-                    parent_item = item.parent()
-                    index = parent_item.indexOfChild(item)
-                    parent_item.takeChild(index)
+
+                    # 从树中删除该项
+                    if item:
+                        parent_item = item.parent()
+                        index = parent_item.indexOfChild(item)
+                        parent_item.takeChild(index)
                 except Exception as e:
                     QMessageBox.critical(self, '错误', f'无法删除文件: {e}')
             else:
                 QMessageBox.warning(self, '警告', f'文件不存在: {project_path}')
         else:
-            QMessageBox.information(self, '提示', '已取消删除操作')
+            pass
 
+        dialog.accept()  # 关闭对话框
     def updateShow(self):
         # 清空树形控件的所有内容
         self.treeWidget.clear()
@@ -717,7 +751,8 @@ class MainWindow(QMainWindow):
         item_style = item.data(0, Qt.UserRole + 1)
         name = item.text(0)
         parent = item.parent()
-        text, ok = QInputDialog.getText(self, '重命名', '输入新名称:', text=name)
+        text, ok = CustomInputDialog.getText(None, '重命名', '输入新名称:', text=name)
+
         text0 = text
         if ok and text:
             # 获取父目录路径
@@ -746,6 +781,14 @@ class MainWindow(QMainWindow):
                 # 修改 A1 单元格的值
                 sheet['A1'] = text0  # 替换为你想要输入的值
                 workbook.save(new_path)  # 保存修改
+            elif item_style == "具体模型":
+                new_path = os.path.join(new_path, '模型描述.json')
+                # 加载 JSON 文件
+                with open(new_path, 'r', encoding='utf-8') as file:
+                    data = json.load(file)
+                data["名称"] = text0  # 替换为你想要的新值
+                with open(new_path, 'w', encoding='utf-8') as file:
+                    json.dump(data, file, ensure_ascii=False, indent=4)
             elif item_style == "具体程序":
                 new_path = os.path.join(new_path, '程序描述.json')
                 # 加载 JSON 文件
@@ -759,7 +802,8 @@ class MainWindow(QMainWindow):
         target_path = parent.data(0, Qt.UserRole)
         project_path = item.data(0, Qt.UserRole)
         item_style = item.data(0, Qt.UserRole + 1)
-        text, ok = QInputDialog.getText(self, '复制', '输入新名称:')
+
+        text, ok = CustomInputDialog.getText(self, '复制', '输入新名称:')
         text0 = text
         if ok and text:  # 如果用户确认并输入了名称
             # 计算目标目录路径
@@ -791,13 +835,55 @@ class MainWindow(QMainWindow):
                     icon_path = os.path.join('..', 'resource', 'icon', 'doc.png')
                     new_item.setIcon(0, QIcon(icon_path))
                     new_item.setData(0, Qt.UserRole + 1, "具体材料")
+                elif item_style == "具体模型":
+                    shutil.copytree(project_path, new_project_path)
+                    # 设置窗口图标
+                    icon_path = os.path.join('..', 'resource', 'icon', 'dir.png')
+                    new_item.setIcon(0, QIcon(icon_path))
+                    new_item.setData(0, Qt.UserRole + 1, "具体模型")
+                    self.list_dir(new_item, new_project_path)
+                    new_item.setExpanded(False)
+                elif item_style == "具体程序":
+                    shutil.copytree(project_path, new_project_path)
+                    # 设置窗口图标
+                    icon_path = os.path.join('..', 'resource', 'icon', 'dir.png')
+                    new_item.setIcon(0, QIcon(icon_path))
+                    new_item.setData(0, Qt.UserRole + 1, "具体程序")
+                    self.list_dir(new_item, new_project_path)
+                    new_item.setExpanded(False)
+                elif item_style == "具体项目":
+                    shutil.copytree(project_path, new_project_path)
+                    # # 设置窗口图标
+                    # icon_path = os.path.join('..', 'resource', 'icon', 'dir.png')
+                    # new_item.setIcon(0, QIcon(icon_path))
+                    # new_item.setData(0, Qt.UserRole + 1, "具体项目")
+                    # self.list_dir(new_item, new_project_path)
+                    # new_item.setExpanded(False)
+                    # 重新生成子项
+                    while parent.childCount() > 0:
+                        parent.removeChild(parent.child(0))
+                    for obj in os.listdir(parent.data(0, Qt.UserRole)):
+                        tmp_path = osp.join(parent.data(0, Qt.UserRole), obj)
+                        if osp.isdir(tmp_path):
+                            dir_item = self._generate_item(parent, obj, tmp_path, NodeType.NodeDir.value)
+                            self.list_dir(dir_item, tmp_path)  # 递归调用
+                        else:
+                            self._generate_item(parent, obj, tmp_path, NodeType.NodeFile.value)
+                elif item_style == "具体设备":
+                    shutil.copytree(project_path, new_project_path)
+                    # 设置窗口图标
+                    icon_path = os.path.join('..', 'resource', 'icon', 'dir.png')
+                    new_item.setIcon(0, QIcon(icon_path))
+                    new_item.setData(0, Qt.UserRole + 1, "具体设备")
+                    self.list_dir(new_item, new_project_path)
+                    new_item.setExpanded(False)
                 else:
                     shutil.copytree(project_path, new_project_path)
                     # 设置窗口图标
                     icon_path = os.path.join('..', 'resource', 'icon', 'dir.png')
                     new_item.setIcon(0, QIcon(icon_path))
                     new_item.setData(0, Qt.UserRole + 1, item_style)
-                QMessageBox.information(self, '成功', f'项目已成功复制到 {new_project_path}')
+                # QMessageBox.information(self, '成功', f'项目已成功复制到 {new_project_path}')
             except Exception as e:
                 QMessageBox.critical(self, '错误', f'复制过程中发生错误: {e}')
 
@@ -813,6 +899,7 @@ class MainWindow(QMainWindow):
 if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)
+    # 清除全局样式表
     MainWindow = PWindow()
     MainWindow.show()
     sys.exit(app.exec_())

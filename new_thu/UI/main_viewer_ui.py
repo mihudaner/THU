@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_viewerMBaPgX.ui'
+## Form generated from reading UI file 'main_viewerTrCPjD.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -530,7 +530,7 @@ class Ui_MainWindow(object):
                         "	border:1px solid rgba(100,100,100,100);\n"
 "	border-radius:2px;\n"
 "	background:rgb(255,255,255);\n"
-"	color: rgb(0, 0, 0);\n"
+"	color:rgb(0,0,0);\n"                                 
 "}\n"
 "\n"
 "QToolButton::menu-button {\n"
@@ -622,37 +622,10 @@ class Ui_MainWindow(object):
         self.tabWidget_2.addTab(self.tab_2, "")
         self.tab_3 = QWidget()
         self.tab_3.setObjectName(u"tab_3")
-        self.tab_3.setStyleSheet(u"#styleSheet{\n"
-"border: none;\n"
-"margin: 0px;\n"
-"}\n"
-"\n"
-"QPushButton {\n"
-"	border: none;\n"
-"	background-color: transparent;\n"
-"	text-align: center;\n"
-"	background-color: rgb(43, 87, 154);\n"
-"	color: rgb(255, 255, 255);\n"
-"}\n"
-"QPushButton:hover {\n"
-"	background-color: #bd93f9;\n"
-"}\n"
-"QPushButton:pressed {\n"
-"	background-color: #ff79c6;\n"
-"	color: rgb(255, 255, 255);\n"
-"}\n"
-"\n"
-"QLabel {\n"
-"	\n"
-"	background-color:  rgb(230, 230, 230);\n"
-"\n"
-"	\n"
-"}")
         self.verticalLayout = QVBoxLayout(self.tab_3)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.label_showpre = QLabel(self.tab_3)
         self.label_showpre.setObjectName(u"label_showpre")
-        self.label_showpre.setStyleSheet(u"")
         self.label_showpre.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.label_showpre)
@@ -742,7 +715,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget_2.setCurrentIndex(2)
+        self.tabWidget_2.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainWindow)

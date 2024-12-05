@@ -4,29 +4,19 @@ from typing import cast
 from Cardpage.Two_widget_debug import DIOWidget,AIOWidget_ShowOne
 from PySide2.QtCore import QTimer,QPoint, QRect
 from PySide2.QtGui import QPixmap,QImage
-from src.molten_pool import CCD_Pretor
+from src.molten_pool import CCD_Camera
 import cv2
-
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
 global flag
 flag = False
 
-
-
-class CCD_Window(MainWindow):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        print("CCD_Window")
-
-
-class TabWindow(MainWindow):
+class PWindow(MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         print("PWindow")
         self.InitUI()
         self.PInit()
 
-<<<<<<< HEAD
 # <<<<<<< HEAD
 #         # self.ccd_cam = CCD_Camera(False)
 # =======
@@ -34,11 +24,9 @@ class TabWindow(MainWindow):
 
 
 
-=======
->>>>>>> origin/addProject
     def InitUI(self):
         print("PWindow Load")
-        self.resize(1900, 900)
+        self.resize(1800, 900)
 
         self.ui = cast(Ui_MainWindow, self.ui)
         # 使用生成的Python文件作为类型提示
@@ -111,11 +99,7 @@ class TabWindow(MainWindow):
         self._resizing_edge = None
 
     def PInit(self):
-<<<<<<< HEAD
         # self.ccd_cam = CCD_Camera(False)
-=======
-        self.ccd_pretor = CCD_Pretor(False)
->>>>>>> origin/addProject
         self.ui.btn_pre.clicked.connect(self.start_pre)
 
 
@@ -171,7 +155,7 @@ class TabWindow(MainWindow):
         print("show_pre_ccd")
         # 循环读取所有 TIFF 文件
         while(1):
-            res_img, dis = self.ccd_pretor.get_next_frame_res()
+            res_img, dis = self.ccd_cam.get_next_frame_res()
             if dis is not None:
                 break
 
@@ -252,11 +236,3 @@ class TabWindow(MainWindow):
         else:
             self.showMaximized()  # 最大化窗口
             self.is_maximized = True
-
-
-
-
-class PWindow(CCD_Window,TabWindow):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        pass
