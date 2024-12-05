@@ -78,6 +78,27 @@ os.environ["QT_FONT_DPI"] = "96"  # FIX Problem for High DPI and Scale above 100
 hole_save_idx = 0
 
 
+def getCentor(image):
+    # 获取图像的宽度和高度
+    h, w = image.shape[:2]
+
+    # 中心区域的宽高为原图的 1/2
+    center_h, center_w = h // 2, w // 2
+    half_h, half_w = center_h // 2, center_w // 2
+
+    # 计算裁剪区域的边界
+    top = center_h - half_h
+    bottom = center_h + half_h
+    left = center_w - half_w
+    right = center_w + half_w
+
+    # 裁剪中心区域
+    cropped = image[top:bottom, left:right]
+
+    # 将裁剪区域调整回原始图像大小
+    resized = cv2.resize(cropped, (w, h), interpolation=cv2.INTER_LINEAR)
+    return resized
+
 class Thread_Load_ZIVID__Camera(QThread):
     """
     !!!!!!!!现在好像会关闭进程这个线程无法推出，加载虚拟相机后关闭界面  进程没有结束
@@ -226,6 +247,7 @@ class Window(ProjectWindow, CardWindow):
         self.capture(UPDATA_SHOW=False)
 
         # 与HIK检测经常通信交互
+        self.hik_img = getCentor(self.hik_img)
         pipe_hik.send(self.hik_img)
         pipe_hik.send(self.hik_img)
         pipe_hik.send([0, 0])

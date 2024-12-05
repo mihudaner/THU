@@ -21,20 +21,7 @@
 border: none;
 margin: 0px;
 }
-QPushButton {
-    background-repeat: no-repeat;
-	border: none;
-	background-color: transparent;
-	text-align: center;
-    color: #f8f8f2;
-}
-QPushButton:hover {
-	background-color: #bd93f9;
-}
-QPushButton:pressed {
-	background-color: #ff79c6;
-	color: rgb(255, 255, 255);
-}
+
 
 QWidget{
 	color: #333;
@@ -245,14 +232,14 @@ QRadioButton::indicator:hover {
     border: 3px solid rgb(119, 136, 187);
 }
 QRadioButton::indicator:checked {
-    background: 3px solid #F72121;
+    background: 3px solid #bd93f9;
 	border: 3px solid #bd93f9;
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 ComboBox */
 QComboBox{
-	background-color: #6272a4;
+	background-color: rgb(43, 87, 154);
 	border-radius: 5px;
 	border: 2px solid #6272a4;
 	padding: 5px;
@@ -344,11 +331,43 @@ QTabWidget {
 QTabBar::tab {
     color: rgb(0, 0, 0);
 }
-</string>
+
+QGroupBox{
+	background-color: rgb(245, 245, 245);
+}
+
+
+QPushButton {
+	border: none;
+	background-color: transparent;
+	text-align: center;
+	background-color: rgb(43, 87, 154);
+	color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: #bd93f9;
+}
+QPushButton:pressed {
+	background-color: #ff79c6;
+	color: rgb(255, 255, 255);
+}</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="2,1">
+  <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="0,2,1">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0,0,0">
+    <spacer name="horizontalSpacer_17">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0,0,0,0">
      <item>
       <spacer name="verticalSpacer_4">
        <property name="orientation">
@@ -1553,6 +1572,19 @@ QTabBar::tab {
         </item>
        </layout>
       </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_8">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>

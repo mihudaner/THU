@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_viewerTrCPjD.ui'
+## Form generated from reading UI file 'main_viewerYmJjDL.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1201, 905)
+        MainWindow.resize(1203, 912)
         MainWindow.setStyleSheet(u"#styleSheet{\n"
 "border: none;\n"
 "margin: 0px;\n"
@@ -530,7 +530,7 @@ class Ui_MainWindow(object):
                         "	border:1px solid rgba(100,100,100,100);\n"
 "	border-radius:2px;\n"
 "	background:rgb(255,255,255);\n"
-"	color:rgb(0,0,0);\n"                                 
+"	color: rgb(0, 0, 0);\n"
 "}\n"
 "\n"
 "QToolButton::menu-button {\n"
@@ -594,6 +594,8 @@ class Ui_MainWindow(object):
         self.action_other.setObjectName(u"action_other")
         self.file_menu = QAction(MainWindow)
         self.file_menu.setObjectName(u"file_menu")
+        self.action_updateIO = QAction(MainWindow)
+        self.action_updateIO.setObjectName(u"action_updateIO")
         self.center = QWidget(MainWindow)
         self.center.setObjectName(u"center")
         self.horizontalLayout = QHBoxLayout(self.center)
@@ -622,10 +624,37 @@ class Ui_MainWindow(object):
         self.tabWidget_2.addTab(self.tab_2, "")
         self.tab_3 = QWidget()
         self.tab_3.setObjectName(u"tab_3")
+        self.tab_3.setStyleSheet(u"#styleSheet{\n"
+"border: none;\n"
+"margin: 0px;\n"
+"}\n"
+"\n"
+"QPushButton {\n"
+"	border: none;\n"
+"	background-color: transparent;\n"
+"	text-align: center;\n"
+"	background-color: rgb(43, 87, 154);\n"
+"	color: rgb(255, 255, 255);\n"
+"}\n"
+"QPushButton:hover {\n"
+"	background-color: #bd93f9;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"	background-color: #ff79c6;\n"
+"	color: rgb(255, 255, 255);\n"
+"}\n"
+"\n"
+"QLabel {\n"
+"	\n"
+"	background-color:  rgb(230, 230, 230);\n"
+"\n"
+"	\n"
+"}")
         self.verticalLayout = QVBoxLayout(self.tab_3)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.label_showpre = QLabel(self.tab_3)
         self.label_showpre.setObjectName(u"label_showpre")
+        self.label_showpre.setStyleSheet(u"")
         self.label_showpre.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout.addWidget(self.label_showpre)
@@ -712,6 +741,7 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.mx_open)
         self.toolBar.addAction(self.xm_open)
         self.toolBar.addAction(self.action_fresh)
+        self.toolBar.addAction(self.action_updateIO)
 
         self.retranslateUi(MainWindow)
 
@@ -763,6 +793,7 @@ class Ui_MainWindow(object):
         self.action_save.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58", None))
         self.action_other.setText(QCoreApplication.translate("MainWindow", u"\u53e6\u5b58\u4e3a", None))
         self.file_menu.setText(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6", None))
+        self.action_updateIO.setText(QCoreApplication.translate("MainWindow", u"\u5de5\u827a\u66f4\u65b0", None))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u5b9e\u65f6\u53cd\u9988", None))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u7194\u6c60\u72b6\u6001", None))
         self.label_showpre.setText(QCoreApplication.translate("MainWindow", u"\u5f85\u663e\u793a", None))
