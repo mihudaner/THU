@@ -2071,26 +2071,31 @@ class FilterCX(QDialog):
         filter_layout = QHBoxLayout()
         filter_layout.addWidget(QLabel("类型:"))
         filter_layout.addWidget(self.filter_type)
+        filter_layout.addStretch(1)
 
         filter_layout.addWidget(QLabel("层数:"))
         filter_layout.addWidget(self.filter_layer_min)
         filter_layout.addWidget(QLabel("到"))
         filter_layout.addWidget(self.filter_layer_max)
+        filter_layout.addStretch(1)
 
         filter_layout.addWidget(QLabel("道数:"))
         filter_layout.addWidget(self.filter_dao_min)
         filter_layout.addWidget(QLabel("到"))
         filter_layout.addWidget(self.filter_dao_max)
+        filter_layout.addStretch(1)
 
         filter_layout.addWidget(QLabel("激光功率:"))
         filter_layout.addWidget(self.filter_power_min)
         filter_layout.addWidget(QLabel("到"))
         filter_layout.addWidget(self.filter_power_max)
+        filter_layout.addStretch(1)
 
         filter_layout.addWidget(QLabel("熔覆速度:"))
         filter_layout.addWidget(self.filter_rfsd_min)
         filter_layout.addWidget(QLabel("到"))
         filter_layout.addWidget(self.filter_rfsd_max)
+        filter_layout.addStretch(1)
 
         filter_layout.addWidget(filter_button)
 
@@ -2106,7 +2111,6 @@ class FilterCX(QDialog):
         layout = QVBoxLayout()
         layout.addLayout(filter_layout)
         # 设置大小策略
-        # self.table_cx.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         layout.addWidget(self.table_cx)
         layout.addLayout(button_layout)
         self.setLayout(layout)
@@ -2157,13 +2161,13 @@ class FilterCX(QDialog):
     def show_context_menu(self, position):
         context_menu = QMenu(self)
 
-        action_edit = QAction("打开", self)
-        action_edit.triggered.connect(self.open_item)
-        context_menu.addAction(action_edit)
+        action_open = QAction("打开", self)
+        action_open.triggered.connect(self.open_item)
+        context_menu.addAction(action_open)
 
-        action_delete = QAction("导入", self)
-        action_delete.triggered.connect(self.imp_item)
-        context_menu.addAction(action_delete)
+        # action_delete = QAction("导入", self)
+        # action_delete.triggered.connect(self.imp_item)
+        # context_menu.addAction(action_delete)
 
         context_menu.exec_(self.table_cx.viewport().mapToGlobal(position))
     def open_item(self):
@@ -2328,16 +2332,21 @@ class FilterMX(QDialog):
         filter_layout = QHBoxLayout()
         filter_layout.addWidget(QLabel("工艺类型:"))
         filter_layout.addWidget(self.filter_type)
+        filter_layout.addStretch(1)
         filter_layout.addWidget(QLabel("模型类型:"))
         filter_layout.addWidget(self.filter_type2)
+        filter_layout.addStretch(1)
         filter_layout.addWidget(QLabel("熔覆材料:"))
         filter_layout.addWidget(self.filter_material)
+        filter_layout.addStretch(1)
         filter_layout.addWidget(QLabel("基板材料:"))
         filter_layout.addWidget(self.filter_substrate)
+        filter_layout.addStretch(1)
         filter_layout.addWidget(QLabel("激光功率:"))
         filter_layout.addWidget(self.filter_jg_min)
         filter_layout.addWidget(QLabel("到"))
         filter_layout.addWidget(self.filter_jg_max)
+        filter_layout.addStretch(1)
         filter_layout.addWidget(QLabel("熔覆速度:"))
         filter_layout.addWidget(self.filter_speed_min)
         filter_layout.addWidget(QLabel("到"))
@@ -2422,13 +2431,13 @@ class FilterMX(QDialog):
     def show_context_menu(self, position):
         context_menu = QMenu(self)
 
-        action_edit = QAction("打开", self)
-        action_edit.triggered.connect(self.open_item)
-        context_menu.addAction(action_edit)
+        action_open = QAction("打开", self)
+        action_open.triggered.connect(self.open_item)
+        context_menu.addAction(action_open)
 
-        action_delete = QAction("导入", self)
-        action_delete.triggered.connect(self.imp_item)
-        context_menu.addAction(action_delete)
+        # action_delete = QAction("导入", self)
+        # action_delete.triggered.connect(self.imp_item)
+        # context_menu.addAction(action_delete)
 
         context_menu.exec_(self.table_cx.viewport().mapToGlobal(position))
 

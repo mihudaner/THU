@@ -141,17 +141,17 @@ def new_type(self, item):
                 for type in project_list:
                     new_file = osp.join(file_path, type)
                     os.makedirs(new_file, exist_ok=True)
-                jk_list = ["熔池温度", "熔池状态", "实时反馈", "熔池流动", "熔池尺寸", "熔覆形貌"]
+                jk_list = ["熔池温度", "熔池状态", "实时反馈", "熔池流动", "熔覆形貌"]
                 jk_path = osp.join(file_path, "熔覆监控")
                 for type in jk_list:
                     new_file = osp.join(jk_path, type)
                     os.makedirs(new_file, exist_ok=True)
-                yc_list = ["LBM", "PINN", "热力耦合", "熔池多相流"]
-                yc_path = osp.join(file_path, "分析预测")
-                for type in yc_list:
-                    new_file = osp.join(yc_path, type)
-                    os.makedirs(new_file, exist_ok=True)
-                # item.addChild(new_item)
+                # yc_list = ["LBM", "PINN", "热力耦合", "熔池多相流"]
+                # yc_path = osp.join(file_path, "分析预测")
+                # for type in yc_list:
+                #     new_file = osp.join(yc_path, type)
+                #     os.makedirs(new_file, exist_ok=True)
+
                 # 重新生成子项
                 while item.childCount() > 0:
                     item.removeChild(item.child(0))
@@ -440,7 +440,7 @@ def show_context_menu(self, position):
         del_action.triggered.connect(lambda: self.delete(item))
         unfolder.triggered.connect(lambda: self.unfolder(item))
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
-    elif item.data(0, Qt.UserRole + 1) == "项目包含项" and item.text(0) == "项目程序":
+    elif item.data(0, Qt.UserRole + 1) == "项目子项" and item.text(0) == "项目程序":
         menu = QMenu()
         # choose = menu.addAction("选择")
         xmimport_action = menu.addAction("项目导入")
@@ -466,7 +466,18 @@ def show_context_menu(self, position):
         open_action.triggered.connect(lambda: self.open_type_library(item))
         del_action.triggered.connect(lambda: self.delete(item))
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
-    elif item and item.data(0, Qt.UserRole + 1) == "熔覆监控":
+    elif item.data(0, Qt.UserRole + 1) == "项目子项" and item.text(0) == "分析预测":
+        menu = QMenu()
+        xmimport_action = menu.addAction("项目导入")
+        mxkimport_action = menu.addAction("模型库导入")
+        open_action = menu.addAction("打开目录")
+        del_action = menu.addAction("删除")
+        xmimport_action.triggered.connect(lambda: xm_model_import(self, item))
+        mxkimport_action.triggered.connect(lambda: mx_model_import(self, item))
+        open_action.triggered.connect(lambda: self.open_type_library(item))
+        del_action.triggered.connect(lambda: self.delete(item))
+        menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
+    elif item.data(0, Qt.UserRole + 1) == "熔覆监控":
         menu = QMenu()
         setapppath = menu.addAction("设置路径")
         exeapppath = menu.addAction("运行应用")

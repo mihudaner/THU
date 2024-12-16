@@ -303,7 +303,7 @@ class MainWindow(QMainWindow):
                 cl_item = self._generate_item(None, "项目库", osp.join(directory, "项目库"), NodeType.NodeDir.value)
                 self.ui.treeWidget.addTopLevelItem(cl_item)
                 self.list_dir(cl_item, osp.join(directory, "项目库"))
-        # elif parent.data(0, Qt.UserRole) == "项目包含项" and parent.text(0) in ["类型及设备", "材料及工艺"]:
+        # elif parent.data(0, Qt.UserRole) == "项目子项" and parent.text(0) in ["类型及设备", "材料及工艺"]:
         #     print("类型及设备")
         #     pass
         else:
@@ -369,15 +369,15 @@ class MainWindow(QMainWindow):
                         parent.addChild(item)  # 如果没有合适的位置，添加到最后
                 else:
                     parent.addChild(item)
-            elif parent.data(0, Qt.UserRole + 1) == "项目包含项" and parent.text(0) == "熔覆监控":
+            elif parent.data(0, Qt.UserRole + 1) == "项目子项" and parent.text(0) == "熔覆监控":
                 # 设置插入顺序的优先级
                 order = {
                     '实时反馈': 0,
                     '熔池状态': 1,
                     '熔池温度': 2,
                     '熔池流动': 3,
-                    '熔池尺寸': 4,
-                    '熔覆形貌': 5,
+                    # '熔池尺寸': 4,
+                    '熔覆形貌': 4,
                 }
                 insert_priority = order.get(name, None)
                 if insert_priority is not None:
@@ -396,7 +396,7 @@ class MainWindow(QMainWindow):
                         parent.addChild(item)  # 如果没有合适的位置，添加到最后
                 else:
                     parent.addChild(item)
-            elif parent.data(0, Qt.UserRole + 1) == "项目包含项" and parent.text(0) == "分析预测":
+            elif parent.data(0, Qt.UserRole + 1) == "项目子项" and parent.text(0) == "分析预测":
                 # 设置插入顺序的优先级
                 order = {
                     '熔池多相流': 0,
@@ -511,10 +511,10 @@ class MainWindow(QMainWindow):
             elif item.parent().data(0, Qt.UserRole + 1) == "项目库":
                 item.setData(0, Qt.UserRole + 1, "具体项目")
             elif item.parent().data(0, Qt.UserRole + 1) == "具体项目":
-                item.setData(0, Qt.UserRole + 1, "项目包含项")
+                item.setData(0, Qt.UserRole + 1, "项目子项")
                 if item.text(0) in ["分析预测", "熔覆监控"]:
                     item.setExpanded(True)
-            elif item.parent().data(0, Qt.UserRole + 1) == "项目包含项":
+            elif item.parent().data(0, Qt.UserRole + 1) == "项目子项":
                 if item.parent().text(0) == "熔覆监控":
                     item.setData(0, Qt.UserRole + 1, "熔覆监控")
                 elif item.parent().text(0) == "分析预测":
@@ -589,7 +589,10 @@ class MainWindow(QMainWindow):
         elif item.parent().text(0) in ["设备文件", "设备图片"]:
             path = item.data(0, Qt.UserRole)
             subprocess.run(['start', '', path], shell=True)
-        elif item.data(0, Qt.UserRole + 1) == "项目包含项":
+        # elif item.parent().text(0) in ["设备文件", "设备图片"]:
+        #     path = item.data(0, Qt.UserRole)
+        #     subprocess.run(['start', '', path], shell=True)
+        elif item.data(0, Qt.UserRole + 1) == "项目子项":
             if item.text(0) == "类型及设备":
                 dialog = style_equipment_Dialog(self, item)
                 dialog.exec_()
@@ -610,21 +613,22 @@ class MainWindow(QMainWindow):
             # item.data(0, Qt.UserRole)是当前节点的实际路径，设计函数时把item传进去来获得保存路径
             # 你也可以设计函数，在里面根据item.text(0)来选择操作逻辑
             pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池状态":
-            pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池温度":
-            pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池流动":
-            pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池尺寸":
-            pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔覆形貌":
-            pass
+        # elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池状态":
+        #     pass
+        # elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池温度":
+        #     pass
+        # elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池流动":
+        #     pass
+        # elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔覆形貌":
+        #     pass
         elif item.data(0, Qt.UserRole + 1) == "分析预测":
             # 可以设计函数，在里面根据item.text(0)来选择操作逻辑 ['PINN','LBM',...]
-            pass
+            self.open_type_library(item)
         elif osp.isdir(project_path):
             self.open_type_library(item)
+        else:
+            path = item.data(0, Qt.UserRole)
+            subprocess.run(['start', '', path], shell=True)
     #编辑
     def edit(self, item):
         project_path = item.data(0, Qt.UserRole)
