@@ -396,7 +396,7 @@ class MainWindow(QMainWindow):
                         parent.addChild(item)  # 如果没有合适的位置，添加到最后
                 else:
                     parent.addChild(item)
-            elif parent.data(0, Qt.UserRole + 1) == "项目子项" and parent.text(0) == "分析预测":
+            elif parent.data(0, Qt.UserRole + 1) == "项目包含项" and parent.text(0) == "分析预测":
                 # 设置插入顺序的优先级
                 order = {
                     '熔池多相流': 0,

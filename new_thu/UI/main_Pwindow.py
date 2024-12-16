@@ -103,7 +103,6 @@ class TabWindow(MainWindow):
         self.ui.action_updateIO.triggered.connect(lambda: self.ui.tabWidget_2.setCurrentIndex(3))
         # 点击预测轮廓
         self.ui.btn_pre.clicked.connect(self.start_pre)
-        # self.treeWidget.itemDoubleClicked.connect(self.on_item_double_clicked)  # 双击信号
 
     def DataInit(self):
         self.ccd_pretor = CCD_Pretor(False)
