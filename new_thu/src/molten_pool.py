@@ -580,7 +580,7 @@ class CCD_Pretor():
             return None, None
 
         # self.d.read_img(r'..\..\src\molten\1021-CCD-left\left\Basler_acA1600-60gm__21553543__20241021_102120526_0239.tiff')
-        self.d.pre_left()
+        # self.d.pre_left()
 
         self.d.read_img(file_path)
         plotimg, dis, elip = self.d.pre_centor()

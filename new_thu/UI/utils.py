@@ -448,12 +448,18 @@ def show_context_menu(self, position):
         new_type_action = menu.addAction("新建程序")
         open_action = menu.addAction("打开目录")
         trans_action = menu.addAction("传输程序")
+        set_codepath1 = menu.addAction("OrangeEdit路径")
+        set_codepath2 = menu.addAction("WorkVisual路径")
+
         # choose.triggered.connect(lambda: choose_project(self, item))
         xmimport_action.triggered.connect(lambda: xm_program_import(self, item))
         cxkimport_action.triggered.connect(lambda: cx_program_import(self, item))
-        new_type_action.triggered.connect(lambda: self.unfolder(item)) # pass
+        new_type_action.triggered.connect(lambda: run_exe(self.apppath[item.text(0) + "OrangeEdit"])) # pass
         open_action.triggered.connect(lambda: self.open_type_library(item))
-        trans_action.triggered.connect(lambda: self.unfolder(item)) # pass
+        trans_action.triggered.connect(lambda: run_exe(self.apppath[item.text(0)+"WorkVisual"]))
+        set_codepath1.triggered.connect(lambda: self.open_file_dialog(item.text(0)+"OrangeEdit"))
+        set_codepath2.triggered.connect(lambda: self.open_file_dialog(item.text(0)+"WorkVisual"))
+
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
     elif item.data(0, Qt.UserRole + 1) == "分析预测":
         menu = QMenu()
@@ -501,7 +507,7 @@ def xm_program_import(self, item):
         selected_text = dialog.get_selected_text()
         path = osp.join(self.projectroot, selected_text, "项目程序")
         if osp.exists(path):
-            shutil.copytree(path, current_path, dirs_exist_ok=True)
+            copytree(path, current_path, dirs_exist_ok=True)
     while item.childCount() > 0:
         item.removeChild(item.child(0))
     # 重新生成子项
@@ -524,7 +530,7 @@ def cx_program_import(self, item):
         selected_text = dialog.get_selected_text()
         path = osp.join(self.dataroot, "程序库", selected_text)
         if osp.exists(path):
-            shutil.copytree(path, current_path, dirs_exist_ok=True)
+            copytree(path, current_path, dirs_exist_ok=True)
     while item.childCount() > 0:
         item.removeChild(item.child(0))
     # 重新生成子项
@@ -544,7 +550,7 @@ def xm_model_import(self, item):
         selected_text = dialog.get_selected_text()
         path = osp.join(self.projectroot, selected_text, "分析预测", type)
         if osp.exists(path):
-            shutil.copytree(path, current_path, dirs_exist_ok=True)
+            copytree(path, current_path, dirs_exist_ok=True)
     item = item.parent()
     while item.childCount() > 0:
         item.removeChild(item.child(0))
@@ -571,7 +577,7 @@ def mx_model_import(self, item):
         mx = selected_text[2]
         path = osp.join(self.dataroot, "模型库", gy, mx, name)
         if osp.exists(path):
-            shutil.copytree(path, osp.join(current_path, mx), dirs_exist_ok=True)
+            copytree(path, osp.join(current_path, mx), dirs_exist_ok=True)
     item = item.parent()
     while item.childCount() > 0:
         item.removeChild(item.child(0))
@@ -607,3 +613,38 @@ def run_exe(exePath):
     # exePath = r"C:\Program Files (x86)\KUKA\WorkVisual 6.0\WorkVisual.exe"
     # # exePath = "D:\\soft\\XTranslator\\Xtranslator\\Xtranslator.exe"
     subprocess.Popen(exePath)
+
+def copytree(src, dst, dirs_exist_ok=False):
+    """
+    使用 pathlib 和 shutil 实现递归复制目录内容，允许目标目录已存在。
+
+    :param src: 源目录路径
+    :param dst: 目标目录路径
+    :param overwrite: 是否覆盖已存在的文件
+    """
+    src_path = Path(src)
+    dst_path = Path(dst)
+
+    if not src_path.is_dir():
+        raise ValueError(f"源目录 '{src}' 不存在或不是目录")
+
+    dst_path.mkdir(parents=True, exist_ok=True)
+    print(f"确认目标目录存在: {dst_path}")
+
+    for item in src_path.rglob('*'):
+        relative_path = item.relative_to(src_path)
+        dest_item = dst_path / relative_path
+
+        if item.is_dir():
+            dest_item.mkdir(parents=True, exist_ok=True)
+            print(f"创建子目录: {dest_item}")
+        else:
+            if dest_item.exists():
+                if dirs_exist_ok:
+                    shutil.copy2(item, dest_item)
+                    print(f"覆盖文件: {dest_item}")
+                else:
+                    print(f"文件已存在，跳过: {dest_item}")
+            else:
+                shutil.copy2(item, dest_item)
+                print(f"复制文件: {dest_item}")

@@ -574,6 +574,30 @@ QPushButton:pressed {
        </widget>
       </item>
       <item>
+       <widget class="QRadioButton" name="radioButton">
+        <property name="styleSheet">
+         <string notr="true">QRadioButton::indicator {
+    border: 3px solid #6272a4;
+	width: 15px;
+	height: 15px;
+	border-radius: 10px;
+    background: rgb(255, 70, 46);
+}
+QRadioButton::indicator:hover {
+    border: 3px solid rgb(119, 136, 187);
+}
+QRadioButton::indicator:checked {
+    background: 3px solid rgb(50, 255,70 );
+	border: 3px solid #bd93f9;
+}
+</string>
+        </property>
+        <property name="text">
+         <string>DI1指示</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
          <widget class="QPushButton" name="btn_enum">
@@ -852,6 +876,48 @@ url(:/icon/check_off.png)</string>
          <string>修改参数</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btn_savecddimg">
+        <property name="text">
+         <string>保存图像</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>DI触发保存格式</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBox">
+          <item>
+           <property name="text">
+            <string>不保存</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>保存为jpg</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>保存为mp4</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <spacer name="verticalSpacer">

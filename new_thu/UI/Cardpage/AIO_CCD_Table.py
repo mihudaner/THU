@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'AIO_CCD_Tablekohpgt.ui'
+## Form generated from reading UI file 'AIO_CCD_TableioGzPO.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -506,6 +506,26 @@ class Ui_Form(object):
 
         self.verticalLayout_2.addWidget(self.label_10)
 
+        self.radioButton = QRadioButton(self.groupBox)
+        self.radioButton.setObjectName(u"radioButton")
+        self.radioButton.setStyleSheet(u"QRadioButton::indicator {\n"
+"    border: 3px solid #6272a4;\n"
+"	width: 15px;\n"
+"	height: 15px;\n"
+"	border-radius: 10px;\n"
+"    background: rgb(255, 70, 46);\n"
+"}\n"
+"QRadioButton::indicator:hover {\n"
+"    border: 3px solid rgb(119, 136, 187);\n"
+"}\n"
+"QRadioButton::indicator:checked {\n"
+"    background: 3px solid rgb(50, 255,70 );\n"
+"	border: 3px solid #bd93f9;\n"
+"}\n"
+"")
+
+        self.verticalLayout_2.addWidget(self.radioButton)
+
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.btn_enum = QPushButton(self.groupBox)
@@ -724,6 +744,30 @@ class Ui_Form(object):
 
         self.verticalLayout_2.addWidget(self.btn_setpara)
 
+        self.btn_savecddimg = QPushButton(self.groupBox)
+        self.btn_savecddimg.setObjectName(u"btn_savecddimg")
+
+        self.verticalLayout_2.addWidget(self.btn_savecddimg)
+
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.label_11 = QLabel(self.groupBox)
+        self.label_11.setObjectName(u"label_11")
+
+        self.horizontalLayout_7.addWidget(self.label_11)
+
+        self.comboBox = QComboBox(self.groupBox)
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.setObjectName(u"comboBox")
+
+        self.horizontalLayout_7.addWidget(self.comboBox)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_7)
+
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
@@ -770,6 +814,7 @@ class Ui_Form(object):
         self.checkBox_8.setText(QCoreApplication.translate("Form", u"AI8", None))
         self.groupBox.setTitle(QCoreApplication.translate("Form", u"CCD\u53c2\u6570", None))
         self.label_10.setText("")
+        self.radioButton.setText(QCoreApplication.translate("Form", u"DI1\u6307\u793a", None))
         self.btn_enum.setText(QCoreApplication.translate("Form", u"\u68c0\u6d4b\u8bbe\u5907", None))
         self.checkBox_openccd.setText(QCoreApplication.translate("Form", u"\u6253\u5f00\u76f8\u673a", None))
         self.btn_ccd_capture.setText(QCoreApplication.translate("Form", u"\u62cd\u6444\u4e00\u5e27", None))
@@ -781,5 +826,12 @@ class Ui_Form(object):
         self.label_8.setText(QCoreApplication.translate("Form", u"Hoffset", None))
         self.label_7.setText(QCoreApplication.translate("Form", u"Woffset", None))
         self.btn_setpara.setText(QCoreApplication.translate("Form", u"\u4fee\u6539\u53c2\u6570", None))
+        self.btn_savecddimg.setText(QCoreApplication.translate("Form", u"\u4fdd\u5b58\u56fe\u50cf", None))
+        self.label_11.setText(QCoreApplication.translate("Form", u"DI\u89e6\u53d1\u4fdd\u5b58\u683c\u5f0f", None))
+        self.comboBox.setItemText(0, QCoreApplication.translate("Form", u"\u4e0d\u4fdd\u5b58", None))
+        self.comboBox.setItemText(1, QCoreApplication.translate("Form", u"\u4fdd\u5b58\u4e3ajpg", None))
+        self.comboBox.setItemText(2, QCoreApplication.translate("Form", u"\u4fdd\u5b58\u4e3amp4", None))
+        self.comboBox.setItemText(3, "")
+
     # retranslateUi
 

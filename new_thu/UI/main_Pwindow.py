@@ -5,7 +5,12 @@ from Cardpage.Two_widget_debug import DIOWidget, AIOWidget_ShowOne
 from PySide2.QtCore import QTimer, QPoint, QRect
 from PySide2.QtGui import QPixmap, QImage
 from src.molten_pool import CCD_Pretor
+import datetime
 import cv2
+from PIL import Image
+from Cardpage.Signal import g_signals
+import time
+import threading
 
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
 global flag
@@ -37,6 +42,9 @@ class TabWindow(MainWindow):
 
         self.ui.tab2Layout = QHBoxLayout()
         self.ui.tab_2.setLayout(self.ui.tab2Layout)
+
+        # 隐藏标签选择
+        self.ui.tabWidget_2.tabBar().hide()
 
         self.ui.tab3Layout = QHBoxLayout()
         self.ui.tab_3.setLayout(self.ui.tab3Layout)
@@ -99,31 +107,118 @@ class TabWindow(MainWindow):
         self._is_resizing = False
         self._resizing_edge = None
 
+        self.recording = False
+
+        self.now_select_ccd_save_apppath = "."
+
+        g_signals.DI1_signal.connect(self.CCD_capture)
+
+    def CCD_capture(self, state):
+        print(f"state: {state}")
+
+        if state == "UP":
+            self.ui.AIOControlWidget.widgets.radioButton.setChecked(True)
+            combo_selection = self.ui.AIOControlWidget.widgets.comboBox.currentText()
+
+            if combo_selection == "保存为jpg":
+                self.ui.AIOControlWidget.capture()
+                self.save_ccd_img()
+            elif combo_selection == "保存为mp4":
+                self.start_recording()
+        else:  # state == "DOWN"
+            self.ui.AIOControlWidget.widgets.radioButton.setChecked(False)
+            if self.recording:
+                self.recording = False
+
     def InitConnect(self):
         self.ui.action_updateIO.triggered.connect(lambda: self.ui.tabWidget_2.setCurrentIndex(3))
         # 点击预测轮廓
         self.ui.btn_pre.clicked.connect(self.start_pre)
+        self.ui.treeWidget.itemClicked.connect(self.on_item_clicked)
+        self.ui.AIOControlWidget.widgets.btn_savecddimg.clicked.connect(self.save_ccd_img)
 
     def DataInit(self):
-        self.ccd_pretor = CCD_Pretor(False)
-
+        self.ccd_pretor = CCD_Pretor(Debug=False)
 
     def on_item_clicked(self, item):
         if item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "实时反馈":
-            self.ui.action_updateIO.triggered.connect(lambda: self.ui.tabWidget_2.setCurrentIndex(0))
+            self.ui.tabWidget_2.setCurrentIndex(0)
+            self.now_select_ccd_save_apppath = item.data(0, Qt.UserRole)
+            self.ui.DIOControlWidget.now_select_csv_save_apppath = self.now_select_ccd_save_apppath
             pass
         elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池状态":
-            self.ui.action_updateIO.triggered.connect(lambda: self.ui.tabWidget_2.setCurrentIndex(1))
+            self.ui.tabWidget_2.setCurrentIndex(2)
             pass
 
     # def open_file_dialog(self):
     #     # 弹出文件对话框，获取选择的 TIFF 文件路径
     #     options = QFileDialog.Options()
-    #     file_path, _ = QFileDialog.getOpenFileName(self, "选择 TIFF 图片", "", "TIFF 文件 (*.tiff *.tif);;所有文件 (*)", options=options)
+    #     file_path, _ = QFileDialog.getOpenFileName(self, "选择 TIFF img", "", "TIFF 文件 (*.tiff *.tif);;所有文件 (*)", options=options)
     #
     #     # 如果用户选择了文件，则显示图片
     #     if file_path:
     #         self.display_image(file_path)
+
+    def save_ccd_img(self):
+        img = self.ui.AIOControlWidget.cam.get_img()
+        # 获取当前时间
+        now = datetime.datetime.now()
+
+        # 格式化时间字符串，可以根据需求调整格式
+        timestamp = now.strftime("%Y%m%d_%H%M%S")
+
+        # 创建文件名
+        filename = f"\\image_{timestamp}.jpg"
+        path = self.now_select_ccd_save_apppath + filename
+        # 假设 img 是 OpenCV 的 numpy 数组
+        img_pil = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+
+        img_pil.save(path)
+
+    def start_recording(self):
+        if self.recording:
+            print("Already recording!")
+            return
+        self.recording = True
+        # 创建线程
+        record_thread = threading.Thread(target=self._record_loop)
+        record_thread.start()
+
+    def _record_loop(self):
+        first_frame = True
+        self.fps = 30
+        i = 0
+        while self.recording:
+            img = self.ui.AIOControlWidget.capture(updateshow=True, timedelay=1 / self.fps)
+
+            if img is not None:
+                now = datetime.datetime.now()
+                timestamp = now.strftime("%Y%m%d_%H%M%S")
+
+                if first_frame:
+                    self.frame_size = (img.shape[1], img.shape[0])
+                    first_frame = False
+
+                    self.video_save_path = os.path.join(self.now_select_ccd_save_apppath, f"video_{timestamp}.mp4")
+                    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+                    self.video_writer = cv2.VideoWriter(self.video_save_path, fourcc, self.fps, self.frame_size)
+                    print(f"Recording started: {self.video_save_path}")
+
+                resized_img = cv2.resize(img, self.frame_size)
+                font = cv2.FONT_HERSHEY_SIMPLEX  # 字体
+                font_scale = 0.7  # 字体大小
+                font_color = (0, 255, 255)  # 文字颜色（黄色）
+                thickness = 2  # 字体粗细
+                text_size = cv2.getTextSize(timestamp + f"{i}", font, font_scale, thickness)[0]
+                text_x = resized_img.shape[1] - text_size[0] - 10  # 右上角横坐标
+                text_y = 30  # 右上角纵坐标
+                cv2.putText(resized_img, timestamp + f"{i}", (text_x, text_y), font, font_scale, font_color, thickness)
+                self.video_writer.write(resized_img)
+            i += 1
+
+        self.video_writer.release()
+        self.video_writer = None
+        print(f"Recording stopped. Video saved at: {self.video_save_path}")
 
     def display_image(self, cv_image, dis):
         # 确保图像为 BGR 格式（OpenCV 默认格式）

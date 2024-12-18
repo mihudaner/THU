@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'DIOwidgetBBVYzD.ui'
+## Form generated from reading UI file 'DIOwidgetCagCyZ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -12,13 +12,16 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
+from ..CustomWidget.QLabelEditable import EditableLabel
+
 import UI.Cardpage.icon_rc
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(1083, 647)
+        Form.resize(1083, 678)
         Form.setContextMenuPolicy(Qt.PreventContextMenu)
         Form.setStyleSheet(u"#styleSheet{\n"
 "border: none;\n"
@@ -413,8 +416,9 @@ class Ui_Form(object):
 
         self.verticalLayout_14.addWidget(self.label_20)
 
-        self.label_21 = QLabel(self.groupBox_7)
+        self.label_21 = EditableLabel(self.groupBox_7)
         self.label_21.setObjectName(u"label_21")
+        self.label_21.setMinimumSize(QSize(0, 50))
         self.label_21.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_14.addWidget(self.label_21)
@@ -456,8 +460,9 @@ class Ui_Form(object):
 
         self.verticalLayout_6.addWidget(self.label_14)
 
-        self.label_15 = QLabel(self.groupBox_7)
+        self.label_15 = EditableLabel(self.groupBox_7)
         self.label_15.setObjectName(u"label_15")
+        self.label_15.setMinimumSize(QSize(0, 50))
         self.label_15.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_6.addWidget(self.label_15)
@@ -492,8 +497,9 @@ class Ui_Form(object):
 
         self.verticalLayout_13.addWidget(self.label_18)
 
-        self.label_19 = QLabel(self.groupBox_7)
+        self.label_19 = EditableLabel(self.groupBox_7)
         self.label_19.setObjectName(u"label_19")
+        self.label_19.setMinimumSize(QSize(0, 50))
         self.label_19.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_13.addWidget(self.label_19)
@@ -528,8 +534,9 @@ class Ui_Form(object):
 
         self.verticalLayout_10.addWidget(self.label_16)
 
-        self.label_17 = QLabel(self.groupBox_7)
+        self.label_17 = EditableLabel(self.groupBox_7)
         self.label_17.setObjectName(u"label_17")
+        self.label_17.setMinimumSize(QSize(0, 50))
         self.label_17.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_10.addWidget(self.label_17)
@@ -564,8 +571,9 @@ class Ui_Form(object):
 
         self.verticalLayout_18.addWidget(self.label_28)
 
-        self.label_29 = QLabel(self.groupBox_7)
+        self.label_29 = EditableLabel(self.groupBox_7)
         self.label_29.setObjectName(u"label_29")
+        self.label_29.setMinimumSize(QSize(0, 50))
         self.label_29.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_18.addWidget(self.label_29)
@@ -600,8 +608,9 @@ class Ui_Form(object):
 
         self.verticalLayout_15.addWidget(self.label_22)
 
-        self.label_23 = QLabel(self.groupBox_7)
+        self.label_23 = EditableLabel(self.groupBox_7)
         self.label_23.setObjectName(u"label_23")
+        self.label_23.setMinimumSize(QSize(0, 50))
         self.label_23.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_15.addWidget(self.label_23)
@@ -636,8 +645,9 @@ class Ui_Form(object):
 
         self.verticalLayout_16.addWidget(self.label_24)
 
-        self.label_25 = QLabel(self.groupBox_7)
+        self.label_25 = EditableLabel(self.groupBox_7)
         self.label_25.setObjectName(u"label_25")
+        self.label_25.setMinimumSize(QSize(0, 50))
         self.label_25.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_16.addWidget(self.label_25)
@@ -672,8 +682,9 @@ class Ui_Form(object):
 
         self.verticalLayout_17.addWidget(self.label_26)
 
-        self.label_27 = QLabel(self.groupBox_7)
+        self.label_27 = EditableLabel(self.groupBox_7)
         self.label_27.setObjectName(u"label_27")
+        self.label_27.setMinimumSize(QSize(0, 50))
         self.label_27.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_17.addWidget(self.label_27)
@@ -683,10 +694,6 @@ class Ui_Form(object):
 
 
         self.verticalLayout_30.addLayout(self.gridLayout_3)
-
-        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Minimum)
-
-        self.verticalLayout_30.addItem(self.verticalSpacer_5)
 
 
         self.verticalLayout_11.addWidget(self.groupBox_7)
@@ -701,11 +708,6 @@ class Ui_Form(object):
         self.groupBox_3.setMaximumSize(QSize(16777215, 300))
         self.verticalLayout_31 = QVBoxLayout(self.groupBox_3)
         self.verticalLayout_31.setObjectName(u"verticalLayout_31")
-        self.label_55 = QLabel(self.groupBox_3)
-        self.label_55.setObjectName(u"label_55")
-
-        self.verticalLayout_31.addWidget(self.label_55)
-
         self.gridLayout_4 = QGridLayout()
         self.gridLayout_4.setObjectName(u"gridLayout_4")
         self.verticalLayout_22 = QVBoxLayout()
@@ -735,10 +737,11 @@ class Ui_Form(object):
 
         self.verticalLayout_22.addWidget(self.label_34)
 
-        self.label_35 = QLabel(self.groupBox_3)
+        self.label_35 = EditableLabel(self.groupBox_3)
         self.label_35.setObjectName(u"label_35")
         sizePolicy1.setHeightForWidth(self.label_35.sizePolicy().hasHeightForWidth())
         self.label_35.setSizePolicy(sizePolicy1)
+        self.label_35.setMinimumSize(QSize(0, 50))
         self.label_35.setMaximumSize(QSize(16777215, 200))
         self.label_35.setAlignment(Qt.AlignCenter)
 
@@ -774,8 +777,9 @@ class Ui_Form(object):
 
         self.verticalLayout_24.addWidget(self.label_38)
 
-        self.label_39 = QLabel(self.groupBox_3)
+        self.label_39 = EditableLabel(self.groupBox_3)
         self.label_39.setObjectName(u"label_39")
+        self.label_39.setMinimumSize(QSize(0, 50))
         self.label_39.setMaximumSize(QSize(16777215, 200))
         self.label_39.setAlignment(Qt.AlignCenter)
 
@@ -811,8 +815,9 @@ class Ui_Form(object):
 
         self.verticalLayout_23.addWidget(self.label_36)
 
-        self.label_37 = QLabel(self.groupBox_3)
+        self.label_37 = EditableLabel(self.groupBox_3)
         self.label_37.setObjectName(u"label_37")
+        self.label_37.setMinimumSize(QSize(0, 50))
         self.label_37.setMaximumSize(QSize(16777215, 200))
         self.label_37.setAlignment(Qt.AlignCenter)
 
@@ -848,10 +853,11 @@ class Ui_Form(object):
 
         self.verticalLayout_21.addWidget(self.label_32)
 
-        self.label_33 = QLabel(self.groupBox_3)
+        self.label_33 = EditableLabel(self.groupBox_3)
         self.label_33.setObjectName(u"label_33")
         sizePolicy1.setHeightForWidth(self.label_33.sizePolicy().hasHeightForWidth())
         self.label_33.setSizePolicy(sizePolicy1)
+        self.label_33.setMinimumSize(QSize(0, 50))
         self.label_33.setMaximumSize(QSize(16777215, 200))
         self.label_33.setAlignment(Qt.AlignCenter)
         self.label_33.setWordWrap(True)
@@ -888,8 +894,9 @@ class Ui_Form(object):
 
         self.verticalLayout_25.addWidget(self.label_40)
 
-        self.label_41 = QLabel(self.groupBox_3)
+        self.label_41 = EditableLabel(self.groupBox_3)
         self.label_41.setObjectName(u"label_41")
+        self.label_41.setMinimumSize(QSize(0, 50))
         self.label_41.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_25.addWidget(self.label_41)
@@ -924,8 +931,9 @@ class Ui_Form(object):
 
         self.verticalLayout_26.addWidget(self.label_42)
 
-        self.label_43 = QLabel(self.groupBox_3)
+        self.label_43 = EditableLabel(self.groupBox_3)
         self.label_43.setObjectName(u"label_43")
+        self.label_43.setMinimumSize(QSize(0, 50))
         self.label_43.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_26.addWidget(self.label_43)
@@ -960,8 +968,9 @@ class Ui_Form(object):
 
         self.verticalLayout_27.addWidget(self.label_44)
 
-        self.label_45 = QLabel(self.groupBox_3)
+        self.label_45 = EditableLabel(self.groupBox_3)
         self.label_45.setObjectName(u"label_45")
+        self.label_45.setMinimumSize(QSize(0, 50))
         self.label_45.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_27.addWidget(self.label_45)
@@ -996,11 +1005,11 @@ class Ui_Form(object):
 
         self.verticalLayout_28.addWidget(self.label_46)
 
-        self.label_47 = QLabel(self.groupBox_3)
+        self.label_47 = EditableLabel(self.groupBox_3)
         self.label_47.setObjectName(u"label_47")
         sizePolicy1.setHeightForWidth(self.label_47.sizePolicy().hasHeightForWidth())
         self.label_47.setSizePolicy(sizePolicy1)
-        self.label_47.setMinimumSize(QSize(0, 0))
+        self.label_47.setMinimumSize(QSize(0, 50))
         self.label_47.setMaximumSize(QSize(16777215, 100))
         self.label_47.setAlignment(Qt.AlignCenter)
         self.label_47.setWordWrap(True)
@@ -1012,10 +1021,6 @@ class Ui_Form(object):
 
 
         self.verticalLayout_31.addLayout(self.gridLayout_4)
-
-        self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Minimum)
-
-        self.verticalLayout_31.addItem(self.verticalSpacer_6)
 
 
         self.verticalLayout_11.addWidget(self.groupBox_3)
@@ -1518,7 +1523,6 @@ class Ui_Form(object):
         self.label_26.setText(QCoreApplication.translate("Form", u"DI8", None))
         self.label_27.setText(QCoreApplication.translate("Form", u"\u7ea2\u5916\u70b9\u6e29\u5f00\u5173", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("Form", u"\u7ee7\u7535\u5668", None))
-        self.label_55.setText("")
         self.DO1.setText("")
         self.label_34.setText(QCoreApplication.translate("Form", u"DO2", None))
         self.label_35.setText(QCoreApplication.translate("Form", u"\u66f4\u65b0\u9001\u5206\u7535\u538b1", None))
