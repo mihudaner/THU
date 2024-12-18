@@ -29,6 +29,8 @@ class MainWindow(QMainWindow):
         self.mxgy_styles = []
         self.mx_styles = []
 
+        self.apppath = load_apppath()
+
         self.initUI()  # 初始化窗口
     def initUI(self):
         self.ui = Ui_MainWindow()
@@ -895,6 +897,17 @@ class MainWindow(QMainWindow):
         for index in range(item.childCount()):
             child_item = item.child(index)
             self.unfolder(child_item)  # 递归调用
+
+    def open_file_dialog(self,itemtext):
+        # 弹出文件对话框，获取选择的路径
+        options = QFileDialog.Options()
+        path, _ = QFileDialog.getOpenFileName(self, "选择一个文件", "", "所有文件 (*);;文本文件 (*.txt)", options=options)
+
+        # 如果用户选择了一个路径，更新标签
+        if path:
+            print(f'选择的路径: {path}')
+            self.apppath[itemtext] = path
+            save_apppath(self.apppath)
 
 if __name__ == '__main__':
     import sys

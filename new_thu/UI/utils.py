@@ -448,12 +448,18 @@ def show_context_menu(self, position):
         new_type_action = menu.addAction("新建程序")
         open_action = menu.addAction("打开目录")
         trans_action = menu.addAction("传输程序")
+        set_codepath1 = menu.addAction("OrangeEdit路径")
+        set_codepath2 = menu.addAction("WorkVisual路径")
+
         # choose.triggered.connect(lambda: choose_project(self, item))
         xmimport_action.triggered.connect(lambda: xm_program_import(self, item))
         cxkimport_action.triggered.connect(lambda: cx_program_import(self, item))
-        new_type_action.triggered.connect(lambda: self.unfolder(item)) # pass
+        new_type_action.triggered.connect(lambda: run_exe(self.apppath[item.text(0) + "OrangeEdit"])) # pass
         open_action.triggered.connect(lambda: self.open_type_library(item))
-        trans_action.triggered.connect(lambda: self.unfolder(item)) # pass
+        trans_action.triggered.connect(lambda: run_exe(self.apppath[item.text(0)+"WorkVisual"]))
+        set_codepath1.triggered.connect(lambda: self.open_file_dialog(item.text(0)+"OrangeEdit"))
+        set_codepath2.triggered.connect(lambda: self.open_file_dialog(item.text(0)+"WorkVisual"))
+
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
     elif item.data(0, Qt.UserRole + 1) == "分析预测":
         menu = QMenu()

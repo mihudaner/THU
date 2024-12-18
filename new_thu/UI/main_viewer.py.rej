@@ -1,0 +1,9 @@
+diff a/new_thu/UI/main_viewer.py b/new_thu/UI/main_viewer.py	(rejected hunks)
+@@ -730,6 +730,7 @@
+             print(f'选择的路径: {path}')
+             self.apppath[itemtext] = path
+             save_apppath(self.apppath)
++
+ if __name__ == '__main__':
+     import sys
+     app = QApplication(sys.argv)
