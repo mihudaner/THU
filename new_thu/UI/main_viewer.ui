@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1203</width>
-    <height>912</height>
+    <width>1205</width>
+    <height>919</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -572,7 +572,7 @@ subcontrol-position: bottom center;
           <string notr="true">border:0px solid rgb(86, 86, 86);</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">

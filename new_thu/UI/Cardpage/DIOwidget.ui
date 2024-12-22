@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1083</width>
-    <height>647</height>
+    <height>678</height>
    </rect>
   </property>
   <property name="contextMenuPolicy">
@@ -458,7 +458,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_21">
+             <widget class="EditableLabel" name="label_21">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="text">
                <string>实时功率保存</string>
               </property>
@@ -537,7 +543,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_15">
+             <widget class="EditableLabel" name="label_15">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="text">
                <string>待定义</string>
               </property>
@@ -601,7 +613,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_19">
+             <widget class="EditableLabel" name="label_19">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="text">
                <string>待定义</string>
               </property>
@@ -665,7 +683,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_17">
+             <widget class="EditableLabel" name="label_17">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="text">
                <string>结构光相机</string>
               </property>
@@ -729,7 +753,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_29">
+             <widget class="EditableLabel" name="label_29">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="text">
                <string>位移保存</string>
               </property>
@@ -793,7 +823,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_23">
+             <widget class="EditableLabel" name="label_23">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="text">
                <string>CCD开关</string>
               </property>
@@ -857,7 +893,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_25">
+             <widget class="EditableLabel" name="label_25">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="text">
                <string>待定义</string>
               </property>
@@ -921,7 +963,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_27">
+             <widget class="EditableLabel" name="label_27">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="text">
                <string>红外点温开关</string>
               </property>
@@ -933,22 +981,6 @@ QPushButton:pressed {
            </layout>
           </item>
          </layout>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_5">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Minimum</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>
@@ -971,13 +1003,6 @@ QPushButton:pressed {
         <string>继电器</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_31">
-        <item>
-         <widget class="QLabel" name="label_55">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
         <item>
          <layout class="QGridLayout" name="gridLayout_4">
           <item row="0" column="1">
@@ -1033,12 +1058,18 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_35">
+             <widget class="EditableLabel" name="label_35">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
               </property>
               <property name="maximumSize">
                <size>
@@ -1109,7 +1140,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_39">
+             <widget class="EditableLabel" name="label_39">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
@@ -1179,7 +1216,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_37">
+             <widget class="EditableLabel" name="label_37">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
@@ -1249,12 +1292,18 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_33">
+             <widget class="EditableLabel" name="label_33">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
               </property>
               <property name="maximumSize">
                <size>
@@ -1328,7 +1377,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_41">
+             <widget class="EditableLabel" name="label_41">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="text">
                <string>待定义</string>
               </property>
@@ -1392,7 +1447,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_43">
+             <widget class="EditableLabel" name="label_43">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="text">
                <string>待定义</string>
               </property>
@@ -1456,7 +1517,13 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_45">
+             <widget class="EditableLabel" name="label_45">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
               <property name="text">
                <string>待定义</string>
               </property>
@@ -1520,7 +1587,7 @@ QPushButton:pressed {
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_47">
+             <widget class="EditableLabel" name="label_47">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -1530,7 +1597,7 @@ QPushButton:pressed {
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>0</height>
+                <height>50</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -1553,22 +1620,6 @@ QPushButton:pressed {
            </layout>
           </item>
          </layout>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Minimum</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>
@@ -2279,6 +2330,13 @@ QPushButton:pressed {
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>EditableLabel</class>
+   <extends>QLabel</extends>
+   <header>..CustomWidget.QLabelEditable</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="icon/icon.qrc"/>
  </resources>

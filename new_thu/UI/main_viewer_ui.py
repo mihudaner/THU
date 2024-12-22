@@ -11,7 +11,7 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-
+# from CustomWidget.QTreeWidgetv1 import MyTreeWidget
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

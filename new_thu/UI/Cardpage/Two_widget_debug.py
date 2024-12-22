@@ -5,7 +5,8 @@
 # @File    : DAM8888_dll
 # @Description :
 import time
-
+import csv
+import datetime
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Time    : 2023/6/27 15:05
@@ -17,7 +18,7 @@ import time
 # D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  .\DAM8888_widget.py .\DAM8888_widget.ui
 # pyside2-rcc ./icon/icon.qrc -o icon_rc.py
 from PySide2.QtWidgets import *
-from PySide2.QtGui import QPixmap,QImage
+from PySide2.QtGui import QPixmap, QImage
 from PySide2.QtCore import Qt
 from .QplotWidget import RealTimePlotWidget
 from UI.Cardpage import DIOwidget
@@ -29,38 +30,66 @@ import cv2
 import numpy as np
 from src.CCDControler import CCD_camera
 
-
 DEBUG = True
 global PlotBuffer
 PlotBuffer = np.zeros((8, 500))
 Checked_AI = np.zeros(8)
 global DIOWindow_widgts
 global AIOWindow_widgts
+global DO
+from .Signal import g_signals
+
+DO = 0
 ai = [0, 500, 10000, 2000, 5000, 8888, 7777, 2222]
 
 
 class DIDOINThread(threading.Thread):
-    def __init__(self, DIDO_updatetime):
+    def __init__(self, DIDO_updatetime,now_select_csv_save_apppath):
         threading.Thread.__init__(self)
         self.threadStop = False
         self.DIDO_updatetime = DIDO_updatetime
+
+        now = datetime.datetime.now()
+        timestamp = now.strftime("%Y%m%d_%H%M%S")
+        header = ['time_stamp', 'DIO1', 'DIO2', 'DIO3', 'DIO4', 'DIO5', 'DIO6', 'DIO7', 'DIO8']
+        filename = f'{now_select_csv_save_apppath}/{timestamp}_DI.csv'
+        # filename = f'{set_time}.csv'.replace(":", "-")
+        self.f = open(filename, 'a', newline='')
+        self.writer = csv.writer(self.f)
+        # writer.writerow(new_float_data + new_int_data)
+        self.writer.writerow(header)
 
     def do_run(self):
         global DIOWindow_widgts
         while not self.threadStop:
             time.sleep(self.DIDO_updatetime * 0.001)
-            DIOWindow_widgts.read_DI_state()
-
+            DI8s = DIOWindow_widgts.read_DI_state()
+            now = datetime.datetime.now()
+            timestamp = now.strftime("%Y%m%d_%H%M%S")
+            self.writer.writerow(
+                [timestamp,DI8s[0] , DI8s[1] , DI8s[2] , DI8s[3] ,
+                 DI8s[4] , DI8s[5] , DI8s[6] , DI8s[7] ])
+        self.f.close()
 
 class AIINThread(threading.Thread):
-    def __init__(self, AI_updatetime):
+    def __init__(self, AI_updatetime,now_select_csv_save_apppath):
         threading.Thread.__init__(self)
         self.threadStop = False
         self.AI_updatetime = AI_updatetime
 
+        now = datetime.datetime.now()
+        timestamp = now.strftime("%Y%m%d_%H%M%S")
+        header = ['time_stamp', 'AD1', 'AD2', 'AD3', 'AD4', 'AD5', 'AD6', 'AD7', 'AD8', 'AD9', 'AD10', 'AD11', 'AD12', 'AD13', 'AD14', 'AD15', 'AD16']
+        filename = f'{now_select_csv_save_apppath}/{timestamp}_AI.csv'
+        # filename = f'{set_time}.csv'.replace(":", "-")
+        self.f = open(filename, 'a', newline='')
+        self.writer = csv.writer(self.f)
+        # writer.writerow(new_float_data + new_int_data)
+        self.writer.writerow(header)
+
     def do_run(self):
         global DIOWindow_widgts
-
+        global PlotBuffer
         while not self.threadStop:
             time.sleep(self.AI_updatetime * 0.001)
             # 索引从 0 开始
@@ -70,13 +99,18 @@ class AIINThread(threading.Thread):
 
             for i in range(8):
 
-                ckbox = getattr(AIOWindow_widgts.widgets, f"checkBox_{i+1}")
+                ckbox = getattr(AIOWindow_widgts.widgets, f"checkBox_{i + 1}")
                 if ckbox.isChecked():
                     Checked_AI[i] = 1
                 else:
                     Checked_AI[i] = 0
-
             waveview.update_data(PlotBuffer, Checked_AI)
+            now = datetime.datetime.now()
+            timestamp = now.strftime("%Y%m%d_%H%M%S")
+
+            self.writer.writerow([timestamp,PlotBuffer[0][-1],  PlotBuffer[1][-1],  PlotBuffer[2][-1],  PlotBuffer[3][-1],  PlotBuffer[4][-1],  PlotBuffer[5][-1],  PlotBuffer[6][-1],  PlotBuffer[7][-1],])
+        self.f.close()
+
 
 class DIOWidget(QWidget):
 
@@ -117,6 +151,8 @@ class DIOWidget(QWidget):
         self.connected = False
         self.connect_AO_slider_spinbox()
         self.widgets.btn_setAO.clicked.connect(lambda: self.set_AI())
+
+        self.now_select_csv_save_apppath = '.'
 
     def connect_AO_slider_spinbox(self):
         self.widgets.Slider1.valueChanged[int].connect(
@@ -181,23 +217,31 @@ class DIOWidget(QWidget):
                     dll.s.connect((self.IP, self.port))
                     self.connected = True
 
-            self.tar1 = DIDOINThread(self.widgets.spinBox_DIDO_updatetime.value())
+            self.tar1 = DIDOINThread(self.widgets.spinBox_DIDO_updatetime.value(),self.now_select_csv_save_apppath)
             t1 = threading.Thread(target=self.tar1.do_run, name='in_thread_DIDO')
             t1.start()
-            self.tar2 = AIINThread(self.widgets.spinBox_AI_updatetime.value())
+            self.tar2 = AIINThread(self.widgets.spinBox_AI_updatetime.value(),self.now_select_csv_save_apppath)
             t2 = threading.Thread(target=self.tar2.do_run, name='in_thread_AI')
             t2.start()
         else:
             self.tar1.threadStop = True
             self.tar2.threadStop = True
 
+
     def change_DO(self, channel):
-        DO = getattr(self.widgets, f"DO{channel}")
-        if DO.isChecked():
-            dll.SetOnRelay(channel)
+        global DO
+        DOcheckbtn = getattr(self.widgets, f"DO{channel}")
+        if DOcheckbtn.isChecked():
+            if DEBUG:
+                DO = DO | (1 << channel)
+            else:
+                dll.SetOnRelay(channel)
             # self.widgets.textBrowser.append(f"DO{channel} open!")
         else:
-            dll.SetOffRelay(channel)
+            if DEBUG:
+                DO = DO & ~(1 << channel)
+            else:
+                dll.SetOffRelay(channel)
             # self.widgets.textBrowser.append(f"DO{channel} close!")
 
     def read_DO_state(self):
@@ -223,17 +267,28 @@ class DIOWidget(QWidget):
         查询DI状态
         :return:
         """
+        res = [0, 0, 0, 0, 0, 0, 0, 0]
+        global DO
         if DEBUG:
-            rev = 7
+            rev = DO
         else:
             rev = dll.ReadDI()
             rev = int(rev, 16)
         for i in range(8):  # 因为 "fe" 表示16个电平，所以有8位
             radio_btn = getattr(self.widgets, f"DI{i}")
             if (rev >> i) & 1:
-                radio_btn.setChecked(True)
-            else:
+                res[i]=1
+                if not radio_btn.isChecked():
+                    radio_btn.setChecked(True)
+                    if i is 0:
+                        # 发出信号，传递一个字符串参数
+                        g_signals.DI1_signal.emit("UP")
+            elif not (rev >> i) & 1 and radio_btn.isChecked():
                 radio_btn.setChecked(False)
+                if i is 0:
+                    # 发出信号，传递一个字符串参数
+                    g_signals.DI1_signal.emit("Down")
+        return res
 
     def read_AI_state(self):
         global debug_cnt
@@ -386,7 +441,6 @@ class AIOWidget_ShowOne(QWidget):
         AIOWindow_widgts = self
         self.show()
 
-
         # 绘图控件
         self.widgets.waveview_1 = RealTimePlotWidget()
         self.widgets.Layout_wave_1 = QVBoxLayout(self.widgets.groupBox_waveview_1)
@@ -405,7 +459,8 @@ class AIOWidget_ShowOne(QWidget):
         self.widgets.Slider_woffset.valueChanged.connect(self.setpara)
 
     def setpara2(self):
-        self.cam.setpara(self.ui.spinBox_gain.value(),self.ui.spinBox_exposure.value())
+        self.cam.setpara(self.ui.spinBox_gain.value(), self.ui.spinBox_exposure.value())
+
     def setpara(self):
         self.cam.H = self.ui.spinBox_ccdh.value()
         self.cam.W = self.ui.spinBox_ccdw.value()
@@ -413,12 +468,14 @@ class AIOWidget_ShowOne(QWidget):
         self.cam.Woffset = self.ui.spinBox_ccd_woffset.value()
         self.updateshow(self.cam.get_img())
 
-    def capture(self):
+    def capture(self, updateshow=True, timedelay=0):
         self.cam.capture()
         rgb_image = cv2.cvtColor(self.cam.get_img(), cv2.COLOR_BGR2RGB)
-        self.updateshow(rgb_image)
+        if updateshow: self.updateshow(rgb_image)
+        time.sleep(timedelay)
+        return rgb_image
 
-    def updateshow(self,rgb_image):
+    def updateshow(self, rgb_image):
         # 将图像转换为 QImage
         height, width, channel = rgb_image.shape
         bytes_per_line = 3 * width
@@ -431,7 +488,6 @@ class AIOWidget_ShowOne(QWidget):
         # 保持长宽比，缩放 QImage
         scaled_pixmap = QPixmap.fromImage(q_image).scaled(label_width, label_height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.ui.label_ccd_img.setPixmap(scaled_pixmap)
-
 
     def change_select(self):
         self.select_idx = self.ui.comboBox_ccd_device.currentIndex()
@@ -450,6 +506,7 @@ class AIOWidget_ShowOne(QWidget):
     def enum(self):
         deviceList = self.cam.enum()
         self.ui.comboBox_ccd_device.addItems(deviceList)
+
 
 def boot_windows():
     app = QApplication.instance()

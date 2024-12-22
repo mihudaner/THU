@@ -16,7 +16,21 @@ from PySide2.QtWidgets import (
     QFormLayout, QTextEdit, QMessageBox, QTreeWidgetItem, QFileDialog, QSpinBox, QSpacerItem, QDateEdit
 )
 from openpyxl.utils import get_column_letter
+def get_folder_names(path):
+    try:
+        # 列出目录中的所有内容
+        dir_contents = os.listdir(path)
 
+        # 过滤出文件夹
+        folders = [name for name in dir_contents if osp.isdir(osp.join(path, name))]
+
+        return folders
+    except FileNotFoundError:
+        print(f"路径 {path} 不存在")
+        return []
+    except Exception as e:
+        print(f"遍历路径 {path} 时发生错误: {e}")
+        return []
 class style_equipment_Dialog(QDialog):
     def __init__(self, mainWindow, item):
         super().__init__()
@@ -26,6 +40,7 @@ class style_equipment_Dialog(QDialog):
         self.save_path = osp.join(self.path, '类型及设备.json')
         self.mainWindow = mainWindow
         self.info_dict = mainWindow.info_dict
+        self.style = ''
         # 设置窗口图标
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
         if os.path.exists(icon_path):
@@ -159,14 +174,14 @@ class style_equipment_Dialog(QDialog):
         button_layout = QHBoxLayout()
         # 项目导入按钮
         self.import_button = QPushButton("项目导入")
-        self.import_button.clicked.connect(self.import_from_xm)
-        button_layout.addWidget(self.import_button)
         self.ok_button = QPushButton("确认")
-        self.ok_button.clicked.connect(self.accept)
+        self.cancel_btt = QPushButton("取消")
+        button_layout.addWidget(self.import_button)
         button_layout.addWidget(self.ok_button)
-        self.cancel_button = QPushButton("取消")
-        self.cancel_button.clicked.connect(self.reject)
-        button_layout.addWidget(self.cancel_button)
+        button_layout.addWidget(self.cancel_btt)
+        self.import_button.clicked.connect(self.import_from_xm)
+        self.ok_button.clicked.connect(self.saveto_json)
+        self.cancel_btt.clicked.connect(self.reject)
 
         layout.addLayout(button_layout)
         self.setLayout(layout)
@@ -198,7 +213,7 @@ class style_equipment_Dialog(QDialog):
             self.json_path = osp.join(project_path, "类型及设备", "类型及设备.json")
             self.initData()
 
-    def accept(self):
+    def saveto_json(self):
         # 获取用户输入
         data = {
             "项目日期": self.date_edit.date().toString("yyyy.MM.dd"),
@@ -214,17 +229,41 @@ class style_equipment_Dialog(QDialog):
             "熔池流动": self.jk_combo3.currentText(),
             "熔覆形貌": self.jk_combo4.currentText()
         }
-
+        print("保存到"+self.save_path)
+        self.style = self.type_combo.currentText()
+        mod_path = osp.join(self.mainWindow.dataroot, "模型库", self.style)
+        mod_names = get_folder_names(mod_path)
+        for mod_name in mod_names:
+            new_path = osp.join(self.item.parent().data(0, Qt.UserRole), '分析预测', mod_name)
+            if not osp.exists(new_path):
+                os.mkdir(new_path)
         # 保存为 JSON 文件
         with open(self.save_path, 'w', encoding='utf-8') as json_file:
             json.dump(data, json_file, ensure_ascii=False, indent=4)
+
+        # 重新生成子项
+        self.parent = self.item.parent()
+        while self.parent.childCount() > 0:
+            self.parent.removeChild(self.parent.child(0))
+        for obj in os.listdir(self.parent.data(0, Qt.UserRole)):
+            tmp_path = osp.join(self.parent.data(0, Qt.UserRole), obj)
+            if osp.isdir(tmp_path):
+                dir_item = self.mainWindow._generate_item(self.parent, obj, tmp_path, 0)
+                self.mainWindow.list_dir(dir_item, tmp_path)  # 递归调用
+            else:
+                self.mainWindow._generate_item(self.parent, obj, tmp_path, self.parent.NodeFile.value)
+
         super().accept()
+    # def reject(self):
+    #     print(1245)
 
 class ProjectFilterDialog(QDialog):
     def __init__(self, mainWindow, item):
         super().__init__()
+        self.item = item
         self.path = item.data(0, Qt.UserRole)
         self.info_dict = mainWindow.info_dict
+        self.names = get_folder_names(mainWindow.projectroot)
         # 设置窗口图标
         icon_path = os.path.join('..', 'resource', 'icon', 'PyDracula.png')
         if os.path.exists(icon_path):
@@ -275,11 +314,16 @@ class ProjectFilterDialog(QDialog):
         self.table_cx.setContextMenuPolicy(Qt.CustomContextMenu)
         self.table_cx.customContextMenuRequested.connect(self.show_context_menu)
         # 创建筛选器组件
-        self.filter_name = QLineEdit()  # 项目名称
-        self.filter_name.setMaximumWidth(150)
-        self.filter_type = QComboBox()
+        # self.filter_name = QLineEdit()  # 项目名称
+        # self.filter_name.setMaximumWidth(150)
+        self.filter_name = QComboBox()
+        self.filter_name.setMinimumWidth(120)
+        self.filter_name.addItem("全部")
+        self.filter_name.addItems(self.names)
         # 项目类型
+        self.filter_type = QComboBox()
         self.filter_type.addItem("全部")
+        self.filter_type.setMinimumWidth(120)
         self.filter_type.addItems(["送粉", "送丝", "粉丝同送"])
         # 熔覆材料
         self.filter_material = QComboBox()
@@ -291,18 +335,22 @@ class ProjectFilterDialog(QDialog):
         self.filter_substrate.addItems(self.info_dict["具体材料"])
         # 熔池状态
         self.filter_state = QComboBox()
+        self.filter_state.setMinimumWidth(100)
         self.filter_state.addItem("全部")
         self.filter_state.addItems(self.info_dict["监控"])
         # 熔池温度
         self.filter_wen = QComboBox()
+        self.filter_wen.setMinimumWidth(100)
         self.filter_wen.addItem("全部")
         self.filter_wen.addItems(self.info_dict["监控"])
         # 熔池流动
         self.filter_liu = QComboBox()
+        self.filter_liu.setMinimumWidth(120)
         self.filter_liu.addItem("全部")
         self.filter_liu.addItems(self.info_dict["监控"])
         # 熔覆形貌
         self.filter_mao = QComboBox()
+        self.filter_mao.setMinimumWidth(120)
         self.filter_mao.addItem("全部")
         self.filter_mao.addItems(self.info_dict["监控"])
         # 项目日期
@@ -313,18 +361,23 @@ class ProjectFilterDialog(QDialog):
         self.filter_time_max.setDate(QDate.currentDate())
         # 激光功率
         self.filter_jg_min = QSpinBox()
+        self.filter_jg_min.setFixedWidth(100)
         self.filter_jg_min.setRange(0, 10000)
         self.filter_jg_max = QSpinBox()
+        self.filter_jg_max.setFixedWidth(100)
         self.filter_jg_max.setRange(0, 10000)
         self.filter_jg_max.setValue(10000)  # 设置默认值为最大值
         # 熔覆速度
         self.filter_speed_min = QSpinBox()
+        self.filter_speed_min.setFixedWidth(100)
         self.filter_speed_min.setRange(0, 10000)
         self.filter_speed_max = QSpinBox()
+        self.filter_speed_max.setFixedWidth(100)
         self.filter_speed_max.setRange(0, 10000)
         self.filter_speed_max.setValue(10000)  # 设置默认值为最大值
 
         filter_button = QPushButton("筛选")
+        filter_button.setMaximumWidth(120)
         filter_button.clicked.connect(self.apply_filter)
 
         # 布局设置
@@ -342,17 +395,18 @@ class ProjectFilterDialog(QDialog):
         hl24 = QHBoxLayout()
         hl25 = QHBoxLayout()
         hl26 = QHBoxLayout()
-        hl11.setSpacing(15)
-        hl12.setSpacing(15)
-        hl13.setSpacing(15)
-        hl14.setSpacing(15)
-        hl15.setSpacing(15)
-        hl21.setSpacing(15)
-        hl22.setSpacing(15)
-        hl23.setSpacing(15)
-        hl24.setSpacing(15)
-        hl25.setSpacing(15)
-        hl26.setSpacing(15)
+        hl11.setContentsMargins(0, 0, 0, 0)  # 消除内边距
+        hl11.setSpacing(10)  # 消除间距
+        hl12.setSpacing(10)
+        hl13.setSpacing(10)
+        hl14.setSpacing(10)
+        hl15.setSpacing(10)
+        hl21.setSpacing(10)
+        hl22.setSpacing(10)
+        hl23.setSpacing(10)
+        hl24.setSpacing(10)
+        hl25.setSpacing(10)
+        hl26.setSpacing(10)
 
         hl11.addWidget(QLabel("名称:"))
         hl11.addWidget(self.filter_name)
@@ -384,17 +438,30 @@ class ProjectFilterDialog(QDialog):
         hl26.addWidget(self.filter_mao)
 
         filter_layout1.addLayout(hl11)
-        filter_layout1.addLayout(hl21)
+        filter_layout1.addStretch(1)  # 添加弹性空间
+
         filter_layout1.addLayout(hl12)
+        filter_layout1.addStretch(1)
         filter_layout1.addLayout(hl13)
+        filter_layout1.addStretch(1)
         filter_layout1.addLayout(hl14)
+        filter_layout1.addStretch(1)
         filter_layout1.addLayout(hl15)
+        filter_layout1.addStretch(1)
+        filter_layout1.addWidget(filter_button)
+
+        filter_layout2.addLayout(hl21)
+        filter_layout2.addStretch(1)
         filter_layout2.addLayout(hl22)
+        filter_layout2.addStretch(1)
         filter_layout2.addLayout(hl23)
+        filter_layout2.addStretch(1)
         filter_layout2.addLayout(hl24)
+        filter_layout2.addStretch(1)
         filter_layout2.addLayout(hl25)
+        filter_layout2.addStretch(1)
         filter_layout2.addLayout(hl26)
-        filter_layout2.addWidget(filter_button)
+
         filter_layout.addLayout(filter_layout1)
         filter_layout.addLayout(filter_layout2)
 
@@ -456,7 +523,6 @@ class ProjectFilterDialog(QDialog):
         self.table_cx.setRowCount(len(data))
         self.table_cx.setColumnCount(self.ColumnCount)
         self.table_cx.setHorizontalHeaderLabels(self.keys)
-
         for row_index, row_data in enumerate(data):
             for col_index, (key, value) in enumerate(row_data.items()):
                 # 如果值为 None，则用空字符串或其他默认值替代
@@ -464,18 +530,29 @@ class ProjectFilterDialog(QDialog):
                     display_value = ""
                 else:
                     display_value = str(value)
-                self.table_cx.setItem(row_index, col_index, QTableWidgetItem(display_value))
+                item = QTableWidgetItem(str(display_value))
+                item.setTextAlignment(Qt.AlignCenter)  # 设置文本居中对齐
+                self.table_cx.setItem(row_index, col_index, item)
+        self.table_cx.horizontalHeader().setStretchLastSection(True)  # 最后一列扩展以占满空间
+        # for row_index, row_data in enumerate(data):
+        #     for col_index, (key, value) in enumerate(row_data.items()):
+        #         # 如果值为 None，则用空字符串或其他默认值替代
+        #         if value is None:
+        #             display_value = ""
+        #         else:
+        #             display_value = str(value)
+        #         self.table_cx.setItem(row_index, col_index, QTableWidgetItem(display_value))
 
     def show_context_menu(self, position):
         context_menu = QMenu(self)
 
-        action_edit = QAction("打开", self)
-        action_edit.triggered.connect(self.open_item)
-        context_menu.addAction(action_edit)
+        action_open = QAction("打开", self)
+        action_open.triggered.connect(self.open_item)
+        context_menu.addAction(action_open)
 
-        action_delete = QAction("导入", self)
-        action_delete.triggered.connect(self.imp_item)
-        context_menu.addAction(action_delete)
+        action_zhan = QAction("展开", self)
+        action_zhan.triggered.connect(self.imp_item)
+        context_menu.addAction(action_zhan)
 
         context_menu.exec_(self.table_cx.viewport().mapToGlobal(position))
 
@@ -505,13 +582,19 @@ class ProjectFilterDialog(QDialog):
 
     def imp_item(self):
         item = self.table_cx.currentItem()
-        if item:
-            row = item.row()
-            self.table_cx.removeRow(row)
-            print(f"删除项: {item.text()}")
+        row = item.row()  # 获取当前项的行索引
+        col1_item = self.table_cx.item(row, 0)  # 前第一列
+        col1_text = col1_item.text() if col1_item else "null"  # 获取项目名称
+        self.selected_text = col1_text
+        for i in range(self.item.childCount()):
+            if self.item.child(i).text(0) == col1_text:
+                self.item.child(i).setExpanded(True)  # 展开匹配的项
+            else:
+                self.item.child(i).setExpanded(False)
+        super().accept()
 
     def apply_filter(self):
-        name_filter = self.filter_name.text()
+        name_filter = self.filter_name.currentText()
         time_min = self.filter_time_min.dateTime().toString("yyyy.MM.dd")
         time_max = self.filter_time_max.dateTime().toString("yyyy.MM.dd")
         type_filter = self.filter_type.currentText()
@@ -534,7 +617,7 @@ class ProjectFilterDialog(QDialog):
             time_matches = (time_min <= item["项目日期"] <= time_max)
 
             # 检查过滤条件
-            name_matches = (name_filter == "" or name_filter.lower() in item["项目名称"].lower())
+            name_matches = (name_filter == "全部" or name_filter.lower() in item["项目名称"].lower())
             type_matches = (type_filter == "全部" or item["项目类型"] == type_filter)
             material_matches = (material_filter == "全部" or item["熔覆材料"] == material_filter)
             substrate_matches = (substrate_filter == "全部" or item["基板材料"] == substrate_filter)
@@ -705,7 +788,7 @@ class XMProcessDialog(QDialog):
         self.xm_import.clicked.connect(self.import_from_xm)
         self.gy_import.clicked.connect(self.import_from_gy)
         self.ok_button.clicked.connect(self.save_to_json)
-        self.cancel_button.clicked.connect(self.reject)
+        self.cancel_button.clicked.connect(self.accept)
 
         if osp.exists(self.json_path):
             self.initData()
@@ -1034,7 +1117,6 @@ class XMProcessDialog2(QDialog):
         with open(file_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
         self.accept()
-
 
 class ShowList(QDialog):
     def __init__(self, names):
