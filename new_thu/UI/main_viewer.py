@@ -353,7 +353,7 @@ class MainWindow(QMainWindow):
                     '类型及设备': 0,
                     '材料及工艺': 1,
                     '项目程序': 2,
-                    '熔覆监控': 3,
+                    '沉积监控': 3,
                     '分析预测': 4,
                 }
                 insert_priority = order.get(name, None)
@@ -374,7 +374,7 @@ class MainWindow(QMainWindow):
                         parent.addChild(item)  # 如果没有合适的位置，添加到最后
                 else:
                     parent.addChild(item)
-            elif parent.data(0, Qt.UserRole + 1) == "项目子项" and parent.text(0) == "熔覆监控":
+            elif parent.data(0, Qt.UserRole + 1) == "项目子项" and parent.text(0) == "沉积监控":
                 # 设置插入顺序的优先级
                 order = {
                     '实时反馈': 0,
@@ -382,7 +382,7 @@ class MainWindow(QMainWindow):
                     '熔池温度': 2,
                     '熔池流动': 3,
                     # '熔池尺寸': 4,
-                    '熔覆形貌': 4,
+                    '沉积形貌': 4,
                 }
                 insert_priority = order.get(name, None)
                 if insert_priority is not None:
@@ -517,11 +517,11 @@ class MainWindow(QMainWindow):
                 item.setData(0, Qt.UserRole + 1, "具体项目")
             elif item.parent().data(0, Qt.UserRole + 1) == "具体项目":
                 item.setData(0, Qt.UserRole + 1, "项目子项")
-                if item.text(0) in ["分析预测", "熔覆监控"]:
+                if item.text(0) in ["分析预测", "沉积监控"]:
                     item.setExpanded(True)
             elif item.parent().data(0, Qt.UserRole + 1) == "项目子项":
-                if item.parent().text(0) == "熔覆监控":
-                    item.setData(0, Qt.UserRole + 1, "熔覆监控")
+                if item.parent().text(0) == "沉积监控":
+                    item.setData(0, Qt.UserRole + 1, "沉积监控")
                 elif item.parent().text(0) == "分析预测":
                     item.setData(0, Qt.UserRole + 1, "分析预测")
 
@@ -616,17 +616,20 @@ class MainWindow(QMainWindow):
                     else:
                         dialog = XMProcessDialog(self, item, style)
                     dialog.exec_()
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "实时反馈":
+            else:
+                path = item.data(0, Qt.UserRole)
+                subprocess.run(['start', '', path], shell=True)
+        elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "实时反馈":
             # item.data(0, Qt.UserRole)是当前节点的实际路径，设计函数时把item传进去来获得保存路径
             # 你也可以设计函数，在里面根据item.text(0)来选择操作逻辑
             pass
-        # elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池状态":
+        # elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "熔池状态":
         #     pass
-        # elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池温度":
+        # elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "熔池温度":
         #     pass
-        # elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池流动":
+        # elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "熔池流动":
         #     pass
-        # elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔覆形貌":
+        # elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "沉积形貌":
         #     pass
         elif item.data(0, Qt.UserRole + 1) == "分析预测":
             # 可以设计函数，在里面根据item.text(0)来选择操作逻辑 ['PINN','LBM',...]
@@ -738,12 +741,25 @@ class MainWindow(QMainWindow):
             if os.path.exists(project_path):
                 try:
                     if os.path.isdir(project_path):
-                        shutil.rmtree(project_path)  # 删除文件夹及其中的内容
+                        if item.data(0, Qt.UserRole + 1) == "项目子项":
+                            # 删除文件夹中所有内容，但保留文件夹
+                            for entry in os.listdir(project_path):
+                                entry_path = os.path.join(project_path, entry)
+                                if os.path.isdir(entry_path):
+                                    shutil.rmtree(entry_path)  # 删除子文件夹
+                                else:
+                                    os.remove(entry_path)  # 删除文件
+                        else:
+                            shutil.rmtree(project_path)  # 删除文件夹及其中的内容
                     else:
                         os.remove(project_path)  # 删除文件
 
                     # 从树中删除该项
-                    if item:
+                    if item.data(0, Qt.UserRole + 1) == "项目子项":
+                        # 删除子项
+                        while item.childCount() > 0:
+                            item.removeChild(item.child(0))
+                    else:
                         parent_item = item.parent()
                         index = parent_item.indexOfChild(item)
                         parent_item.takeChild(index)

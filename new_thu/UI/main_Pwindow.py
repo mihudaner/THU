@@ -141,12 +141,12 @@ class TabWindow(MainWindow):
         self.ccd_pretor = CCD_Pretor(Debug=False)
 
     def on_item_clicked(self, item):
-        if item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "实时反馈":
+        if item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "实时反馈":
             self.ui.tabWidget_2.setCurrentIndex(0)
             self.now_select_ccd_save_apppath = item.data(0, Qt.UserRole)
             self.ui.DIOControlWidget.now_select_csv_save_apppath = self.now_select_ccd_save_apppath
             pass
-        elif item.data(0, Qt.UserRole + 1) == "熔覆监控" and item.text(0) == "熔池状态":
+        elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "熔池状态":
             self.ui.tabWidget_2.setCurrentIndex(2)
             pass
 

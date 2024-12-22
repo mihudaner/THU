@@ -540,7 +540,7 @@ class CCD_Pretor():
 
     def __init__(self, Debug=True):
         self.Debug = Debug
-        self.image_files = self.load_image_files()
+        # self.image_files = self.load_image_files()
         self.current_index = 0
 
         calib_obg = Caliber(Debug)

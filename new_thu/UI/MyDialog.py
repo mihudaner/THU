@@ -1068,7 +1068,7 @@ class ProcessDialog(QDialog):
         self.material_edit = QComboBox()
         self.material_edit.addItems(mainWindow.info_dict["具体材料"])
         form_layout1.addRow("工艺名称", self.name)
-        form_layout1.addRow("熔覆材料", self.material_edit)
+        form_layout1.addRow("沉积材料", self.material_edit)
 
         self.base_material_edit = QComboBox()
         self.base_material_edit.addItems(mainWindow.info_dict["具体材料"])
@@ -1092,8 +1092,8 @@ class ProcessDialog(QDialog):
         self.laser_power_edit.setRange(0, 10000)  # 设置范围 激光功率(W)
         form_layout1.addRow("激光功率(W)", self.laser_power_edit)
         self.welding_speed_edit = QDoubleSpinBox()
-        self.welding_speed_edit.setRange(0, 10000)  # 设置范围 熔覆速度(mm/s)
-        form_layout2.addRow("熔覆速度(mm/s)", self.welding_speed_edit)
+        self.welding_speed_edit.setRange(0, 10000)  # 设置范围 沉积速度(mm/s)
+        form_layout2.addRow("沉积速度(mm/s)", self.welding_speed_edit)
 
         self.sf_rate_edit = QDoubleSpinBox()
         self.sf_rate_edit.setRange(0, 10000)  # 设置范围 送粉转速(r/min)
@@ -1180,12 +1180,12 @@ class ProcessDialog(QDialog):
                 data = json.load(f)
             # 填入控件
             if self.style == "送粉":
-                self.material_edit.setCurrentText(data.get("熔覆材料", ""))
+                self.material_edit.setCurrentText(data.get("沉积材料", ""))
                 self.base_material_edit.setCurrentText(data.get("基板材料", ""))
                 self.fmd_edit.setText(data.get("粉末粒径(μm)", ""))
                 self.bansize_edit.setText(data.get("基板尺寸(mm)", ""))
                 self.laser_power_edit.setValue(data.get("激光功率(W)", 0))
-                self.welding_speed_edit.setValue(data.get("熔覆速度(mm/s)", 0))
+                self.welding_speed_edit.setValue(data.get("沉积速度(mm/s)", 0))
                 self.sf_rate_edit.setValue(data.get("送粉转速(r/min)", 0))
                 self.addition_rate_edit.setValue(data.get("质量添加(g/min)", 0))
                 self.spot_voltage_edit.setValue(data.get("光斑电压(V)", 0))
@@ -1197,12 +1197,12 @@ class ProcessDialog(QDialog):
                 self.protect_gas_flow_edit.setText(data.get("保护气及流量(L/min)", ""))
                 self.carrier_gas_flow_edit.setText(data.get("载气及流量(L/min)", ""))
             else:
-                self.material_edit.setCurrentText(data.get("熔覆材料", ""))
+                self.material_edit.setCurrentText(data.get("沉积材料", ""))
                 self.base_material_edit.setCurrentText(data.get("基板材料", ""))
                 self.scd_edit.setValue(data.get("丝材直径(mm)", 0))
                 self.bansize_edit.setText(data.get("基板尺寸(mm)", ""))
                 self.laser_power_edit.setValue(data.get("激光功率(W)", 0))
-                self.welding_speed_edit.setValue(data.get("熔覆速度(mm/s)", 0))
+                self.welding_speed_edit.setValue(data.get("沉积速度(mm/s)", 0))
                 self.ss_rate_edit.setValue(data.get("送丝速度(m/min)", 0))
                 self.addition_rate_edit.setValue(data.get("质量添加(g/min)", 0))
                 self.offset_edit.setValue(data.get("道间偏移(mm)", 0))
@@ -1265,12 +1265,12 @@ class ProcessDialog(QDialog):
         if self.style == "送粉":
             data = {
                 "工艺名称": self.name.text(),
-                "熔覆材料": self.material_edit.currentText(),
+                "沉积材料": self.material_edit.currentText(),
                 "基板材料": self.base_material_edit.currentText(),
                 "粉末粒径(μm)": self.fmd_edit.text(),
                 "基板尺寸(mm)": self.bansize_edit.text(),
                 "激光功率(W)": self.laser_power_edit.value(),
-                "熔覆速度(mm/s)": self.welding_speed_edit.value(),
+                "沉积速度(mm/s)": self.welding_speed_edit.value(),
                 "送粉转速(r/min)": self.ss_rate_edit.value(),
                 "质量添加(g/min)": self.addition_rate_edit.value(),
                 "光斑电压(V)": self.spot_voltage_edit.value(),
@@ -1285,12 +1285,12 @@ class ProcessDialog(QDialog):
         else:
             data = {
                 "工艺名称": self.name.text(),
-                "熔覆材料": self.material_edit.currentText(),
+                "沉积材料": self.material_edit.currentText(),
                 "基板材料": self.base_material_edit.currentText(),
                 "丝材直径(mm)": self.scd_edit.value(),
                 "基板尺寸(mm)": self.bansize_edit.text(),
                 "激光功率(W)": self.laser_power_edit.value(),
-                "熔覆速度(mm/s)": self.welding_speed_edit.value(),
+                "沉积速度(mm/s)": self.welding_speed_edit.value(),
                 "送丝速度(m/min)": self.ss_rate_edit.value(),
                 "质量添加(g/min)": self.addition_rate_edit.value(),
                 "道间偏移(mm)": self.offset_edit.value(),
@@ -1366,7 +1366,7 @@ class ProcessDialog2(QDialog):
         self.laser_power_edit = QSpinBox()
         self.laser_power_edit.setRange(0, 10000)  # 设置范围 激光功率(W)
         self.welding_speed_edit = QDoubleSpinBox()
-        self.welding_speed_edit.setRange(0, 10000)  # 设置范围 熔覆速度(mm/s)
+        self.welding_speed_edit.setRange(0, 10000)  # 设置范围 沉积速度(mm/s)
 
         self.protect_gas_flow_edit = QLineEdit()
         # self.protect_gas_flow_edit.setRange(0, 10000)  # 设置范围 保护气及流量(L/min)
@@ -1396,7 +1396,7 @@ class ProcessDialog2(QDialog):
         form_layout2.addRow("基板材料", self.base_material_edit)
         form_layout2.addRow("基板尺寸(mm)", self.bansize_edit)
         form_layout2.addRow("激光功率(W)", self.laser_power_edit)
-        form_layout2.addRow("熔覆速度(mm/s)", self.welding_speed_edit)
+        form_layout2.addRow("沉积速度(mm/s)", self.welding_speed_edit)
         form_layout2.addRow("道间偏移(mm)", self.offset_edit)
         form_layout2.addRow("层间抬升(mm)", self.lift_height_edit)
         form_layout2.addRow("保护气及流量(L/min)", self.protect_gas_flow_edit)
@@ -1442,7 +1442,7 @@ class ProcessDialog2(QDialog):
             self.base_material_edit.setCurrentText(data.get("基板材料", ""))
             self.bansize_edit.setText(data.get("基板尺寸(mm)", ""))
             self.laser_power_edit.setValue(data.get("激光功率(W)", 0))
-            self.welding_speed_edit.setValue(data.get("熔覆速度(mm/s)", 0))
+            self.welding_speed_edit.setValue(data.get("沉积速度(mm/s)", 0))
             self.offset_edit.setValue(data.get("道间偏移(mm)", 0))
             self.lift_height_edit.setValue(data.get("层间抬升(mm)", 0))
             self.protect_gas_flow_edit.setText(data.get("保护气及流量(L/min)", ""))
@@ -1513,7 +1513,7 @@ class ProcessDialog2(QDialog):
             "基板材料": self.base_material_edit.currentText(),
             "基板尺寸(mm)": self.bansize_edit.text(),
             "激光功率(W)": self.laser_power_edit.value(),
-            "熔覆速度(mm/s)": self.welding_speed_edit.value(),
+            "沉积速度(mm/s)": self.welding_speed_edit.value(),
             "道间偏移(mm)": self.offset_edit.value(),
             "层间抬升(mm)": self.lift_height_edit.value(),
             "保护气及流量(L/min)": self.protect_gas_flow_edit.text(),
@@ -1607,8 +1607,8 @@ class ProgramDialog(QDialog):
         rf_layout.addWidget(self.melting_speed_edit)  # 添加 QSpinBox
         rf_layout.addWidget(unit_label)  # 添加单位标签
         # 将水平布局添加到表单布局
-        vlayout2.addRow("熔覆速度", rf_layout)  # 修改这里的标签
-        # vlayout2.addRow("熔覆速度(mm/s)", self.melting_speed_edit)
+        vlayout2.addRow("沉积速度", rf_layout)  # 修改这里的标签
+        # vlayout2.addRow("沉积速度(mm/s)", self.melting_speed_edit)
 
         # 连接信号
         self.layer_count_edit.valueChanged.connect(self.update_name)
@@ -1672,7 +1672,7 @@ class ProgramDialog(QDialog):
             self.path_count_edit.setValue(data["道数"])
             self.layer_count_edit.setValue(data["层数"])
             self.laser_power_edit.setValue(data["激光功率(W)"])
-            self.melting_speed_edit.setValue(data["熔覆速度(mm/s)"])
+            self.melting_speed_edit.setValue(data["沉积速度(mm/s)"])
         except Exception as e:
             QMessageBox.critical(self, "错误", f"无法读取文件: {e}")
         pro_dir = self.item.data(0, Qt.UserRole)
@@ -1717,7 +1717,7 @@ class ProgramDialog(QDialog):
             "道数": self.path_count_edit.value(),
             "层数": self.layer_count_edit.value(),
             "激光功率(W)": self.laser_power_edit.value(),
-            "熔覆速度(mm/s)": self.melting_speed_edit.value()
+            "沉积速度(mm/s)": self.melting_speed_edit.value()
         }
         # 设置文件名和路径
         dir_path = os.path.join(self.path, self.name.text())  # 目录路径
@@ -1817,7 +1817,7 @@ class ModelDialog(QDialog):
 
         self.material_edit = QComboBox()
         self.material_edit.addItems(self.info_dict["具体材料"])
-        vlayout2.addRow("熔覆材料", self.material_edit)
+        vlayout2.addRow("沉积材料", self.material_edit)
 
         self.laser_efficiency_edit = QSpinBox()
         self.laser_efficiency_edit.setRange(0, 10000)  # 设置范围
@@ -1847,10 +1847,10 @@ class ModelDialog(QDialog):
         rf_layout.addWidget(self.melting_speed_edit)  # 添加 QSpinBox
         rf_layout.addWidget(unit_label1)  # 添加单位标签
         # 将水平布局添加到表单布局
-        vlayout1.addRow("熔覆速度", rf_layout)
+        vlayout1.addRow("沉积速度", rf_layout)
 
         self.melting_shape_edit = QLineEdit()
-        vlayout2.addRow("熔覆形式", self.melting_shape_edit)
+        vlayout2.addRow("沉积形式", self.melting_shape_edit)
         hlayout1.addLayout(vlayout1)
         hlayout1.addLayout(vlayout2)
 
@@ -1920,11 +1920,11 @@ class ModelDialog(QDialog):
             self.name_edit.setText(data["名称"])
             self.gy_combo.setText(data["工艺类型"])
             self.type_combo.setText(data["模型类型"])
-            self.material_edit.setCurrentText(data["熔覆材料"])
+            self.material_edit.setCurrentText(data["沉积材料"])
             self.base_material_combo.setCurrentText(data["基板材料"])
             self.laser_efficiency_edit.setValue(data["激光功率(W)"])
-            self.melting_speed_edit.setValue(data["熔覆速度(mm/s)"])
-            self.melting_shape_edit.setText(data["熔覆形式"])
+            self.melting_speed_edit.setValue(data["沉积速度(mm/s)"])
+            self.melting_shape_edit.setText(data["沉积形式"])
             self.initial_condition_edit.setText(data["初始条件"])
             self.boundary_condition_edit.setText(data["边界条件"])
         except Exception as e:
@@ -1952,11 +1952,11 @@ class ModelDialog(QDialog):
             "名称": self.name_edit.text(),
             "工艺类型": self.gy_combo.text(),
             "模型类型": self.type_combo.text(),
-            "熔覆材料": self.material_edit.currentText(),
+            "沉积材料": self.material_edit.currentText(),
             "基板材料": self.base_material_combo.currentText(),
             "激光功率(W)": self.laser_efficiency_edit.value(),  # 确保为整数
-            "熔覆速度(mm/s)": self.melting_speed_edit.value(),
-            "熔覆形式": self.melting_shape_edit.text(),
+            "沉积速度(mm/s)": self.melting_speed_edit.value(),
+            "沉积形式": self.melting_shape_edit.text(),
             "初始条件": self.initial_condition_edit.text(),
             "边界条件": self.boundary_condition_edit.text()
         }
@@ -2057,7 +2057,7 @@ class FilterCX(QDialog):
         self.filter_power_max = QSpinBox()
         self.filter_power_max.setRange(0, 10000)
         self.filter_power_max.setValue(10000)
-        # 熔覆速度
+        # 沉积速度
         self.filter_rfsd_min = QSpinBox()
         self.filter_rfsd_min.setRange(0, 10000)
         self.filter_rfsd_max = QSpinBox()
@@ -2091,7 +2091,7 @@ class FilterCX(QDialog):
         filter_layout.addWidget(self.filter_power_max)
         filter_layout.addStretch(1)
 
-        filter_layout.addWidget(QLabel("熔覆速度:"))
+        filter_layout.addWidget(QLabel("沉积速度:"))
         filter_layout.addWidget(self.filter_rfsd_min)
         filter_layout.addWidget(QLabel("到"))
         filter_layout.addWidget(self.filter_rfsd_max)
@@ -2241,7 +2241,7 @@ class FilterCX(QDialog):
             dao_matches = (dao_min <= item["道数"] <= dao_max)
             layer_matches = (layer_min <= item["层数"] <= layer_max)
             power_matches = (power_min <= item["激光功率(W)"] <= power_max)
-            rfsd_matches = (rfsd_min <= item["熔覆速度(mm/s)"] <= rfsd_max)
+            rfsd_matches = (rfsd_min <= item["沉积速度(mm/s)"] <= rfsd_max)
 
             if dao_matches and type_matches and layer_matches and power_matches and rfsd_matches:
                 filtered_data.append(item)
@@ -2306,7 +2306,7 @@ class FilterMX(QDialog):
         self.filter_type2.addItem("全部")
         self.filter_type2.addItems(self.mx_styles)
 
-        self.filter_material = QComboBox()  # 熔覆材料
+        self.filter_material = QComboBox()  # 沉积材料
         self.filter_material.addItem("全部")
         self.filter_material.addItems(self.info_dict["具体材料"])
         self.filter_substrate = QComboBox()  # 基板材料
@@ -2318,7 +2318,7 @@ class FilterMX(QDialog):
         self.filter_jg_max = QSpinBox()
         self.filter_jg_max.setRange(0, 10000)
         self.filter_jg_max.setValue(10000)  # 设置默认值为最大值
-        # 熔覆速度
+        # 沉积速度
         self.filter_speed_min = QSpinBox()
         self.filter_speed_min.setRange(0, 10000)
         self.filter_speed_max = QSpinBox()
@@ -2336,7 +2336,7 @@ class FilterMX(QDialog):
         filter_layout.addWidget(QLabel("模型类型:"))
         filter_layout.addWidget(self.filter_type2)
         filter_layout.addStretch(1)
-        filter_layout.addWidget(QLabel("熔覆材料:"))
+        filter_layout.addWidget(QLabel("沉积材料:"))
         filter_layout.addWidget(self.filter_material)
         filter_layout.addStretch(1)
         filter_layout.addWidget(QLabel("基板材料:"))
@@ -2347,7 +2347,7 @@ class FilterMX(QDialog):
         filter_layout.addWidget(QLabel("到"))
         filter_layout.addWidget(self.filter_jg_max)
         filter_layout.addStretch(1)
-        filter_layout.addWidget(QLabel("熔覆速度:"))
+        filter_layout.addWidget(QLabel("沉积速度:"))
         filter_layout.addWidget(self.filter_speed_min)
         filter_layout.addWidget(QLabel("到"))
         filter_layout.addWidget(self.filter_speed_max)
@@ -2491,10 +2491,10 @@ class FilterMX(QDialog):
         for item in self.data:
             type_matches = (type_filter == "全部" or item["工艺类型"] == type_filter)
             type2_matches = (type2_filter == "全部" or item["模型类型"] == type2_filter)
-            material_matches = (material_filter == "全部" or item["熔覆材料"] == material_filter)
+            material_matches = (material_filter == "全部" or item["沉积材料"] == material_filter)
             substrate_matches = (substrate_filter == "全部" or item["基板材料"] == substrate_filter)
             jg_matches = (jg_min <= item["激光功率(W)"] <= jg_max)
-            speed_matches = (speed_min <= item["熔覆速度(mm/s)"] <= speed_max)
+            speed_matches = (speed_min <= item["沉积速度(mm/s)"] <= speed_max)
 
             if type_matches and type2_matches and material_matches and substrate_matches and jg_matches and speed_matches:
                 filtered_data.append(item)

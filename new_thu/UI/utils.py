@@ -137,12 +137,12 @@ def new_type(self, item):
 
                 new_item.setData(0, Qt.UserRole + 1, "具体项目")
                 os.makedirs(file_path, exist_ok=True)
-                project_list = ["类型及设备", "材料及工艺", "项目程序", "熔覆监控", "分析预测"]
+                project_list = ["类型及设备", "材料及工艺", "项目程序", "沉积监控", "分析预测"]
                 for type in project_list:
                     new_file = osp.join(file_path, type)
                     os.makedirs(new_file, exist_ok=True)
-                jk_list = ["熔池温度", "熔池状态", "实时反馈", "熔池流动", "熔覆形貌"]
-                jk_path = osp.join(file_path, "熔覆监控")
+                jk_list = ["熔池温度", "熔池状态", "实时反馈", "熔池流动", "沉积形貌"]
+                jk_path = osp.join(file_path, "沉积监控")
                 for type in jk_list:
                     new_file = osp.join(jk_path, type)
                     os.makedirs(new_file, exist_ok=True)
@@ -447,6 +447,9 @@ def show_context_menu(self, position):
         cxkimport_action = menu.addAction("程序库导入")
         new_type_action = menu.addAction("新建程序")
         open_action = menu.addAction("打开目录")
+        refresh_action = menu.addAction("刷新")
+        refresh_action.triggered.connect(lambda: item_refresh(self, item))
+        del_action = menu.addAction("删除")
         trans_action = menu.addAction("传输程序")
         set_codepath1 = menu.addAction("OrangeEdit路径")
         set_codepath2 = menu.addAction("WorkVisual路径")
@@ -456,42 +459,46 @@ def show_context_menu(self, position):
         cxkimport_action.triggered.connect(lambda: cx_program_import(self, item))
         new_type_action.triggered.connect(lambda: run_exe(self.apppath[item.text(0) + "OrangeEdit"])) # pass
         open_action.triggered.connect(lambda: self.open_type_library(item))
+        del_action.triggered.connect(lambda: self.delete(item))
         trans_action.triggered.connect(lambda: run_exe(self.apppath[item.text(0)+"WorkVisual"]))
         set_codepath1.triggered.connect(lambda: self.open_file_dialog(item.text(0)+"OrangeEdit"))
         set_codepath2.triggered.connect(lambda: self.open_file_dialog(item.text(0)+"WorkVisual"))
 
-        menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
-    elif item.data(0, Qt.UserRole + 1) == "分析预测":
-        menu = QMenu()
-        xmimport_action = menu.addAction("项目导入")
-        mxkimport_action = menu.addAction("模型库导入")
-        open_action = menu.addAction("打开目录")
-        del_action = menu.addAction("删除")
-        xmimport_action.triggered.connect(lambda: xm_model_import(self, item))
-        mxkimport_action.triggered.connect(lambda: mx_model_import(self, item))
-        open_action.triggered.connect(lambda: self.open_type_library(item))
-        del_action.triggered.connect(lambda: self.delete(item))
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
     elif item.data(0, Qt.UserRole + 1) == "项目子项" and item.text(0) == "分析预测":
         menu = QMenu()
         xmimport_action = menu.addAction("项目导入")
         mxkimport_action = menu.addAction("模型库导入")
         open_action = menu.addAction("打开目录")
+        refresh_action = menu.addAction("刷新")
+        refresh_action.triggered.connect(lambda: item_refresh(self, item))
         del_action = menu.addAction("删除")
         xmimport_action.triggered.connect(lambda: xm_model_import(self, item))
         mxkimport_action.triggered.connect(lambda: mx_model_import(self, item))
         open_action.triggered.connect(lambda: self.open_type_library(item))
         del_action.triggered.connect(lambda: self.delete(item))
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
-    elif item.data(0, Qt.UserRole + 1) == "熔覆监控":
+    elif item.data(0, Qt.UserRole + 1) == "项目子项" and item.text(0) == "沉积监控":
         menu = QMenu()
         setapppath = menu.addAction("设置路径")
         exeapppath = menu.addAction("运行应用")
+        refresh_action = menu.addAction("刷新")
+        refresh_action.triggered.connect(lambda: item_refresh(self, item))
         setapppath.triggered.connect(lambda: self.open_file_dialog(item.text(0)))
         exeapppath.triggered.connect(lambda: run_exe(self.apppath[item.text(0)]))
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
 
-
+def item_refresh(self, item):
+    # 重新生成子项
+    while item.childCount() > 0:
+        item.removeChild(item.child(0))
+    for obj in os.listdir(item.data(0, Qt.UserRole)):
+        tmp_path = osp.join(item.data(0, Qt.UserRole), obj)
+        if osp.isdir(tmp_path):
+            dir_item = self._generate_item(item, obj, tmp_path, NodeType.NodeDir.value)
+            self.list_dir(dir_item, tmp_path)  # 递归调用
+        else:
+            self._generate_item(item, obj, tmp_path, NodeType.NodeFile.value)
 def choose_project(self, item):
     project_name = item.text(0)
     self.treeWidget.clear()
