@@ -211,10 +211,10 @@ class Window(ProjectWindow, CardWindow):
         self.timestamp = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
 
         # 数据库
-        # self.mysqlviewer = MySQLViewer(self)
-        # self.mysqlviewer.widgets.tableWidget.itemDoubleClicked.connect(self.mysqlviewer_double_clicked)
-        # widgets.verticalLayout_db.addWidget(self.mysqlviewer)
-        # self.resize(2300, 1200)
+        self.mysqlviewer = MySQLViewer(self)
+        self.mysqlviewer.widgets.tableWidget.itemDoubleClicked.connect(self.mysqlviewer_double_clicked)
+        widgets.verticalLayout_db.addWidget(self.mysqlviewer)
+        self.resize(2300, 1200)
 
     def all_capture_detect(self, pipe_sam, pipe_hik):
         """
@@ -230,24 +230,29 @@ class Window(ProjectWindow, CardWindow):
         Returns:
 
         """
+        DEBUG_MINIHOLE = False
+
         self.update_timestamp()
 
-        # if not self.DEBUG:
-        #     self.hik_img = trigger_once(self)
-        #     time.sleep(0.5)
-        # else:
-        #     self.hik_img = self.init_hik_img(INIT_HIK_IMG)
-
         # 单独调试HIK，检测极小的洞
-        self.DEBUG = False
-        self.hik_img = trigger_once(self)
-        time.sleep(0.5)
-        self.DEBUG = True
+        if DEBUG_MINIHOLE:
+            self.DEBUG = False
+            self.hik_img = trigger_once(self)
+            time.sleep(0.5)
+            self.DEBUG = True
+        else:
+            if not self.DEBUG:
+                self.hik_img = trigger_once(self)
+                time.sleep(0.5)
+            else:
+                self.hik_img = self.init_hik_img(INIT_HIK_IMG)
 
         self.capture(UPDATA_SHOW=False)
 
         # 与HIK检测经常通信交互
-        self.hik_img = getCentor(self.hik_img)
+        if DEBUG_MINIHOLE:
+            self.hik_img = getCentor(self.hik_img)
+
         pipe_hik.send(self.hik_img)
         pipe_hik.send(self.hik_img)
         pipe_hik.send([0, 0])
@@ -258,7 +263,7 @@ class Window(ProjectWindow, CardWindow):
         _ = pipe_hik.recv()
 
         # 与SAM进程通信交互
-        if False:
+        if DEBUG_MINIHOLE:
             pipe_sam.send(self.hik_img)
             pipe_sam.send(hik_labels)
             #  vertex1_x, vertex1_y, vertex2_x, vertex2_y, vertex3_x, vertex3_y, vertex4_x, vertex4_y, short, long
