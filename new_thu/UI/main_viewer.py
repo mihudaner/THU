@@ -60,11 +60,10 @@ class MainWindow(QMainWindow):
         self.kupath = None
         self.treeWidget.itemClicked.connect(self.on_item_clicked)  # Connect the itemClicked signal to a slot function
 
-
         self.treeWidget.itemDoubleClicked.connect(self.on_item_double_clicked)  # 双击信号
         # self.treeWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         # 全部
-        self.ui.show_all.triggered.connect(partial(self.select_database, note="fresh"))
+        self.ui.show_all.triggered.connect(partial(self.select_database, note="all"))
         # 材料
         self.ui.cl_open.triggered.connect(partial(self.select_data, note="材料"))
         # 设备
@@ -83,7 +82,7 @@ class MainWindow(QMainWindow):
         # 右击显示菜单
         self.treeWidget.customContextMenuRequested.connect(partial(show_context_menu, self))
         self.initData()
-        self.select_database(note="fresh")
+        self.select_database(note="all")
     def initData(self):
         path1 = osp.join(self.dataroot, '材料库')
         self.cl_styles = self.get_folder_names(path1)
@@ -198,30 +197,35 @@ class MainWindow(QMainWindow):
     #选择总库
     def select_database(self, note=None):
         self.treeWidget.clear()
-        if note != "fresh":
-            #新的database路径
+        if note == "all":
+            self.list_dir(None, self.dataroot)  # 递归遍历
+            top_item = self.create_top_item(self.projectroot, "项目")  # 创建topitem
+            self.list_dir(top_item, self.projectroot)  # 递归遍历
+        else:
+            # 新的database路径
             root = QFileDialog.getExistingDirectory(self, "选择工程目录", ".",
-                            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+                                                    QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
             if root and root != '':
                 self.root = root
                 self.dataroot = osp.join(root, "数据库")
                 self.projectroot = osp.join(self.root, "项目库")
+                os.makedirs(self.dataroot, exist_ok=True)
+                os.makedirs(self.projectroot, exist_ok=True)
+                sb_list = ['能量', '质量', '运动', '激光头', '气氛', '冷却', '监控', '其他']
+                ku_list = ['材料库', '工艺库', '设备库', '程序库', '模型库']
+                for ku in ku_list:
+                    os.makedirs(osp.join(self.dataroot, ku), exist_ok=True)
+                for sb in sb_list:
+                    os.makedirs(osp.join(self.dataroot, '设备库', sb), exist_ok=True)
+                os.makedirs(osp.join(self.dataroot, ""), exist_ok=True)
                 self.list_dir(None, self.dataroot)  # 递归遍历
                 top_item = self.create_top_item(self.projectroot, "项目")  # 创建topitem
                 self.list_dir(top_item, self.projectroot)  # 递归遍历
             else:
-                # 创建一个警告对话框
-                warning_box = QMessageBox(self)
-                warning_box.setIcon(QMessageBox.Warning)  # 设置图标为警告图标
-                warning_box.setText("数据库未选择！")  # 警告文本
-                warning_box.setWindowTitle("警告")  # 对话框标题
-                warning_box.setStandardButtons(QMessageBox.Ok)  # 添加按钮
+                warning_box = WarningDialog(self, "警告", "数据库未选择！")
                 # 显示对话框并获取用户选择
                 warning_box.exec_()
-        else:
-            self.list_dir(None, self.dataroot)  # 递归遍历
-            top_item = self.create_top_item(self.projectroot, "项目")  # 创建topitem
-            self.list_dir(top_item, self.projectroot)  # 递归遍历
+
     #选择数据库
     def select_data(self, note=None):
         self.treeWidget.clear()
@@ -240,7 +244,7 @@ class MainWindow(QMainWindow):
             top_item = self.create_top_item(self.kupath, "工艺")  # 创建topitem
             top_item.setExpanded(True)  # 固定展开 top_item
             self.list_dir(top_item, self.kupath)  # 递归遍历
-        elif note == "程序" or note == "cx_open":
+        elif note == "程序" or note == "cx_fresh":
             self.kupath = osp.join(self.dataroot, "程序库")
             top_item = self.create_top_item(self.kupath, "程序")  # 创建topitem
             top_item.setExpanded(True)  # 固定展开 top_item
@@ -619,10 +623,10 @@ class MainWindow(QMainWindow):
             else:
                 path = item.data(0, Qt.UserRole)
                 subprocess.run(['start', '', path], shell=True)
-        elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "实时反馈":
-            # item.data(0, Qt.UserRole)是当前节点的实际路径，设计函数时把item传进去来获得保存路径
-            # 你也可以设计函数，在里面根据item.text(0)来选择操作逻辑
-            pass
+        # elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "实时反馈":
+        #     # item.data(0, Qt.UserRole)是当前节点的实际路径，设计函数时把item传进去来获得保存路径
+        #     # 你也可以设计函数，在里面根据item.text(0)来选择操作逻辑
+        #     pass
         # elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "熔池状态":
         #     pass
         # elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "熔池温度":

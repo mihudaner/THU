@@ -467,6 +467,19 @@ def show_context_menu(self, position):
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
     elif item.data(0, Qt.UserRole + 1) == "项目子项" and item.text(0) == "分析预测":
         menu = QMenu()
+        # xmimport_action = menu.addAction("项目导入")
+        # mxkimport_action = menu.addAction("模型库导入")
+        open_action = menu.addAction("打开目录")
+        refresh_action = menu.addAction("刷新")
+        refresh_action.triggered.connect(lambda: item_refresh(self, item))
+        # del_action = menu.addAction("删除")
+        # xmimport_action.triggered.connect(lambda: xm_model_import(self, item))
+        # mxkimport_action.triggered.connect(lambda: mx_model_import(self, item))
+        open_action.triggered.connect(lambda: self.open_type_library(item))
+        # del_action.triggered.connect(lambda: self.delete(item))
+        menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
+    elif item.parent().data(0, Qt.UserRole + 1) == "项目子项" and item.parent().text(0) == "分析预测":
+        menu = QMenu()
         xmimport_action = menu.addAction("项目导入")
         mxkimport_action = menu.addAction("模型库导入")
         open_action = menu.addAction("打开目录")
@@ -499,13 +512,6 @@ def item_refresh(self, item):
             self.list_dir(dir_item, tmp_path)  # 递归调用
         else:
             self._generate_item(item, obj, tmp_path, NodeType.NodeFile.value)
-def choose_project(self, item):
-    project_name = item.text(0)
-    self.treeWidget.clear()
-    self.choosed_project = osp.join(self.projectroot, project_name)
-    top_item = self.create_top_item(self.choosed_project, "所选项目")  # 创建topitem
-    top_item.setExpanded(True)  # 固定展开 top_item
-    self.list_project_dir(top_item, self.choosed_project)  # 递归遍历
 
 def xm_program_import(self, item):
     current_path = item.data(0, Qt.UserRole)

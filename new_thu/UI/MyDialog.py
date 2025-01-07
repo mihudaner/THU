@@ -1007,11 +1007,18 @@ class EquipmentDialog(QDialog):
     def remove_image(self):
         # 获取选中的项并删除
         selected_items = self.image_list.selectedItems()
+        img_name = [item.text() for item in selected_items]
         if not selected_items:
             QMessageBox.warning(self, "警告", "请先选择要删除的项目")
             return
         for item in selected_items:
+            if self.note == "edit":
+                path = self.item.data(0, Qt.UserRole)
+                img_path = osp.join(path, "设备图片", item.text())
+                if osp.exists(img_path):
+                    os.remove(img_path)
             self.image_list.takeItem(self.image_list.row(item))  # 从列表中删除选中的项
+
 
     def add_file(self):
         # 打开文件对话框选择文件
@@ -1029,8 +1036,12 @@ class EquipmentDialog(QDialog):
         if not selected_items:
             QMessageBox.warning(self, "警告", "请先选择要删除的项目")
             return
-
         for item in selected_items:
+            if self.note == "edit":
+                path = self.item.data(0, Qt.UserRole)
+                file_path = osp.join(path, "设备文件", item.text())
+                if osp.exists(file_path):
+                    os.remove(file_path)
             self.file_list.takeItem(self.file_list.row(item))  # 从列表中删除选中的项
 
 class ProcessDialog(QDialog):
@@ -1701,7 +1712,12 @@ class ProgramDialog(QDialog):
         # 删除选中的文件
         selected_items = self.file_list.selectedItems()
         for item in selected_items:
-            self.file_list.takeItem(self.file_list.row(item))
+            if self.note == "edit":
+                path = self.item.data(0, Qt.UserRole)
+                file_path = osp.join(path, item.text())
+                if osp.exists(file_path):
+                    os.remove(file_path)
+            self.file_list.takeItem(self.file_list.row(item))  # 从列表中删除选中的项
 
     def save_to_json(self):
         # 名称检查
@@ -1938,7 +1954,12 @@ class ModelDialog(QDialog):
     def remove_file(self):
         selected_items = self.file_list.selectedItems()
         for item in selected_items:
-            self.file_list.takeItem(self.file_list.row(item))
+            if self.note == "edit":
+                path = self.item.data(0, Qt.UserRole)
+                file_path = osp.join(path, item.text())
+                if osp.exists(file_path):
+                    os.remove(file_path)
+            self.file_list.takeItem(self.file_list.row(item))  # 从列表中删除选中的项
 
     def save_to_json(self):
         # 名称检查

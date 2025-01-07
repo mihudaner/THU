@@ -42,24 +42,6 @@ class CustomInputDialog(QDialog):
         # 将按钮布局添加到主布局
         layout.addLayout(button_layout)
 
-        # # 设置样式表
-        # self.setStyleSheet("""
-        #     QDialog {
-        #         background-color: #f0f0f0; /* 对话框背景颜色 */
-        #     }
-        #     QLabel {
-        #         font-size: 16px;
-        #     }
-        #     QLineEdit {
-        #         background-color: lightgray; /* 输入框背景颜色 */
-        #         padding: 5px;
-        #     }
-        #     QPushButton {
-        #         border: none;
-        #         padding: 10px;
-        #     }
-        # """)
-
         # 设置布局
         self.setLayout(layout)
 
@@ -72,3 +54,57 @@ class CustomInputDialog(QDialog):
         result = dialog.exec_()  # 显示对话框并等待用户输入
         text = dialog.get_input() if result == QDialog.Accepted else None  # 获取输入
         return text, result == QDialog.Accepted  # 返回输入和状态
+
+class WarningDialog(QDialog):
+    def __init__(self, parent=None, title="警告", label="这是警告内容！"):
+        super().__init__(parent)
+        # 设置窗口标题和图标
+        self.setWindowTitle(title)
+        self.setWindowIcon(QIcon('../resource/icon/main.png'))  # 设置窗口图标（请确保路径正确）
+        # 设置对话框固定宽度
+        self.setFixedWidth(200)
+
+        # 创建主布局
+        layout = QVBoxLayout()
+
+        # 添加标签（用于显示警告文本）
+        self.label = QLabel(label)
+        self.label.setWordWrap(True)  # 如果内容过长，允许文本换行
+        layout.addWidget(self.label)
+
+        # 创建按钮布局
+        button_layout = QHBoxLayout()
+
+        # 添加弹性空间，使按钮居中
+        button_layout.addStretch(1)  # 左侧弹性空间
+
+        # 添加确定按钮
+        self.ok_button = QPushButton("确定")
+        self.ok_button.setStyleSheet(
+            """
+            QPushButton {
+                background-color: #AAAAAA;  /* 背景色：灰色 */
+                color: black;              /* 字体颜色：白色 */
+                font-size: 14px;           /* 字体大小 */
+                padding: 6px 12px;         /* 内边距，控制按钮大小 */
+                border: none;              /* 无边框 */
+                border-radius: 4px;        /* 圆角 */
+            }
+            QPushButton:hover {
+                background-color: #45a049; /* 悬停时的背景色 */
+            }
+            QPushButton:pressed {
+                background-color: #3e8e41; /* 按下时的背景色 */
+            }
+            """
+        )
+        self.ok_button.clicked.connect(self.accept)  # 点击按钮关闭对话框
+        button_layout.addWidget(self.ok_button)
+
+        button_layout.addStretch(1)  # 右侧弹性空间
+
+        # 将按钮布局添加到主布局
+        layout.addLayout(button_layout)
+
+        # 设置主布局
+        self.setLayout(layout)

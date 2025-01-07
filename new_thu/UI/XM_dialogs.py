@@ -289,6 +289,10 @@ class ProjectFilterDialog(QDialog):
                     if osp.exists(path2):
                         data2 = self.read_json_file(path2)
                     data_with_name.update(data2)
+                    if data1["项目类型"] == "粉丝同送":
+                        powder_material = data2.get("粉末材料", "")
+                        print(powder_material)
+                        data_with_name["沉积材料"] = powder_material
                     # 选择性保存到 data 中
                     data = {
                         "项目名称": data_with_name.get("项目名称"),
@@ -1095,6 +1099,7 @@ class XMProcessDialog2(QDialog):
         file_path = osp.join(self.item.data(0, Qt.UserRole), "材料及工艺.json")
         data = {
             "工艺名称": self.name.text(),
+            "粉末材料": self.material_edit.currentText(),
             "粉末粒径(μm)": self.fmd_edit.text(),
             "送粉转速(r/min)": self.ss_rate_edit.value(),
             "粉末质量添加(g/min)": self.addition_rate_edit.value(),
