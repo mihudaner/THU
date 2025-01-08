@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main.ui'
+## Form generated from reading UI file 'mainUutnlV.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1509, 1047)
+        MainWindow.resize(1507, 1040)
         MainWindow.setMinimumSize(QSize(940, 560))
         MainWindow.setStyleSheet(u"")
         self.styleSheet = QWidget(MainWindow)
@@ -771,10 +771,14 @@ class Ui_MainWindow(object):
         self.toggleBox.setMaximumSize(QSize(16777215, 45))
         self.toggleBox.setFrameShape(QFrame.NoFrame)
         self.toggleBox.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_4 = QVBoxLayout(self.toggleBox)
-        self.verticalLayout_4.setSpacing(0)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_32 = QHBoxLayout(self.toggleBox)
+        self.horizontalLayout_32.setSpacing(0)
+        self.horizontalLayout_32.setObjectName(u"horizontalLayout_32")
+        self.horizontalLayout_32.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer_7 = QSpacerItem(10, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_32.addItem(self.horizontalSpacer_7)
+
         self.toggleButton = QPushButton(self.toggleBox)
         self.toggleButton.setObjectName(u"toggleButton")
         sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
@@ -788,7 +792,7 @@ class Ui_MainWindow(object):
         self.toggleButton.setLayoutDirection(Qt.LeftToRight)
         self.toggleButton.setStyleSheet(u"background-image: url(:/myicons/images/Myicons/para.png);")
 
-        self.verticalLayout_4.addWidget(self.toggleButton)
+        self.horizontalLayout_32.addWidget(self.toggleButton)
 
 
         self.verticalMenuLayout.addWidget(self.toggleBox)
@@ -1160,7 +1164,7 @@ class Ui_MainWindow(object):
         self.label_hikimg = QLabel(self.groupBox_11)
         self.label_hikimg.setObjectName(u"label_hikimg")
         self.label_hikimg.setMinimumSize(QSize(1000, 800))
-        self.label_hikimg.setMaximumSize(QSize(1000, 1000))
+        self.label_hikimg.setMaximumSize(QSize(1000, 800))
         self.label_hikimg.setStyleSheet(u"")
 
         self.gridLayout_5.addWidget(self.label_hikimg, 0, 0, 1, 1)
@@ -2329,7 +2333,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         self.tabWidget.setCurrentIndex(1)
 
 
@@ -2340,7 +2344,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.titleLeftApp.setText(QCoreApplication.translate("MainWindow", u"PyDracula", None))
         self.titleLeftDescription.setText(QCoreApplication.translate("MainWindow", u"Modern GUI / Flat Style", None))
-        self.toggleButton.setText(QCoreApplication.translate("MainWindow", u"\u9690\u85cf\u5de6\u83dc\u5355", None))
+        self.toggleButton.setText(QCoreApplication.translate("MainWindow", u"  \u9690\u85cf\u5de6\u83dc\u5355", None))
         self.btn_home.setText(QCoreApplication.translate("MainWindow", u"\u4e3b\u754c\u9762", None))
         self.btn_widgets.setText(QCoreApplication.translate("MainWindow", u"\u56fe\u50cf\u663e\u793a", None))
         self.btn_new.setText(QCoreApplication.translate("MainWindow", u"\u70b9\u4e91\u6570\u636e", None))

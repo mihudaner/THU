@@ -42,63 +42,79 @@ from .Signal import g_signals
 DO = 0
 ai = [0, 500, 10000, 2000, 5000, 8888, 7777, 2222]
 
+def show_warning(title, message):
+    # 创建并显示警告框
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Warning)  # 设置警告图标
+    msg.setText(message)  # 设置消息内容
+    msg.setWindowTitle(title)  # 设置窗口标题
+    msg.exec_()  # 显示消息框并等待用户交互
+
 
 class DIDOINThread(threading.Thread):
     def __init__(self, DIDO_updatetime,now_select_csv_save_apppath):
         threading.Thread.__init__(self)
         self.threadStop = False
         self.DIDO_updatetime = DIDO_updatetime
-
-        now = datetime.datetime.now()
-        timestamp = now.strftime("%Y%m%d_%H%M%S")
-        header = ['time_stamp', 'DIO1', 'DIO2', 'DIO3', 'DIO4', 'DIO5', 'DIO6', 'DIO7', 'DIO8']
-        filename = f'{now_select_csv_save_apppath}/{timestamp}_DI.csv'
-        # filename = f'{set_time}.csv'.replace(":", "-")
-        self.f = open(filename, 'a', newline='')
-        self.writer = csv.writer(self.f)
-        # writer.writerow(new_float_data + new_int_data)
-        self.writer.writerow(header)
+        self.now_select_csv_save_apppath = now_select_csv_save_apppath
+        self.record_state = 0
 
     def do_run(self):
         global DIOWindow_widgts
         while not self.threadStop:
+            if self.record_state == 1:
+                now = datetime.datetime.now()
+                timestamp = now.strftime("%Y%m%d_%H%M%S")
+                header = ['time_stamp', 'DIO1', 'DIO2', 'DIO3', 'DIO4', 'DIO5', 'DIO6', 'DIO7', 'DIO8']
+                filename = f'{self.now_select_csv_save_apppath}/{timestamp}_DI.csv'
+                # filename = f'{set_time}.csv'.replace(":", "-")
+                self.f = open(filename, 'a', newline='')
+                self.writer = csv.writer(self.f)
+                # writer.writerow(new_float_data + new_int_data)
+                self.writer.writerow(header)
+                self.record_state = 2
+
             time.sleep(self.DIDO_updatetime * 0.001)
             DI8s = DIOWindow_widgts.read_DI_state()
-            now = datetime.datetime.now()
-            timestamp = now.strftime("%Y%m%d_%H%M%S")
-            self.writer.writerow(
-                [timestamp,DI8s[0] , DI8s[1] , DI8s[2] , DI8s[3] ,
-                 DI8s[4] , DI8s[5] , DI8s[6] , DI8s[7] ])
-        self.f.close()
+            if self.record_state == 2:
+                now = datetime.datetime.now()
+                timestamp = now.strftime("%Y%m%d_%H%M%S")
+                self.writer.writerow(
+                    [timestamp, DI8s[0], DI8s[1], DI8s[2], DI8s[3],
+                     DI8s[4], DI8s[5], DI8s[6], DI8s[7]])
+
+            if self.record_state == 3:
+                self.f.close()
+                self.record_state = 4
 
 class AIINThread(threading.Thread):
     def __init__(self, AI_updatetime,now_select_csv_save_apppath):
         threading.Thread.__init__(self)
         self.threadStop = False
         self.AI_updatetime = AI_updatetime
-
-        now = datetime.datetime.now()
-        timestamp = now.strftime("%Y%m%d_%H%M%S")
-        header = ['time_stamp', 'AD1', 'AD2', 'AD3', 'AD4', 'AD5', 'AD6', 'AD7', 'AD8', 'AD9', 'AD10', 'AD11', 'AD12', 'AD13', 'AD14', 'AD15', 'AD16']
-        filename = f'{now_select_csv_save_apppath}/{timestamp}_AI.csv'
-        # filename = f'{set_time}.csv'.replace(":", "-")
-        self.f = open(filename, 'a', newline='')
-        self.writer = csv.writer(self.f)
-        # writer.writerow(new_float_data + new_int_data)
-        self.writer.writerow(header)
-
+        self.now_select_csv_save_apppath = now_select_csv_save_apppath
+        self.record_state = 0
     def do_run(self):
         global DIOWindow_widgts
         global PlotBuffer
         while not self.threadStop:
+            if self.record_state == 1:
+                now = datetime.datetime.now()
+                timestamp = now.strftime("%Y%m%d_%H%M%S")
+                header = ['time_stamp', 'AD1', 'AD2', 'AD3', 'AD4', 'AD5', 'AD6', 'AD7', 'AD8', 'AD9', 'AD10', 'AD11', 'AD12', 'AD13', 'AD14', 'AD15', 'AD16']
+                filename = f'{self.now_select_csv_save_apppath}/{timestamp}_AI.csv'
+                # filename = f'{set_time}.csv'.replace(":", "-")
+                self.f = open(filename, 'a', newline='')
+                self.writer = csv.writer(self.f)
+                # writer.writerow(new_float_data + new_int_data)
+                self.writer.writerow(header)
+                self.record_state = 2
+
             time.sleep(self.AI_updatetime * 0.001)
             # 索引从 0 开始
-
             waveview = getattr(AIOWindow_widgts.widgets, f"waveview_{1}")
             DIOWindow_widgts.read_AI_state()
-
             for i in range(8):
-
                 ckbox = getattr(AIOWindow_widgts.widgets, f"checkBox_{i + 1}")
                 if ckbox.isChecked():
                     Checked_AI[i] = 1
@@ -106,10 +122,12 @@ class AIINThread(threading.Thread):
                     Checked_AI[i] = 0
             waveview.update_data(PlotBuffer, Checked_AI)
             now = datetime.datetime.now()
-            timestamp = now.strftime("%Y%m%d_%H%M%S")
-
-            self.writer.writerow([timestamp,PlotBuffer[0][-1],  PlotBuffer[1][-1],  PlotBuffer[2][-1],  PlotBuffer[3][-1],  PlotBuffer[4][-1],  PlotBuffer[5][-1],  PlotBuffer[6][-1],  PlotBuffer[7][-1],])
-        self.f.close()
+            if self.record_state == 2:
+                timestamp = now.strftime("%Y%m%d_%H%M%S")
+                self.writer.writerow([timestamp,PlotBuffer[0][-1],  PlotBuffer[1][-1],  PlotBuffer[2][-1],  PlotBuffer[3][-1],  PlotBuffer[4][-1],  PlotBuffer[5][-1],  PlotBuffer[6][-1],  PlotBuffer[7][-1],])
+            if self.record_state == 3:
+                self.f.close()
+                self.record_state = 4
 
 
 class DIOWidget(QWidget):
@@ -283,11 +301,18 @@ class DIOWidget(QWidget):
                     if i is 0:
                         # 发出信号，传递一个字符串参数
                         g_signals.DI1_signal.emit("UP")
+                    if i is 1:
+                        # 发出信号，传递一个字符串参数
+                        g_signals.DI2_signal.emit("UP")
+
             elif not (rev >> i) & 1 and radio_btn.isChecked():
                 radio_btn.setChecked(False)
                 if i is 0:
                     # 发出信号，传递一个字符串参数
                     g_signals.DI1_signal.emit("Down")
+                if i is 1:
+                    # 发出信号，传递一个字符串参数
+                    g_signals.DI2_signal.emit("Down")
         return res
 
     def read_AI_state(self):
@@ -459,8 +484,9 @@ class AIOWidget_ShowOne(QWidget):
         self.widgets.Slider_woffset.valueChanged.connect(self.setpara)
 
     def setpara2(self):
-        self.cam.setpara(self.ui.spinBox_gain.value(), self.ui.spinBox_exposure.value())
-
+        ret = self.cam.setpara(self.ui.spinBox_gain.value(), self.ui.spinBox_exposure.value(),self.select_idx)
+        if not ret:
+            show_warning("设置失败", "设置失败，请检查设备是否连接。")
     def setpara(self):
         self.cam.H = self.ui.spinBox_ccdh.value()
         self.cam.W = self.ui.spinBox_ccdw.value()
@@ -469,11 +495,15 @@ class AIOWidget_ShowOne(QWidget):
         self.updateshow(self.cam.get_img())
 
     def capture(self, updateshow=True, timedelay=0):
-        self.cam.capture()
+        img = self.cam.capture(self.select_idx)
+        if not isinstance(img, np.ndarray):
+            show_warning("拍照失败", "拍照失败，请检查设备是否连接。")
+            return
         rgb_image = cv2.cvtColor(self.cam.get_img(), cv2.COLOR_BGR2RGB)
         if updateshow: self.updateshow(rgb_image)
         time.sleep(timedelay)
-        return rgb_image
+        return img
+
 
     def updateshow(self, rgb_image):
         # 将图像转换为 QImage
@@ -499,12 +529,19 @@ class AIOWidget_ShowOne(QWidget):
 
     def change_state(self):
         if self.ui.checkBox_openccd.isChecked():
-            self.cam.open(self.select_idx)
+            ret = self.cam.open(self.select_idx)
+            if not ret:
+                self.ui.checkBox_openccd.setChecked(False)
+                show_warning("打开失败", "打开失败，请检查设备是否连接。")
         else:
-            self.cam.close(self.select_idx)
+            ret = self.cam.close(self.select_idx)
+            if not ret:
+                self.ui.checkBox_openccd.setChecked(True)
+                show_warning("关闭失败", "关闭失败")
 
     def enum(self):
         deviceList = self.cam.enum()
+        self.ui.comboBox_ccd_device.clear()
         self.ui.comboBox_ccd_device.addItems(deviceList)
 
 

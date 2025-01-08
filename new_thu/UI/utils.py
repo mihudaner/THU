@@ -501,6 +501,16 @@ def show_context_menu(self, position):
         exeapppath.triggered.connect(lambda: run_exe(self.apppath[item.text(0)]))
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
 
+    elif item.data(0, Qt.UserRole + 1) == "沉积监控":
+        menu = QMenu()
+        setapppath = menu.addAction("设置路径")
+        exeapppath = menu.addAction("运行应用")
+        refresh_action = menu.addAction("刷新")
+        refresh_action.triggered.connect(lambda: item_refresh(self, item))
+        setapppath.triggered.connect(lambda: self.open_file_dialog(item.text(0)))
+        exeapppath.triggered.connect(lambda: run_exe(self.apppath[item.text(0)]))
+        menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
+
 def item_refresh(self, item):
     # 重新生成子项
     while item.childCount() > 0:

@@ -84,10 +84,10 @@ class UIFunctions(MainWindow):
             # GET WIDTH
             width = self.ui.leftMenuBg.width()
             maxExtend = Settings.MENU_WIDTH
-            standard = 60
+            standard = 70
 
             # SET MAX WIDTH
-            if width == 60:
+            if width == 70:
                 widthExtended = maxExtend
             else:
                 widthExtended = standard

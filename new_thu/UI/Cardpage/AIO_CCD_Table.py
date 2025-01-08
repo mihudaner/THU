@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'AIO_CCD_TableioGzPO.ui'
+## Form generated from reading UI file 'AIO_CCD_TableKataNk.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -12,13 +12,15 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
+from UI.CustomWidget.QLabelEditable import EditableLabel
+
 import UI.Cardpage.icon_rc
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(894, 640)
+        Form.resize(864, 647)
         Form.setContextMenuPolicy(Qt.PreventContextMenu)
         Form.setStyleSheet(u"#styleSheet{\n"
 "border: none;\n"
@@ -402,11 +404,25 @@ class Ui_Form(object):
 
         self.verticalLayout_3.addWidget(self.label_9)
 
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
         self.label_ccd_img = QLabel(self.groupBox_2)
         self.label_ccd_img.setObjectName(u"label_ccd_img")
         self.label_ccd_img.setStyleSheet(u"background-color: rgb(230, 230, 230);")
+        self.label_ccd_img.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_3.addWidget(self.label_ccd_img)
+        self.horizontalLayout_12.addWidget(self.label_ccd_img)
+
+        self.label_12 = QLabel(self.groupBox_2)
+        self.label_12.setObjectName(u"label_12")
+        self.label_12.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_12.addWidget(self.label_12)
+
+        self.horizontalLayout_12.setStretch(0, 3)
+        self.horizontalLayout_12.setStretch(1, 1)
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_12)
 
 
         self.verticalLayout.addWidget(self.groupBox_2)
@@ -414,84 +430,140 @@ class Ui_Form(object):
         self.verticalLayout.setStretch(1, 1)
         self.verticalLayout.setStretch(2, 2)
 
-        self.gridLayout_3.addWidget(self.groupBox_6, 0, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.groupBox_6, 1, 1, 1, 1)
 
-        self.gridLayout = QGridLayout()
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.checkBox_5 = QCheckBox(Form)
-        self.checkBox_5.setObjectName(u"checkBox_5")
-        self.checkBox_5.setStyleSheet(u"QCheckBox::indicator:checked {\n"
-"    background-color: rgb(75, 0, 130); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
-"}")
-        self.checkBox_5.setChecked(True)
-
-        self.gridLayout.addWidget(self.checkBox_5, 4, 0, 1, 1)
-
+        self.horizontalLayout_11 = QHBoxLayout()
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.checkBox_1 = QCheckBox(Form)
         self.checkBox_1.setObjectName(u"checkBox_1")
+        self.checkBox_1.setMaximumSize(QSize(20, 16777215))
+        self.checkBox_1.setLayoutDirection(Qt.RightToLeft)
         self.checkBox_1.setStyleSheet(u"QCheckBox::indicator:checked {\n"
 "    background-color: rgb(98, 114, 165); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
 "}")
         self.checkBox_1.setChecked(True)
 
-        self.gridLayout.addWidget(self.checkBox_1, 0, 0, 1, 1)
+        self.horizontalLayout_11.addWidget(self.checkBox_1)
 
-        self.checkBox_4 = QCheckBox(Form)
-        self.checkBox_4.setObjectName(u"checkBox_4")
-        self.checkBox_4.setStyleSheet(u"QCheckBox::indicator:checked {\n"
-"    background-color: rgb(255, 215, 0); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
-"}")
-        self.checkBox_4.setChecked(True)
+        self.AI1 = EditableLabel(Form)
+        self.AI1.setObjectName(u"AI1")
 
-        self.gridLayout.addWidget(self.checkBox_4, 3, 0, 1, 1)
+        self.horizontalLayout_11.addWidget(self.AI1)
 
         self.checkBox_2 = QCheckBox(Form)
         self.checkBox_2.setObjectName(u"checkBox_2")
+        self.checkBox_2.setMaximumSize(QSize(16777215, 20))
+        self.checkBox_2.setLayoutDirection(Qt.RightToLeft)
         self.checkBox_2.setStyleSheet(u"QCheckBox::indicator:checked {\n"
 "    background-color: rgb(50, 50, 50); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
 "}")
         self.checkBox_2.setChecked(True)
 
-        self.gridLayout.addWidget(self.checkBox_2, 1, 0, 1, 1)
+        self.horizontalLayout_11.addWidget(self.checkBox_2)
 
-        self.checkBox_7 = QCheckBox(Form)
-        self.checkBox_7.setObjectName(u"checkBox_7")
-        self.checkBox_7.setStyleSheet(u"QCheckBox::indicator:checked {\n"
-"    background-color: rgb(0, 191, 255); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
-"}")
-        self.checkBox_7.setChecked(True)
+        self.AI2 = EditableLabel(Form)
+        self.AI2.setObjectName(u"AI2")
 
-        self.gridLayout.addWidget(self.checkBox_7, 6, 0, 1, 1)
+        self.horizontalLayout_11.addWidget(self.AI2)
 
         self.checkBox_3 = QCheckBox(Form)
         self.checkBox_3.setObjectName(u"checkBox_3")
+        self.checkBox_3.setMaximumSize(QSize(16777215, 20))
+        self.checkBox_3.setLayoutDirection(Qt.RightToLeft)
         self.checkBox_3.setStyleSheet(u"QCheckBox::indicator:checked {\n"
 "    background-color: rgb(60, 179, 113); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
 "}")
         self.checkBox_3.setChecked(True)
 
-        self.gridLayout.addWidget(self.checkBox_3, 2, 0, 1, 1)
+        self.horizontalLayout_11.addWidget(self.checkBox_3)
+
+        self.AI3 = EditableLabel(Form)
+        self.AI3.setObjectName(u"AI3")
+
+        self.horizontalLayout_11.addWidget(self.AI3)
+
+        self.checkBox_4 = QCheckBox(Form)
+        self.checkBox_4.setObjectName(u"checkBox_4")
+        self.checkBox_4.setMaximumSize(QSize(16777215, 20))
+        self.checkBox_4.setLayoutDirection(Qt.RightToLeft)
+        self.checkBox_4.setStyleSheet(u"QCheckBox::indicator:checked {\n"
+"    background-color: rgb(255, 215, 0); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
+"}")
+        self.checkBox_4.setChecked(True)
+
+        self.horizontalLayout_11.addWidget(self.checkBox_4)
+
+        self.AI4 = EditableLabel(Form)
+        self.AI4.setObjectName(u"AI4")
+
+        self.horizontalLayout_11.addWidget(self.AI4)
+
+        self.checkBox_5 = QCheckBox(Form)
+        self.checkBox_5.setObjectName(u"checkBox_5")
+        self.checkBox_5.setMaximumSize(QSize(16777215, 20))
+        self.checkBox_5.setLayoutDirection(Qt.RightToLeft)
+        self.checkBox_5.setStyleSheet(u"QCheckBox::indicator:checked {\n"
+"    background-color: rgb(75, 0, 130); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
+"}")
+        self.checkBox_5.setChecked(True)
+
+        self.horizontalLayout_11.addWidget(self.checkBox_5)
+
+        self.AI5 = EditableLabel(Form)
+        self.AI5.setObjectName(u"AI5")
+
+        self.horizontalLayout_11.addWidget(self.AI5)
 
         self.checkBox_6 = QCheckBox(Form)
         self.checkBox_6.setObjectName(u"checkBox_6")
+        self.checkBox_6.setMaximumSize(QSize(16777215, 20))
+        self.checkBox_6.setLayoutDirection(Qt.RightToLeft)
         self.checkBox_6.setStyleSheet(u"QCheckBox::indicator:checked {\n"
 "    background-color: rgb(255, 105, 180); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
 "}")
         self.checkBox_6.setChecked(True)
 
-        self.gridLayout.addWidget(self.checkBox_6, 5, 0, 1, 1)
+        self.horizontalLayout_11.addWidget(self.checkBox_6)
+
+        self.AI6 = EditableLabel(Form)
+        self.AI6.setObjectName(u"AI6")
+
+        self.horizontalLayout_11.addWidget(self.AI6)
+
+        self.checkBox_7 = QCheckBox(Form)
+        self.checkBox_7.setObjectName(u"checkBox_7")
+        self.checkBox_7.setMaximumSize(QSize(16777215, 20))
+        self.checkBox_7.setLayoutDirection(Qt.RightToLeft)
+        self.checkBox_7.setStyleSheet(u"QCheckBox::indicator:checked {\n"
+"    background-color: rgb(0, 191, 255); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
+"}")
+        self.checkBox_7.setChecked(True)
+
+        self.horizontalLayout_11.addWidget(self.checkBox_7)
+
+        self.AI7 = EditableLabel(Form)
+        self.AI7.setObjectName(u"AI7")
+
+        self.horizontalLayout_11.addWidget(self.AI7)
 
         self.checkBox_8 = QCheckBox(Form)
         self.checkBox_8.setObjectName(u"checkBox_8")
+        self.checkBox_8.setMaximumSize(QSize(16777215, 20))
+        self.checkBox_8.setLayoutDirection(Qt.RightToLeft)
         self.checkBox_8.setStyleSheet(u"QCheckBox::indicator:checked {\n"
 "    background-color: rgb(255, 69, 0); /* \u9009\u4e2d\u72b6\u6001\u80cc\u666f\u8272 */\n"
 "}")
         self.checkBox_8.setChecked(True)
 
-        self.gridLayout.addWidget(self.checkBox_8, 7, 0, 1, 1)
+        self.horizontalLayout_11.addWidget(self.checkBox_8)
+
+        self.AI8 = EditableLabel(Form)
+        self.AI8.setObjectName(u"AI8")
+
+        self.horizontalLayout_11.addWidget(self.AI8)
 
 
-        self.gridLayout_3.addLayout(self.gridLayout, 0, 0, 1, 1)
+        self.gridLayout_3.addLayout(self.horizontalLayout_11, 0, 1, 1, 1)
 
 
         self.horizontalLayout.addLayout(self.gridLayout_3)
@@ -506,6 +578,13 @@ class Ui_Form(object):
 
         self.verticalLayout_2.addWidget(self.label_10)
 
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_15)
+
+        self.horizontalLayout_14 = QHBoxLayout()
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.radioButton = QRadioButton(self.groupBox)
         self.radioButton.setObjectName(u"radioButton")
         self.radioButton.setStyleSheet(u"QRadioButton::indicator {\n"
@@ -523,8 +602,33 @@ class Ui_Form(object):
 "	border: 3px solid #bd93f9;\n"
 "}\n"
 "")
+        self.radioButton.setAutoExclusive(False)
 
-        self.verticalLayout_2.addWidget(self.radioButton)
+        self.horizontalLayout_14.addWidget(self.radioButton)
+
+        self.radioButton_2 = QRadioButton(self.groupBox)
+        self.radioButton_2.setObjectName(u"radioButton_2")
+        self.radioButton_2.setStyleSheet(u"QRadioButton::indicator {\n"
+"    border: 3px solid #6272a4;\n"
+"	width: 15px;\n"
+"	height: 15px;\n"
+"	border-radius: 10px;\n"
+"    background: rgb(255, 70, 46);\n"
+"}\n"
+"QRadioButton::indicator:hover {\n"
+"    border: 3px solid rgb(119, 136, 187);\n"
+"}\n"
+"QRadioButton::indicator:checked {\n"
+"    background: 3px solid rgb(50, 255,70 );\n"
+"	border: 3px solid #bd93f9;\n"
+"}\n"
+"")
+        self.radioButton_2.setAutoExclusive(False)
+
+        self.horizontalLayout_14.addWidget(self.radioButton_2)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_14)
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
@@ -577,16 +681,18 @@ class Ui_Form(object):
 
         self.Slider_exposure = QSlider(self.groupBox)
         self.Slider_exposure.setObjectName(u"Slider_exposure")
-        self.Slider_exposure.setMaximum(10000)
+        self.Slider_exposure.setMinimum(34)
+        self.Slider_exposure.setMaximum(10000000)
         self.Slider_exposure.setOrientation(Qt.Horizontal)
 
         self.horizontalLayout_2.addWidget(self.Slider_exposure)
 
         self.spinBox_exposure = QSpinBox(self.groupBox)
         self.spinBox_exposure.setObjectName(u"spinBox_exposure")
-        self.spinBox_exposure.setMaximum(10000)
+        self.spinBox_exposure.setMinimum(34)
+        self.spinBox_exposure.setMaximum(10000000)
         self.spinBox_exposure.setSingleStep(1)
-        self.spinBox_exposure.setValue(0)
+        self.spinBox_exposure.setValue(34)
 
         self.horizontalLayout_2.addWidget(self.spinBox_exposure)
 
@@ -602,14 +708,14 @@ class Ui_Form(object):
 
         self.Slider1_gain = QSlider(self.groupBox)
         self.Slider1_gain.setObjectName(u"Slider1_gain")
-        self.Slider1_gain.setMaximum(10000)
+        self.Slider1_gain.setMaximum(360)
         self.Slider1_gain.setOrientation(Qt.Horizontal)
 
         self.horizontalLayout_3.addWidget(self.Slider1_gain)
 
         self.spinBox_gain = QSpinBox(self.groupBox)
         self.spinBox_gain.setObjectName(u"spinBox_gain")
-        self.spinBox_gain.setMaximum(10000)
+        self.spinBox_gain.setMaximum(360)
         self.spinBox_gain.setSingleStep(1)
         self.spinBox_gain.setValue(0)
 
@@ -768,6 +874,46 @@ class Ui_Form(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_7)
 
+        self.checkBox_openccd_2 = QCheckBox(self.groupBox)
+        self.checkBox_openccd_2.setObjectName(u"checkBox_openccd_2")
+        self.checkBox_openccd_2.setStyleSheet(u"\n"
+"\n"
+"        QCheckBox::indicator {\n"
+"            padding-top: 1px;\n"
+"            width: 40px;\n"
+"            height: 30px;\n"
+"            border: none;\n"
+"        }\n"
+"\n"
+"        QCheckBox::indicator:unchecked {\n"
+"            image: url(:/icon/check_on.png);\n"
+"        }\n"
+"\n"
+"        QCheckBox::indicator:checked {\n"
+"            image: url(:/icon/check_off.png);\n"
+"        }\n"
+"url(:/icon/check_off.png)")
+
+        self.verticalLayout_2.addWidget(self.checkBox_openccd_2)
+
+        self.horizontalLayout_13 = QHBoxLayout()
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.label_13 = QLabel(self.groupBox)
+        self.label_13.setObjectName(u"label_13")
+
+        self.horizontalLayout_13.addWidget(self.label_13)
+
+        self.spinBox_gain_2 = QSpinBox(self.groupBox)
+        self.spinBox_gain_2.setObjectName(u"spinBox_gain_2")
+        self.spinBox_gain_2.setMaximum(10000)
+        self.spinBox_gain_2.setSingleStep(1)
+        self.spinBox_gain_2.setValue(0)
+
+        self.horizontalLayout_13.addWidget(self.spinBox_gain_2)
+
+
+        self.verticalLayout_2.addLayout(self.horizontalLayout_13)
+
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
@@ -804,17 +950,27 @@ class Ui_Form(object):
         self.groupBox_2.setTitle(QCoreApplication.translate("Form", u"CCD\u56fe\u50cf:", None))
         self.label_9.setText("")
         self.label_ccd_img.setText("")
-        self.checkBox_5.setText(QCoreApplication.translate("Form", u"AI5", None))
-        self.checkBox_1.setText(QCoreApplication.translate("Form", u"AI1", None))
-        self.checkBox_4.setText(QCoreApplication.translate("Form", u"AI4", None))
-        self.checkBox_2.setText(QCoreApplication.translate("Form", u"AI2", None))
-        self.checkBox_7.setText(QCoreApplication.translate("Form", u"AI7", None))
-        self.checkBox_3.setText(QCoreApplication.translate("Form", u"AI3", None))
-        self.checkBox_6.setText(QCoreApplication.translate("Form", u"AI6", None))
-        self.checkBox_8.setText(QCoreApplication.translate("Form", u"AI8", None))
+        self.label_12.setText(QCoreApplication.translate("Form", u"<html><head/><body><p>\u6c89\u79ef\u72b6\u6001\u5b9e\u65f6\u76d1\u63a7</p><p>\u7ed3\u679c\u663e\u793a\u533a\u57df</p></body></html>", None))
+        self.checkBox_1.setText("")
+        self.AI1.setText(QCoreApplication.translate("Form", u"AI1", None))
+        self.checkBox_2.setText("")
+        self.AI2.setText(QCoreApplication.translate("Form", u"AI2", None))
+        self.checkBox_3.setText("")
+        self.AI3.setText(QCoreApplication.translate("Form", u"AI3", None))
+        self.checkBox_4.setText("")
+        self.AI4.setText(QCoreApplication.translate("Form", u"AI4", None))
+        self.checkBox_5.setText("")
+        self.AI5.setText(QCoreApplication.translate("Form", u"AI5", None))
+        self.checkBox_6.setText("")
+        self.AI6.setText(QCoreApplication.translate("Form", u"AI6", None))
+        self.checkBox_7.setText("")
+        self.AI7.setText(QCoreApplication.translate("Form", u"AI7", None))
+        self.checkBox_8.setText("")
+        self.AI8.setText(QCoreApplication.translate("Form", u"AI8", None))
         self.groupBox.setTitle(QCoreApplication.translate("Form", u"CCD\u53c2\u6570", None))
         self.label_10.setText("")
         self.radioButton.setText(QCoreApplication.translate("Form", u"DI1\u6307\u793a", None))
+        self.radioButton_2.setText(QCoreApplication.translate("Form", u"DI2\u6307\u793a", None))
         self.btn_enum.setText(QCoreApplication.translate("Form", u"\u68c0\u6d4b\u8bbe\u5907", None))
         self.checkBox_openccd.setText(QCoreApplication.translate("Form", u"\u6253\u5f00\u76f8\u673a", None))
         self.btn_ccd_capture.setText(QCoreApplication.translate("Form", u"\u62cd\u6444\u4e00\u5e27", None))
@@ -831,7 +987,9 @@ class Ui_Form(object):
         self.comboBox.setItemText(0, QCoreApplication.translate("Form", u"\u4e0d\u4fdd\u5b58", None))
         self.comboBox.setItemText(1, QCoreApplication.translate("Form", u"\u4fdd\u5b58\u4e3ajpg", None))
         self.comboBox.setItemText(2, QCoreApplication.translate("Form", u"\u4fdd\u5b58\u4e3amp4", None))
-        self.comboBox.setItemText(3, "")
+        self.comboBox.setItemText(3, QCoreApplication.translate("Form", u"jpg+mp4", None))
 
+        self.checkBox_openccd_2.setText(QCoreApplication.translate("Form", u"\u6c89\u79ef\u76d1\u63a7", None))
+        self.label_13.setText(QCoreApplication.translate("Form", u"\u76d1\u63a7\u9891\u7387", None))
     # retranslateUi
 

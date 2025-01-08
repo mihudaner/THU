@@ -908,7 +908,7 @@ background: transparent;
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_4">
+               <layout class="QHBoxLayout" name="horizontalLayout_32">
                 <property name="spacing">
                  <number>0</number>
                 </property>
@@ -924,6 +924,22 @@ background: transparent;
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
+                <item>
+                 <spacer name="horizontalSpacer_7">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>10</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
                 <item>
                  <widget class="QPushButton" name="toggleButton">
                   <property name="sizePolicy">
@@ -957,7 +973,7 @@ background: transparent;
                    <string notr="true">background-image: url(:/myicons/images/Myicons/para.png);</string>
                   </property>
                   <property name="text">
-                   <string>隐藏左菜单</string>
+                   <string>  隐藏左菜单</string>
                   </property>
                  </widget>
                 </item>
