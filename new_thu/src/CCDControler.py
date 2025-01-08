@@ -8,6 +8,7 @@
 import pypylon.pylon as py
 import numpy as np
 import cv2
+from PySide2.QtWidgets import QMessageBox
 from collections import namedtuple
 
 # this sample has been tested with a Basler acA1920-155uc
@@ -29,6 +30,7 @@ class CCD_camera:
         self.tlf = None
         self.cams = dict()
         self.IsOpen = dict()
+        self.Grabbing = dict()
 
     def enum(self):
 
@@ -60,10 +62,11 @@ class CCD_camera:
                 self.cam = None
 
     def open(self, idx):
+        if idx >= len(self.deviceList):
+            return False
         name = f"{self.deviceList[idx]}"
         if self.Debug:
             print(f"open {idx}")
-            pass
         elif self.cam is None:
                 div = self.deviceList[idx]
                 self.cam = py.InstantCamera(self.tlf.CreateDevice(div))
@@ -76,19 +79,19 @@ class CCD_camera:
                 self.cam.StartGrabbing()
 
         self.IsOpen[name] = True
+        self.Grabbing[name] = True
+        return True
 
     def close(self,idx):
         name = f"{self.deviceList[idx]}"
         if self.Debug:
             print(f"close {idx}")
-            pass
         elif self.cam is not None:
             self.cam.StopGrabbing()
             self.cam.Close()
-
             self.cams[name] = None
-
         self.IsOpen[name] = False
+        return True
 
     def set_hw(self,h,w):
         self.H = h
@@ -137,10 +140,14 @@ class CCD_camera:
 
         return result_img
 
-    def capture(self):
+    def capture(self,idx):
+        name = f"{self.deviceList[idx]}"
+        if self.IsOpen[name] is False:
+            print("设备未打开")
+            return None
         if self.Debug:
             self.img = cv2.imread("../src/centor_img.tiff")
-            return
+            return self.img
         with self.cam.RetrieveResult(5000) as result:
             if result.GrabSucceeded():
                 self.img = result.Array
@@ -149,9 +156,17 @@ class CCD_camera:
                 pass
         return self.img
 
-    def setpara(self,gain,extime):
+    def setpara(self,gain,extime,idx):
+        name = f"{self.deviceList[idx]}"
+        if self.IsOpen[name] is False:
+            print("设备未打开")
+            return False
         self.cam.GainRaw.SetValue(gain)
         self.cam.ExposureTimeRaw.SetValue(extime)
+        self.cam.StopGrabbing()
+        self.cam.StartGrabbing()
+        print("参数设置成功")
+        return True
 
 def first_test():
     tlf = py.TlFactory.GetInstance()

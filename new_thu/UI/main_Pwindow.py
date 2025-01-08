@@ -17,6 +17,7 @@ global flag
 flag = False
 
 
+
 class CCD_Window(MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -33,7 +34,7 @@ class TabWindow(MainWindow):
 
     def InitUI(self):
         print("PWindow Load")
-        self.resize(1900, 900)
+        self.resize(1900, 1100)
 
         self.ui = cast(Ui_MainWindow, self.ui)
         # 使用生成的Python文件作为类型提示
@@ -107,28 +108,44 @@ class TabWindow(MainWindow):
         self._is_resizing = False
         self._resizing_edge = None
 
-        self.recording = False
+        self.mp4_recording = False
+        self.cvs_recording = False
 
         self.now_select_ccd_save_apppath = "."
 
-        g_signals.DI1_signal.connect(self.CCD_capture)
+        g_signals.DI1_signal.connect(self.DI1_trigger)
+        g_signals.DI2_signal.connect(self.DI2_trigger)
 
-    def CCD_capture(self, state):
-        print(f"state: {state}")
-
+    def DI1_trigger(self, state):
+        print(f"D1 state: {state}")
         if state == "UP":
             self.ui.AIOControlWidget.widgets.radioButton.setChecked(True)
             combo_selection = self.ui.AIOControlWidget.widgets.comboBox.currentText()
 
             if combo_selection == "保存为jpg":
-                self.ui.AIOControlWidget.capture()
-                self.save_ccd_img()
+                # self.ui.AIOControlWidget.capture()
+                # self.save_ccd_img()
+                self.start_recording(save_img=True)
             elif combo_selection == "保存为mp4":
-                self.start_recording()
+                self.start_recording(save_mp4=True)
+            elif combo_selection == "jpg+mp4":
+                self.start_recording(save_mp4=True, save_img=True)
         else:  # state == "DOWN"
             self.ui.AIOControlWidget.widgets.radioButton.setChecked(False)
-            if self.recording:
-                self.recording = False
+            if self.mp4_recording:
+                self.mp4_recording = False
+
+    def DI2_trigger(self, state):
+        print(f"D2 state: {state}")
+        if state == "UP":
+            self.ui.DIOControlWidget.tar1.record_state = 1
+            self.ui.DIOControlWidget.tar2.record_state = 1
+            self.ui.AIOControlWidget.widgets.radioButton_2.setChecked(True)
+
+        else:  # state == "DOWN"
+            self.ui.DIOControlWidget.tar1.record_state = 3
+            self.ui.DIOControlWidget.tar2.record_state = 3
+            self.ui.AIOControlWidget.widgets.radioButton_2.setChecked(False)
 
     def InitConnect(self):
         self.ui.action_updateIO.triggered.connect(lambda: self.ui.tabWidget_2.setCurrentIndex(3))
@@ -175,23 +192,23 @@ class TabWindow(MainWindow):
 
         img_pil.save(path)
 
-    def start_recording(self):
-        if self.recording:
-            print("Already recording!")
+    def start_recording(self, save_mp4=False, save_img=False):
+        if self.mp4_recording:
+            print("Already mp4_recording!")
             return
-        self.recording = True
+        self.mp4_recording = True
         # 创建线程
-        record_thread = threading.Thread(target=self._record_loop)
+        record_thread = threading.Thread(target=self._record_loop, args=(save_mp4,save_img,))
         record_thread.start()
 
-    def _record_loop(self):
+    def _record_loop(self,save_mp4=False, save_img=False):
         first_frame = True
         self.fps = 30
         i = 0
-        while self.recording:
+        while self.mp4_recording:
             img = self.ui.AIOControlWidget.capture(updateshow=True, timedelay=1 / self.fps)
 
-            if img is not None:
+            if isinstance(img, np.ndarray):
                 now = datetime.datetime.now()
                 timestamp = now.strftime("%Y%m%d_%H%M%S")
 
@@ -201,8 +218,9 @@ class TabWindow(MainWindow):
 
                     self.video_save_path = os.path.join(self.now_select_ccd_save_apppath, f"video_{timestamp}.mp4")
                     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-                    self.video_writer = cv2.VideoWriter(self.video_save_path, fourcc, self.fps, self.frame_size)
-                    print(f"Recording started: {self.video_save_path}")
+                    if save_mp4:
+                        self.video_writer = cv2.VideoWriter(self.video_save_path, fourcc, self.fps, self.frame_size)
+                        print(f"mp4_recording started: {self.video_save_path}")
 
                 resized_img = cv2.resize(img, self.frame_size)
                 font = cv2.FONT_HERSHEY_SIMPLEX  # 字体
@@ -213,12 +231,19 @@ class TabWindow(MainWindow):
                 text_x = resized_img.shape[1] - text_size[0] - 10  # 右上角横坐标
                 text_y = 30  # 右上角纵坐标
                 cv2.putText(resized_img, timestamp + f"{i}", (text_x, text_y), font, font_scale, font_color, thickness)
-                self.video_writer.write(resized_img)
+                if save_mp4:
+                    self.video_writer.write(resized_img)
+                if save_img:
+                    path = os.path.join(self.now_select_ccd_save_apppath, f"{timestamp}_{i}.jpg")
+                    print(f"save to {path}")
+                    # 假设 img 是 OpenCV 的 numpy 数组
+                    img_pil = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+                    img_pil.save(path)
             i += 1
-
-        self.video_writer.release()
-        self.video_writer = None
-        print(f"Recording stopped. Video saved at: {self.video_save_path}")
+        if save_mp4:
+            self.video_writer.release()
+            self.video_writer = None
+            print(f"mp4_recording stopped. Video saved at: {self.video_save_path}")
 
     def display_image(self, cv_image, dis):
         # 确保图像为 BGR 格式（OpenCV 默认格式）

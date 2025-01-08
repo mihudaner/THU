@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>894</width>
-    <height>640</height>
+    <width>864</width>
+    <height>647</height>
    </rect>
   </property>
   <property name="contextMenuPolicy">
@@ -354,8 +354,8 @@ QPushButton:pressed {
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
    <item>
-    <layout class="QGridLayout" name="gridLayout_3" rowstretch="0" columnstretch="0,0">
-     <item row="0" column="1">
+    <layout class="QGridLayout" name="gridLayout_3" rowstretch="0,0" columnstretch="0,0">
+     <item row="1" column="1">
       <widget class="QGroupBox" name="groupBox_6">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -416,14 +416,31 @@ QPushButton:pressed {
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_ccd_img">
-             <property name="styleSheet">
-              <string notr="true">background-color: rgb(230, 230, 230);</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="3,1">
+             <item>
+              <widget class="QLabel" name="label_ccd_img">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(230, 230, 230);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_12">
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;沉积状态实时监控&lt;/p&gt;&lt;p&gt;结果显示区域&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -431,125 +448,253 @@ QPushButton:pressed {
        </layout>
       </widget>
      </item>
-     <item row="0" column="0">
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="4" column="0">
-        <widget class="QCheckBox" name="checkBox_5">
-         <property name="styleSheet">
-          <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(75, 0, 130); /* 选中状态背景色 */
-}</string>
-         </property>
-         <property name="text">
-          <string>AI5</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
         <widget class="QCheckBox" name="checkBox_1">
+         <property name="maximumSize">
+          <size>
+           <width>20</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
          <property name="styleSheet">
           <string notr="true">QCheckBox::indicator:checked {
     background-color: rgb(98, 114, 165); /* 选中状态背景色 */
 }</string>
          </property>
          <property name="text">
+          <string/>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="EditableLabel" name="AI1">
+         <property name="text">
           <string>AI1</string>
          </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="checkBox_4">
-         <property name="styleSheet">
-          <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(255, 215, 0); /* 选中状态背景色 */
-}</string>
-         </property>
-         <property name="text">
-          <string>AI4</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
+       <item>
         <widget class="QCheckBox" name="checkBox_2">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
          <property name="styleSheet">
           <string notr="true">QCheckBox::indicator:checked {
     background-color: rgb(50, 50, 50); /* 选中状态背景色 */
 }</string>
          </property>
          <property name="text">
+          <string/>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="EditableLabel" name="AI2">
+         <property name="text">
           <string>AI2</string>
          </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QCheckBox" name="checkBox_7">
-         <property name="styleSheet">
-          <string notr="true">QCheckBox::indicator:checked {
-    background-color: rgb(0, 191, 255); /* 选中状态背景色 */
-}</string>
-         </property>
-         <property name="text">
-          <string>AI7</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
+       <item>
         <widget class="QCheckBox" name="checkBox_3">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
          <property name="styleSheet">
           <string notr="true">QCheckBox::indicator:checked {
     background-color: rgb(60, 179, 113); /* 选中状态背景色 */
 }</string>
          </property>
          <property name="text">
-          <string>AI3</string>
+          <string/>
          </property>
          <property name="checked">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item>
+        <widget class="EditableLabel" name="AI3">
+         <property name="text">
+          <string>AI3</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_4">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator:checked {
+    background-color: rgb(255, 215, 0); /* 选中状态背景色 */
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="EditableLabel" name="AI4">
+         <property name="text">
+          <string>AI4</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_5">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator:checked {
+    background-color: rgb(75, 0, 130); /* 选中状态背景色 */
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="EditableLabel" name="AI5">
+         <property name="text">
+          <string>AI5</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="checkBox_6">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
          <property name="styleSheet">
           <string notr="true">QCheckBox::indicator:checked {
     background-color: rgb(255, 105, 180); /* 选中状态背景色 */
 }</string>
          </property>
          <property name="text">
-          <string>AI6</string>
+          <string/>
          </property>
          <property name="checked">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item>
+        <widget class="EditableLabel" name="AI6">
+         <property name="text">
+          <string>AI6</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_7">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator:checked {
+    background-color: rgb(0, 191, 255); /* 选中状态背景色 */
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="EditableLabel" name="AI7">
+         <property name="text">
+          <string>AI7</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="checkBox_8">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
          <property name="styleSheet">
           <string notr="true">QCheckBox::indicator:checked {
     background-color: rgb(255, 69, 0); /* 选中状态背景色 */
 }</string>
          </property>
          <property name="text">
-          <string>AI8</string>
+          <string/>
          </property>
          <property name="checked">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="EditableLabel" name="AI8">
+         <property name="text">
+          <string>AI8</string>
          </property>
         </widget>
        </item>
@@ -574,9 +719,14 @@ QPushButton:pressed {
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton">
-        <property name="styleSheet">
-         <string notr="true">QRadioButton::indicator {
+       <layout class="QHBoxLayout" name="horizontalLayout_15"/>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_14">
+        <item>
+         <widget class="QRadioButton" name="radioButton">
+          <property name="styleSheet">
+           <string notr="true">QRadioButton::indicator {
     border: 3px solid #6272a4;
 	width: 15px;
 	height: 15px;
@@ -591,11 +741,43 @@ QRadioButton::indicator:checked {
 	border: 3px solid #bd93f9;
 }
 </string>
-        </property>
-        <property name="text">
-         <string>DI1指示</string>
-        </property>
-       </widget>
+          </property>
+          <property name="text">
+           <string>DI1指示</string>
+          </property>
+          <property name="autoExclusive">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_2">
+          <property name="styleSheet">
+           <string notr="true">QRadioButton::indicator {
+    border: 3px solid #6272a4;
+	width: 15px;
+	height: 15px;
+	border-radius: 10px;
+    background: rgb(255, 70, 46);
+}
+QRadioButton::indicator:hover {
+    border: 3px solid rgb(119, 136, 187);
+}
+QRadioButton::indicator:checked {
+    background: 3px solid rgb(50, 255,70 );
+	border: 3px solid #bd93f9;
+}
+</string>
+          </property>
+          <property name="text">
+           <string>DI2指示</string>
+          </property>
+          <property name="autoExclusive">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -655,8 +837,11 @@ url(:/icon/check_off.png)</string>
         </item>
         <item>
          <widget class="QSlider" name="Slider_exposure">
+          <property name="minimum">
+           <number>34</number>
+          </property>
           <property name="maximum">
-           <number>10000</number>
+           <number>10000000</number>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -665,14 +850,17 @@ url(:/icon/check_off.png)</string>
         </item>
         <item>
          <widget class="QSpinBox" name="spinBox_exposure">
+          <property name="minimum">
+           <number>34</number>
+          </property>
           <property name="maximum">
-           <number>10000</number>
+           <number>10000000</number>
           </property>
           <property name="singleStep">
            <number>1</number>
           </property>
           <property name="value">
-           <number>0</number>
+           <number>34</number>
           </property>
          </widget>
         </item>
@@ -690,7 +878,7 @@ url(:/icon/check_off.png)</string>
         <item>
          <widget class="QSlider" name="Slider1_gain">
           <property name="maximum">
-           <number>10000</number>
+           <number>360</number>
           </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -700,7 +888,7 @@ url(:/icon/check_off.png)</string>
         <item>
          <widget class="QSpinBox" name="spinBox_gain">
           <property name="maximum">
-           <number>10000</number>
+           <number>360</number>
           </property>
           <property name="singleStep">
            <number>1</number>
@@ -912,9 +1100,59 @@ url(:/icon/check_off.png)</string>
           </item>
           <item>
            <property name="text">
-            <string/>
+            <string>jpg+mp4</string>
            </property>
           </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBox_openccd_2">
+        <property name="styleSheet">
+         <string notr="true">
+
+        QCheckBox::indicator {
+            padding-top: 1px;
+            width: 40px;
+            height: 30px;
+            border: none;
+        }
+
+        QCheckBox::indicator:unchecked {
+            image: url(:/icon/check_on.png);
+        }
+
+        QCheckBox::indicator:checked {
+            image: url(:/icon/check_off.png);
+        }
+url(:/icon/check_off.png)</string>
+        </property>
+        <property name="text">
+         <string>沉积监控</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_13">
+        <item>
+         <widget class="QLabel" name="label_13">
+          <property name="text">
+           <string>监控频率</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBox_gain_2">
+          <property name="maximum">
+           <number>10000</number>
+          </property>
+          <property name="singleStep">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>0</number>
+          </property>
          </widget>
         </item>
        </layout>
@@ -937,6 +1175,13 @@ url(:/icon/check_off.png)</string>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>EditableLabel</class>
+   <extends>QLabel</extends>
+   <header>..CustomWidget.QLabelEditable</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="icon/icon.qrc"/>
  </resources>

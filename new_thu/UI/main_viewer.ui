@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1205</width>
-    <height>919</height>
+    <width>1203</width>
+    <height>912</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -664,7 +664,6 @@ subcontrol-position: bottom center;
    <addaction name="cx_open"/>
    <addaction name="mx_open"/>
    <addaction name="xm_open"/>
-   <addaction name="action_fresh"/>
    <addaction name="action_updateIO"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
@@ -870,11 +869,6 @@ subcontrol-position: bottom center;
     <string>路径选择</string>
    </property>
   </action>
-  <action name="action_fresh">
-   <property name="text">
-    <string>更新</string>
-   </property>
-  </action>
   <action name="action_save">
    <property name="text">
     <string>保存</string>
@@ -892,7 +886,10 @@ subcontrol-position: bottom center;
   </action>
   <action name="action_updateIO">
    <property name="text">
-    <string>工艺更新</string>
+    <string>工艺</string>
+   </property>
+   <property name="toolTip">
+    <string>工艺</string>
    </property>
   </action>
  </widget>
