@@ -203,10 +203,10 @@ class TabWindow(MainWindow):
 
     def _record_loop(self,save_mp4=False, save_img=False):
         first_frame = True
-        self.fps = 30
+        self.fps = self.ui.AIOControlWidget.Slider_fps.value()
         i = 0
         while self.mp4_recording:
-            img = self.ui.AIOControlWidget.capture(updateshow=True, timedelay=1 / self.fps)
+            img = self.ui.AIOControlWidget.capture(updateshow=True, timedelay=1 / self.fps - self.ui.AIOControlWidget.Slider_exposure.value() / 1000)
 
             if isinstance(img, np.ndarray):
                 now = datetime.datetime.now()

@@ -42,6 +42,7 @@ from .Signal import g_signals
 DO = 0
 ai = [0, 500, 10000, 2000, 5000, 8888, 7777, 2222]
 
+
 def show_warning(title, message):
     # 创建并显示警告框
     msg = QMessageBox()
@@ -52,7 +53,7 @@ def show_warning(title, message):
 
 
 class DIDOINThread(threading.Thread):
-    def __init__(self, DIDO_updatetime,now_select_csv_save_apppath):
+    def __init__(self, DIDO_updatetime, now_select_csv_save_apppath):
         threading.Thread.__init__(self)
         self.threadStop = False
         self.DIDO_updatetime = DIDO_updatetime
@@ -87,13 +88,15 @@ class DIDOINThread(threading.Thread):
                 self.f.close()
                 self.record_state = 4
 
+
 class AIINThread(threading.Thread):
-    def __init__(self, AI_updatetime,now_select_csv_save_apppath):
+    def __init__(self, AI_updatetime, now_select_csv_save_apppath):
         threading.Thread.__init__(self)
         self.threadStop = False
         self.AI_updatetime = AI_updatetime
         self.now_select_csv_save_apppath = now_select_csv_save_apppath
         self.record_state = 0
+
     def do_run(self):
         global DIOWindow_widgts
         global PlotBuffer
@@ -124,7 +127,8 @@ class AIINThread(threading.Thread):
             now = datetime.datetime.now()
             if self.record_state == 2:
                 timestamp = now.strftime("%Y%m%d_%H%M%S")
-                self.writer.writerow([timestamp,PlotBuffer[0][-1],  PlotBuffer[1][-1],  PlotBuffer[2][-1],  PlotBuffer[3][-1],  PlotBuffer[4][-1],  PlotBuffer[5][-1],  PlotBuffer[6][-1],  PlotBuffer[7][-1],])
+                self.writer.writerow(
+                    [timestamp, PlotBuffer[0][-1], PlotBuffer[1][-1], PlotBuffer[2][-1], PlotBuffer[3][-1], PlotBuffer[4][-1], PlotBuffer[5][-1], PlotBuffer[6][-1], PlotBuffer[7][-1], ])
             if self.record_state == 3:
                 self.f.close()
                 self.record_state = 4
@@ -235,16 +239,15 @@ class DIOWidget(QWidget):
                     dll.s.connect((self.IP, self.port))
                     self.connected = True
 
-            self.tar1 = DIDOINThread(self.widgets.spinBox_DIDO_updatetime.value(),self.now_select_csv_save_apppath)
+            self.tar1 = DIDOINThread(self.widgets.spinBox_DIDO_updatetime.value(), self.now_select_csv_save_apppath)
             t1 = threading.Thread(target=self.tar1.do_run, name='in_thread_DIDO')
             t1.start()
-            self.tar2 = AIINThread(self.widgets.spinBox_AI_updatetime.value(),self.now_select_csv_save_apppath)
+            self.tar2 = AIINThread(self.widgets.spinBox_AI_updatetime.value(), self.now_select_csv_save_apppath)
             t2 = threading.Thread(target=self.tar2.do_run, name='in_thread_AI')
             t2.start()
         else:
             self.tar1.threadStop = True
             self.tar2.threadStop = True
-
 
     def change_DO(self, channel):
         global DO
@@ -295,7 +298,7 @@ class DIOWidget(QWidget):
         for i in range(8):  # 因为 "fe" 表示16个电平，所以有8位
             radio_btn = getattr(self.widgets, f"DI{i}")
             if (rev >> i) & 1:
-                res[i]=1
+                res[i] = 1
                 if not radio_btn.isChecked():
                     radio_btn.setChecked(True)
                     if i is 0:
@@ -484,9 +487,12 @@ class AIOWidget_ShowOne(QWidget):
         self.widgets.Slider_woffset.valueChanged.connect(self.setpara)
 
     def setpara2(self):
-        ret = self.cam.setpara(self.ui.spinBox_gain.value(), self.ui.spinBox_exposure.value(),self.select_idx)
+        ret = self.cam.setpara(self.ui.spinBox_gain.value(), self.ui.spinBox_exposure.value(), self.select_idx)
         if not ret:
             show_warning("设置失败", "设置失败，请检查设备是否连接。")
+            return
+        self.capture()
+
     def setpara(self):
         self.cam.H = self.ui.spinBox_ccdh.value()
         self.cam.W = self.ui.spinBox_ccdw.value()
@@ -501,9 +507,9 @@ class AIOWidget_ShowOne(QWidget):
             return
         rgb_image = cv2.cvtColor(self.cam.get_img(), cv2.COLOR_BGR2RGB)
         if updateshow: self.updateshow(rgb_image)
-        time.sleep(timedelay)
+        if timedelay > 0:
+            time.sleep(timedelay)
         return img
-
 
     def updateshow(self, rgb_image):
         # 将图像转换为 QImage
