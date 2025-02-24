@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'AIO_CCD_TableKataNk.ui'
+## Form generated from reading UI file 'AIO_CCD_TableQblPvi.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -644,18 +644,21 @@ class Ui_Form(object):
 "        QCheckBox::indicator {\n"
 "            padding-top: 1px;\n"
 "            width: 40px;\n"
-"            height: 30px;\n"
+"            height: 26px;\n"
 "            border: none;\n"
+"			border-radius: 10px;\n"
 "        }\n"
 "\n"
 "        QCheckBox::indicator:unchecked {\n"
 "            image: url(:/icon/check_on.png);\n"
+"	        background-color: rgb(255, 0, 0);\n"
 "        }\n"
 "\n"
 "        QCheckBox::indicator:checked {\n"
 "            image: url(:/icon/check_off.png);\n"
+"			background-color: rgb(0, 255, 0);\n"
 "        }\n"
-"url(:/icon/check_off.png)")
+"")
 
         self.horizontalLayout_5.addWidget(self.checkBox_openccd)
 

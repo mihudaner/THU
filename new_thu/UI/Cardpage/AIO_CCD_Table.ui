@@ -796,18 +796,21 @@ QRadioButton::indicator:checked {
         QCheckBox::indicator {
             padding-top: 1px;
             width: 40px;
-            height: 30px;
+            height: 26px;
             border: none;
+			border-radius: 10px;
         }
 
         QCheckBox::indicator:unchecked {
             image: url(:/icon/check_on.png);
+	        background-color: rgb(255, 0, 0);
         }
 
         QCheckBox::indicator:checked {
             image: url(:/icon/check_off.png);
+			background-color: rgb(0, 255, 0);
         }
-url(:/icon/check_off.png)</string>
+</string>
           </property>
           <property name="text">
            <string>打开相机</string>

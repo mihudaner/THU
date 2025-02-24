@@ -75,10 +75,10 @@ def callPower(order):
     Modbus_16 = ""
     for x in range(0, len(order), 2):
         Modbus_16 += chr(int(order[x:x + 2], 16))
-    print(f"send:{Modbus_16}")
+    # print(f"send:{Modbus_16}")
     s.send(Modbus_16.encode('ISO-8859-1'))
     reply_16 = s.recv(50)
-    print("reply_16", reply_16)
+    # print("reply_16", reply_16)
     reply_temp = ""
     for i in reply_16.decode('ISO-8859-1'):
         reply_temp += "0x%02x" % ord(i)
@@ -98,14 +98,14 @@ def SetOnRelay(cannel):
     global lock
     lock.acquire()
     order = orders["SetOnRelay"][str(cannel)]
-    print("发：", order)
+    # print("发：", order)
     for i in range(25):
         mb = callPower(order)
-        print("收：", mb)
+        # print("收：", mb)
         if mb != order:
             continue
         break
-    print("第" + str(cannel + 1) + "路打开指令已发送")
+    # print("第" + str(cannel + 1) + "路打开指令已发送")
     lock.release()
 
 
@@ -113,16 +113,16 @@ def SetOffRelay(cannel):
     global lock
     lock.acquire()
     order = orders["SetOffRelay"][str(cannel)]
-    print("发：", order)
+    # print("发：", order)
     for t in range(25):
         mb = callPower(order)
-        print("收：", mb)
+        # print("收：", mb)
         if mb != order:
-            print("SetOffRelay error")
+            # print("SetOffRelay error")
             time.sleep(0.3)
             continue
         break
-    print("第" + str(cannel + 1) + "路关闭指令已发送")
+    # print("第" + str(cannel + 1) + "路关闭指令已发送")
     lock.release()
 
 
@@ -130,16 +130,16 @@ def ReadRelay():
     global lock
     lock.acquire()
     order = orders["ReadRelay"]
-    print("发：", order)
+    # print("发：", order)
     for t in range(25):
         mb = callPower(order)
-        print("收：", mb)
+        # print("收：", mb)
         if mb[0:4] != "fe01":
-            print("ReadRelay error")
+            # print("ReadRelay error")
             time.sleep(0.3)
             continue
         break
-    print(f"查询继电器状态{mb}")
+    # print(f"查询继电器状态{mb}")
     lock.release()
     return mb[6:8]
 
@@ -148,16 +148,16 @@ def ReadDI():
     global lock
     lock.acquire()
     order = orders["ReadDI"]
-    print("发：", order)
+    # print("发：", order)
     for t in range(25):
         mb = callPower(order)
-        print("收：", mb)
+        # print("收：", mb)
         if mb[0:4] != "fe02":
-            print("ReadDI error")
+            # print("ReadDI error")
             time.sleep(0.3)
             continue
         break
-    print(f"查询光耦DI状态{mb}")
+    # print(f"查询光耦DI状态{mb}")
     lock.release()
     return mb[6:8]
 
@@ -166,16 +166,16 @@ def ReadAI():
     global lock
     lock.acquire()
     order = orders["ReadAI"]
-    print("发：", order)
+    # print("发：", order)
     for t in range(25):
         mb = callPower(order)
-        print("收：", mb)
+        # print("收：", mb)
         if mb[0:4] != "fe04":
-            print("ReadAI error")
+            # print("ReadAI error")
             time.sleep(0.3)
             continue
         break
-    print(f"查询AI状态{mb}")
+    # print(f"查询AI状态{mb}")
     lock.release()
     return mb
 
@@ -222,23 +222,23 @@ def SetAO(values):
         value = values[i]
         order += int2string16(value)
     order = add_crc16(order)
-    print("发：", order)
+    # print("发：", order)
     for t in range(25):
         mb = callPower(order)
-        print("收：", mb)
+        # print("收：", mb)
         if mb[0:4] != "fe10":
-            print("SetAO error")
+            # print("SetAO error")
             time.sleep(0.3)
             continue
         break
-    print(f"设置AO值{values}")
+    # print(f"设置AO值{values}")
     lock.release()
     return mb
 
 
 if __name__ == "__main__":
-    print(str(hex(40))[2:].zfill(4))
+    # print(str(hex(40))[2:].zfill(4))
     s = "fe10019000081000000000000000000000000000000000"
     s += add_crc16(s)
     # 计算CRC-16校验码
-    print(s)
+    # print(s)

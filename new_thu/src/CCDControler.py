@@ -18,9 +18,10 @@ from collections import namedtuple
 # the acquired rows are concatenated as a virtual frame and this frame is displayed
 
 
+
 class CCD_camera:
-    Debug = True
-    def __init__(self):
+    def __init__(self,DEBUG):
+        self.Debug = DEBUG
         self.H = 800
         self.W = 1200
         self.Hoffset = 0
@@ -35,7 +36,7 @@ class CCD_camera:
     def enum(self):
 
         if self.Debug:
-            self.deviceList = ["device1","device2"]
+            self.deviceList = ["pypylon.pylon.DeviceInfo; proxy of <swig object of type 'Pylon::cDeviceInfo *' at 0x0000019CFE7A8300> >,","pypylon.pylon.DeviceInfo; proxy of <swig object of type 'Pylon::cDeviceInfo *' at 0x0000123FE124124300> >,"]
         else:
             self.tlf = py.TlFactory.GetInstance()
             print(self.tlf.EnumerateDevices())

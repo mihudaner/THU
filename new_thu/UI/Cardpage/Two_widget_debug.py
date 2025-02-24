@@ -4,6 +4,7 @@
 # @Author  : mihudan~
 # @File    : DAM8888_dll
 # @Description :
+import re
 import time
 import csv
 import datetime
@@ -30,7 +31,6 @@ import cv2
 import numpy as np
 from src.CCDControler import CCD_camera
 
-DEBUG = True
 global PlotBuffer
 PlotBuffer = np.zeros((8, 500))
 Checked_AI = np.zeros(8)
@@ -43,6 +43,28 @@ DO = 0
 ai = [0, 500, 10000, 2000, 5000, 8888, 7777, 2222]
 
 
+def extract_last_hex_string(deviceList):
+    """
+    提取字符串中最后一个以 '0x' 开头的十六进制字符串及其后面的部分。
+
+    Args:
+        input_string (str): 输入的字符串。
+
+    Returns:
+        str: 提取出的十六进制字符串及其后面的部分。如果未找到，返回 None。
+    """
+    res_list = []
+    for input_string in deviceList:
+        # 使用正则表达式匹配以 '0x' 开头的十六进制字符串
+        # 由于要获取最后一个，使用负向查找
+        hex_pattern = r'0x[0-9a-fA-F]+.*$'
+        match = re.search(hex_pattern, input_string)
+        if match:
+            res_list.append(match.group())
+        else:
+            continue
+
+    return res_list
 def show_warning(title, message):
     # 创建并显示警告框
     msg = QMessageBox()
@@ -136,8 +158,9 @@ class AIINThread(threading.Thread):
 
 class DIOWidget(QWidget):
 
-    def __init__(self):
+    def __init__(self,DEBUG):
         super().__init__()
+        self.DEBUG = DEBUG
         # 从文件中加载UI定义
         # 从 UI 定义中动态 创建一个相应的窗口对象
         # 注意：里面的控件对象也成为窗口对象的属性了
@@ -232,7 +255,7 @@ class DIOWidget(QWidget):
     def open_port(self):
         if self.widgets.checkBox_openport.isChecked():
 
-            if not DEBUG:
+            if not self.DEBUG:
                 self.IP = self.widgets.lineEdit_IP.text()
                 self.port = self.widgets.spinBox_port.value()
                 if not self.connected:
@@ -253,13 +276,13 @@ class DIOWidget(QWidget):
         global DO
         DOcheckbtn = getattr(self.widgets, f"DO{channel}")
         if DOcheckbtn.isChecked():
-            if DEBUG:
+            if self.DEBUG:
                 DO = DO | (1 << channel)
             else:
                 dll.SetOnRelay(channel)
             # self.widgets.textBrowser.append(f"DO{channel} open!")
         else:
-            if DEBUG:
+            if self.DEBUG:
                 DO = DO & ~(1 << channel)
             else:
                 dll.SetOffRelay(channel)
@@ -290,7 +313,7 @@ class DIOWidget(QWidget):
         """
         res = [0, 0, 0, 0, 0, 0, 0, 0]
         global DO
-        if DEBUG:
+        if self.DEBUG:
             rev = DO
         else:
             rev = dll.ReadDI()
@@ -322,7 +345,7 @@ class DIOWidget(QWidget):
         global debug_cnt
         global PlotBuffer
         global ai
-        if DEBUG:
+        if self.DEBUG:
             # rev = hex(0xFE041000000000000000000000000000000000712C + debug_cnt)[2:]
             # debug_cnt += 0x0011001100110000
             # if debug_cnt > 0x1000000000000000000: debug_cnt = 0x0
@@ -452,13 +475,15 @@ class AIOWidget_ShowOne(QWidget):
 class AIOWidget_ShowOne(QWidget):
     select_idx = 0
 
-    def __init__(self):
+    def __init__(self,DEBUG):
         super().__init__()
         # 从文件中加载UI定义
         # 从 UI 定义中动态 创建一个相应的窗口对象
         # 注意：里面的控件对象也成为窗口对象的属性了
         # 比如 self.ui.button , self.ui.textEdit
         # self.ui = QUiLoader().load('windows.ui')
+
+        self.DEBUG = DEBUG
         self.SampleNumber = None
         self.AD_channe_number = None
 
@@ -474,23 +499,30 @@ class AIOWidget_ShowOne(QWidget):
         self.widgets.Layout_wave_1 = QVBoxLayout(self.widgets.groupBox_waveview_1)
         self.widgets.Layout_wave_1.addWidget(self.widgets.waveview_1)
 
-        self.cam = CCD_camera()
+        self.cam = CCD_camera(self.DEBUG)
         self.ui.btn_enum.clicked.connect(self.enum)
         self.ui.checkBox_openccd.clicked.connect(self.change_state)
         self.ui.comboBox_ccd_device.currentIndexChanged.connect(self.change_select)
         self.ui.btn_ccd_capture.clicked.connect(self.capture)
+        self.ui.btn_ccd_capture.hide()
         self.ui.btn_setpara.clicked.connect(self.setpara2)
 
         self.widgets.spinBox_ccd_hoffset.editingFinished.connect(self.setpara)
         self.widgets.spinBox_ccd_woffset.editingFinished.connect(self.setpara)
         self.widgets.Slider_hoffset.valueChanged.connect(self.setpara)
         self.widgets.Slider_woffset.valueChanged.connect(self.setpara)
+        self.widgets.spinBox_ccdw.editingFinished.connect(self.setpara)
+        self.widgets.spinBox_ccdh.editingFinished.connect(self.setpara)
+        self.widgets.Slider_h.valueChanged.connect(self.setpara)
+        self.widgets.Slider_w.valueChanged.connect(self.setpara)
+        self.setpara()
 
     def setpara2(self):
-        ret = self.cam.setpara(self.ui.spinBox_gain.value(), self.ui.spinBox_exposure.value(), self.select_idx)
-        if not ret:
-            show_warning("设置失败", "设置失败，请检查设备是否连接。")
-            return
+        if not self.DEBUG:
+            ret = self.cam.setpara(self.ui.spinBox_gain.value(), self.ui.spinBox_exposure.value(), self.select_idx)
+            if not ret:
+                show_warning("设置失败", "设置失败，请检查设备是否连接。")
+                return
         self.capture()
 
     def setpara(self):
@@ -508,7 +540,7 @@ class AIOWidget_ShowOne(QWidget):
         rgb_image = cv2.cvtColor(self.cam.get_img(), cv2.COLOR_BGR2RGB)
         if updateshow: self.updateshow(rgb_image)
         if timedelay > 0:
-            time.sleep(timedelay)
+            time.sleep(timedelay*0.001)
         return img
 
     def updateshow(self, rgb_image):
@@ -546,9 +578,10 @@ class AIOWidget_ShowOne(QWidget):
                 show_warning("关闭失败", "关闭失败")
 
     def enum(self):
+
         deviceList = self.cam.enum()
         self.ui.comboBox_ccd_device.clear()
-        self.ui.comboBox_ccd_device.addItems(deviceList)
+        self.ui.comboBox_ccd_device.addItems(extract_last_hex_string(deviceList))
 
 
 def boot_windows():

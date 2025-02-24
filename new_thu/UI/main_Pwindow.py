@@ -15,7 +15,7 @@ import threading
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
 global flag
 flag = False
-
+DEBUG = True
 
 
 class CCD_Window(MainWindow):
@@ -52,12 +52,12 @@ class TabWindow(MainWindow):
 
         self.ui.tab4Layout = QHBoxLayout()
         # 添加DIO TAB
-        self.ui.DIOControlWidget = DIOWidget()
+        self.ui.DIOControlWidget = DIOWidget(DEBUG = DEBUG)
         self.ui.tab4Layout.addWidget(self.ui.DIOControlWidget)
         self.ui.tab_4.setLayout(self.ui.tab4Layout)
 
         # 添加AIO TAB
-        self.ui.AIOControlWidget = AIOWidget_ShowOne()
+        self.ui.AIOControlWidget = AIOWidget_ShowOne(DEBUG = DEBUG)
         self.ui.tabLayout.addWidget(self.ui.AIOControlWidget)
 
         self.setWindowFlags(Qt.FramelessWindowHint)
@@ -198,16 +198,20 @@ class TabWindow(MainWindow):
             return
         self.mp4_recording = True
         # 创建线程
-        record_thread = threading.Thread(target=self._record_loop, args=(save_mp4,save_img,))
+        now = datetime.datetime.now()
+        create_time = now.strftime("%Y%m%d_%H%M%S")
+        record_thread = threading.Thread(target=self._record_loop, args=(create_time,save_mp4,save_img,))
         record_thread.start()
 
-    def _record_loop(self,save_mp4=False, save_img=False):
+    def _record_loop(self,create_time,save_mp4=False, save_img=False):
         first_frame = True
-        self.fps = self.ui.AIOControlWidget.Slider_fps.value()
+        self.fps = self.ui.AIOControlWidget.widgets.Slider_fps.value()
+        frame_time = 1 / self.fps  # 每帧期望的时间间隔（秒）
         i = 0
         while self.mp4_recording:
-            img = self.ui.AIOControlWidget.capture(updateshow=True, timedelay=1 / self.fps - self.ui.AIOControlWidget.Slider_exposure.value() / 1000)
-
+            start_time = time.time()  # 记录帧处理开始时间
+            self.ui.AIOControlWidget.capture(updateshow=True, timedelay=0)
+            img = self.ui.AIOControlWidget.cam.get_img()
             if isinstance(img, np.ndarray):
                 now = datetime.datetime.now()
                 timestamp = now.strftime("%Y%m%d_%H%M%S")
@@ -221,6 +225,11 @@ class TabWindow(MainWindow):
                     if save_mp4:
                         self.video_writer = cv2.VideoWriter(self.video_save_path, fourcc, self.fps, self.frame_size)
                         print(f"mp4_recording started: {self.video_save_path}")
+                    if save_img:
+                        dir = os.path.join(self.now_select_ccd_save_apppath,f"{create_time}")
+                        if not os.path.exists(dir):
+                            os.makedirs(dir)
+                        print(f"save_img started: {self.now_select_ccd_save_apppath}")
 
                 resized_img = cv2.resize(img, self.frame_size)
                 font = cv2.FONT_HERSHEY_SIMPLEX  # 字体
@@ -234,12 +243,22 @@ class TabWindow(MainWindow):
                 if save_mp4:
                     self.video_writer.write(resized_img)
                 if save_img:
-                    path = os.path.join(self.now_select_ccd_save_apppath, f"{timestamp}_{i}.jpg")
+                    path = os.path.join(dir, f"{timestamp}_{i}.jpg")
                     print(f"save to {path}")
                     # 假设 img 是 OpenCV 的 numpy 数组
                     img_pil = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
                     img_pil.save(path)
             i += 1
+
+            # 计算实际处理时间和动态调整休眠
+            elapsed_time = time.time() - start_time  # 当前帧的处理时间
+            remaining_time = frame_time - elapsed_time  # 剩余时间
+
+            if remaining_time > 0:
+                time.sleep(remaining_time)  # 补偿时间，保证帧率
+            else:
+                print(f"Warning: Frame took {elapsed_time:.3f}s, which exceeds the target frame time {frame_time:.3f}s")
+
         if save_mp4:
             self.video_writer.release()
             self.video_writer = None
@@ -335,7 +354,7 @@ class TabWindow(MainWindow):
         # 确定鼠标是否靠近窗口边缘，并相应地改变光标形状
         x, y, w, h = pos.x(), pos.y(), self.ui.center.width(), self.ui.center.height()
         margin = self._resize_margin
-        print(x, y, w, h)
+        # print(x, y, w, h)
         if x > w - margin and y > h - margin:  # 右下角
             self._resizing_edge = 'bottom-right'
             self.setCursor(Qt.SizeFDiagCursor)
