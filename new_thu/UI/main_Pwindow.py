@@ -167,6 +167,10 @@ class TabWindow(MainWindow):
             self.ui.tabWidget_2.setCurrentIndex(2)
             pass
 
+        elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "沉积形貌":
+            self.ui.tabWidget_2.setCurrentIndex(1)
+            pass
+
     # def open_file_dialog(self):
     #     # 弹出文件对话框，获取选择的 TIFF 文件路径
     #     options = QFileDialog.Options()

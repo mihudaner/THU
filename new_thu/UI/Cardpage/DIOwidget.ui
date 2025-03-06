@@ -367,7 +367,7 @@ QPushButton:pressed {
     </spacer>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0,0,0,0">
+    <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0,0,0,0,0">
      <item>
       <spacer name="verticalSpacer_4">
        <property name="orientation">
@@ -1625,6 +1625,52 @@ QPushButton:pressed {
       </widget>
      </item>
      <item>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>实时速度</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_68">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextBrowser" name="textBrowser">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>200</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QTextEdit" name="textEdit_send"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_send">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>发送</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer_8">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -1640,13 +1686,13 @@ QPushButton:pressed {
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_12" stretch="3,0,0,1">
+    <layout class="QVBoxLayout" name="verticalLayout_12" stretch="3,0,1">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>参数设置:</string>
+          <string>采集卡参数设置:</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_19">
           <item>
@@ -1876,6 +1922,75 @@ QPushButton:pressed {
              <string>模拟量设置</string>
             </property>
             <layout class="QGridLayout" name="gridLayout">
+             <item row="2" column="0">
+              <widget class="EditableLabel" name="label_30">
+               <property name="text">
+                <string>新激光功率</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="EditableLabel" name="label_31">
+               <property name="text">
+                <string>新送粉电压1</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="0">
+              <widget class="EditableLabel" name="label_52">
+               <property name="text">
+                <string>未定义</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="EditableLabel" name="label_48">
+               <property name="text">
+                <string>新送粉电压1</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <item>
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>AO2</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="Slider2">
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBox_AO2">
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>1</number>
+                 </property>
+                 <property name="value">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_61">
+                 <property name="text">
+                  <string>mv</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
              <item row="1" column="0">
               <layout class="QHBoxLayout" name="horizontalLayout_2">
                <item>
@@ -1917,31 +2032,17 @@ QPushButton:pressed {
                </item>
               </layout>
              </item>
-             <item row="8" column="2">
-              <widget class="EditableLabel" name="label_53">
-               <property name="text">
-                <string>未定义</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="EditableLabel" name="label_30">
-               <property name="text">
-                <string>新激光功率</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2">
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item row="5" column="2">
+              <layout class="QHBoxLayout" name="horizontalLayout_15">
                <item>
-                <widget class="QLabel" name="label_6">
+                <widget class="QLabel" name="label_11">
                  <property name="text">
-                  <string>AO2</string>
+                  <string>AO6</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QSlider" name="Slider2">
+                <widget class="QSlider" name="Slider6">
                  <property name="maximum">
                   <number>10000</number>
                  </property>
@@ -1951,7 +2052,7 @@ QPushButton:pressed {
                 </widget>
                </item>
                <item>
-                <widget class="QSpinBox" name="spinBox_AO2">
+                <widget class="QSpinBox" name="spinBox_AO6">
                  <property name="maximum">
                   <number>10000</number>
                  </property>
@@ -1964,7 +2065,137 @@ QPushButton:pressed {
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_61">
+                <widget class="QLabel" name="label_63">
+                 <property name="text">
+                  <string>mv</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="6" column="2">
+              <widget class="EditableLabel" name="label_51">
+               <property name="text">
+                <string>未定义</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <item>
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>AO3</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="Slider3">
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBox_AO3">
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>1</number>
+                 </property>
+                 <property name="value">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_58">
+                 <property name="text">
+                  <string>mv</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="3" column="2">
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QLabel" name="label_9">
+                 <property name="text">
+                  <string>AO4</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="Slider4">
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBox_AO4">
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>1</number>
+                 </property>
+                 <property name="value">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_62">
+                 <property name="text">
+                  <string>mv</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="7" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_16">
+               <item>
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>AO7</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="Slider7">
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBox_AO7">
+                 <property name="maximum">
+                  <number>10000</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>1</number>
+                 </property>
+                 <property name="value">
+                  <number>0</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_60">
                  <property name="text">
                   <string>mv</string>
                  </property>
@@ -2013,20 +2244,6 @@ QPushButton:pressed {
                </item>
               </layout>
              </item>
-             <item row="6" column="2">
-              <widget class="EditableLabel" name="label_51">
-               <property name="text">
-                <string>未定义</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="2">
-              <widget class="EditableLabel" name="label_31">
-               <property name="text">
-                <string>新送粉电压1</string>
-               </property>
-              </widget>
-             </item>
              <item row="4" column="2">
               <widget class="EditableLabel" name="label_49">
                <property name="text">
@@ -2034,92 +2251,17 @@ QPushButton:pressed {
                </property>
               </widget>
              </item>
-             <item row="7" column="0">
-              <layout class="QHBoxLayout" name="horizontalLayout_16">
-               <item>
-                <widget class="QLabel" name="label_12">
-                 <property name="text">
-                  <string>AO7</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSlider" name="Slider7">
-                 <property name="maximum">
-                  <number>10000</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="spinBox_AO7">
-                 <property name="maximum">
-                  <number>10000</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>1</number>
-                 </property>
-                 <property name="value">
-                  <number>0</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_60">
-                 <property name="text">
-                  <string>mv</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="3" column="0">
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
-               <item>
-                <widget class="QLabel" name="label_8">
-                 <property name="text">
-                  <string>AO3</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSlider" name="Slider3">
-                 <property name="maximum">
-                  <number>10000</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="spinBox_AO3">
-                 <property name="maximum">
-                  <number>10000</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>1</number>
-                 </property>
-                 <property name="value">
-                  <number>0</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_58">
-                 <property name="text">
-                  <string>mv</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="4" column="0">
-              <widget class="EditableLabel" name="label_48">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_56">
                <property name="text">
-                <string>新送粉电压1</string>
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="2">
+              <widget class="EditableLabel" name="label_53">
+               <property name="text">
+                <string>未定义</string>
                </property>
               </widget>
              </item>
@@ -2164,102 +2306,6 @@ QPushButton:pressed {
                </item>
               </layout>
              </item>
-             <item row="8" column="0">
-              <widget class="EditableLabel" name="label_52">
-               <property name="text">
-                <string>未定义</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="2">
-              <layout class="QHBoxLayout" name="horizontalLayout_15">
-               <item>
-                <widget class="QLabel" name="label_11">
-                 <property name="text">
-                  <string>AO6</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSlider" name="Slider6">
-                 <property name="maximum">
-                  <number>10000</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="spinBox_AO6">
-                 <property name="maximum">
-                  <number>10000</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>1</number>
-                 </property>
-                 <property name="value">
-                  <number>0</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_63">
-                 <property name="text">
-                  <string>mv</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_56">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="2">
-              <layout class="QHBoxLayout" name="horizontalLayout_5">
-               <item>
-                <widget class="QLabel" name="label_9">
-                 <property name="text">
-                  <string>AO4</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSlider" name="Slider4">
-                 <property name="maximum">
-                  <number>10000</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="spinBox_AO4">
-                 <property name="maximum">
-                  <number>10000</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>1</number>
-                 </property>
-                 <property name="value">
-                  <number>0</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_62">
-                 <property name="text">
-                  <string>mv</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
              <item row="6" column="0">
               <widget class="EditableLabel" name="label_50">
                <property name="text">
@@ -2284,22 +2330,6 @@ QPushButton:pressed {
      </item>
      <item>
       <spacer name="verticalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Minimum</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -2365,6 +2395,115 @@ QPushButton:pressed {
          <property name="text">
           <string>读取AI状态</string>
          </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
+          <string>KUKA位置通信</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_20">
+          <item>
+           <widget class="QLabel" name="label_69">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QSpinBox" name="spinBox_port_2">
+              <property name="minimum">
+               <number>5000</number>
+              </property>
+              <property name="maximum">
+               <number>80000</number>
+              </property>
+              <property name="value">
+               <number>10000</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_66">
+              <property name="text">
+               <string>IP地址</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_65">
+              <property name="text">
+               <string>端口号</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_IP_2">
+              <property name="text">
+               <string>192.168.1.232</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_29">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_9">
+                <item>
+                 <widget class="QSpinBox" name="spinBox"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_67">
+                  <property name="text">
+                   <string>采集频率</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="checkBox">
+                <property name="text">
+                 <string>DI2外控</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="checkBox_2">
+                <property name="text">
+                 <string>保存数据</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>150</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>链接</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>

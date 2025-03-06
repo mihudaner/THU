@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1203</width>
-    <height>912</height>
+    <width>1232</width>
+    <height>910</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1234</width>
+    <height>16777215</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -34,6 +40,9 @@ QPushButton:pressed {
 	background-color: #ff79c6;
 	color: rgb(255, 255, 255);
 }
+
+
+
 
 QTableWidget {
 	background-color: transparent;
@@ -529,6 +538,21 @@ subcontrol-position: bottom center;
 	width:100%
  }
 
+
+QPushButton {
+	border: none;
+	background-color: transparent;
+	text-align: center;
+	background-color: rgb(43, 87, 154);
+	color: rgb(255, 255, 255);
+}
+QPushButton:hover {
+	background-color: #bd93f9;
+}
+QPushButton:pressed {
+	background-color: #ff79c6;
+	color: rgb(255, 255, 255);
+}
 </string>
   </property>
   <widget class="QWidget" name="center">
@@ -572,7 +596,7 @@ subcontrol-position: bottom center;
           <string notr="true">border:0px solid rgb(86, 86, 86);</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -581,8 +605,856 @@ subcontrol-position: bottom center;
          </widget>
          <widget class="QWidget" name="tab_2">
           <attribute name="title">
-           <string>熔池状态</string>
+           <string>沉积形貌</string>
           </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QTabWidget" name="tabWidget">
+             <property name="currentIndex">
+              <number>2</number>
+             </property>
+             <widget class="QWidget" name="tab_5">
+              <attribute name="title">
+               <string>补形区域获取</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                 <item>
+                  <widget class="QGroupBox" name="groupBox">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="title">
+                    <string>形貌点云</string>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_4">
+                    <item>
+                     <widget class="QLabel" name="label_2">
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QTextBrowser" name="textBrowser">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>100</height>
+                       </size>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_16">
+                      <item>
+                       <widget class="QPushButton" name="pushButton_3">
+                        <property name="maximumSize">
+                         <size>
+                          <width>200</width>
+                          <height>100</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>查看</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_4">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>200</width>
+                          <height>100</height>
+                         </size>
+                        </property>
+                        <property name="layoutDirection">
+                         <enum>Qt::LeftToRight</enum>
+                        </property>
+                        <property name="text">
+                         <string>浏览</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="groupBox_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="title">
+                    <string>补形区域</string>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout">
+                    <item row="3" column="0">
+                     <layout class="QHBoxLayout" name="horizontalLayout_3">
+                      <item>
+                       <widget class="QLabel" name="label_3">
+                        <property name="text">
+                         <string>Xmin</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+                      </item>
+                     </layout>
+                    </item>
+                    <item row="4" column="2">
+                     <layout class="QHBoxLayout" name="horizontalLayout_8">
+                      <item>
+                       <widget class="QLabel" name="label_8">
+                        <property name="text">
+                         <string>Ymax</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QDoubleSpinBox" name="doubleSpinBox_6"/>
+                      </item>
+                     </layout>
+                    </item>
+                    <item row="4" column="0">
+                     <layout class="QHBoxLayout" name="horizontalLayout_9">
+                      <item>
+                       <widget class="QLabel" name="label_9">
+                        <property name="text">
+                         <string>Xmax</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QDoubleSpinBox" name="doubleSpinBox_7"/>
+                      </item>
+                     </layout>
+                    </item>
+                    <item row="3" column="2">
+                     <layout class="QHBoxLayout" name="horizontalLayout_7">
+                      <item>
+                       <widget class="QLabel" name="label_7">
+                        <property name="text">
+                         <string>Ymin</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QDoubleSpinBox" name="doubleSpinBox_5"/>
+                      </item>
+                     </layout>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QTextBrowser" name="textBrowser_2"/>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_17">
+                 <item>
+                  <widget class="QPushButton" name="pushButton_2">
+                   <property name="maximumSize">
+                    <size>
+                     <width>200</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>数据保存</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton">
+                   <property name="maximumSize">
+                    <size>
+                     <width>200</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>截面显示</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_6">
+              <attribute name="title">
+               <string>沉积模拟填充</string>
+              </attribute>
+              <layout class="QHBoxLayout" name="horizontalLayout_12">
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_13">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_13">
+                   <item>
+                    <widget class="QGroupBox" name="groupBox_3">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="title">
+                      <string>沉积特征</string>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_11">
+                      <item>
+                       <widget class="QLabel" name="label_5">
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <spacer name="verticalSpacer_2">
+                        <property name="orientation">
+                         <enum>Qt::Vertical</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>20</width>
+                          <height>40</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_6">
+                        <item>
+                         <widget class="QLabel" name="label_4">
+                          <property name="text">
+                           <string>平均道宽</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="label_12">
+                          <property name="text">
+                           <string>mm</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_11">
+                        <item>
+                         <widget class="QLabel" name="label_11">
+                          <property name="text">
+                           <string>平均层高</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QDoubleSpinBox" name="doubleSpinBox_9"/>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="label_10">
+                          <property name="text">
+                           <string>mm</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_6">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>60</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>模拟沉积</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="pushButton_5">
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>60</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>路径保存</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <spacer name="verticalSpacer">
+                        <property name="orientation">
+                         <enum>Qt::Vertical</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>20</width>
+                          <height>40</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTextBrowser" name="textBrowser_3"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QTableWidget" name="tableWidget">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="verticalScrollBarPolicy">
+                    <enum>Qt::ScrollBarAlwaysOff</enum>
+                   </property>
+                   <property name="horizontalScrollBarPolicy">
+                    <enum>Qt::ScrollBarAlwaysOff</enum>
+                   </property>
+                   <property name="sizeAdjustPolicy">
+                    <enum>QAbstractScrollArea::AdjustToContents</enum>
+                   </property>
+                   <attribute name="horizontalHeaderCascadingSectionResizes">
+                    <bool>false</bool>
+                   </attribute>
+                   <attribute name="horizontalHeaderStretchLastSection">
+                    <bool>false</bool>
+                   </attribute>
+                   <attribute name="verticalHeaderCascadingSectionResizes">
+                    <bool>true</bool>
+                   </attribute>
+                   <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                    <bool>true</bool>
+                   </attribute>
+                   <attribute name="verticalHeaderStretchLastSection">
+                    <bool>false</bool>
+                   </attribute>
+                   <row>
+                    <property name="text">
+                     <string>新建行</string>
+                    </property>
+                   </row>
+                   <row>
+                    <property name="text">
+                     <string>新建行</string>
+                    </property>
+                   </row>
+                   <row>
+                    <property name="text">
+                     <string>新建行</string>
+                    </property>
+                   </row>
+                   <row>
+                    <property name="text">
+                     <string>新建行</string>
+                    </property>
+                   </row>
+                   <row>
+                    <property name="text">
+                     <string>新建行</string>
+                    </property>
+                   </row>
+                   <column>
+                    <property name="text">
+                     <string>层数</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Y坐标</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>道数</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Xmin</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Ymin</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Xmax</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Ymax</string>
+                    </property>
+                   </column>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_7">
+              <attribute name="title">
+               <string>沉积程序生成</string>
+              </attribute>
+              <layout class="QHBoxLayout" name="horizontalLayout_15">
+               <item>
+                <widget class="QGroupBox" name="groupBox_4">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="title">
+                  <string>沉积参数</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_5">
+                  <item>
+                   <widget class="QLabel" name="label_6">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTableWidget" name="tableWidget_2">
+                    <row>
+                     <property name="text">
+                      <string>KUKA程序名称</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>熔覆时前移动距离X</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>熔覆时前移动距离Y</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>熔覆时前移动距离Z</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>光斑电压</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>熔覆前保护气时间</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>熔覆后保护气时间</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>熔覆速度</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>粉桶选择</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>粉桶转速</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>激光功率</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>层总数</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>道次数</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>道次长度</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>偏移距离</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>熔覆后移动距离X</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>新建行</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>熔覆后移动距离Z</string>
+                     </property>
+                    </row>
+                    <row>
+                     <property name="text">
+                      <string>层间停留时间</string>
+                     </property>
+                    </row>
+                    <column>
+                     <property name="text">
+                      <string>变量</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>值</string>
+                     </property>
+                    </column>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_8">
+                 <item>
+                  <widget class="QGroupBox" name="groupBox_6">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="title">
+                    <string>监控选用</string>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,2,1">
+                    <item>
+                     <widget class="QLabel" name="label_14">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QTableWidget" name="tableWidget_4">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <row>
+                       <property name="text">
+                        <string>CCD相机</string>
+                       </property>
+                      </row>
+                      <row>
+                       <property name="text">
+                        <string>点温仪</string>
+                       </property>
+                      </row>
+                      <row>
+                       <property name="text">
+                        <string>高速相机</string>
+                       </property>
+                      </row>
+                      <row>
+                       <property name="text">
+                        <string>激光轮廓仪</string>
+                       </property>
+                      </row>
+                      <column>
+                       <property name="text">
+                        <string>变量</string>
+                       </property>
+                      </column>
+                      <column>
+                       <property name="text">
+                        <string>值</string>
+                       </property>
+                      </column>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QGroupBox" name="groupBox_5">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="title">
+                       <string>形貌扫描</string>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_9">
+                       <item>
+                        <widget class="QLabel" name="label_13">
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QTableWidget" name="tableWidget_3">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>350</height>
+                          </size>
+                         </property>
+                         <row>
+                          <property name="text">
+                           <string>扫描前等待时间</string>
+                          </property>
+                         </row>
+                         <row>
+                          <property name="text">
+                           <string>扫描前移动时间X</string>
+                          </property>
+                         </row>
+                         <row>
+                          <property name="text">
+                           <string>扫描前移动时间Y</string>
+                          </property>
+                         </row>
+                         <row>
+                          <property name="text">
+                           <string>扫描前移动时间Z</string>
+                          </property>
+                         </row>
+                         <row>
+                          <property name="text">
+                           <string>扫描速度</string>
+                          </property>
+                         </row>
+                         <row>
+                          <property name="text">
+                           <string>X向扫描移动距离</string>
+                          </property>
+                         </row>
+                         <row>
+                          <property name="text">
+                           <string>扫描后移动时间X</string>
+                          </property>
+                         </row>
+                         <row>
+                          <property name="text">
+                           <string>扫描后移动时间Y</string>
+                          </property>
+                         </row>
+                         <row>
+                          <property name="text">
+                           <string>扫描后移动时间Z</string>
+                          </property>
+                         </row>
+                         <column>
+                          <property name="text">
+                           <string>变量</string>
+                          </property>
+                         </column>
+                         <column>
+                          <property name="text">
+                           <string>值</string>
+                          </property>
+                         </column>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_14">
+                   <item>
+                    <widget class="QPushButton" name="pushButton_10">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>参数保存</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_9">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>脚本更新</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_8">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>程序生成</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="pushButton_7">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>程序传输</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
          </widget>
          <widget class="QWidget" name="tab_3">
           <attribute name="title">

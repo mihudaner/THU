@@ -1025,6 +1025,40 @@ class Ui_Form(object):
 
         self.verticalLayout_11.addWidget(self.groupBox_3)
 
+        self.groupBox_2 = QGroupBox(Form)
+        self.groupBox_2.setObjectName(u"groupBox_2")
+        self.verticalLayout_3 = QVBoxLayout(self.groupBox_2)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.label_68 = QLabel(self.groupBox_2)
+        self.label_68.setObjectName(u"label_68")
+
+        self.verticalLayout_3.addWidget(self.label_68)
+
+        self.textBrowser = QTextBrowser(self.groupBox_2)
+        self.textBrowser.setObjectName(u"textBrowser")
+        self.textBrowser.setMinimumSize(QSize(0, 200))
+
+        self.verticalLayout_3.addWidget(self.textBrowser)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.textEdit_send = QTextEdit(self.groupBox_2)
+        self.textEdit_send.setObjectName(u"textEdit_send")
+
+        self.horizontalLayout.addWidget(self.textEdit_send)
+
+        self.btn_send = QPushButton(self.groupBox_2)
+        self.btn_send.setObjectName(u"btn_send")
+        self.btn_send.setMinimumSize(QSize(100, 50))
+
+        self.horizontalLayout.addWidget(self.btn_send)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout)
+
+
+        self.verticalLayout_11.addWidget(self.groupBox_2)
+
         self.verticalSpacer_8 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_11.addItem(self.verticalSpacer_8)
@@ -1185,45 +1219,25 @@ class Ui_Form(object):
         self.groupBox_ADsets.setObjectName(u"groupBox_ADsets")
         self.gridLayout = QGridLayout(self.groupBox_ADsets)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.label = QLabel(self.groupBox_ADsets)
-        self.label.setObjectName(u"label")
-
-        self.horizontalLayout_2.addWidget(self.label)
-
-        self.Slider1 = QSlider(self.groupBox_ADsets)
-        self.Slider1.setObjectName(u"Slider1")
-        self.Slider1.setMaximum(10000)
-        self.Slider1.setOrientation(Qt.Horizontal)
-
-        self.horizontalLayout_2.addWidget(self.Slider1)
-
-        self.spinBox_AO1 = QSpinBox(self.groupBox_ADsets)
-        self.spinBox_AO1.setObjectName(u"spinBox_AO1")
-        self.spinBox_AO1.setMaximum(10000)
-        self.spinBox_AO1.setSingleStep(1)
-        self.spinBox_AO1.setValue(0)
-
-        self.horizontalLayout_2.addWidget(self.spinBox_AO1)
-
-        self.label_55 = QLabel(self.groupBox_ADsets)
-        self.label_55.setObjectName(u"label_55")
-
-        self.horizontalLayout_2.addWidget(self.label_55)
-
-
-        self.gridLayout.addLayout(self.horizontalLayout_2, 1, 0, 1, 1)
-
-        self.label_53 = EditableLabel(self.groupBox_ADsets)
-        self.label_53.setObjectName(u"label_53")
-
-        self.gridLayout.addWidget(self.label_53, 8, 2, 1, 1)
-
         self.label_30 = EditableLabel(self.groupBox_ADsets)
         self.label_30.setObjectName(u"label_30")
 
         self.gridLayout.addWidget(self.label_30, 2, 0, 1, 1)
+
+        self.label_31 = EditableLabel(self.groupBox_ADsets)
+        self.label_31.setObjectName(u"label_31")
+
+        self.gridLayout.addWidget(self.label_31, 2, 2, 1, 1)
+
+        self.label_52 = EditableLabel(self.groupBox_ADsets)
+        self.label_52.setObjectName(u"label_52")
+
+        self.gridLayout.addWidget(self.label_52, 8, 0, 1, 1)
+
+        self.label_48 = EditableLabel(self.groupBox_ADsets)
+        self.label_48.setObjectName(u"label_48")
+
+        self.gridLayout.addWidget(self.label_48, 4, 0, 1, 1)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -1255,150 +1269,35 @@ class Ui_Form(object):
 
         self.gridLayout.addLayout(self.horizontalLayout_3, 1, 2, 1, 1)
 
-        self.horizontalLayout_8 = QHBoxLayout()
-        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.label_10 = QLabel(self.groupBox_ADsets)
-        self.label_10.setObjectName(u"label_10")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.label = QLabel(self.groupBox_ADsets)
+        self.label.setObjectName(u"label")
 
-        self.horizontalLayout_8.addWidget(self.label_10)
+        self.horizontalLayout_2.addWidget(self.label)
 
-        self.Slider5 = QSlider(self.groupBox_ADsets)
-        self.Slider5.setObjectName(u"Slider5")
-        self.Slider5.setMaximum(10000)
-        self.Slider5.setOrientation(Qt.Horizontal)
+        self.Slider1 = QSlider(self.groupBox_ADsets)
+        self.Slider1.setObjectName(u"Slider1")
+        self.Slider1.setMaximum(10000)
+        self.Slider1.setOrientation(Qt.Horizontal)
 
-        self.horizontalLayout_8.addWidget(self.Slider5)
+        self.horizontalLayout_2.addWidget(self.Slider1)
 
-        self.spinBox_AO5 = QSpinBox(self.groupBox_ADsets)
-        self.spinBox_AO5.setObjectName(u"spinBox_AO5")
-        self.spinBox_AO5.setMaximum(10000)
-        self.spinBox_AO5.setSingleStep(1)
-        self.spinBox_AO5.setValue(0)
+        self.spinBox_AO1 = QSpinBox(self.groupBox_ADsets)
+        self.spinBox_AO1.setObjectName(u"spinBox_AO1")
+        self.spinBox_AO1.setMaximum(10000)
+        self.spinBox_AO1.setSingleStep(1)
+        self.spinBox_AO1.setValue(0)
 
-        self.horizontalLayout_8.addWidget(self.spinBox_AO5)
+        self.horizontalLayout_2.addWidget(self.spinBox_AO1)
 
-        self.label_59 = QLabel(self.groupBox_ADsets)
-        self.label_59.setObjectName(u"label_59")
+        self.label_55 = QLabel(self.groupBox_ADsets)
+        self.label_55.setObjectName(u"label_55")
 
-        self.horizontalLayout_8.addWidget(self.label_59)
-
-
-        self.gridLayout.addLayout(self.horizontalLayout_8, 5, 0, 1, 1)
-
-        self.label_51 = EditableLabel(self.groupBox_ADsets)
-        self.label_51.setObjectName(u"label_51")
-
-        self.gridLayout.addWidget(self.label_51, 6, 2, 1, 1)
-
-        self.label_31 = EditableLabel(self.groupBox_ADsets)
-        self.label_31.setObjectName(u"label_31")
-
-        self.gridLayout.addWidget(self.label_31, 2, 2, 1, 1)
-
-        self.label_49 = EditableLabel(self.groupBox_ADsets)
-        self.label_49.setObjectName(u"label_49")
-
-        self.gridLayout.addWidget(self.label_49, 4, 2, 1, 1)
-
-        self.horizontalLayout_16 = QHBoxLayout()
-        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
-        self.label_12 = QLabel(self.groupBox_ADsets)
-        self.label_12.setObjectName(u"label_12")
-
-        self.horizontalLayout_16.addWidget(self.label_12)
-
-        self.Slider7 = QSlider(self.groupBox_ADsets)
-        self.Slider7.setObjectName(u"Slider7")
-        self.Slider7.setMaximum(10000)
-        self.Slider7.setOrientation(Qt.Horizontal)
-
-        self.horizontalLayout_16.addWidget(self.Slider7)
-
-        self.spinBox_AO7 = QSpinBox(self.groupBox_ADsets)
-        self.spinBox_AO7.setObjectName(u"spinBox_AO7")
-        self.spinBox_AO7.setMaximum(10000)
-        self.spinBox_AO7.setSingleStep(1)
-        self.spinBox_AO7.setValue(0)
-
-        self.horizontalLayout_16.addWidget(self.spinBox_AO7)
-
-        self.label_60 = QLabel(self.groupBox_ADsets)
-        self.label_60.setObjectName(u"label_60")
-
-        self.horizontalLayout_16.addWidget(self.label_60)
+        self.horizontalLayout_2.addWidget(self.label_55)
 
 
-        self.gridLayout.addLayout(self.horizontalLayout_16, 7, 0, 1, 1)
-
-        self.horizontalLayout_4 = QHBoxLayout()
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.label_8 = QLabel(self.groupBox_ADsets)
-        self.label_8.setObjectName(u"label_8")
-
-        self.horizontalLayout_4.addWidget(self.label_8)
-
-        self.Slider3 = QSlider(self.groupBox_ADsets)
-        self.Slider3.setObjectName(u"Slider3")
-        self.Slider3.setMaximum(10000)
-        self.Slider3.setOrientation(Qt.Horizontal)
-
-        self.horizontalLayout_4.addWidget(self.Slider3)
-
-        self.spinBox_AO3 = QSpinBox(self.groupBox_ADsets)
-        self.spinBox_AO3.setObjectName(u"spinBox_AO3")
-        self.spinBox_AO3.setMaximum(10000)
-        self.spinBox_AO3.setSingleStep(1)
-        self.spinBox_AO3.setValue(0)
-
-        self.horizontalLayout_4.addWidget(self.spinBox_AO3)
-
-        self.label_58 = QLabel(self.groupBox_ADsets)
-        self.label_58.setObjectName(u"label_58")
-
-        self.horizontalLayout_4.addWidget(self.label_58)
-
-
-        self.gridLayout.addLayout(self.horizontalLayout_4, 3, 0, 1, 1)
-
-        self.label_48 = EditableLabel(self.groupBox_ADsets)
-        self.label_48.setObjectName(u"label_48")
-
-        self.gridLayout.addWidget(self.label_48, 4, 0, 1, 1)
-
-        self.horizontalLayout_17 = QHBoxLayout()
-        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
-        self.label_13 = QLabel(self.groupBox_ADsets)
-        self.label_13.setObjectName(u"label_13")
-
-        self.horizontalLayout_17.addWidget(self.label_13)
-
-        self.Slider8 = QSlider(self.groupBox_ADsets)
-        self.Slider8.setObjectName(u"Slider8")
-        self.Slider8.setMaximum(10000)
-        self.Slider8.setOrientation(Qt.Horizontal)
-
-        self.horizontalLayout_17.addWidget(self.Slider8)
-
-        self.spinBox_AO8 = QSpinBox(self.groupBox_ADsets)
-        self.spinBox_AO8.setObjectName(u"spinBox_AO8")
-        self.spinBox_AO8.setMaximum(10000)
-        self.spinBox_AO8.setSingleStep(1)
-        self.spinBox_AO8.setValue(0)
-
-        self.horizontalLayout_17.addWidget(self.spinBox_AO8)
-
-        self.label_64 = QLabel(self.groupBox_ADsets)
-        self.label_64.setObjectName(u"label_64")
-
-        self.horizontalLayout_17.addWidget(self.label_64)
-
-
-        self.gridLayout.addLayout(self.horizontalLayout_17, 7, 2, 1, 1)
-
-        self.label_52 = EditableLabel(self.groupBox_ADsets)
-        self.label_52.setObjectName(u"label_52")
-
-        self.gridLayout.addWidget(self.label_52, 8, 0, 1, 1)
+        self.gridLayout.addLayout(self.horizontalLayout_2, 1, 0, 1, 1)
 
         self.horizontalLayout_15 = QHBoxLayout()
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
@@ -1430,10 +1329,40 @@ class Ui_Form(object):
 
         self.gridLayout.addLayout(self.horizontalLayout_15, 5, 2, 1, 1)
 
-        self.label_56 = QLabel(self.groupBox_ADsets)
-        self.label_56.setObjectName(u"label_56")
+        self.label_51 = EditableLabel(self.groupBox_ADsets)
+        self.label_51.setObjectName(u"label_51")
 
-        self.gridLayout.addWidget(self.label_56, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.label_51, 6, 2, 1, 1)
+
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.label_8 = QLabel(self.groupBox_ADsets)
+        self.label_8.setObjectName(u"label_8")
+
+        self.horizontalLayout_4.addWidget(self.label_8)
+
+        self.Slider3 = QSlider(self.groupBox_ADsets)
+        self.Slider3.setObjectName(u"Slider3")
+        self.Slider3.setMaximum(10000)
+        self.Slider3.setOrientation(Qt.Horizontal)
+
+        self.horizontalLayout_4.addWidget(self.Slider3)
+
+        self.spinBox_AO3 = QSpinBox(self.groupBox_ADsets)
+        self.spinBox_AO3.setObjectName(u"spinBox_AO3")
+        self.spinBox_AO3.setMaximum(10000)
+        self.spinBox_AO3.setSingleStep(1)
+        self.spinBox_AO3.setValue(0)
+
+        self.horizontalLayout_4.addWidget(self.spinBox_AO3)
+
+        self.label_58 = QLabel(self.groupBox_ADsets)
+        self.label_58.setObjectName(u"label_58")
+
+        self.horizontalLayout_4.addWidget(self.label_58)
+
+
+        self.gridLayout.addLayout(self.horizontalLayout_4, 3, 0, 1, 1)
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
@@ -1465,6 +1394,111 @@ class Ui_Form(object):
 
         self.gridLayout.addLayout(self.horizontalLayout_5, 3, 2, 1, 1)
 
+        self.horizontalLayout_16 = QHBoxLayout()
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.label_12 = QLabel(self.groupBox_ADsets)
+        self.label_12.setObjectName(u"label_12")
+
+        self.horizontalLayout_16.addWidget(self.label_12)
+
+        self.Slider7 = QSlider(self.groupBox_ADsets)
+        self.Slider7.setObjectName(u"Slider7")
+        self.Slider7.setMaximum(10000)
+        self.Slider7.setOrientation(Qt.Horizontal)
+
+        self.horizontalLayout_16.addWidget(self.Slider7)
+
+        self.spinBox_AO7 = QSpinBox(self.groupBox_ADsets)
+        self.spinBox_AO7.setObjectName(u"spinBox_AO7")
+        self.spinBox_AO7.setMaximum(10000)
+        self.spinBox_AO7.setSingleStep(1)
+        self.spinBox_AO7.setValue(0)
+
+        self.horizontalLayout_16.addWidget(self.spinBox_AO7)
+
+        self.label_60 = QLabel(self.groupBox_ADsets)
+        self.label_60.setObjectName(u"label_60")
+
+        self.horizontalLayout_16.addWidget(self.label_60)
+
+
+        self.gridLayout.addLayout(self.horizontalLayout_16, 7, 0, 1, 1)
+
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.label_10 = QLabel(self.groupBox_ADsets)
+        self.label_10.setObjectName(u"label_10")
+
+        self.horizontalLayout_8.addWidget(self.label_10)
+
+        self.Slider5 = QSlider(self.groupBox_ADsets)
+        self.Slider5.setObjectName(u"Slider5")
+        self.Slider5.setMaximum(10000)
+        self.Slider5.setOrientation(Qt.Horizontal)
+
+        self.horizontalLayout_8.addWidget(self.Slider5)
+
+        self.spinBox_AO5 = QSpinBox(self.groupBox_ADsets)
+        self.spinBox_AO5.setObjectName(u"spinBox_AO5")
+        self.spinBox_AO5.setMaximum(10000)
+        self.spinBox_AO5.setSingleStep(1)
+        self.spinBox_AO5.setValue(0)
+
+        self.horizontalLayout_8.addWidget(self.spinBox_AO5)
+
+        self.label_59 = QLabel(self.groupBox_ADsets)
+        self.label_59.setObjectName(u"label_59")
+
+        self.horizontalLayout_8.addWidget(self.label_59)
+
+
+        self.gridLayout.addLayout(self.horizontalLayout_8, 5, 0, 1, 1)
+
+        self.label_49 = EditableLabel(self.groupBox_ADsets)
+        self.label_49.setObjectName(u"label_49")
+
+        self.gridLayout.addWidget(self.label_49, 4, 2, 1, 1)
+
+        self.label_56 = QLabel(self.groupBox_ADsets)
+        self.label_56.setObjectName(u"label_56")
+
+        self.gridLayout.addWidget(self.label_56, 0, 0, 1, 1)
+
+        self.label_53 = EditableLabel(self.groupBox_ADsets)
+        self.label_53.setObjectName(u"label_53")
+
+        self.gridLayout.addWidget(self.label_53, 8, 2, 1, 1)
+
+        self.horizontalLayout_17 = QHBoxLayout()
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.label_13 = QLabel(self.groupBox_ADsets)
+        self.label_13.setObjectName(u"label_13")
+
+        self.horizontalLayout_17.addWidget(self.label_13)
+
+        self.Slider8 = QSlider(self.groupBox_ADsets)
+        self.Slider8.setObjectName(u"Slider8")
+        self.Slider8.setMaximum(10000)
+        self.Slider8.setOrientation(Qt.Horizontal)
+
+        self.horizontalLayout_17.addWidget(self.Slider8)
+
+        self.spinBox_AO8 = QSpinBox(self.groupBox_ADsets)
+        self.spinBox_AO8.setObjectName(u"spinBox_AO8")
+        self.spinBox_AO8.setMaximum(10000)
+        self.spinBox_AO8.setSingleStep(1)
+        self.spinBox_AO8.setValue(0)
+
+        self.horizontalLayout_17.addWidget(self.spinBox_AO8)
+
+        self.label_64 = QLabel(self.groupBox_ADsets)
+        self.label_64.setObjectName(u"label_64")
+
+        self.horizontalLayout_17.addWidget(self.label_64)
+
+
+        self.gridLayout.addLayout(self.horizontalLayout_17, 7, 2, 1, 1)
+
         self.label_50 = EditableLabel(self.groupBox_ADsets)
         self.label_50.setObjectName(u"label_50")
 
@@ -1487,10 +1521,6 @@ class Ui_Form(object):
         self.verticalSpacer_3 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
 
         self.verticalLayout_12.addItem(self.verticalSpacer_3)
-
-        self.verticalSpacer = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
-
-        self.verticalLayout_12.addItem(self.verticalSpacer)
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -1517,6 +1547,88 @@ class Ui_Form(object):
 
         self.verticalLayout.addWidget(self.btn_readAI)
 
+        self.groupBox_4 = QGroupBox(Form)
+        self.groupBox_4.setObjectName(u"groupBox_4")
+        self.verticalLayout_20 = QVBoxLayout(self.groupBox_4)
+        self.verticalLayout_20.setObjectName(u"verticalLayout_20")
+        self.label_69 = QLabel(self.groupBox_4)
+        self.label_69.setObjectName(u"label_69")
+
+        self.verticalLayout_20.addWidget(self.label_69)
+
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.spinBox_port_2 = QSpinBox(self.groupBox_4)
+        self.spinBox_port_2.setObjectName(u"spinBox_port_2")
+        self.spinBox_port_2.setMinimum(5000)
+        self.spinBox_port_2.setMaximum(80000)
+        self.spinBox_port_2.setValue(10000)
+
+        self.horizontalLayout_7.addWidget(self.spinBox_port_2)
+
+        self.label_66 = QLabel(self.groupBox_4)
+        self.label_66.setObjectName(u"label_66")
+
+        self.horizontalLayout_7.addWidget(self.label_66)
+
+        self.label_65 = QLabel(self.groupBox_4)
+        self.label_65.setObjectName(u"label_65")
+
+        self.horizontalLayout_7.addWidget(self.label_65)
+
+        self.lineEdit_IP_2 = QLineEdit(self.groupBox_4)
+        self.lineEdit_IP_2.setObjectName(u"lineEdit_IP_2")
+
+        self.horizontalLayout_7.addWidget(self.lineEdit_IP_2)
+
+
+        self.verticalLayout_20.addLayout(self.horizontalLayout_7)
+
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.verticalLayout_29 = QVBoxLayout()
+        self.verticalLayout_29.setObjectName(u"verticalLayout_29")
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.spinBox = QSpinBox(self.groupBox_4)
+        self.spinBox.setObjectName(u"spinBox")
+
+        self.horizontalLayout_9.addWidget(self.spinBox)
+
+        self.label_67 = QLabel(self.groupBox_4)
+        self.label_67.setObjectName(u"label_67")
+
+        self.horizontalLayout_9.addWidget(self.label_67)
+
+
+        self.verticalLayout_29.addLayout(self.horizontalLayout_9)
+
+        self.checkBox = QCheckBox(self.groupBox_4)
+        self.checkBox.setObjectName(u"checkBox")
+
+        self.verticalLayout_29.addWidget(self.checkBox)
+
+        self.checkBox_2 = QCheckBox(self.groupBox_4)
+        self.checkBox_2.setObjectName(u"checkBox_2")
+
+        self.verticalLayout_29.addWidget(self.checkBox_2)
+
+
+        self.horizontalLayout_6.addLayout(self.verticalLayout_29)
+
+        self.pushButton = QPushButton(self.groupBox_4)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setMinimumSize(QSize(0, 50))
+        self.pushButton.setMaximumSize(QSize(150, 16777215))
+
+        self.horizontalLayout_6.addWidget(self.pushButton)
+
+
+        self.verticalLayout_20.addLayout(self.horizontalLayout_6)
+
+
+        self.verticalLayout.addWidget(self.groupBox_4)
+
         self.verticalSpacer_7 = QSpacerItem(20, 40000, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout.addItem(self.verticalSpacer_7)
@@ -1525,7 +1637,7 @@ class Ui_Form(object):
         self.verticalLayout_12.addLayout(self.verticalLayout)
 
         self.verticalLayout_12.setStretch(0, 3)
-        self.verticalLayout_12.setStretch(3, 1)
+        self.verticalLayout_12.setStretch(2, 1)
 
         self.horizontalLayout_11.addLayout(self.verticalLayout_12)
 
@@ -1590,7 +1702,10 @@ class Ui_Form(object):
         self.DO7.setText("")
         self.label_46.setText(QCoreApplication.translate("Form", u"DO8", None))
         self.label_47.setText(QCoreApplication.translate("Form", u"\u5f85\u5b9a\u4e49", None))
-        self.groupBox.setTitle(QCoreApplication.translate("Form", u"\u53c2\u6570\u8bbe\u7f6e:", None))
+        self.groupBox_2.setTitle(QCoreApplication.translate("Form", u"\u5b9e\u65f6\u901f\u5ea6", None))
+        self.label_68.setText("")
+        self.btn_send.setText(QCoreApplication.translate("Form", u"\u53d1\u9001", None))
+        self.groupBox.setTitle(QCoreApplication.translate("Form", u"\u91c7\u96c6\u5361\u53c2\u6570\u8bbe\u7f6e:", None))
         self.label_57.setText("")
         self.label_3.setText(QCoreApplication.translate("Form", u"IP\u5730\u5740", None))
         self.lineEdit_IP.setText(QCoreApplication.translate("Form", u"192.168.1.232", None))
@@ -1600,34 +1715,43 @@ class Ui_Form(object):
         self.label_5.setText(QCoreApplication.translate("Form", u"\u901a\u4fe1\u8d85\u65f6ms", None))
         self.checkBox_openport.setText(QCoreApplication.translate("Form", u"\u6253\u5f00\u7aef\u53e3", None))
         self.groupBox_ADsets.setTitle(QCoreApplication.translate("Form", u"\u6a21\u62df\u91cf\u8bbe\u7f6e", None))
-        self.label.setText(QCoreApplication.translate("Form", u"AO1", None))
-        self.label_55.setText(QCoreApplication.translate("Form", u"mv", None))
-        self.label_53.setText(QCoreApplication.translate("Form", u"\u672a\u5b9a\u4e49", None))
         self.label_30.setText(QCoreApplication.translate("Form", u"\u65b0\u6fc0\u5149\u529f\u7387", None))
+        self.label_31.setText(QCoreApplication.translate("Form", u"\u65b0\u9001\u7c89\u7535\u538b1", None))
+        self.label_52.setText(QCoreApplication.translate("Form", u"\u672a\u5b9a\u4e49", None))
+        self.label_48.setText(QCoreApplication.translate("Form", u"\u65b0\u9001\u7c89\u7535\u538b1", None))
         self.label_6.setText(QCoreApplication.translate("Form", u"AO2", None))
         self.label_61.setText(QCoreApplication.translate("Form", u"mv", None))
-        self.label_10.setText(QCoreApplication.translate("Form", u"AO5", None))
-        self.label_59.setText(QCoreApplication.translate("Form", u"mv", None))
-        self.label_51.setText(QCoreApplication.translate("Form", u"\u672a\u5b9a\u4e49", None))
-        self.label_31.setText(QCoreApplication.translate("Form", u"\u65b0\u9001\u7c89\u7535\u538b1", None))
-        self.label_49.setText(QCoreApplication.translate("Form", u"\u65b0\u6fc0\u5149\u5149\u6591", None))
-        self.label_12.setText(QCoreApplication.translate("Form", u"AO7", None))
-        self.label_60.setText(QCoreApplication.translate("Form", u"mv", None))
-        self.label_8.setText(QCoreApplication.translate("Form", u"AO3", None))
-        self.label_58.setText(QCoreApplication.translate("Form", u"mv", None))
-        self.label_48.setText(QCoreApplication.translate("Form", u"\u65b0\u9001\u7c89\u7535\u538b1", None))
-        self.label_13.setText(QCoreApplication.translate("Form", u"AO8", None))
-        self.label_64.setText(QCoreApplication.translate("Form", u"mv", None))
-        self.label_52.setText(QCoreApplication.translate("Form", u"\u672a\u5b9a\u4e49", None))
+        self.label.setText(QCoreApplication.translate("Form", u"AO1", None))
+        self.label_55.setText(QCoreApplication.translate("Form", u"mv", None))
         self.label_11.setText(QCoreApplication.translate("Form", u"AO6", None))
         self.label_63.setText(QCoreApplication.translate("Form", u"mv", None))
-        self.label_56.setText("")
+        self.label_51.setText(QCoreApplication.translate("Form", u"\u672a\u5b9a\u4e49", None))
+        self.label_8.setText(QCoreApplication.translate("Form", u"AO3", None))
+        self.label_58.setText(QCoreApplication.translate("Form", u"mv", None))
         self.label_9.setText(QCoreApplication.translate("Form", u"AO4", None))
         self.label_62.setText(QCoreApplication.translate("Form", u"mv", None))
+        self.label_12.setText(QCoreApplication.translate("Form", u"AO7", None))
+        self.label_60.setText(QCoreApplication.translate("Form", u"mv", None))
+        self.label_10.setText(QCoreApplication.translate("Form", u"AO5", None))
+        self.label_59.setText(QCoreApplication.translate("Form", u"mv", None))
+        self.label_49.setText(QCoreApplication.translate("Form", u"\u65b0\u6fc0\u5149\u5149\u6591", None))
+        self.label_56.setText("")
+        self.label_53.setText(QCoreApplication.translate("Form", u"\u672a\u5b9a\u4e49", None))
+        self.label_13.setText(QCoreApplication.translate("Form", u"AO8", None))
+        self.label_64.setText(QCoreApplication.translate("Form", u"mv", None))
         self.label_50.setText(QCoreApplication.translate("Form", u"\u672a\u5b9a\u4e49", None))
         self.btn_setAO.setText(QCoreApplication.translate("Form", u"\u591a\u901a\u9053\u8bbe\u7f6eAO", None))
         self.btn_readDO.setText(QCoreApplication.translate("Form", u"\u8bfb\u53d6\u7ee7\u7535\u5668\u72b6\u6001", None))
         self.btn_readDI.setText(QCoreApplication.translate("Form", u"\u8bfb\u53d6DI\u72b6\u6001", None))
         self.btn_readAI.setText(QCoreApplication.translate("Form", u"\u8bfb\u53d6AI\u72b6\u6001", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("Form", u"KUKA\u4f4d\u7f6e\u901a\u4fe1", None))
+        self.label_69.setText("")
+        self.label_66.setText(QCoreApplication.translate("Form", u"IP\u5730\u5740", None))
+        self.label_65.setText(QCoreApplication.translate("Form", u"\u7aef\u53e3\u53f7", None))
+        self.lineEdit_IP_2.setText(QCoreApplication.translate("Form", u"192.168.1.232", None))
+        self.label_67.setText(QCoreApplication.translate("Form", u"\u91c7\u96c6\u9891\u7387", None))
+        self.checkBox.setText(QCoreApplication.translate("Form", u"DI2\u5916\u63a7", None))
+        self.checkBox_2.setText(QCoreApplication.translate("Form", u"\u4fdd\u5b58\u6570\u636e", None))
+        self.pushButton.setText(QCoreApplication.translate("Form", u"\u94fe\u63a5", None))
     # retranslateUi
 
