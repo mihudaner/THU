@@ -530,7 +530,8 @@ class AIOWidget_ShowOne(QWidget):
         self.cam.W = self.ui.spinBox_ccdw.value()
         self.cam.Hoffset = self.ui.spinBox_ccd_hoffset.value()
         self.cam.Woffset = self.ui.spinBox_ccd_woffset.value()
-        self.updateshow(self.cam.get_img())
+        if self.cam.img is not None:
+            self.updateshow(self.cam.get_img())
 
     def capture(self, updateshow=True, timedelay=0):
         img = self.cam.capture(self.select_idx)

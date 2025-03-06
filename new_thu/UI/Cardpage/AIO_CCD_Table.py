@@ -1,7 +1,10 @@
+
+
+
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'AIO_CCD_TableQblPvi.ui'
+## Form generated from reading UI file 'AIO_CCD_TablehPbqwq.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -413,14 +416,12 @@ class Ui_Form(object):
 
         self.horizontalLayout_12.addWidget(self.label_ccd_img)
 
-        self.label_12 = QLabel(self.groupBox_2)
-        self.label_12.setObjectName(u"label_12")
-        self.label_12.setAlignment(Qt.AlignCenter)
+        self.textBrowser_ccdres = QTextBrowser(self.groupBox_2)
+        self.textBrowser_ccdres.setObjectName(u"textBrowser_ccdres")
 
-        self.horizontalLayout_12.addWidget(self.label_12)
+        self.horizontalLayout_12.addWidget(self.textBrowser_ccdres)
 
         self.horizontalLayout_12.setStretch(0, 3)
-        self.horizontalLayout_12.setStretch(1, 1)
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_12)
 
@@ -953,7 +954,6 @@ class Ui_Form(object):
         self.groupBox_2.setTitle(QCoreApplication.translate("Form", u"CCD\u56fe\u50cf:", None))
         self.label_9.setText("")
         self.label_ccd_img.setText("")
-        self.label_12.setText(QCoreApplication.translate("Form", u"<html><head/><body><p>\u6c89\u79ef\u72b6\u6001\u5b9e\u65f6\u76d1\u63a7</p><p>\u7ed3\u679c\u663e\u793a\u533a\u57df</p></body></html>", None))
         self.checkBox_1.setText("")
         self.AI1.setText(QCoreApplication.translate("Form", u"AI1", None))
         self.checkBox_2.setText("")

@@ -116,6 +116,7 @@ class TabWindow(MainWindow):
         g_signals.DI1_signal.connect(self.DI1_trigger)
         g_signals.DI2_signal.connect(self.DI2_trigger)
 
+
     def DI1_trigger(self, state):
         print(f"D1 state: {state}")
         if state == "UP":
@@ -130,6 +131,9 @@ class TabWindow(MainWindow):
                 self.start_recording(save_mp4=True)
             elif combo_selection == "jpg+mp4":
                 self.start_recording(save_mp4=True, save_img=True)
+
+            else:
+                self.start_recording(save_img=False,save_mp4=False)
         else:  # state == "DOWN"
             self.ui.AIOControlWidget.widgets.radioButton.setChecked(False)
             if self.mp4_recording:
@@ -165,6 +169,10 @@ class TabWindow(MainWindow):
             pass
         elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "熔池状态":
             self.ui.tabWidget_2.setCurrentIndex(2)
+            pass
+
+        elif item.data(0, Qt.UserRole + 1) == "沉积监控" and item.text(0) == "沉积形貌":
+            self.ui.tabWidget_2.setCurrentIndex(1)
             pass
 
     # def open_file_dialog(self):
@@ -208,10 +216,18 @@ class TabWindow(MainWindow):
         self.fps = self.ui.AIOControlWidget.widgets.Slider_fps.value()
         frame_time = 1 / self.fps  # 每帧期望的时间间隔（秒）
         i = 0
+
         while self.mp4_recording:
             start_time = time.time()  # 记录帧处理开始时间
             self.ui.AIOControlWidget.capture(updateshow=True, timedelay=0)
             img = self.ui.AIOControlWidget.cam.get_img()
+
+            # ===========================
+            # img送到网络判读模型
+            # self.ui.AIOControlWidget.textBrowser_ccdres  更新显示结果
+            # ===========================
+
+
             if isinstance(img, np.ndarray):
                 now = datetime.datetime.now()
                 timestamp = now.strftime("%Y%m%d_%H%M%S")
@@ -220,9 +236,9 @@ class TabWindow(MainWindow):
                     self.frame_size = (img.shape[1], img.shape[0])
                     first_frame = False
 
-                    self.video_save_path = os.path.join(self.now_select_ccd_save_apppath, f"video_{timestamp}.mp4")
-                    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
                     if save_mp4:
+                        self.video_save_path = os.path.join(self.now_select_ccd_save_apppath, f"video_{timestamp}.mp4")
+                        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
                         self.video_writer = cv2.VideoWriter(self.video_save_path, fourcc, self.fps, self.frame_size)
                         print(f"mp4_recording started: {self.video_save_path}")
                     if save_img:
@@ -370,7 +386,6 @@ class TabWindow(MainWindow):
 
         if self._resizing_edge in ['bottom-left', 'bottom', 'bottom-right']:
             new_geometry.setBottom(self._start_geometry.bottom() + dy)
-
         self.setGeometry(new_geometry)
 
         # 方法：切换最大化和还原

@@ -947,4 +947,9 @@ if __name__ == '__main__':
     # 清除全局样式表
     MainWindow = PWindow()
     MainWindow.show()
+    MainWindow.ui.AIOControlWidget.widgets.btn_enum.click()
+    MainWindow.ui.AIOControlWidget.widgets.Slider_fps.setValue(10)
+    MainWindow.ui.AIOControlWidget.widgets.checkBox_openccd.click()
+    MainWindow.ui.DIOControlWidget.widgets.checkBox_openport.click()
+    MainWindow.ui.DIOControlWidget.widgets.DO0.click()
     sys.exit(app.exec_())

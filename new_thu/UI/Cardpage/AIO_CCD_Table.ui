@@ -416,7 +416,7 @@ QPushButton:pressed {
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="3,1">
+            <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="3,0">
              <item>
               <widget class="QLabel" name="label_ccd_img">
                <property name="styleSheet">
@@ -431,14 +431,7 @@ QPushButton:pressed {
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_12">
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;沉积状态实时监控&lt;/p&gt;&lt;p&gt;结果显示区域&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
+              <widget class="QTextBrowser" name="textBrowser_ccdres"/>
              </item>
             </layout>
            </item>
