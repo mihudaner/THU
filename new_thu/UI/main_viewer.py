@@ -645,7 +645,6 @@ class MainWindow(QMainWindow):
             path = item.data(0, Qt.UserRole)
             subprocess.run(['start', '', path], shell=True)
 
-
     #编辑
     def edit(self, item):
         project_path = item.data(0, Qt.UserRole)
