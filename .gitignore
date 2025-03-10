@@ -4,6 +4,7 @@
 src/calib/hik/*.png
 src/calib/zivid_rgb/*.png
 tool/data/zivid_labels/*.pkl
+/new_thu/.idea
 *.pt
 *.mp4
 *.pth
