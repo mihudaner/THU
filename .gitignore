@@ -4,6 +4,7 @@
 src/calib/hik/*.png
 src/calib/zivid_rgb/*.png
 tool/data/zivid_labels/*.pkl
+/new_thu/.idea
 *.pt
 *.mp4
 *.pth
@@ -14,3 +15,4 @@ data/
 *.tiff
 src/molten/1021-CCD-旁轴同轴同时拍摄 .zip
 *.zip
+*.xyz
