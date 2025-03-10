@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1232</width>
+    <width>1234</width>
     <height>910</height>
    </rect>
   </property>
@@ -611,7 +611,7 @@ QPushButton:pressed {
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tab_5">
               <attribute name="title">
@@ -640,32 +640,19 @@ QPushButton:pressed {
                      </widget>
                     </item>
                     <item>
-                     <widget class="QTextBrowser" name="textBrowser">
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>100</height>
-                       </size>
+                     <widget class="QLabel" name="cpltAreaAcqFLabel">
+                      <property name="styleSheet">
+                       <string notr="true">background-color: rgb(223, 223, 223);</string>
+                      </property>
+                      <property name="text">
+                       <string>请选择文件</string>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <layout class="QHBoxLayout" name="horizontalLayout_16">
                       <item>
-                       <widget class="QPushButton" name="pushButton_3">
-                        <property name="maximumSize">
-                         <size>
-                          <width>200</width>
-                          <height>100</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>查看</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="pushButton_4">
+                       <widget class="QPushButton" name="cpltAreaAcqCFBtn">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                           <horstretch>0</horstretch>
@@ -683,6 +670,19 @@ QPushButton:pressed {
                         </property>
                         <property name="text">
                          <string>浏览</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="cpltAreaAcqVFBtn">
+                        <property name="maximumSize">
+                         <size>
+                          <width>200</width>
+                          <height>100</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>查看</string>
                         </property>
                        </widget>
                       </item>
@@ -713,7 +713,17 @@ QPushButton:pressed {
                        </widget>
                       </item>
                       <item>
-                       <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+                       <widget class="QDoubleSpinBox" name="xminDSBox">
+                        <property name="minimum">
+                         <double>-99.000000000000000</double>
+                        </property>
+                        <property name="singleStep">
+                         <double>0.100000000000000</double>
+                        </property>
+                        <property name="value">
+                         <double>-0.500000000000000</double>
+                        </property>
+                       </widget>
                       </item>
                      </layout>
                     </item>
@@ -727,7 +737,17 @@ QPushButton:pressed {
                        </widget>
                       </item>
                       <item>
-                       <widget class="QDoubleSpinBox" name="doubleSpinBox_6"/>
+                       <widget class="QDoubleSpinBox" name="ymaxDSBox">
+                        <property name="minimum">
+                         <double>-1000.000000000000000</double>
+                        </property>
+                        <property name="maximum">
+                         <double>1000.000000000000000</double>
+                        </property>
+                        <property name="value">
+                         <double>200.000000000000000</double>
+                        </property>
+                       </widget>
                       </item>
                      </layout>
                     </item>
@@ -741,7 +761,17 @@ QPushButton:pressed {
                        </widget>
                       </item>
                       <item>
-                       <widget class="QDoubleSpinBox" name="doubleSpinBox_7"/>
+                       <widget class="QDoubleSpinBox" name="xmaxDSBox">
+                        <property name="minimum">
+                         <double>-99.000000000000000</double>
+                        </property>
+                        <property name="singleStep">
+                         <double>0.100000000000000</double>
+                        </property>
+                        <property name="value">
+                         <double>0.500000000000000</double>
+                        </property>
+                       </widget>
                       </item>
                      </layout>
                     </item>
@@ -755,7 +785,20 @@ QPushButton:pressed {
                        </widget>
                       </item>
                       <item>
-                       <widget class="QDoubleSpinBox" name="doubleSpinBox_5"/>
+                       <widget class="QDoubleSpinBox" name="yminDSBox_">
+                        <property name="minimum">
+                         <double>-1000.000000000000000</double>
+                        </property>
+                        <property name="maximum">
+                         <double>1000.000000000000000</double>
+                        </property>
+                        <property name="singleStep">
+                         <double>1.000000000000000</double>
+                        </property>
+                        <property name="value">
+                         <double>0.000000000000000</double>
+                        </property>
+                       </widget>
                       </item>
                      </layout>
                     </item>
@@ -1207,11 +1250,6 @@ QPushButton:pressed {
                       <string>变量</string>
                      </property>
                     </column>
-                    <column>
-                     <property name="text">
-                      <string>值</string>
-                     </property>
-                    </column>
                    </widget>
                   </item>
                  </layout>
@@ -1275,11 +1313,6 @@ QPushButton:pressed {
                       <column>
                        <property name="text">
                         <string>变量</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>值</string>
                        </property>
                       </column>
                      </widget>

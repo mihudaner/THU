@@ -123,6 +123,9 @@ class TabWindow(MainWindow):
         g_signals.DI2_signal.connect(self.DI2_trigger)
 
 
+        self.cpltAreaAcq()
+
+
     def DI1_trigger(self, state):
         print(f"D1 state: {state}")
         if state == "UP":
@@ -491,6 +494,49 @@ class TabWindow(MainWindow):
             self.showMaximized()  # 最大化窗口
             self.is_maximized = True
 
+    ##### 沉积形貌功能 #####
+    ### 补形区域获取
+    def cpltAreaAcq(self):
+        # 绑定文件选择
+        self.ui.cpltAreaAcqCFBtn.clicked.connect(self.cpltAreaAcqCF)
+        # 绑定文件查看
+        self.ui.cpltAreaAcqVFBtn.clicked.connect(self.cpltAreaAcqVF)
+
+
+    ## 补形区域获取-浏览按键-选择文件
+    def cpltAreaAcqCF(self):
+        # 创建文件对话框
+        file_dialog = QFileDialog()
+        file_dialog.setFileMode(QFileDialog.ExistingFile)
+        file_dialog.setNameFilter("文本文件 (*.txt);;所有文件 (*.*)")
+
+        if file_dialog.exec_():
+            # 获取选择的文件路径
+            self.cpltAreaAcqF = file_dialog.selectedFiles()
+            if self.cpltAreaAcqF:
+                self.ui.cpltAreaAcqFLabel.setText(self.cpltAreaAcqF[0])
+
+    ## 补形区域获取-查看按键-查看文件
+    def cpltAreaAcqVF(self):
+        if self.cpltAreaAcqF:
+            print("cpltAreaAcqVF:", self.cpltAreaAcqF)
+        else:
+            print("cpltAreaAcqF didnt choose a file")
+
+    ## 补形区域获取-截面显示按键-截面显示
+
+    ## 补形区域获取-截面显示按键- 执行
+
+
+    ### 沉积模拟填充
+    def depositionSimulationFill(self):
+        pass
+    ### 沉积程序生成
+    def depositionProgramGeneration(self):
+        pass
+
+
+
 class Worker(QObject):
     # 在类中定义信号
     update_text_signal = Signal(str)
@@ -625,6 +671,14 @@ class Worker(QObject):
             self_pwin.video_writer.release()
             self_pwin.video_writer = None
             print(f"mp4_recording stopped. Video saved at: {self_pwin.video_save_path}")
+
+
+
+
+
+
+
+
 
 class PWindow(CCD_Window, TabWindow):
     def __init__(self, *args, **kwargs):
