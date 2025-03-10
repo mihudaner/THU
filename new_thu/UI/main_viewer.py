@@ -840,6 +840,7 @@ class MainWindow(QMainWindow):
         text0 = text
         if ok and text:  # 如果用户确认并输入了名称
             # 计算目标目录路径
+
             if item_style == "具体工艺":
                 text = f"{text}.json"
             elif item_style == "具体材料":
