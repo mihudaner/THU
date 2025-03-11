@@ -6,9 +6,10 @@ import torch.nn as nn
 from torchvision.models import resnet18
 import matplotlib.font_manager as font_manager
 from Cardpage.Two_widget_debug import DIOWidget, AIOWidget_ShowOne
-from PySide2.QtCore import QTimer, QPoint, QRect, QObject, Signal
+from PySide2.QtCore import QTimer, QPoint, QRect, QObject, Signal,QThread
 from PySide2.QtGui import QPixmap, QImage
 from src.molten_pool import CCD_Pretor
+from src.depositionMorphology import cpltArea
 import datetime
 import cv2
 from PIL import Image
@@ -17,7 +18,8 @@ import time
 import matplotlib.pyplot as plt
 import torchvision.transforms as transforms
 import threading
-
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_agg import FigureCanvasAgg
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
 global flag
 flag = False
@@ -501,22 +503,59 @@ class TabWindow(MainWindow):
         self.ui.cpltAreaAcqCFBtn.clicked.connect(self.cpltAreaAcqCF)
         # 绑定文件查看
         self.ui.cpltAreaAcqVFBtn.clicked.connect(self.cpltAreaAcqVF)
+        # 绑定截面显示
+        self.ui.cpltAreaAcqShowBtn.clicked.connect(self.cpltAreaAcqShow)
+        #
+        self.ui.cpltAreaAcqSaveBtn.clicked.connect(self.cpltAreaAcqSave)
 
+    def thread_error(self, error_msg):
+        print("thread_error:",error_msg)
 
     ## 补形区域获取-浏览按键-选择文件
     def cpltAreaAcqCF(self):
         # 创建文件对话框
         file_dialog = QFileDialog()
         file_dialog.setFileMode(QFileDialog.ExistingFile)
-        file_dialog.setNameFilter("文本文件 (*.txt);;所有文件 (*.*)")
+        file_dialog.setNameFilter("点云文件 (*.xyz);;所有文件 (*.*)")
 
         if file_dialog.exec_():
             # 获取选择的文件路径
             self.cpltAreaAcqF = file_dialog.selectedFiles()
             if self.cpltAreaAcqF:
                 self.ui.cpltAreaAcqFLabel.setText(self.cpltAreaAcqF[0])
+                self.updatecpltArea()
 
-    ## 补形区域获取-查看按键-查看文件
+    ## 补形区域获取-浏览按键-更新补形区域
+    def updatecpltArea(self):
+        if self.cpltAreaAcqF:
+            self.ui.cpltAreaShowLabel.setText("文件加载中")
+            self.ui.cpltAreaAcqCFBtn.setEnabled(False)  # 禁用按钮
+            # 创建线程和 Worker
+            self.cpltAreathread1 = QThread()
+            self.cpltAreaworker1 = cpltAreaFLWorker(self.cpltAreaAcqF[0])
+
+            # 将 Worker 移动到线程
+            self.cpltAreaworker1.moveToThread(self.cpltAreathread1)
+
+            # 连接信号与槽
+            self.cpltAreathread1.started.connect(self.cpltAreaworker1.run)
+            self.cpltAreaworker1.data_loaded.connect(self.setcpltArea)
+            self.cpltAreaworker1.error_occurred.connect(self.thread_error)
+            self.cpltAreaworker1.finished.connect(self.cpltAreathread1.quit)
+            self.cpltAreaworker1.finished.connect(self.cpltAreaworker1.deleteLater)
+            self.cpltAreathread1.finished.connect(self.cpltAreathread1.deleteLater)
+            # 启动线程
+            self.cpltAreathread1.start()
+    ## 补形区域获取-浏览按键-更新补形区域-自动设置补形区域
+    def setcpltArea(self,x,y,z):
+        self.ui.cpltAreaShowLabel.setText("加载完成")
+        self.ui.cpltAreaAcqCFBtn.setEnabled(True)
+        self.df = [x,y,z]
+        ymin,ymax = np.nanmin(self.df[1]),np.nanmax(self.df[1])
+        self.ui.yminDSBox.setValue(ymin)
+        self.ui.ymaxDSBox.setValue(ymax)
+
+    ## 补形区域获取-查看按键-查看文件(调用Cloudcompare)
     def cpltAreaAcqVF(self):
         if self.cpltAreaAcqF:
             print("cpltAreaAcqVF:", self.cpltAreaAcqF)
@@ -524,8 +563,45 @@ class TabWindow(MainWindow):
             print("cpltAreaAcqF didnt choose a file")
 
     ## 补形区域获取-截面显示按键-截面显示
+    def cpltAreaAcqShow(self):
+        try:
+            if self.cpltAreaAcqF:
+                params = {
+                    'x_min': self.ui.xminDSBox.value(),
+                    'x_max': self.ui.xmaxDSBox.value(),
+                    'y_min': self.ui.yminDSBox.value(),
+                    'y_max': self.ui.ymaxDSBox.value()
+                }
+            if self.df:
+                self.ui.cpltAreaShowLabel.setText("数据计算中")
+                self.ui.cpltAreaAcqShowBtn.setEnabled(False)  # 禁用按钮
+                self.cpltarea = cpltArea(self.df,params)
+                canvas = self.cpltarea.cpltAreaShow()
+                img_array = np.frombuffer(canvas, dtype=np.uint8)
+                width, height = 800, 400  # 必须与 figsize 一致
+                img_array = img_array.reshape((height, width, 4))
 
-    ## 补形区域获取-截面显示按键- 执行
+                pixmap = QPixmap.fromImage(
+                    QImage(img_array.data, width, height, QImage.Format_RGBA8888)
+                )
+                # 更新 QLabel
+                self.ui.cpltAreaShowLabel.setPixmap(pixmap)
+                # self.ui.cpltAreaShowLabel.setScaledContents(True)
+                self.ui.cpltAreaAcqShowBtn.setEnabled(True)# 启用按钮
+        except:
+            print("cpltAreaAcqShow:", "error")
+
+    ## 补形区域获取-数据保存按键
+    def cpltAreaAcqSave(self):
+        # try:
+        if self.cpltAreaAcqF:
+            save_dir = os.path.dirname(self.cpltAreaAcqF[0])
+            if not os.path.exists(save_dir):
+                print("cpltAreaAcqSave: wrong file path")
+                return -1
+            self.cpltarea.saveExcel(save_dir)
+        # except:
+        #     print("cpltAreaAcqSave:", "请先生成数据")
 
 
     ### 沉积模拟填充
@@ -536,6 +612,39 @@ class TabWindow(MainWindow):
         pass
 
 
+class cpltAreaFLWorker(QObject):
+    # 定义信号
+    data_loaded = Signal(np.ndarray, np.ndarray, np.ndarray)  # 数据加载完成
+    error_occurred = Signal(str)                              # 发生错误
+    finished = Signal()                                       # 任务结束
+    def __init__(self, file_path):
+        super().__init__()
+        self.file_path = file_path
+
+    def run(self):
+        try:
+            # 使用 pandas 读取，处理 NaN 并优化性能
+            data = pd.read_csv(
+                self.file_path,
+                sep=r'\s+',  # 匹配任意空白字符（空格/tab等）
+                header=None,  # 无列标题
+                dtype=np.float32,  # 指定数据类型为 float32
+                na_values=['nan', 'NaN', ''],  # 识别常见的 NaN 表示
+                usecols=[0, 1, 2],  # 只读取前三列
+                engine='c',  # 使用 C 引擎加速
+                skipinitialspace=True  # 忽略分隔符前的空格
+            ).values
+            # 提取数据列
+            x, y, z = data[:, 0], data[:, 1], data[:, 2]
+
+            # 发射数据加载信号
+            self.data_loaded.emit(x, y, z)
+
+        except Exception as e:
+            self.error_occurred.emit(f"加载失败：{str(e)}")
+
+        finally:
+            self.finished.emit()
 
 class Worker(QObject):
     # 在类中定义信号

@@ -710,10 +710,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.label_3)
 
-        self.doubleSpinBox = QDoubleSpinBox(self.groupBox_2)
-        self.doubleSpinBox.setObjectName(u"doubleSpinBox")
+        self.xminDSBox = QDoubleSpinBox(self.groupBox_2)
+        self.xminDSBox.setObjectName(u"xminDSBox")
+        self.xminDSBox.setMinimum(-99.000000000000000)
+        self.xminDSBox.setSingleStep(0.100000000000000)
+        self.xminDSBox.setValue(-0.500000000000000)
 
-        self.horizontalLayout_3.addWidget(self.doubleSpinBox)
+        self.horizontalLayout_3.addWidget(self.xminDSBox)
 
 
         self.gridLayout.addLayout(self.horizontalLayout_3, 3, 0, 1, 1)
@@ -725,10 +728,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_8.addWidget(self.label_8)
 
-        self.doubleSpinBox_6 = QDoubleSpinBox(self.groupBox_2)
-        self.doubleSpinBox_6.setObjectName(u"doubleSpinBox_6")
+        self.ymaxDSBox = QDoubleSpinBox(self.groupBox_2)
+        self.ymaxDSBox.setObjectName(u"ymaxDSBox")
+        self.ymaxDSBox.setMinimum(-1000.000000000000000)
+        self.ymaxDSBox.setMaximum(1000.000000000000000)
+        self.ymaxDSBox.setValue(200.000000000000000)
 
-        self.horizontalLayout_8.addWidget(self.doubleSpinBox_6)
+        self.horizontalLayout_8.addWidget(self.ymaxDSBox)
 
 
         self.gridLayout.addLayout(self.horizontalLayout_8, 4, 2, 1, 1)
@@ -740,10 +746,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_9.addWidget(self.label_9)
 
-        self.doubleSpinBox_7 = QDoubleSpinBox(self.groupBox_2)
-        self.doubleSpinBox_7.setObjectName(u"doubleSpinBox_7")
+        self.xmaxDSBox = QDoubleSpinBox(self.groupBox_2)
+        self.xmaxDSBox.setObjectName(u"xmaxDSBox")
+        self.xmaxDSBox.setMinimum(-99.000000000000000)
+        self.xmaxDSBox.setSingleStep(0.100000000000000)
+        self.xmaxDSBox.setValue(0.500000000000000)
 
-        self.horizontalLayout_9.addWidget(self.doubleSpinBox_7)
+        self.horizontalLayout_9.addWidget(self.xmaxDSBox)
 
 
         self.gridLayout.addLayout(self.horizontalLayout_9, 4, 0, 1, 1)
@@ -755,10 +764,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_7.addWidget(self.label_7)
 
-        self.doubleSpinBox_5 = QDoubleSpinBox(self.groupBox_2)
-        self.doubleSpinBox_5.setObjectName(u"doubleSpinBox_5")
+        self.yminDSBox = QDoubleSpinBox(self.groupBox_2)
+        self.yminDSBox.setObjectName(u"yminDSBox")
+        self.yminDSBox.setMinimum(-1000.000000000000000)
+        self.yminDSBox.setMaximum(1000.000000000000000)
+        self.yminDSBox.setSingleStep(1.000000000000000)
+        self.yminDSBox.setValue(0.000000000000000)
 
-        self.horizontalLayout_7.addWidget(self.doubleSpinBox_5)
+        self.horizontalLayout_7.addWidget(self.yminDSBox)
 
 
         self.gridLayout.addLayout(self.horizontalLayout_7, 3, 2, 1, 1)
@@ -775,28 +788,32 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_6.addLayout(self.horizontalLayout_5)
 
-        self.textBrowser_2 = QTextBrowser(self.tab_5)
-        self.textBrowser_2.setObjectName(u"textBrowser_2")
+        self.cpltAreaShowLabel = QLabel(self.tab_5)
+        self.cpltAreaShowLabel.setObjectName(u"cpltAreaShowLabel")
+        self.cpltAreaShowLabel.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_6.addWidget(self.textBrowser_2)
+        self.verticalLayout_6.addWidget(self.cpltAreaShowLabel)
 
         self.horizontalLayout_17 = QHBoxLayout()
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
-        self.pushButton_2 = QPushButton(self.tab_5)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setMaximumSize(QSize(200, 16777215))
+        self.cpltAreaAcqSaveBtn = QPushButton(self.tab_5)
+        self.cpltAreaAcqSaveBtn.setObjectName(u"cpltAreaAcqSaveBtn")
+        self.cpltAreaAcqSaveBtn.setMaximumSize(QSize(200, 16777215))
 
-        self.horizontalLayout_17.addWidget(self.pushButton_2)
+        self.horizontalLayout_17.addWidget(self.cpltAreaAcqSaveBtn)
 
-        self.pushButton = QPushButton(self.tab_5)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMaximumSize(QSize(200, 16777215))
+        self.cpltAreaAcqShowBtn = QPushButton(self.tab_5)
+        self.cpltAreaAcqShowBtn.setObjectName(u"cpltAreaAcqShowBtn")
+        self.cpltAreaAcqShowBtn.setMaximumSize(QSize(200, 16777215))
 
-        self.horizontalLayout_17.addWidget(self.pushButton)
+        self.horizontalLayout_17.addWidget(self.cpltAreaAcqShowBtn)
 
 
         self.verticalLayout_6.addLayout(self.horizontalLayout_17)
 
+        self.verticalLayout_6.setStretch(0, 2)
+        self.verticalLayout_6.setStretch(1, 8)
+        self.verticalLayout_6.setStretch(2, 1)
         self.tabWidget.addTab(self.tab_5, "")
         self.tab_6 = QWidget()
         self.tab_6.setObjectName(u"tab_6")
@@ -1309,8 +1326,9 @@ class Ui_MainWindow(object):
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Xmax", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Ymin", None))
         self.label.setText("")
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"\u6570\u636e\u4fdd\u5b58", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\u622a\u9762\u663e\u793a", None))
+        self.cpltAreaShowLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.cpltAreaAcqSaveBtn.setText(QCoreApplication.translate("MainWindow", u"\u6570\u636e\u4fdd\u5b58", None))
+        self.cpltAreaAcqShowBtn.setText(QCoreApplication.translate("MainWindow", u"\u622a\u9762\u663e\u793a", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), QCoreApplication.translate("MainWindow", u"\u8865\u5f62\u533a\u57df\u83b7\u53d6", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"\u6c89\u79ef\u7279\u5f81", None))
         self.label_5.setText("")

@@ -617,7 +617,7 @@ QPushButton:pressed {
               <attribute name="title">
                <string>补形区域获取</string>
               </attribute>
-              <layout class="QVBoxLayout" name="verticalLayout_6">
+              <layout class="QVBoxLayout" name="verticalLayout_6" stretch="2,8,1">
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_5">
                  <item>
@@ -785,7 +785,7 @@ QPushButton:pressed {
                        </widget>
                       </item>
                       <item>
-                       <widget class="QDoubleSpinBox" name="yminDSBox_">
+                       <widget class="QDoubleSpinBox" name="yminDSBox">
                         <property name="minimum">
                          <double>-1000.000000000000000</double>
                         </property>
@@ -821,12 +821,19 @@ QPushButton:pressed {
                 </layout>
                </item>
                <item>
-                <widget class="QTextBrowser" name="textBrowser_2"/>
+                <widget class="QLabel" name="cpltAreaShowLabel">
+                 <property name="text">
+                  <string>未选择文件</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_17">
                  <item>
-                  <widget class="QPushButton" name="pushButton_2">
+                  <widget class="QPushButton" name="cpltAreaAcqSaveBtn">
                    <property name="maximumSize">
                     <size>
                      <width>200</width>
@@ -839,7 +846,7 @@ QPushButton:pressed {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton">
+                  <widget class="QPushButton" name="cpltAreaAcqShowBtn">
                    <property name="maximumSize">
                     <size>
                      <width>200</width>
