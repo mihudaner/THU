@@ -1167,7 +1167,16 @@ QPushButton:pressed {
                    </widget>
                   </item>
                   <item>
-                   <widget class="QTableWidget" name="tableWidget_2">
+                   <widget class="QTableWidget" name="dcgParaTabel">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <attribute name="horizontalHeaderDefaultSectionSize">
+                     <number>80</number>
+                    </attribute>
                     <row>
                      <property name="text">
                       <string>KUKA程序名称</string>
@@ -1250,7 +1259,7 @@ QPushButton:pressed {
                     </row>
                     <row>
                      <property name="text">
-                      <string>新建行</string>
+                      <string>熔覆后移动距离Y</string>
                      </property>
                     </row>
                     <row>
@@ -1273,6 +1282,196 @@ QPushButton:pressed {
                       <string>值</string>
                      </property>
                     </column>
+                    <item row="0" column="0">
+                     <property name="text">
+                      <string>Program_Name</string>
+                     </property>
+                    </item>
+                    <item row="0" column="1">
+                     <property name="text">
+                      <string>L7_160_10</string>
+                     </property>
+                    </item>
+                    <item row="1" column="0">
+                     <property name="text">
+                      <string>Before_Deposition_X</string>
+                     </property>
+                    </item>
+                    <item row="1" column="1">
+                     <property name="text">
+                      <string>59.38</string>
+                     </property>
+                    </item>
+                    <item row="2" column="0">
+                     <property name="text">
+                      <string>Before_Deposition_Y</string>
+                     </property>
+                    </item>
+                    <item row="2" column="1">
+                     <property name="text">
+                      <string>0</string>
+                     </property>
+                    </item>
+                    <item row="3" column="0">
+                     <property name="text">
+                      <string>Before_Deposition_Z</string>
+                     </property>
+                    </item>
+                    <item row="3" column="1">
+                     <property name="text">
+                      <string>-10</string>
+                     </property>
+                    </item>
+                    <item row="4" column="0">
+                     <property name="text">
+                      <string>Laser_Spot</string>
+                     </property>
+                    </item>
+                    <item row="4" column="1">
+                     <property name="text">
+                      <string>0.3</string>
+                     </property>
+                    </item>
+                    <item row="5" column="0">
+                     <property name="text">
+                      <string>Protection_Gas_Before_Deposition</string>
+                     </property>
+                    </item>
+                    <item row="5" column="1">
+                     <property name="text">
+                      <string>10</string>
+                     </property>
+                    </item>
+                    <item row="6" column="0">
+                     <property name="text">
+                      <string>Protection_Gas_After_Deposition</string>
+                     </property>
+                    </item>
+                    <item row="6" column="1">
+                     <property name="text">
+                      <string>5</string>
+                     </property>
+                    </item>
+                    <item row="7" column="0">
+                     <property name="text">
+                      <string>Deposition_Speed</string>
+                     </property>
+                    </item>
+                    <item row="7" column="1">
+                     <property name="text">
+                      <string>0.005</string>
+                     </property>
+                    </item>
+                    <item row="8" column="0">
+                     <property name="text">
+                      <string>Choose_Powder</string>
+                     </property>
+                    </item>
+                    <item row="8" column="1">
+                     <property name="text">
+                      <string/>
+                     </property>
+                    </item>
+                    <item row="9" column="0">
+                     <property name="text">
+                      <string>Powder_Delivery_Speed</string>
+                     </property>
+                    </item>
+                    <item row="9" column="1">
+                     <property name="text">
+                      <string>0.075</string>
+                     </property>
+                    </item>
+                    <item row="10" column="0">
+                     <property name="text">
+                      <string>Laser_Power</string>
+                     </property>
+                    </item>
+                    <item row="10" column="1">
+                     <property name="text">
+                      <string>0.625</string>
+                     </property>
+                    </item>
+                    <item row="11" column="0">
+                     <property name="text">
+                      <string>Layer_Sum</string>
+                     </property>
+                    </item>
+                    <item row="11" column="1">
+                     <property name="text">
+                      <string>7</string>
+                     </property>
+                    </item>
+                    <item row="12" column="0">
+                     <property name="text">
+                      <string>Pass_Number</string>
+                     </property>
+                    </item>
+                    <item row="12" column="1">
+                     <property name="text">
+                      <string>-</string>
+                     </property>
+                    </item>
+                    <item row="13" column="0">
+                     <property name="text">
+                      <string>Pass_Distance</string>
+                     </property>
+                    </item>
+                    <item row="13" column="1">
+                     <property name="text">
+                      <string>30</string>
+                     </property>
+                    </item>
+                    <item row="14" column="0">
+                     <property name="text">
+                      <string>Offset_Distance </string>
+                     </property>
+                    </item>
+                    <item row="14" column="1">
+                     <property name="text">
+                      <string>3</string>
+                     </property>
+                    </item>
+                    <item row="15" column="0">
+                     <property name="text">
+                      <string>After_Deposition_X</string>
+                     </property>
+                    </item>
+                    <item row="15" column="1">
+                     <property name="text">
+                      <string>-</string>
+                     </property>
+                    </item>
+                    <item row="16" column="0">
+                     <property name="text">
+                      <string>After_Deposition_Y</string>
+                     </property>
+                    </item>
+                    <item row="16" column="1">
+                     <property name="text">
+                      <string>0</string>
+                     </property>
+                    </item>
+                    <item row="17" column="0">
+                     <property name="text">
+                      <string>After_Deposition_Z</string>
+                     </property>
+                    </item>
+                    <item row="17" column="1">
+                     <property name="text">
+                      <string>1.58</string>
+                     </property>
+                    </item>
+                    <item row="18" column="0">
+                     <property name="text">
+                      <string>Wait_ between_Layers</string>
+                     </property>
+                    </item>
+                    <item row="18" column="1">
+                     <property name="text">
+                      <string>120</string>
+                     </property>
+                    </item>
                    </widget>
                   </item>
                  </layout>
@@ -1306,13 +1505,22 @@ QPushButton:pressed {
                      </widget>
                     </item>
                     <item>
-                     <widget class="QTableWidget" name="tableWidget_4">
+                     <widget class="QTableWidget" name="dcgDetTabel">
                       <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                         <horstretch>0</horstretch>
                         <verstretch>0</verstretch>
                        </sizepolicy>
                       </property>
+                      <attribute name="horizontalHeaderMinimumSectionSize">
+                       <number>90</number>
+                      </attribute>
+                      <attribute name="horizontalHeaderDefaultSectionSize">
+                       <number>90</number>
+                      </attribute>
+                      <attribute name="verticalHeaderMinimumSectionSize">
+                       <number>20</number>
+                      </attribute>
                       <row>
                        <property name="text">
                         <string>CCD相机</string>
@@ -1343,10 +1551,50 @@ QPushButton:pressed {
                         <string>值</string>
                        </property>
                       </column>
+                      <item row="0" column="0">
+                       <property name="text">
+                        <string>GongYe_CCD</string>
+                       </property>
+                      </item>
+                      <item row="0" column="1">
+                       <property name="text">
+                        <string>TRUE</string>
+                       </property>
+                      </item>
+                      <item row="1" column="0">
+                       <property name="text">
+                        <string>Dian_Temperature</string>
+                       </property>
+                      </item>
+                      <item row="1" column="1">
+                       <property name="text">
+                        <string>TRUE</string>
+                       </property>
+                      </item>
+                      <item row="2" column="0">
+                       <property name="text">
+                        <string>GaoSu_Camera</string>
+                       </property>
+                      </item>
+                      <item row="2" column="1">
+                       <property name="text">
+                        <string>TRUE</string>
+                       </property>
+                      </item>
+                      <item row="3" column="0">
+                       <property name="text">
+                        <string>Laser_LunKuo</string>
+                       </property>
+                      </item>
+                      <item row="3" column="1">
+                       <property name="text">
+                        <string>TRUE</string>
+                       </property>
+                      </item>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QGroupBox" name="groupBox_5">
+                     <widget class="QGroupBox" name="dcgScanGroup">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                         <horstretch>0</horstretch>
@@ -1377,9 +1625,9 @@ QPushButton:pressed {
                         </widget>
                        </item>
                        <item>
-                        <widget class="QTableWidget" name="tableWidget_3">
+                        <widget class="QTableWidget" name="dcgScanTabel">
                          <property name="sizePolicy">
-                          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
@@ -1390,24 +1638,36 @@ QPushButton:pressed {
                            <height>350</height>
                           </size>
                          </property>
+                         <attribute name="horizontalHeaderMinimumSectionSize">
+                          <number>90</number>
+                         </attribute>
+                         <attribute name="horizontalHeaderDefaultSectionSize">
+                          <number>90</number>
+                         </attribute>
+                         <attribute name="verticalHeaderMinimumSectionSize">
+                          <number>20</number>
+                         </attribute>
+                         <attribute name="verticalHeaderDefaultSectionSize">
+                          <number>37</number>
+                         </attribute>
+                         <row>
+                          <property name="text">
+                           <string>扫描前移动距离X</string>
+                          </property>
+                         </row>
+                         <row>
+                          <property name="text">
+                           <string>扫描前移动距离Y</string>
+                          </property>
+                         </row>
+                         <row>
+                          <property name="text">
+                           <string>扫描前移动距离Z</string>
+                          </property>
+                         </row>
                          <row>
                           <property name="text">
                            <string>扫描前等待时间</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>扫描前移动时间X</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>扫描前移动时间Y</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>扫描前移动时间Z</string>
                           </property>
                          </row>
                          <row>
@@ -1417,22 +1677,22 @@ QPushButton:pressed {
                          </row>
                          <row>
                           <property name="text">
-                           <string>X向扫描移动距离</string>
+                           <string>Y向扫描移动距离</string>
                           </property>
                          </row>
                          <row>
                           <property name="text">
-                           <string>扫描后移动时间X</string>
+                           <string>扫描后移动距离X</string>
                           </property>
                          </row>
                          <row>
                           <property name="text">
-                           <string>扫描后移动时间Y</string>
+                           <string>扫描后移动距离Y</string>
                           </property>
                          </row>
                          <row>
                           <property name="text">
-                           <string>扫描后移动时间Z</string>
+                           <string>扫描后移动距离Z</string>
                           </property>
                          </row>
                          <column>
@@ -1445,6 +1705,96 @@ QPushButton:pressed {
                            <string>值</string>
                           </property>
                          </column>
+                         <item row="0" column="0">
+                          <property name="text">
+                           <string>Before_Scanning_Y</string>
+                          </property>
+                         </item>
+                         <item row="0" column="1">
+                          <property name="text">
+                           <string>-200</string>
+                          </property>
+                         </item>
+                         <item row="1" column="0">
+                          <property name="text">
+                           <string>Before_Scanning_Y</string>
+                          </property>
+                         </item>
+                         <item row="1" column="1">
+                          <property name="text">
+                           <string>-15</string>
+                          </property>
+                         </item>
+                         <item row="2" column="0">
+                          <property name="text">
+                           <string>Before_Scanning_Z</string>
+                          </property>
+                         </item>
+                         <item row="2" column="1">
+                          <property name="text">
+                           <string>0</string>
+                          </property>
+                         </item>
+                         <item row="3" column="0">
+                          <property name="text">
+                           <string>Wait_Before_Scanning</string>
+                          </property>
+                         </item>
+                         <item row="3" column="1">
+                          <property name="text">
+                           <string>55</string>
+                          </property>
+                         </item>
+                         <item row="4" column="0">
+                          <property name="text">
+                           <string>Scanning_Speed</string>
+                          </property>
+                         </item>
+                         <item row="4" column="1">
+                          <property name="text">
+                           <string>0.005</string>
+                          </property>
+                         </item>
+                         <item row="5" column="0">
+                          <property name="text">
+                           <string>Scanning_Y_Distacne</string>
+                          </property>
+                         </item>
+                         <item row="5" column="1">
+                          <property name="text">
+                           <string>-200</string>
+                          </property>
+                         </item>
+                         <item row="6" column="0">
+                          <property name="text">
+                           <string>After_Scanning_X</string>
+                          </property>
+                         </item>
+                         <item row="6" column="1">
+                          <property name="text">
+                           <string>20</string>
+                          </property>
+                         </item>
+                         <item row="7" column="0">
+                          <property name="text">
+                           <string>After_Scanning_Y</string>
+                          </property>
+                         </item>
+                         <item row="7" column="1">
+                          <property name="text">
+                           <string>30</string>
+                          </property>
+                         </item>
+                         <item row="8" column="0">
+                          <property name="text">
+                           <string>After_Scanning_Z</string>
+                          </property>
+                         </item>
+                         <item row="8" column="1">
+                          <property name="text">
+                           <string>40</string>
+                          </property>
+                         </item>
                         </widget>
                        </item>
                       </layout>
@@ -1456,7 +1806,7 @@ QPushButton:pressed {
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_14">
                    <item>
-                    <widget class="QPushButton" name="pushButton_10">
+                    <widget class="QPushButton" name="dcgParaSaveBtn">
                      <property name="minimumSize">
                       <size>
                        <width>0</width>
@@ -1469,7 +1819,7 @@ QPushButton:pressed {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="pushButton_9">
+                    <widget class="QPushButton" name="dcgCodeUpdateBtn">
                      <property name="minimumSize">
                       <size>
                        <width>0</width>
@@ -1482,7 +1832,7 @@ QPushButton:pressed {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="pushButton_8">
+                    <widget class="QPushButton" name="dcgCodeGenBtn">
                      <property name="minimumSize">
                       <size>
                        <width>0</width>
@@ -1495,7 +1845,7 @@ QPushButton:pressed {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="pushButton_7">
+                    <widget class="QPushButton" name="dcgCodeTransBtn">
                      <property name="minimumSize">
                       <size>
                        <width>0</width>

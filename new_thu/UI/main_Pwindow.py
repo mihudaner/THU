@@ -4,12 +4,11 @@ from typing import cast
 import torch
 import torch.nn as nn
 from torchvision.models import resnet18
-import matplotlib.font_manager as font_manager
 from Cardpage.Two_widget_debug import DIOWidget, AIOWidget_ShowOne
 from PySide2.QtCore import QTimer, QPoint, QRect, QObject, Signal,QThread
 from PySide2.QtGui import QPixmap, QImage
 from src.molten_pool import CCD_Pretor
-from src.depositionMorphology import cpltArea,dsfSimuDep,dsfSave
+from src.depositionMorphology import cpltArea,dsfSimuDep,dsfSave,dcgCodegen,dcgSave
 import datetime
 import cv2
 from PIL import Image
@@ -18,8 +17,8 @@ import time
 import matplotlib.pyplot as plt
 import torchvision.transforms as transforms
 import threading
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_agg import FigureCanvasAgg
+from PySide2.QtWidgets import QTableWidget, QComboBox
+
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
 global flag
 flag = False
@@ -127,6 +126,7 @@ class TabWindow(MainWindow):
         # 沉积形貌信号连接
         self.cpltAreaAcq()
         self.dsf()
+        self.dcg()
 
 
     def DI1_trigger(self, state):
@@ -514,17 +514,20 @@ class TabWindow(MainWindow):
 
     ## 补形区域获取-浏览按键-选择文件
     def cpltAreaAcqCF(self):
-        # 创建文件对话框
-        file_dialog = QFileDialog()
-        file_dialog.setFileMode(QFileDialog.ExistingFile)
-        file_dialog.setNameFilter("点云文件 (*.xyz);;所有文件 (*.*)")
+        try:
+            # 创建文件对话框
+            file_dialog = QFileDialog()
+            file_dialog.setFileMode(QFileDialog.ExistingFile)
+            file_dialog.setNameFilter("点云文件 (*.xyz);;所有文件 (*.*)")
 
-        if file_dialog.exec_():
-            # 获取选择的文件路径
-            self.cpltAreaAcqF = file_dialog.selectedFiles()
-            if self.cpltAreaAcqF:
-                self.ui.cpltAreaAcqFLabel.setText(self.cpltAreaAcqF[0])
-                self.updatecpltArea()
+            if file_dialog.exec_():
+                # 获取选择的文件路径
+                self.cpltAreaAcqF = file_dialog.selectedFiles()
+                if self.cpltAreaAcqF:
+                    self.ui.cpltAreaAcqFLabel.setText(self.cpltAreaAcqF[0])
+                    self.updatecpltArea()
+        except:
+            print("补形区域获取:文件选择失败")
 
     ## 补形区域获取-浏览按键-线程加载文件，更新补形区域
     def updatecpltArea(self):
@@ -565,6 +568,7 @@ class TabWindow(MainWindow):
 
     ## 补形区域获取-截面显示按键-截面显示
     def cpltAreaAcqShow(self):
+        self.ui.cpltAreaAcqShowBtn.setEnabled(False)  # 禁用按钮
         try:
             if self.cpltAreaAcqF:
                 params = {
@@ -575,7 +579,6 @@ class TabWindow(MainWindow):
                 }
             if self.cpltdf:
                 self.ui.cpltAreaShowLabel.setText("数据计算中")
-                self.ui.cpltAreaAcqShowBtn.setEnabled(False)  # 禁用按钮
                 self.cpltarea = cpltArea(self.cpltdf,params)
                 canvas = self.cpltarea.cpltAreaShow()
                 img_array = np.frombuffer(canvas, dtype=np.uint8)
@@ -587,22 +590,24 @@ class TabWindow(MainWindow):
                 )
                 # 更新 QLabel
                 self.ui.cpltAreaShowLabel.setPixmap(pixmap)
-                # self.ui.cpltAreaShowLabel.setScaledContents(True)
-                self.ui.cpltAreaAcqShowBtn.setEnabled(True)# 启用按钮
+                self.ui.cpltAreaShowLabel.setScaledContents(True)
         except:
             print("cpltAreaAcqShow:", "error")
+        self.ui.cpltAreaAcqShowBtn.setEnabled(True)  # 启用按钮
 
     ## 补形区域获取-数据保存按键
     def cpltAreaAcqSave(self):
-        # try:
-        if self.cpltAreaAcqF:
-            save_dir = os.path.dirname(self.cpltAreaAcqF[0])
-            if not os.path.exists(save_dir):
-                print("cpltAreaAcqSave: wrong file path")
-                return -1
-            self.cpltarea.saveExcel(save_dir)
-        # except:
-        #     print("cpltAreaAcqSave:", "请先生成数据")
+        self.ui.cpltAreaAcqSaveBtn.setEnabled(False)
+        try:
+            if self.cpltAreaAcqF:
+                save_dir = os.path.dirname(self.cpltAreaAcqF[0])
+                if not os.path.exists(save_dir):
+                    print("cpltAreaAcqSave: wrong file path")
+                    return -1
+                self.cpltarea.saveExcel(save_dir)
+        except:
+            print("补形区域获取:", "保存失败")
+        self.ui.cpltAreaAcqSaveBtn.setEnabled(True)
 
 
     ### 沉积模拟填充 ###
@@ -613,35 +618,39 @@ class TabWindow(MainWindow):
 
     ## 模拟沉积
     def dsfSimuDep(self):
-        self.ui.dsfSimuDepBtn.setEnabled(False)
-        avgW = self.ui.dsfAvgWBox.value()
-        avgH = self.ui.dsfAvgHBox.value()
-        params = [avgW, avgH]
         try:
-            if self.cpltAreaAcqF:
-                save_dir = os.path.dirname(self.cpltAreaAcqF[0])
-                file_path = os.path.join(save_dir, "表面原位补形.xlsx")
+            self.ui.dsfSimuDepBtn.setEnabled(False)
+            avgW = self.ui.dsfAvgWBox.value()
+            avgH = self.ui.dsfAvgHBox.value()
+            params = [avgW, avgH]
+            try:
+                if self.cpltAreaAcqF:
+                    save_dir = os.path.dirname(self.cpltAreaAcqF[0])
+                    file_path = os.path.join(save_dir, "表面原位补形.xlsx")
+                    # 创建线程和 Worker
+                    self.dsfSimuDepthread1 = QThread()
+                    self.dsfSimuDepworker1 = dsfSimuDepWorker(file_path, params)
+            except:
                 # 创建线程和 Worker
                 self.dsfSimuDepthread1 = QThread()
-                self.dsfSimuDepworker1 = dsfSimuDepWorker(file_path, params)
+                self.dsfSimuDepworker1 = dsfSimuDepWorker("../database/项目库/zlc/沉积形貌/表面原位补形.xlsx", params)
+
+            # 将 Worker 移动到线程
+            self.dsfSimuDepworker1.moveToThread(self.dsfSimuDepthread1)
+
+            # 连接信号与槽
+            self.dsfSimuDepthread1.started.connect(self.dsfSimuDepworker1.run)
+            self.dsfSimuDepworker1.dsfSimuDep_plot.connect(self.dsfSimuDepShowImg)
+            self.dsfSimuDepworker1.dsfSimuDep_table.connect(self.dsfSimuDepShowTable)
+            self.dsfSimuDepworker1.dsfSimuDep_error.connect(self.thread_error)
+            self.dsfSimuDepworker1.finished.connect(self.dsfSimuDepthread1.quit)
+            self.dsfSimuDepworker1.finished.connect(self.dsfSimuDepworker1.deleteLater)
+            self.dsfSimuDepthread1.finished.connect(self.dsfSimuDepthread1.deleteLater)
+            # 启动线程
+            self.dsfSimuDepthread1.start()
         except:
-            # 创建线程和 Worker
-            self.dsfSimuDepthread1 = QThread()
-            self.dsfSimuDepworker1 = dsfSimuDepWorker("../database/项目库/zlc/沉积形貌/表面原位补形.xlsx", params)
-
-        # 将 Worker 移动到线程
-        self.dsfSimuDepworker1.moveToThread(self.dsfSimuDepthread1)
-
-        # 连接信号与槽
-        self.dsfSimuDepthread1.started.connect(self.dsfSimuDepworker1.run)
-        self.dsfSimuDepworker1.dsfSimuDep_plot.connect(self.dsfSimuDepShowImg)
-        self.dsfSimuDepworker1.dsfSimuDep_table.connect(self.dsfSimuDepShowTable)
-        self.dsfSimuDepworker1.dsfSimuDep_error.connect(self.thread_error)
-        self.dsfSimuDepworker1.finished.connect(self.dsfSimuDepthread1.quit)
-        self.dsfSimuDepworker1.finished.connect(self.dsfSimuDepworker1.deleteLater)
-        self.dsfSimuDepthread1.finished.connect(self.dsfSimuDepthread1.deleteLater)
-        # 启动线程
-        self.dsfSimuDepthread1.start()
+            print("模拟沉积线程启动失败")
+            self.ui.dsfSimuDepBtn.setEnabled(True)
 
 
     ## 模拟沉积-显示
@@ -670,23 +679,212 @@ class TabWindow(MainWindow):
                 self.ui.dsfSimuDepTable.setItem(row, col, item)
         self.ui.dsfSimuDepBtn.setEnabled(True)
 
+    ## 模拟沉积-从表格更新df
+    def dsfTable2Df(self):
+        # 获取表格的行数和列数
+        rows = self.ui.dsfSimuDepTable.rowCount()
+        cols = self.ui.dsfSimuDepTable.columnCount()
+
+        # 检查列数是否与原数据框一致
+        if cols != self.dsfdf.shape[1]:
+            raise ValueError("表格列数与原数据框不一致")
+
+        # 使用原数据框的列名
+        columns = self.dsfdf.columns.tolist()
+
+        # 收集数据
+        data = []
+        for row in range(rows):
+            row_data = []
+            for col in range(cols):
+                item = self.ui.dsfSimuDepTable.item(row, col)
+                cell_value = item.text() if item is not None else ''
+                row_data.append(cell_value)
+            data.append(row_data)
+
+        # 创建新的DataFrame
+        new_df = pd.DataFrame(data, columns=columns)
+
+        # 转换数据类型，处理数值列的空字符串或无效值
+        for col in columns:
+            dtype = self.dsfdf[col].dtype
+            if np.issubdtype(dtype, np.number):
+                # 转换为数值类型，无效值转为NaN
+                new_df[col] = pd.to_numeric(new_df[col], errors='coerce')
+            else:
+                # 其他类型直接转换
+                new_df[col] = new_df[col].astype(dtype)
+
+        # 更新数据框
+        self.dsfdf = new_df
+
+    ## 模拟沉积-保存
     def dsfSavePth(self):
         self.ui.dsfSavePthBtn.setEnabled(False)
-        avgW = self.ui.dsfAvgWBox.value()
-        avgH = self.ui.dsfAvgHBox.value()
-        params = [avgW, avgH]
         try:
-            if self.cpltAreaAcqF:
-                save_dir = os.path.dirname(self.cpltAreaAcqF[0])
-                file_path = os.path.join(save_dir, "表面原位补形.xlsx")
+            avgW = self.ui.dsfAvgWBox.value()
+            avgH = self.ui.dsfAvgHBox.value()
+            params = [avgW, avgH]
+
+            try:
+                if self.cpltAreaAcqF:
+                    save_dir = os.path.dirname(self.cpltAreaAcqF[0])
+                    file_path = os.path.join(save_dir, "表面原位补形.xlsx")
+            except:
+                file_path = os.path.join("../database/项目库/zlc/沉积形貌/表面原位补形.xlsx")
+            self.dsfTable2Df()
+            dsfSave(file_path,params,self.dsfdf,self.dsfimg_array)
         except:
-            file_path = os.path.join("../database/项目库/zlc/沉积形貌/表面原位补形.xlsx")
-        dsfSave(file_path,params,self.dsfdf,self.dsfimg_array)
+            if not hasattr(self, 'dsfdf'):
+                print("请先生成沉积模拟")
         self.ui.dsfSavePthBtn.setEnabled(True)
 
     ### 沉积程序生成
-    def depositionProgramGeneration(self):
-        pass
+    def dcg(self):
+        self.ui.dcgCodeGenBtn.clicked.connect(self.dcgCodeGen)
+        self.ui.dcgParaSaveBtn.clicked.connect(self.dcgParaSave)
+        self.ui.dcgCodeTransBtn.clicked.connect(self.dcgCodeTrans)
+        self.ui.dcgCodeUpdateBtn.clicked.connect(self.dcgCodeUpdate)
+        # 以下顺序不可变
+        self.dcgTable()
+        self.LaserCombo.currentTextChanged.connect(self.update_scan_table_visibility)
+
+    ## 沉积程序生成-初始化表格
+    def dcgTable(self):
+        powderLocate = [8,1]
+        ccdLocate = [0, 1]
+        temperatureLocate = [1, 1]
+        GaoSuLocate = [2, 1]
+        LaserLocate = [3, 1]
+        # 粉桶
+        self.powderCombo= QComboBox()
+        self.powderCombo.addItems(["1", "2"])
+        self.ui.dcgParaTabel.setCellWidget(powderLocate[0], powderLocate[1], self.powderCombo)
+        # ccd
+        self.ccdCombo = QComboBox()
+        self.ccdCombo.addItems(["True", "False"])
+        self.ui.dcgDetTabel.setCellWidget(ccdLocate[0], ccdLocate[1], self.ccdCombo)
+        # Temperature
+        self.temperatureCombo = QComboBox()
+        self.temperatureCombo.addItems(["True", "False"])
+        self.ui.dcgDetTabel.setCellWidget(temperatureLocate[0], temperatureLocate[1], self.temperatureCombo)
+        # GaoSu_Camera
+        self.GaoSuCombo = QComboBox()
+        self.GaoSuCombo.addItems(["True", "False"])
+        self.ui.dcgDetTabel.setCellWidget(GaoSuLocate[0], GaoSuLocate[1], self.GaoSuCombo)
+        # Laser_LunKuo
+        self.LaserCombo = QComboBox()
+        self.LaserCombo.addItems(["True", "False"])
+        self.ui.dcgDetTabel.setCellWidget(LaserLocate[0], LaserLocate[1], self.LaserCombo)
+
+    def dcgtabel2Df(self,table: QTableWidget, include_index: bool = True,index_as_column: bool = True):
+        try:
+            # 获取表格维度
+            rows = table.rowCount()
+            cols = table.columnCount()
+
+            # 获取列标题
+            col_headers = []
+            for c in range(cols):
+                header = table.horizontalHeaderItem(c)
+                col_headers.append(header.text() if header else f"Column_{c + 1}")
+
+            # 获取行标题
+            row_headers = []
+            for r in range(rows):
+                header = table.verticalHeaderItem(r)
+                row_headers.append(header.text() if header else f"Row_{r + 1}")
+
+            # 收集数据
+            data = []
+            for r in range(rows):
+                row_data = []
+                for c in range(cols):
+                    # 处理控件
+                    widget = table.cellWidget(r, c)
+                    if isinstance(widget, QComboBox):
+                        value = widget.currentText()
+                    else:
+                        item = table.item(r, c)
+                        value = item.text() if item else ""
+                    row_data.append(value)
+                data.append(row_data)
+
+            # 创建DataFrame
+            df = pd.DataFrame(data, columns=col_headers)
+
+            # 添加行标题处理
+            if include_index:
+                if index_as_column:
+                    df.insert(0, "参数名称", row_headers)
+                else:
+                    df.index = row_headers
+
+            return df
+
+        except Exception as e:
+            print(f"表格转换错误: {str(e)}")
+            return pd.DataFrame()
+    ## 沉积程序生成-保存参数
+    def dcgParaSave(self):
+        try:
+            self.ui.dcgParaSaveBtn.setEnabled(False)
+            try:
+                if self.cpltAreaAcqF:
+                    save_dir = os.path.dirname(self.cpltAreaAcqF[0])
+                    file_path = os.path.join(save_dir, "表面原位补形.xlsx")
+            except:
+                file_path = os.path.join("../database/项目库/zlc/沉积形貌/表面原位补形.xlsx")
+            df = self.dcgtabel2Df(self.ui.dcgParaTabel,True,True)
+            dcgSave(file_path, df, 2, 1)
+            df = self.dcgtabel2Df(self.ui.dcgDetTabel, True, True)
+            dcgSave(file_path, df, 2, 6)
+            if self.LaserCombo.currentText() == "True":
+                df = self.dcgtabel2Df(self.ui.dcgScanTabel, True, True)
+                dcgSave(file_path, df, 2, 11)
+        except:
+            print("保存参数失败")
+        self.ui.dcgParaSaveBtn.setEnabled(False)
+
+    def update_scan_table_visibility(self):
+        """根据激光轮廓选项显示/隐藏扫描表格"""
+        if self.LaserCombo.currentText() == "False":
+            self.ui.dcgScanGroup.setVisible(False)
+
+            policy = self.ui.dcgScanGroup.sizePolicy()
+            policy.setRetainSizeWhenHidden(True)
+            self.ui.dcgScanGroup.setSizePolicy(policy)
+        else:
+            self.ui.dcgScanGroup.setVisible(True)
+    ## 沉积程序生成-生成程序
+    def dcgCodeGen(self):
+        try:
+            self.ui.dcgCodeGenBtn.setEnabled(False)
+            try:
+                if self.cpltAreaAcqF:
+                    save_dir = os.path.dirname(self.cpltAreaAcqF[0])
+                    file_path = os.path.join(save_dir, "表面原位补形.xlsx")
+            except:
+                file_path = os.path.join("../database/项目库/zlc/沉积形貌/表面原位补形.xlsx")
+            dcgCodegen(file_path)
+        except:
+            print("生成程序失败")
+        self.ui.dcgCodeGenBtn.setEnabled(True)
+
+    def dcgCodeTrans(self):
+        print("open WorkVisual")
+
+    def dcgCodeUpdate(self):
+        # 创建文件对话框
+        file_dialog = QFileDialog()
+        file_dialog.setFileMode(QFileDialog.ExistingFile)
+        file_dialog.setNameFilter("点云文件 (*.py);;所有文件 (*.*)")
+
+        if file_dialog.exec_():
+            # 获取选择的文件路径
+            self.dcgAcqF = file_dialog.selectedFiles()
+            if self.dcgAcqF:
+                print("获取到文件：",self.dcgAcqF[0])
 
 ### 模拟沉积加载excel并生成图像
 class dsfSimuDepWorker(QObject):
@@ -880,14 +1078,6 @@ class Worker(QObject):
             self_pwin.video_writer.release()
             self_pwin.video_writer = None
             print(f"mp4_recording stopped. Video saved at: {self_pwin.video_save_path}")
-
-
-
-
-
-
-
-
 
 class PWindow(CCD_Window, TabWindow):
     def __init__(self, *args, **kwargs):
