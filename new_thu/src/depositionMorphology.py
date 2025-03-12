@@ -91,13 +91,13 @@ class cpltArea():
                     self.df_processed.to_excel(writer, sheet_name=sheet_name, index=False, header=True)
             else:
                 # 文件不存在，新建文件
-                with pd.ExcelWriter(file_path, engine='openpyxl', mode='w',if_sheet_exists='replace') as writer:
+                with pd.ExcelWriter(file_path, engine='openpyxl', mode='w') as writer:
                     self.df_processed.to_excel(writer, sheet_name=sheet_name, index=False, header=True)
 
             print("保存成功：", file_path)
 
         except Exception as e:
-            raise RuntimeError(f"saveExcel:保存Excel失败 {str(e)}")
+            print(f"saveExcel:保存Excel失败:",e)
 
 
 # 判断点是否在多边形内部的函数

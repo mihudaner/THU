@@ -1,4 +1,4 @@
-DEF ../database/项目库/zlc/沉积形貌\L7_160_10( )
+DEF D:/desktop/012THU/THU/new_thu/database/项目库/zlc/沉积形貌\L7_160_10( )
 DECL INT i
 ;FOLD INI;%{PE}
   ;FOLD BASISTECH INI
@@ -752,27 +752,4 @@ $OUT[2]=FALSE
 ;FOLD WAIT Time= 15 sec;%{PE}%R 8.3.22,%MKUKATPBASIS,%CWAIT,%VWAIT,%P 2:15
                                     WAIT SEC 15
                                     ;ENDFOLD
-FOR i = 1 to 55
-;FOLD WAIT Time= 1 sec;%{PE}%R 8.3.22,%MKUKATPBASIS,%CWAIT,%VWAIT,%P 2:1
-WAIT SEC 1
-;ENDFOLD
-ENDFOR
-
-lin_rel {X -200.0} C_VEL
-lin_rel {Y -15.0} C_VEL
-lin_rel {Z 0.0} C_VEL
-$VEL.CP = 0.005
-
-;FOLD OUT 8 'Laser_Profiler' State=TRUE ;%{PE}%R 8.3.44,%MKUKATPBASIS,%COUT,%VOUTX,%P 2:8, 3:Laser_Profiler, 5:TRUE, 6:
-$OUT[8]=TRUE
-;ENDFOLD
-lin_rel {Y -200} C_VEL
-;FOLD OUT 8 'Laser_Profiler' State=FALSE ;%{PE}%R 8.3.44,%MKUKATPBASIS,%COUT,%VOUTX,%P 2:8, 3:Laser_Profiler, 5:FALSE, 6:
-$OUT[8]=FALSE
-;ENDFOLD
-
-lin_rel {X 20.0} C_VEL
-lin_rel {Y 30.0} C_VEL
-lin_rel {Z 40.0} C_VEL
-
 END

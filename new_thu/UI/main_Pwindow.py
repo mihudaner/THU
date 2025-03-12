@@ -605,8 +605,9 @@ class TabWindow(MainWindow):
                     print("cpltAreaAcqSave: wrong file path")
                     return -1
                 self.cpltarea.saveExcel(save_dir)
-        except:
-            print("补形区域获取:", "保存失败")
+        except Exception as e:
+            print("补形区域获取:", "保存失败:", e)
+
         self.ui.cpltAreaAcqSaveBtn.setEnabled(True)
 
 
@@ -844,7 +845,7 @@ class TabWindow(MainWindow):
                 dcgSave(file_path, df, 2, 11)
         except:
             print("保存参数失败")
-        self.ui.dcgParaSaveBtn.setEnabled(False)
+        self.ui.dcgParaSaveBtn.setEnabled(True)
 
     def update_scan_table_visibility(self):
         """根据激光轮廓选项显示/隐藏扫描表格"""
