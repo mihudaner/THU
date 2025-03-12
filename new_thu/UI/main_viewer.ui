@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1234</width>
-    <height>910</height>
+    <width>1230</width>
+    <height>890</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -611,7 +611,7 @@ QPushButton:pressed {
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>0</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="tab_5">
               <attribute name="title">
@@ -868,22 +868,9 @@ QPushButton:pressed {
               </attribute>
               <layout class="QHBoxLayout" name="horizontalLayout_12">
                <item>
-                <spacer name="horizontalSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_13">
+                <layout class="QVBoxLayout" name="verticalLayout_13" stretch="6,5">
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_13">
+                  <layout class="QHBoxLayout" name="horizontalLayout_13" stretch="3,8">
                    <item>
                     <widget class="QGroupBox" name="groupBox_3">
                      <property name="sizePolicy">
@@ -910,218 +897,242 @@ QPushButton:pressed {
                        </widget>
                       </item>
                       <item>
-                       <spacer name="verticalSpacer_2">
-                        <property name="orientation">
-                         <enum>Qt::Vertical</enum>
+                       <layout class="QVBoxLayout" name="verticalLayout_12">
+                        <property name="topMargin">
+                         <number>20</number>
                         </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>20</width>
-                          <height>40</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
-                      <item>
-                       <layout class="QHBoxLayout" name="horizontalLayout_6">
                         <item>
-                         <widget class="QLabel" name="label_4">
-                          <property name="text">
-                           <string>平均道宽</string>
+                         <spacer name="verticalSpacer">
+                          <property name="orientation">
+                           <enum>Qt::Vertical</enum>
                           </property>
-                         </widget>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>20</width>
+                            <height>40</height>
+                           </size>
+                          </property>
+                         </spacer>
                         </item>
                         <item>
-                         <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+                         <layout class="QHBoxLayout" name="horizontalLayout_6">
+                          <item>
+                           <widget class="QLabel" name="label_4">
+                            <property name="text">
+                             <string>平均道宽</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QDoubleSpinBox" name="dsfAvgWBox">
+                            <property name="minimum">
+                             <double>-99.000000000000000</double>
+                            </property>
+                            <property name="value">
+                             <double>3.210000000000000</double>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="label_12">
+                            <property name="text">
+                             <string>mm</string>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_12">
-                          <property name="text">
-                           <string>mm</string>
+                         <layout class="QHBoxLayout" name="horizontalLayout_11">
+                          <item>
+                           <widget class="QLabel" name="label_11">
+                            <property name="text">
+                             <string>平均层高</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QDoubleSpinBox" name="dsfAvgHBox">
+                            <property name="minimum">
+                             <double>-99.000000000000000</double>
+                            </property>
+                            <property name="value">
+                             <double>1.580000000000000</double>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="label_10">
+                            <property name="text">
+                             <string>mm</string>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                        <item>
+                         <spacer name="verticalSpacer_2">
+                          <property name="orientation">
+                           <enum>Qt::Vertical</enum>
                           </property>
-                         </widget>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>20</width>
+                            <height>40</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <layout class="QHBoxLayout" name="horizontalLayout_4">
+                          <item>
+                           <widget class="QPushButton" name="dsfSimuDepBtn">
+                            <property name="minimumSize">
+                             <size>
+                              <width>0</width>
+                              <height>60</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>模拟沉积</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QPushButton" name="dsfSavePthBtn">
+                            <property name="minimumSize">
+                             <size>
+                              <width>0</width>
+                              <height>60</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>路径保存</string>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
                         </item>
                        </layout>
-                      </item>
-                      <item>
-                       <layout class="QHBoxLayout" name="horizontalLayout_11">
-                        <item>
-                         <widget class="QLabel" name="label_11">
-                          <property name="text">
-                           <string>平均层高</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QDoubleSpinBox" name="doubleSpinBox_9"/>
-                        </item>
-                        <item>
-                         <widget class="QLabel" name="label_10">
-                          <property name="text">
-                           <string>mm</string>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="pushButton_6">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>60</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>模拟沉积</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="pushButton_5">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>60</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>路径保存</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <spacer name="verticalSpacer">
-                        <property name="orientation">
-                         <enum>Qt::Vertical</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>20</width>
-                          <height>40</height>
-                         </size>
-                        </property>
-                       </spacer>
                       </item>
                      </layout>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QTextBrowser" name="textBrowser_3"/>
+                    <widget class="QLabel" name="dsfSimuDepShowLabel">
+                     <property name="text">
+                      <string>点击模拟沉积生成</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
                    </item>
                   </layout>
                  </item>
                  <item>
-                  <widget class="QTableWidget" name="tableWidget">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
+                  <layout class="QVBoxLayout" name="verticalLayout_7">
+                   <property name="topMargin">
+                    <number>0</number>
                    </property>
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
-                   </property>
-                   <property name="verticalScrollBarPolicy">
-                    <enum>Qt::ScrollBarAlwaysOff</enum>
-                   </property>
-                   <property name="horizontalScrollBarPolicy">
-                    <enum>Qt::ScrollBarAlwaysOff</enum>
-                   </property>
-                   <property name="sizeAdjustPolicy">
-                    <enum>QAbstractScrollArea::AdjustToContents</enum>
-                   </property>
-                   <attribute name="horizontalHeaderCascadingSectionResizes">
-                    <bool>false</bool>
-                   </attribute>
-                   <attribute name="horizontalHeaderStretchLastSection">
-                    <bool>false</bool>
-                   </attribute>
-                   <attribute name="verticalHeaderCascadingSectionResizes">
-                    <bool>true</bool>
-                   </attribute>
-                   <attribute name="verticalHeaderShowSortIndicator" stdset="0">
-                    <bool>true</bool>
-                   </attribute>
-                   <attribute name="verticalHeaderStretchLastSection">
-                    <bool>false</bool>
-                   </attribute>
-                   <row>
-                    <property name="text">
-                     <string>新建行</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>新建行</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>新建行</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>新建行</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>新建行</string>
-                    </property>
-                   </row>
-                   <column>
-                    <property name="text">
-                     <string>层数</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Y坐标</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>道数</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Xmin</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Ymin</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Xmax</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Ymax</string>
-                    </property>
-                   </column>
-                  </widget>
+                   <item>
+                    <widget class="QTableWidget" name="dsfSimuDepTable">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="tabKeyNavigation">
+                      <bool>true</bool>
+                     </property>
+                     <property name="showDropIndicator" stdset="0">
+                      <bool>true</bool>
+                     </property>
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>100</number>
+                     </attribute>
+                     <attribute name="verticalHeaderVisible">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderHighlightSections">
+                      <bool>true</bool>
+                     </attribute>
+                     <row>
+                      <property name="text">
+                       <string>新建行</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>新建行</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>新建行</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>新建行</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>新建行</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>新建行</string>
+                      </property>
+                     </row>
+                     <row>
+                      <property name="text">
+                       <string>新建行</string>
+                      </property>
+                     </row>
+                     <column>
+                      <property name="text">
+                       <string>层数</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Y坐标</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>道数</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Xmin</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Ymin</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Xmax</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Ymax</string>
+                      </property>
+                     </column>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                 </layout>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
                </item>
               </layout>
              </widget>
@@ -1257,6 +1268,11 @@ QPushButton:pressed {
                       <string>变量</string>
                      </property>
                     </column>
+                    <column>
+                     <property name="text">
+                      <string>值</string>
+                     </property>
+                    </column>
                    </widget>
                   </item>
                  </layout>
@@ -1320,6 +1336,11 @@ QPushButton:pressed {
                       <column>
                        <property name="text">
                         <string>变量</string>
+                       </property>
+                      </column>
+                      <column>
+                       <property name="text">
+                        <string>值</string>
                        </property>
                       </column>
                      </widget>

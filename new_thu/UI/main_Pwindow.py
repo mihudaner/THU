@@ -9,7 +9,7 @@ from Cardpage.Two_widget_debug import DIOWidget, AIOWidget_ShowOne
 from PySide2.QtCore import QTimer, QPoint, QRect, QObject, Signal,QThread
 from PySide2.QtGui import QPixmap, QImage
 from src.molten_pool import CCD_Pretor
-from src.depositionMorphology import cpltArea
+from src.depositionMorphology import cpltArea,dsfSimuDep,dsfSave
 import datetime
 import cv2
 from PIL import Image
@@ -124,8 +124,9 @@ class TabWindow(MainWindow):
         g_signals.DI1_signal.connect(self.DI1_trigger)
         g_signals.DI2_signal.connect(self.DI2_trigger)
 
-
+        # 沉积形貌信号连接
         self.cpltAreaAcq()
+        self.dsf()
 
 
     def DI1_trigger(self, state):
@@ -497,7 +498,7 @@ class TabWindow(MainWindow):
             self.is_maximized = True
 
     ##### 沉积形貌功能 #####
-    ### 补形区域获取
+    ### 补形区域获取 ###
     def cpltAreaAcq(self):
         # 绑定文件选择
         self.ui.cpltAreaAcqCFBtn.clicked.connect(self.cpltAreaAcqCF)
@@ -525,7 +526,7 @@ class TabWindow(MainWindow):
                 self.ui.cpltAreaAcqFLabel.setText(self.cpltAreaAcqF[0])
                 self.updatecpltArea()
 
-    ## 补形区域获取-浏览按键-更新补形区域
+    ## 补形区域获取-浏览按键-线程加载文件，更新补形区域
     def updatecpltArea(self):
         if self.cpltAreaAcqF:
             self.ui.cpltAreaShowLabel.setText("文件加载中")
@@ -546,12 +547,12 @@ class TabWindow(MainWindow):
             self.cpltAreathread1.finished.connect(self.cpltAreathread1.deleteLater)
             # 启动线程
             self.cpltAreathread1.start()
-    ## 补形区域获取-浏览按键-更新补形区域-自动设置补形区域
+    ## 补形区域获取-浏览按键-更新补形区域-设置补形区域
     def setcpltArea(self,x,y,z):
         self.ui.cpltAreaShowLabel.setText("加载完成")
         self.ui.cpltAreaAcqCFBtn.setEnabled(True)
-        self.df = [x,y,z]
-        ymin,ymax = np.nanmin(self.df[1]),np.nanmax(self.df[1])
+        self.cpltdf = [x,y,z]
+        ymin,ymax = np.nanmin(self.cpltdf[1]),np.nanmax(self.cpltdf[1])
         self.ui.yminDSBox.setValue(ymin)
         self.ui.ymaxDSBox.setValue(ymax)
 
@@ -572,10 +573,10 @@ class TabWindow(MainWindow):
                     'y_min': self.ui.yminDSBox.value(),
                     'y_max': self.ui.ymaxDSBox.value()
                 }
-            if self.df:
+            if self.cpltdf:
                 self.ui.cpltAreaShowLabel.setText("数据计算中")
                 self.ui.cpltAreaAcqShowBtn.setEnabled(False)  # 禁用按钮
-                self.cpltarea = cpltArea(self.df,params)
+                self.cpltarea = cpltArea(self.cpltdf,params)
                 canvas = self.cpltarea.cpltAreaShow()
                 img_array = np.frombuffer(canvas, dtype=np.uint8)
                 width, height = 800, 400  # 必须与 figsize 一致
@@ -604,14 +605,113 @@ class TabWindow(MainWindow):
         #     print("cpltAreaAcqSave:", "请先生成数据")
 
 
-    ### 沉积模拟填充
-    def depositionSimulationFill(self):
-        pass
+    ### 沉积模拟填充 ###
+    def dsf(self):
+
+        self.ui.dsfSimuDepBtn.clicked.connect(self.dsfSimuDep)
+        self.ui.dsfSavePthBtn.clicked.connect(self.dsfSavePth)
+
+    ## 模拟沉积
+    def dsfSimuDep(self):
+        self.ui.dsfSimuDepBtn.setEnabled(False)
+        avgW = self.ui.dsfAvgWBox.value()
+        avgH = self.ui.dsfAvgHBox.value()
+        params = [avgW, avgH]
+        try:
+            if self.cpltAreaAcqF:
+                save_dir = os.path.dirname(self.cpltAreaAcqF[0])
+                file_path = os.path.join(save_dir, "表面原位补形.xlsx")
+                # 创建线程和 Worker
+                self.dsfSimuDepthread1 = QThread()
+                self.dsfSimuDepworker1 = dsfSimuDepWorker(file_path, params)
+        except:
+            # 创建线程和 Worker
+            self.dsfSimuDepthread1 = QThread()
+            self.dsfSimuDepworker1 = dsfSimuDepWorker("../database/项目库/zlc/沉积形貌/表面原位补形.xlsx", params)
+
+        # 将 Worker 移动到线程
+        self.dsfSimuDepworker1.moveToThread(self.dsfSimuDepthread1)
+
+        # 连接信号与槽
+        self.dsfSimuDepthread1.started.connect(self.dsfSimuDepworker1.run)
+        self.dsfSimuDepworker1.dsfSimuDep_plot.connect(self.dsfSimuDepShowImg)
+        self.dsfSimuDepworker1.dsfSimuDep_table.connect(self.dsfSimuDepShowTable)
+        self.dsfSimuDepworker1.dsfSimuDep_error.connect(self.thread_error)
+        self.dsfSimuDepworker1.finished.connect(self.dsfSimuDepthread1.quit)
+        self.dsfSimuDepworker1.finished.connect(self.dsfSimuDepworker1.deleteLater)
+        self.dsfSimuDepthread1.finished.connect(self.dsfSimuDepthread1.deleteLater)
+        # 启动线程
+        self.dsfSimuDepthread1.start()
+
+
+    ## 模拟沉积-显示
+    def dsfSimuDepShowImg(self,canvas):
+        self.dsfimg_array = np.frombuffer(canvas, dtype=np.uint8)
+        width, height = 800, 400  # 必须与 figsize 一致
+        self.dsfimg_array = self.dsfimg_array.reshape((height, width, 4))
+
+        pixmap = QPixmap.fromImage(
+            QImage(self.dsfimg_array.data, width, height, QImage.Format_RGBA8888)
+        )
+        self.ui.dsfSimuDepShowLabel.setPixmap(pixmap)
+    def dsfSimuDepShowTable(self,df):
+        # 设置表格的行列数
+        self.dsfdf = df
+        self.ui.dsfSimuDepTable.setRowCount(self.dsfdf.shape[0])
+        self.ui.dsfSimuDepTable.setColumnCount(self.dsfdf.shape[1])
+
+        # 设置表头
+        self.ui.dsfSimuDepTable.setHorizontalHeaderLabels(self.dsfdf.columns.tolist())
+
+        # 填充数据
+        for row in range(self.dsfdf.shape[0]):
+            for col in range(self.dsfdf.shape[1]):
+                item = QTableWidgetItem(str(self.dsfdf.iat[row, col]))
+                self.ui.dsfSimuDepTable.setItem(row, col, item)
+        self.ui.dsfSimuDepBtn.setEnabled(True)
+
+    def dsfSavePth(self):
+        self.ui.dsfSavePthBtn.setEnabled(False)
+        avgW = self.ui.dsfAvgWBox.value()
+        avgH = self.ui.dsfAvgHBox.value()
+        params = [avgW, avgH]
+        try:
+            if self.cpltAreaAcqF:
+                save_dir = os.path.dirname(self.cpltAreaAcqF[0])
+                file_path = os.path.join(save_dir, "表面原位补形.xlsx")
+        except:
+            file_path = os.path.join("../database/项目库/zlc/沉积形貌/表面原位补形.xlsx")
+        dsfSave(file_path,params,self.dsfdf,self.dsfimg_array)
+        self.ui.dsfSavePthBtn.setEnabled(True)
+
     ### 沉积程序生成
     def depositionProgramGeneration(self):
         pass
 
+### 模拟沉积加载excel并生成图像
+class dsfSimuDepWorker(QObject):
+    # 定义完成信号（携带图像数据）和错误信号
+    dsfSimuDep_plot = Signal(bytes)
+    dsfSimuDep_table = Signal(object)
+    dsfSimuDep_error = Signal(str)
+    finished = Signal()
 
+    def __init__(self, file_path, params):
+        super().__init__()
+        self.file_path = file_path
+        self.params = params
+    def run(self):
+        try:
+            canvas, df = dsfSimuDep(self.file_path, self.params)
+            # 发射完成信号（携带图像原始数据）
+            self.dsfSimuDep_plot.emit(canvas)
+            self.dsfSimuDep_table.emit(df)
+        except Exception as e:
+            self.dsfSimuDep_error.emit(f"dsfSimuDepWorker错误: {str(e)}")
+        finally:
+            self.finished.emit()
+
+#### 加载xyz文件的woker
 class cpltAreaFLWorker(QObject):
     # 定义信号
     data_loaded = Signal(np.ndarray, np.ndarray, np.ndarray)  # 数据加载完成
