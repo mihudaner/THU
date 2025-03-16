@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1230, 890)
+        MainWindow.resize(1212, 791)
         MainWindow.setMaximumSize(QSize(1234, 16777215))
         MainWindow.setStyleSheet(u"#styleSheet{\n"
 "border: none;\n"
@@ -987,7 +987,15 @@ class Ui_MainWindow(object):
         self.tab_7.setObjectName(u"tab_7")
         self.horizontalLayout_15 = QHBoxLayout(self.tab_7)
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
-        self.groupBox_4 = QGroupBox(self.tab_7)
+        self.scrollArea = QScrollArea(self.tab_7)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 747, 704))
+        self.horizontalLayout_10 = QHBoxLayout(self.scrollAreaWidgetContents)
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.groupBox_4 = QGroupBox(self.scrollAreaWidgetContents)
         self.groupBox_4.setObjectName(u"groupBox_4")
         sizePolicy3.setHeightForWidth(self.groupBox_4.sizePolicy().hasHeightForWidth())
         self.groupBox_4.setSizePolicy(sizePolicy3)
@@ -1125,16 +1133,18 @@ class Ui_MainWindow(object):
         self.dcgParaTabel.setObjectName(u"dcgParaTabel")
         sizePolicy4.setHeightForWidth(self.dcgParaTabel.sizePolicy().hasHeightForWidth())
         self.dcgParaTabel.setSizePolicy(sizePolicy4)
+        self.dcgParaTabel.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.dcgParaTabel.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.dcgParaTabel.horizontalHeader().setDefaultSectionSize(80)
 
         self.verticalLayout_5.addWidget(self.dcgParaTabel)
 
 
-        self.horizontalLayout_15.addWidget(self.groupBox_4)
+        self.horizontalLayout_10.addWidget(self.groupBox_4)
 
         self.verticalLayout_8 = QVBoxLayout()
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.groupBox_6 = QGroupBox(self.tab_7)
+        self.groupBox_6 = QGroupBox(self.scrollAreaWidgetContents)
         self.groupBox_6.setObjectName(u"groupBox_6")
         sizePolicy1.setHeightForWidth(self.groupBox_6.sizePolicy().hasHeightForWidth())
         self.groupBox_6.setSizePolicy(sizePolicy1)
@@ -1182,6 +1192,7 @@ class Ui_MainWindow(object):
         self.dcgDetTabel.setObjectName(u"dcgDetTabel")
         sizePolicy4.setHeightForWidth(self.dcgDetTabel.sizePolicy().hasHeightForWidth())
         self.dcgDetTabel.setSizePolicy(sizePolicy4)
+        self.dcgDetTabel.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.dcgDetTabel.horizontalHeader().setMinimumSectionSize(90)
         self.dcgDetTabel.horizontalHeader().setDefaultSectionSize(90)
         self.dcgDetTabel.verticalHeader().setMinimumSectionSize(20)
@@ -1268,6 +1279,7 @@ class Ui_MainWindow(object):
         sizePolicy4.setHeightForWidth(self.dcgScanTabel.sizePolicy().hasHeightForWidth())
         self.dcgScanTabel.setSizePolicy(sizePolicy4)
         self.dcgScanTabel.setMinimumSize(QSize(0, 350))
+        self.dcgScanTabel.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.dcgScanTabel.horizontalHeader().setMinimumSectionSize(90)
         self.dcgScanTabel.horizontalHeader().setDefaultSectionSize(90)
         self.dcgScanTabel.verticalHeader().setMinimumSectionSize(20)
@@ -1280,31 +1292,30 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_10.setStretch(0, 1)
         self.verticalLayout_10.setStretch(1, 2)
-        self.verticalLayout_10.setStretch(2, 1)
 
         self.verticalLayout_8.addWidget(self.groupBox_6)
 
         self.horizontalLayout_14 = QHBoxLayout()
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.dcgParaSaveBtn = QPushButton(self.tab_7)
+        self.dcgParaSaveBtn = QPushButton(self.scrollAreaWidgetContents)
         self.dcgParaSaveBtn.setObjectName(u"dcgParaSaveBtn")
         self.dcgParaSaveBtn.setMinimumSize(QSize(0, 30))
 
         self.horizontalLayout_14.addWidget(self.dcgParaSaveBtn)
 
-        self.dcgCodeUpdateBtn = QPushButton(self.tab_7)
+        self.dcgCodeUpdateBtn = QPushButton(self.scrollAreaWidgetContents)
         self.dcgCodeUpdateBtn.setObjectName(u"dcgCodeUpdateBtn")
         self.dcgCodeUpdateBtn.setMinimumSize(QSize(0, 30))
 
         self.horizontalLayout_14.addWidget(self.dcgCodeUpdateBtn)
 
-        self.dcgCodeGenBtn = QPushButton(self.tab_7)
+        self.dcgCodeGenBtn = QPushButton(self.scrollAreaWidgetContents)
         self.dcgCodeGenBtn.setObjectName(u"dcgCodeGenBtn")
         self.dcgCodeGenBtn.setMinimumSize(QSize(0, 30))
 
         self.horizontalLayout_14.addWidget(self.dcgCodeGenBtn)
 
-        self.dcgCodeTransBtn = QPushButton(self.tab_7)
+        self.dcgCodeTransBtn = QPushButton(self.scrollAreaWidgetContents)
         self.dcgCodeTransBtn.setObjectName(u"dcgCodeTransBtn")
         self.dcgCodeTransBtn.setMinimumSize(QSize(0, 30))
 
@@ -1314,7 +1325,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_8.addLayout(self.horizontalLayout_14)
 
 
-        self.horizontalLayout_15.addLayout(self.verticalLayout_8)
+        self.horizontalLayout_10.addLayout(self.verticalLayout_8)
+
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+
+        self.horizontalLayout_15.addWidget(self.scrollArea)
 
         self.tabWidget.addTab(self.tab_7, "")
 
@@ -1417,7 +1432,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.tabWidget_2.setCurrentIndex(1)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)

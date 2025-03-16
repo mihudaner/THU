@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1230</width>
-    <height>890</height>
+    <width>1212</width>
+    <height>791</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -611,7 +611,7 @@ QPushButton:pressed {
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tab_5">
               <attribute name="title">
@@ -1142,724 +1142,755 @@ QPushButton:pressed {
               </attribute>
               <layout class="QHBoxLayout" name="horizontalLayout_15">
                <item>
-                <widget class="QGroupBox" name="groupBox_4">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
+                <widget class="QScrollArea" name="scrollArea">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
                  </property>
-                 <property name="title">
-                  <string>沉积参数</string>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_5">
-                  <item>
-                   <widget class="QLabel" name="label_6">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QTableWidget" name="dcgParaTabel">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <attribute name="horizontalHeaderDefaultSectionSize">
-                     <number>80</number>
-                    </attribute>
-                    <row>
-                     <property name="text">
-                      <string>KUKA程序名称</string>
+                 <widget class="QWidget" name="scrollAreaWidgetContents">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>747</width>
+                    <height>704</height>
+                   </rect>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_10">
+                   <item>
+                    <widget class="QGroupBox" name="groupBox_4">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
                      </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>熔覆时前移动距离X</string>
+                     <property name="title">
+                      <string>沉积参数</string>
                      </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>熔覆时前移动距离Y</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>熔覆时前移动距离Z</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>光斑电压</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>熔覆前保护气时间</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>熔覆后保护气时间</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>熔覆速度</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>粉桶选择</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>粉桶转速</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>激光功率</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>层总数</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>道次数</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>道次长度</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>偏移距离</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>熔覆后移动距离X</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>熔覆后移动距离Y</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>熔覆后移动距离Z</string>
-                     </property>
-                    </row>
-                    <row>
-                     <property name="text">
-                      <string>层间停留时间</string>
-                     </property>
-                    </row>
-                    <column>
-                     <property name="text">
-                      <string>变量</string>
-                     </property>
-                    </column>
-                    <column>
-                     <property name="text">
-                      <string>值</string>
-                     </property>
-                    </column>
-                    <item row="0" column="0">
-                     <property name="text">
-                      <string>Program_Name</string>
-                     </property>
-                    </item>
-                    <item row="0" column="1">
-                     <property name="text">
-                      <string>L7_160_10</string>
-                     </property>
-                    </item>
-                    <item row="1" column="0">
-                     <property name="text">
-                      <string>Before_Deposition_X</string>
-                     </property>
-                    </item>
-                    <item row="1" column="1">
-                     <property name="text">
-                      <string>59.38</string>
-                     </property>
-                    </item>
-                    <item row="2" column="0">
-                     <property name="text">
-                      <string>Before_Deposition_Y</string>
-                     </property>
-                    </item>
-                    <item row="2" column="1">
-                     <property name="text">
-                      <string>0</string>
-                     </property>
-                    </item>
-                    <item row="3" column="0">
-                     <property name="text">
-                      <string>Before_Deposition_Z</string>
-                     </property>
-                    </item>
-                    <item row="3" column="1">
-                     <property name="text">
-                      <string>-10</string>
-                     </property>
-                    </item>
-                    <item row="4" column="0">
-                     <property name="text">
-                      <string>Laser_Spot</string>
-                     </property>
-                    </item>
-                    <item row="4" column="1">
-                     <property name="text">
-                      <string>0.3</string>
-                     </property>
-                    </item>
-                    <item row="5" column="0">
-                     <property name="text">
-                      <string>Protection_Gas_Before_Deposition</string>
-                     </property>
-                    </item>
-                    <item row="5" column="1">
-                     <property name="text">
-                      <string>10</string>
-                     </property>
-                    </item>
-                    <item row="6" column="0">
-                     <property name="text">
-                      <string>Protection_Gas_After_Deposition</string>
-                     </property>
-                    </item>
-                    <item row="6" column="1">
-                     <property name="text">
-                      <string>5</string>
-                     </property>
-                    </item>
-                    <item row="7" column="0">
-                     <property name="text">
-                      <string>Deposition_Speed</string>
-                     </property>
-                    </item>
-                    <item row="7" column="1">
-                     <property name="text">
-                      <string>0.005</string>
-                     </property>
-                    </item>
-                    <item row="8" column="0">
-                     <property name="text">
-                      <string>Choose_Powder</string>
-                     </property>
-                    </item>
-                    <item row="8" column="1">
-                     <property name="text">
-                      <string/>
-                     </property>
-                    </item>
-                    <item row="9" column="0">
-                     <property name="text">
-                      <string>Powder_Delivery_Speed</string>
-                     </property>
-                    </item>
-                    <item row="9" column="1">
-                     <property name="text">
-                      <string>0.075</string>
-                     </property>
-                    </item>
-                    <item row="10" column="0">
-                     <property name="text">
-                      <string>Laser_Power</string>
-                     </property>
-                    </item>
-                    <item row="10" column="1">
-                     <property name="text">
-                      <string>0.625</string>
-                     </property>
-                    </item>
-                    <item row="11" column="0">
-                     <property name="text">
-                      <string>Layer_Sum</string>
-                     </property>
-                    </item>
-                    <item row="11" column="1">
-                     <property name="text">
-                      <string>7</string>
-                     </property>
-                    </item>
-                    <item row="12" column="0">
-                     <property name="text">
-                      <string>Pass_Number</string>
-                     </property>
-                    </item>
-                    <item row="12" column="1">
-                     <property name="text">
-                      <string>-</string>
-                     </property>
-                    </item>
-                    <item row="13" column="0">
-                     <property name="text">
-                      <string>Pass_Distance</string>
-                     </property>
-                    </item>
-                    <item row="13" column="1">
-                     <property name="text">
-                      <string>30</string>
-                     </property>
-                    </item>
-                    <item row="14" column="0">
-                     <property name="text">
-                      <string>Offset_Distance </string>
-                     </property>
-                    </item>
-                    <item row="14" column="1">
-                     <property name="text">
-                      <string>3</string>
-                     </property>
-                    </item>
-                    <item row="15" column="0">
-                     <property name="text">
-                      <string>After_Deposition_X</string>
-                     </property>
-                    </item>
-                    <item row="15" column="1">
-                     <property name="text">
-                      <string>-</string>
-                     </property>
-                    </item>
-                    <item row="16" column="0">
-                     <property name="text">
-                      <string>After_Deposition_Y</string>
-                     </property>
-                    </item>
-                    <item row="16" column="1">
-                     <property name="text">
-                      <string>0</string>
-                     </property>
-                    </item>
-                    <item row="17" column="0">
-                     <property name="text">
-                      <string>After_Deposition_Z</string>
-                     </property>
-                    </item>
-                    <item row="17" column="1">
-                     <property name="text">
-                      <string>1.58</string>
-                     </property>
-                    </item>
-                    <item row="18" column="0">
-                     <property name="text">
-                      <string>Wait_ between_Layers</string>
-                     </property>
-                    </item>
-                    <item row="18" column="1">
-                     <property name="text">
-                      <string>120</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_8">
-                 <item>
-                  <widget class="QGroupBox" name="groupBox_6">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="title">
-                    <string>监控选用</string>
-                   </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,2,1">
-                    <item>
-                     <widget class="QLabel" name="label_14">
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QTableWidget" name="dcgDetTabel">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <attribute name="horizontalHeaderMinimumSectionSize">
-                       <number>90</number>
-                      </attribute>
-                      <attribute name="horizontalHeaderDefaultSectionSize">
-                       <number>90</number>
-                      </attribute>
-                      <attribute name="verticalHeaderMinimumSectionSize">
-                       <number>20</number>
-                      </attribute>
-                      <row>
-                       <property name="text">
-                        <string>CCD相机</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>点温仪</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>高速相机</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>激光轮廓仪</string>
-                       </property>
-                      </row>
-                      <column>
-                       <property name="text">
-                        <string>变量</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>值</string>
-                       </property>
-                      </column>
-                      <item row="0" column="0">
-                       <property name="text">
-                        <string>GongYe_CCD</string>
-                       </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_5">
+                      <item>
+                       <widget class="QLabel" name="label_6">
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
                       </item>
-                      <item row="0" column="1">
-                       <property name="text">
-                        <string>TRUE</string>
-                       </property>
-                      </item>
-                      <item row="1" column="0">
-                       <property name="text">
-                        <string>Dian_Temperature</string>
-                       </property>
-                      </item>
-                      <item row="1" column="1">
-                       <property name="text">
-                        <string>TRUE</string>
-                       </property>
-                      </item>
-                      <item row="2" column="0">
-                       <property name="text">
-                        <string>GaoSu_Camera</string>
-                       </property>
-                      </item>
-                      <item row="2" column="1">
-                       <property name="text">
-                        <string>TRUE</string>
-                       </property>
-                      </item>
-                      <item row="3" column="0">
-                       <property name="text">
-                        <string>Laser_LunKuo</string>
-                       </property>
-                      </item>
-                      <item row="3" column="1">
-                       <property name="text">
-                        <string>TRUE</string>
-                       </property>
-                      </item>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QGroupBox" name="dcgScanGroup">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="title">
-                       <string>形貌扫描</string>
-                      </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_9">
-                       <item>
-                        <widget class="QLabel" name="label_13">
-                         <property name="maximumSize">
-                          <size>
-                           <width>16777215</width>
-                           <height>20</height>
-                          </size>
+                      <item>
+                       <widget class="QTableWidget" name="dcgParaTabel">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="verticalScrollBarPolicy">
+                         <enum>Qt::ScrollBarAlwaysOff</enum>
+                        </property>
+                        <property name="horizontalScrollBarPolicy">
+                         <enum>Qt::ScrollBarAlwaysOff</enum>
+                        </property>
+                        <attribute name="horizontalHeaderDefaultSectionSize">
+                         <number>80</number>
+                        </attribute>
+                        <row>
+                         <property name="text">
+                          <string>KUKA程序名称</string>
                          </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>熔覆时前移动距离X</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>熔覆时前移动距离Y</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>熔覆时前移动距离Z</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>光斑电压</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>熔覆前保护气时间</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>熔覆后保护气时间</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>熔覆速度</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>粉桶选择</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>粉桶转速</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>激光功率</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>层总数</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>道次数</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>道次长度</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>偏移距离</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>熔覆后移动距离X</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>熔覆后移动距离Y</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>熔覆后移动距离Z</string>
+                         </property>
+                        </row>
+                        <row>
+                         <property name="text">
+                          <string>层间停留时间</string>
+                         </property>
+                        </row>
+                        <column>
+                         <property name="text">
+                          <string>变量</string>
+                         </property>
+                        </column>
+                        <column>
+                         <property name="text">
+                          <string>值</string>
+                         </property>
+                        </column>
+                        <item row="0" column="0">
+                         <property name="text">
+                          <string>Program_Name</string>
+                         </property>
+                        </item>
+                        <item row="0" column="1">
+                         <property name="text">
+                          <string>L7_160_10</string>
+                         </property>
+                        </item>
+                        <item row="1" column="0">
+                         <property name="text">
+                          <string>Before_Deposition_X</string>
+                         </property>
+                        </item>
+                        <item row="1" column="1">
+                         <property name="text">
+                          <string>59.38</string>
+                         </property>
+                        </item>
+                        <item row="2" column="0">
+                         <property name="text">
+                          <string>Before_Deposition_Y</string>
+                         </property>
+                        </item>
+                        <item row="2" column="1">
+                         <property name="text">
+                          <string>0</string>
+                         </property>
+                        </item>
+                        <item row="3" column="0">
+                         <property name="text">
+                          <string>Before_Deposition_Z</string>
+                         </property>
+                        </item>
+                        <item row="3" column="1">
+                         <property name="text">
+                          <string>-10</string>
+                         </property>
+                        </item>
+                        <item row="4" column="0">
+                         <property name="text">
+                          <string>Laser_Spot</string>
+                         </property>
+                        </item>
+                        <item row="4" column="1">
+                         <property name="text">
+                          <string>0.3</string>
+                         </property>
+                        </item>
+                        <item row="5" column="0">
+                         <property name="text">
+                          <string>Protection_Gas_Before_Deposition</string>
+                         </property>
+                        </item>
+                        <item row="5" column="1">
+                         <property name="text">
+                          <string>10</string>
+                         </property>
+                        </item>
+                        <item row="6" column="0">
+                         <property name="text">
+                          <string>Protection_Gas_After_Deposition</string>
+                         </property>
+                        </item>
+                        <item row="6" column="1">
+                         <property name="text">
+                          <string>5</string>
+                         </property>
+                        </item>
+                        <item row="7" column="0">
+                         <property name="text">
+                          <string>Deposition_Speed</string>
+                         </property>
+                        </item>
+                        <item row="7" column="1">
+                         <property name="text">
+                          <string>0.005</string>
+                         </property>
+                        </item>
+                        <item row="8" column="0">
+                         <property name="text">
+                          <string>Choose_Powder</string>
+                         </property>
+                        </item>
+                        <item row="8" column="1">
                          <property name="text">
                           <string/>
                          </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QTableWidget" name="dcgScanTabel">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
+                        </item>
+                        <item row="9" column="0">
+                         <property name="text">
+                          <string>Powder_Delivery_Speed</string>
                          </property>
+                        </item>
+                        <item row="9" column="1">
+                         <property name="text">
+                          <string>0.075</string>
+                         </property>
+                        </item>
+                        <item row="10" column="0">
+                         <property name="text">
+                          <string>Laser_Power</string>
+                         </property>
+                        </item>
+                        <item row="10" column="1">
+                         <property name="text">
+                          <string>0.625</string>
+                         </property>
+                        </item>
+                        <item row="11" column="0">
+                         <property name="text">
+                          <string>Layer_Sum</string>
+                         </property>
+                        </item>
+                        <item row="11" column="1">
+                         <property name="text">
+                          <string>7</string>
+                         </property>
+                        </item>
+                        <item row="12" column="0">
+                         <property name="text">
+                          <string>Pass_Number</string>
+                         </property>
+                        </item>
+                        <item row="12" column="1">
+                         <property name="text">
+                          <string>-</string>
+                         </property>
+                        </item>
+                        <item row="13" column="0">
+                         <property name="text">
+                          <string>Pass_Distance</string>
+                         </property>
+                        </item>
+                        <item row="13" column="1">
+                         <property name="text">
+                          <string>30</string>
+                         </property>
+                        </item>
+                        <item row="14" column="0">
+                         <property name="text">
+                          <string>Offset_Distance </string>
+                         </property>
+                        </item>
+                        <item row="14" column="1">
+                         <property name="text">
+                          <string>3</string>
+                         </property>
+                        </item>
+                        <item row="15" column="0">
+                         <property name="text">
+                          <string>After_Deposition_X</string>
+                         </property>
+                        </item>
+                        <item row="15" column="1">
+                         <property name="text">
+                          <string>-</string>
+                         </property>
+                        </item>
+                        <item row="16" column="0">
+                         <property name="text">
+                          <string>After_Deposition_Y</string>
+                         </property>
+                        </item>
+                        <item row="16" column="1">
+                         <property name="text">
+                          <string>0</string>
+                         </property>
+                        </item>
+                        <item row="17" column="0">
+                         <property name="text">
+                          <string>After_Deposition_Z</string>
+                         </property>
+                        </item>
+                        <item row="17" column="1">
+                         <property name="text">
+                          <string>1.58</string>
+                         </property>
+                        </item>
+                        <item row="18" column="0">
+                         <property name="text">
+                          <string>Wait_ between_Layers</string>
+                         </property>
+                        </item>
+                        <item row="18" column="1">
+                         <property name="text">
+                          <string>120</string>
+                         </property>
+                        </item>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_8">
+                     <item>
+                      <widget class="QGroupBox" name="groupBox_6">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="title">
+                        <string>监控选用</string>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,2,0">
+                        <item>
+                         <widget class="QLabel" name="label_14">
+                          <property name="maximumSize">
+                           <size>
+                            <width>16777215</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                          <property name="text">
+                           <string/>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QTableWidget" name="dcgDetTabel">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="verticalScrollBarPolicy">
+                           <enum>Qt::ScrollBarAlwaysOff</enum>
+                          </property>
+                          <attribute name="horizontalHeaderMinimumSectionSize">
+                           <number>90</number>
+                          </attribute>
+                          <attribute name="horizontalHeaderDefaultSectionSize">
+                           <number>90</number>
+                          </attribute>
+                          <attribute name="verticalHeaderMinimumSectionSize">
+                           <number>20</number>
+                          </attribute>
+                          <row>
+                           <property name="text">
+                            <string>CCD相机</string>
+                           </property>
+                          </row>
+                          <row>
+                           <property name="text">
+                            <string>点温仪</string>
+                           </property>
+                          </row>
+                          <row>
+                           <property name="text">
+                            <string>高速相机</string>
+                           </property>
+                          </row>
+                          <row>
+                           <property name="text">
+                            <string>激光轮廓仪</string>
+                           </property>
+                          </row>
+                          <column>
+                           <property name="text">
+                            <string>变量</string>
+                           </property>
+                          </column>
+                          <column>
+                           <property name="text">
+                            <string>值</string>
+                           </property>
+                          </column>
+                          <item row="0" column="0">
+                           <property name="text">
+                            <string>GongYe_CCD</string>
+                           </property>
+                          </item>
+                          <item row="0" column="1">
+                           <property name="text">
+                            <string>TRUE</string>
+                           </property>
+                          </item>
+                          <item row="1" column="0">
+                           <property name="text">
+                            <string>Dian_Temperature</string>
+                           </property>
+                          </item>
+                          <item row="1" column="1">
+                           <property name="text">
+                            <string>TRUE</string>
+                           </property>
+                          </item>
+                          <item row="2" column="0">
+                           <property name="text">
+                            <string>GaoSu_Camera</string>
+                           </property>
+                          </item>
+                          <item row="2" column="1">
+                           <property name="text">
+                            <string>TRUE</string>
+                           </property>
+                          </item>
+                          <item row="3" column="0">
+                           <property name="text">
+                            <string>Laser_LunKuo</string>
+                           </property>
+                          </item>
+                          <item row="3" column="1">
+                           <property name="text">
+                            <string>TRUE</string>
+                           </property>
+                          </item>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QGroupBox" name="dcgScanGroup">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimumSize">
+                           <size>
+                            <width>0</width>
+                            <height>0</height>
+                           </size>
+                          </property>
+                          <property name="title">
+                           <string>形貌扫描</string>
+                          </property>
+                          <layout class="QVBoxLayout" name="verticalLayout_9">
+                           <item>
+                            <widget class="QLabel" name="label_13">
+                             <property name="maximumSize">
+                              <size>
+                               <width>16777215</width>
+                               <height>20</height>
+                              </size>
+                             </property>
+                             <property name="text">
+                              <string/>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QTableWidget" name="dcgScanTabel">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="minimumSize">
+                              <size>
+                               <width>0</width>
+                               <height>350</height>
+                              </size>
+                             </property>
+                             <property name="verticalScrollBarPolicy">
+                              <enum>Qt::ScrollBarAlwaysOff</enum>
+                             </property>
+                             <attribute name="horizontalHeaderMinimumSectionSize">
+                              <number>90</number>
+                             </attribute>
+                             <attribute name="horizontalHeaderDefaultSectionSize">
+                              <number>90</number>
+                             </attribute>
+                             <attribute name="verticalHeaderMinimumSectionSize">
+                              <number>20</number>
+                             </attribute>
+                             <attribute name="verticalHeaderDefaultSectionSize">
+                              <number>37</number>
+                             </attribute>
+                             <row>
+                              <property name="text">
+                               <string>扫描前移动距离X</string>
+                              </property>
+                             </row>
+                             <row>
+                              <property name="text">
+                               <string>扫描前移动距离Y</string>
+                              </property>
+                             </row>
+                             <row>
+                              <property name="text">
+                               <string>扫描前移动距离Z</string>
+                              </property>
+                             </row>
+                             <row>
+                              <property name="text">
+                               <string>扫描前等待时间</string>
+                              </property>
+                             </row>
+                             <row>
+                              <property name="text">
+                               <string>扫描速度</string>
+                              </property>
+                             </row>
+                             <row>
+                              <property name="text">
+                               <string>Y向扫描移动距离</string>
+                              </property>
+                             </row>
+                             <row>
+                              <property name="text">
+                               <string>扫描后移动距离X</string>
+                              </property>
+                             </row>
+                             <row>
+                              <property name="text">
+                               <string>扫描后移动距离Y</string>
+                              </property>
+                             </row>
+                             <row>
+                              <property name="text">
+                               <string>扫描后移动距离Z</string>
+                              </property>
+                             </row>
+                             <column>
+                              <property name="text">
+                               <string>变量</string>
+                              </property>
+                             </column>
+                             <column>
+                              <property name="text">
+                               <string>值</string>
+                              </property>
+                             </column>
+                             <item row="0" column="0">
+                              <property name="text">
+                               <string>Before_Scanning_Y</string>
+                              </property>
+                             </item>
+                             <item row="0" column="1">
+                              <property name="text">
+                               <string>-200</string>
+                              </property>
+                             </item>
+                             <item row="1" column="0">
+                              <property name="text">
+                               <string>Before_Scanning_Y</string>
+                              </property>
+                             </item>
+                             <item row="1" column="1">
+                              <property name="text">
+                               <string>-15</string>
+                              </property>
+                             </item>
+                             <item row="2" column="0">
+                              <property name="text">
+                               <string>Before_Scanning_Z</string>
+                              </property>
+                             </item>
+                             <item row="2" column="1">
+                              <property name="text">
+                               <string>0</string>
+                              </property>
+                             </item>
+                             <item row="3" column="0">
+                              <property name="text">
+                               <string>Wait_Before_Scanning</string>
+                              </property>
+                             </item>
+                             <item row="3" column="1">
+                              <property name="text">
+                               <string>55</string>
+                              </property>
+                             </item>
+                             <item row="4" column="0">
+                              <property name="text">
+                               <string>Scanning_Speed</string>
+                              </property>
+                             </item>
+                             <item row="4" column="1">
+                              <property name="text">
+                               <string>0.005</string>
+                              </property>
+                             </item>
+                             <item row="5" column="0">
+                              <property name="text">
+                               <string>Scanning_Y_Distacne</string>
+                              </property>
+                             </item>
+                             <item row="5" column="1">
+                              <property name="text">
+                               <string>-200</string>
+                              </property>
+                             </item>
+                             <item row="6" column="0">
+                              <property name="text">
+                               <string>After_Scanning_X</string>
+                              </property>
+                             </item>
+                             <item row="6" column="1">
+                              <property name="text">
+                               <string>20</string>
+                              </property>
+                             </item>
+                             <item row="7" column="0">
+                              <property name="text">
+                               <string>After_Scanning_Y</string>
+                              </property>
+                             </item>
+                             <item row="7" column="1">
+                              <property name="text">
+                               <string>30</string>
+                              </property>
+                             </item>
+                             <item row="8" column="0">
+                              <property name="text">
+                               <string>After_Scanning_Z</string>
+                              </property>
+                             </item>
+                             <item row="8" column="1">
+                              <property name="text">
+                               <string>40</string>
+                              </property>
+                             </item>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_14">
+                       <item>
+                        <widget class="QPushButton" name="dcgParaSaveBtn">
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
-                           <height>350</height>
+                           <height>30</height>
                           </size>
                          </property>
-                         <attribute name="horizontalHeaderMinimumSectionSize">
-                          <number>90</number>
-                         </attribute>
-                         <attribute name="horizontalHeaderDefaultSectionSize">
-                          <number>90</number>
-                         </attribute>
-                         <attribute name="verticalHeaderMinimumSectionSize">
-                          <number>20</number>
-                         </attribute>
-                         <attribute name="verticalHeaderDefaultSectionSize">
-                          <number>37</number>
-                         </attribute>
-                         <row>
-                          <property name="text">
-                           <string>扫描前移动距离X</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>扫描前移动距离Y</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>扫描前移动距离Z</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>扫描前等待时间</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>扫描速度</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>Y向扫描移动距离</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>扫描后移动距离X</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>扫描后移动距离Y</string>
-                          </property>
-                         </row>
-                         <row>
-                          <property name="text">
-                           <string>扫描后移动距离Z</string>
-                          </property>
-                         </row>
-                         <column>
-                          <property name="text">
-                           <string>变量</string>
-                          </property>
-                         </column>
-                         <column>
-                          <property name="text">
-                           <string>值</string>
-                          </property>
-                         </column>
-                         <item row="0" column="0">
-                          <property name="text">
-                           <string>Before_Scanning_Y</string>
-                          </property>
-                         </item>
-                         <item row="0" column="1">
-                          <property name="text">
-                           <string>-200</string>
-                          </property>
-                         </item>
-                         <item row="1" column="0">
-                          <property name="text">
-                           <string>Before_Scanning_Y</string>
-                          </property>
-                         </item>
-                         <item row="1" column="1">
-                          <property name="text">
-                           <string>-15</string>
-                          </property>
-                         </item>
-                         <item row="2" column="0">
-                          <property name="text">
-                           <string>Before_Scanning_Z</string>
-                          </property>
-                         </item>
-                         <item row="2" column="1">
-                          <property name="text">
-                           <string>0</string>
-                          </property>
-                         </item>
-                         <item row="3" column="0">
-                          <property name="text">
-                           <string>Wait_Before_Scanning</string>
-                          </property>
-                         </item>
-                         <item row="3" column="1">
-                          <property name="text">
-                           <string>55</string>
-                          </property>
-                         </item>
-                         <item row="4" column="0">
-                          <property name="text">
-                           <string>Scanning_Speed</string>
-                          </property>
-                         </item>
-                         <item row="4" column="1">
-                          <property name="text">
-                           <string>0.005</string>
-                          </property>
-                         </item>
-                         <item row="5" column="0">
-                          <property name="text">
-                           <string>Scanning_Y_Distacne</string>
-                          </property>
-                         </item>
-                         <item row="5" column="1">
-                          <property name="text">
-                           <string>-200</string>
-                          </property>
-                         </item>
-                         <item row="6" column="0">
-                          <property name="text">
-                           <string>After_Scanning_X</string>
-                          </property>
-                         </item>
-                         <item row="6" column="1">
-                          <property name="text">
-                           <string>20</string>
-                          </property>
-                         </item>
-                         <item row="7" column="0">
-                          <property name="text">
-                           <string>After_Scanning_Y</string>
-                          </property>
-                         </item>
-                         <item row="7" column="1">
-                          <property name="text">
-                           <string>30</string>
-                          </property>
-                         </item>
-                         <item row="8" column="0">
-                          <property name="text">
-                           <string>After_Scanning_Z</string>
-                          </property>
-                         </item>
-                         <item row="8" column="1">
-                          <property name="text">
-                           <string>40</string>
-                          </property>
-                         </item>
+                         <property name="text">
+                          <string>参数保存</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="dcgCodeUpdateBtn">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string>脚本更新</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="dcgCodeGenBtn">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string>程序生成</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="dcgCodeTransBtn">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string>程序传输</string>
+                         </property>
                         </widget>
                        </item>
                       </layout>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_14">
-                   <item>
-                    <widget class="QPushButton" name="dcgParaSaveBtn">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>参数保存</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="dcgCodeUpdateBtn">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>脚本更新</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="dcgCodeGenBtn">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>程序生成</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QPushButton" name="dcgCodeTransBtn">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>程序传输</string>
-                     </property>
-                    </widget>
+                     </item>
+                    </layout>
                    </item>
                   </layout>
-                 </item>
-                </layout>
+                 </widget>
+                </widget>
                </item>
               </layout>
              </widget>

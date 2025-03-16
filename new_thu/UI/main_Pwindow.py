@@ -41,7 +41,7 @@ class TabWindow(MainWindow):
 
     def InitUI(self):
         print("PWindow Load")
-        self.resize(1900, 1100)
+        # self.resize(1900, 1100)
 
         self.ui = cast(Ui_MainWindow, self.ui)
         # 使用生成的Python文件作为类型提示
@@ -60,7 +60,8 @@ class TabWindow(MainWindow):
         self.ui.tab4Layout = QHBoxLayout()
         # 添加DIO TAB
         self.ui.DIOControlWidget = DIOWidget(DEBUG = DEBUG)
-        self.ui.tab4Layout.addWidget(self.ui.DIOControlWidget)
+        self.ui.DIOControlWidget.hide()
+        # self.ui.tab4Layout.addWidget(self.ui.DIOControlWidget)
         self.ui.tab_4.setLayout(self.ui.tab4Layout)
 
         # 添加AIO TAB
@@ -582,15 +583,14 @@ class TabWindow(MainWindow):
                 self.cpltarea = cpltArea(self.cpltdf,params)
                 canvas = self.cpltarea.cpltAreaShow()
                 img_array = np.frombuffer(canvas, dtype=np.uint8)
-                width, height = 800, 400  # 必须与 figsize 一致
+                width, height = 8*100, 4*100   # 必须与 figsize 一致
                 img_array = img_array.reshape((height, width, 4))
-
-                pixmap = QPixmap.fromImage(
+                pixmap = (QPixmap.fromImage(
                     QImage(img_array.data, width, height, QImage.Format_RGBA8888)
-                )
-                # 更新 QLabel
-                self.ui.cpltAreaShowLabel.setPixmap(pixmap)
+                ))
                 self.ui.cpltAreaShowLabel.setScaledContents(True)
+                self.ui.cpltAreaShowLabel.setPixmap(pixmap)
+
         except:
             print("cpltAreaAcqShow:", "error")
         self.ui.cpltAreaAcqShowBtn.setEnabled(True)  # 启用按钮
@@ -657,12 +657,14 @@ class TabWindow(MainWindow):
     ## 模拟沉积-显示
     def dsfSimuDepShowImg(self,canvas):
         self.dsfimg_array = np.frombuffer(canvas, dtype=np.uint8)
-        width, height = 800, 400  # 必须与 figsize 一致
+        width, height = 8*60, 4*60  # 必须与 figsize 一致
         self.dsfimg_array = self.dsfimg_array.reshape((height, width, 4))
 
         pixmap = QPixmap.fromImage(
             QImage(self.dsfimg_array.data, width, height, QImage.Format_RGBA8888)
         )
+        # .scaled(self.ui.cpltAreaShowLabel.size(), aspectMode=Qt.KeepAspectRatio)
+        self.ui.cpltAreaShowLabel.setScaledContents(True)
         self.ui.dsfSimuDepShowLabel.setPixmap(pixmap)
     def dsfSimuDepShowTable(self,df):
         # 设置表格的行列数

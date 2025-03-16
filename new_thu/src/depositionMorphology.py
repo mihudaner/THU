@@ -51,16 +51,24 @@ class cpltArea():
             self.df_processed["Y/mm"] -= self.df_processed["Y/mm"].min()
             self.df_processed["Z/mm"] -= self.df_processed["Z/mm"].min()
 
+            # 计算动态坐标范围
+            if not self.df_processed.empty:
+                x_max = max(self.df_processed["Y/mm"].max(), 160)
+                y_max = max(self.df_processed["Z/mm"].max(), 8)
+            else:
+                x_max = 160
+                y_max = 8
             fig = Figure(figsize=(8, 4), dpi=100)
             ax = fig.add_subplot(111)
             ax.plot(self.df_processed["Y/mm"], self.df_processed["Z/mm"],
                     color='b', linestyle='-', linewidth=2)
             ax.set(
-                xlim=[0, 190],
-                ylim=[0, 12],
+                xlim=[0, x_max],
+                ylim=[0, y_max+2],
                 xlabel='Y/mm',
                 ylabel='Z/mm',
                 title='横截面形状'
+
             )
             ax.grid(True, linestyle=':', color='gray')
             fig.tight_layout()
@@ -205,37 +213,36 @@ def dsfSimuDep(file_path, params):
     curve_file_path = file_path
     curve_sheet_name = 'Sheet1'
     rect_length,rect_width = params
-    # 自定义坐标轴范围
-    x_min_custom = 0  # 这里替换为你想要的横坐标最小值
-    x_max_custom = 170  # 这里替换为你想要的横坐标最大值
-    y_min_custom = 0  # 这里替换为你想要的纵坐标最小值
-    y_max_custom = 12  # 这里替换为你想要的纵坐标最大值
-
+    curve_file_path = file_path
+    curve_sheet_name = 'Sheet1'
+    rect_length, rect_width = params
+    # 读取曲线数据
     curve_points = read_curve_from_excel(curve_file_path, sheet_name=curve_sheet_name)
+    # 动态计算坐标轴范围
+    x_coords = [point[0] for point in curve_points]
+    y_coords = [point[1] for point in curve_points]
+    x_min_custom = 0
+    x_max_custom = max(max(x_coords), 160) if x_coords else 160  # 确保最小160
+    y_min_custom = 0
+    y_max_custom = max(max(y_coords), 8) if y_coords else 8  # 确保最小8
+    # 填充矩形并过滤
     rect_centers, rect_count, rect_layers_info = fill_and_filter(curve_points, rect_length, rect_width,
                                                                  curve_file_path, curve_sheet_name)
-    fig = Figure(figsize=(8, 4), dpi=100)
+    # 创建绘图对象
+    fig = Figure(figsize=(8, 4), dpi=60)
+    # fig = Figure(width=width, height=height)
     ax = fig.add_subplot(111)
-
+    # 绘制闭合曲线
     ax.plot([point[0] for point in curve_points] + [curve_points[0][0]],
-             [point[1] for point in curve_points] + [curve_points[0][1]], 'b-')
-
+            [point[1] for point in curve_points] + [curve_points[0][1]], 'b-')
+    # 绘制所有矩形
     for center in rect_centers:
         rect = plt.Rectangle((center[0] - rect_length / 2, center[1] - rect_width / 2),
                              rect_length, rect_width, fill=False, edgecolor='r')
         ax.add_patch(rect)
-
-    # 设置坐标轴范围和标签
+    # 设置坐标轴范围
     ax.set_xlim(x_min_custom, x_max_custom)
-    ax.set_ylim(y_min_custom, y_max_custom)
-    ax.set_xlabel('Y/mm')
-    ax.set_ylabel('Z/mm')
-
-    # 设置刻度
-    ax.set_xticks([0, 30, 60, 90, 120, 150])
-    y_tick_spacing = 3
-    y_ticks = np.arange(y_min_custom, y_max_custom + y_tick_spacing, y_tick_spacing)
-    ax.set_yticks(y_ticks)
+    ax.set_ylim(y_min_custom, y_max_custom+2)
 
     # 调整布局
     fig.tight_layout()
@@ -411,6 +418,7 @@ def dcgCodegen(file_path:str):
 
     # 打开文件，使用 'w' 模式表示写入，如果文件不存在则创建，如果存在则覆盖原有内容
     file_name = Program_Name + ".src"
+    print('程序生成开始：', file_name,"...")
     original_stdout = sys.stdout
     try:
         with open(file_name, 'w') as f:
@@ -971,9 +979,10 @@ def dcgCodegen(file_path:str):
                 print('END', end="")
 
     except:
-        pass
+         print('程序生成失败')
     finally:
         sys.stdout = original_stdout
+    print('程序生成成功：',file_name)
 
 
 
