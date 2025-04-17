@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_viewer.ui'
+## Form generated from reading UI file 'main_viewerhtRAXn.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -17,8 +17,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1212, 791)
-        MainWindow.setMaximumSize(QSize(1234, 16777215))
+        MainWindow.resize(1214, 798)
+        MainWindow.setMaximumSize(QSize(2500, 16777215))
         MainWindow.setStyleSheet(u"#styleSheet{\n"
 "border: none;\n"
 "margin: 0px;\n"
@@ -246,7 +246,7 @@ class Ui_MainWindow(object):
 "/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
 "ComboBox */\n"
 "QComboBox{\n"
-"	background-color: #6272a4;\n"
+"	background-color: #1272a4;\n"
 "	border-radius: 5px;\n"
 "	border: 2px solid #6272a4;\n"
 "	padding: 5px;\n"
@@ -564,6 +564,7 @@ class Ui_MainWindow(object):
 "	background-color: #ff79c6;\n"
 "	color: rgb(255, 255, 255);\n"
 "}\n"
+"\n"
 "")
         self.w_save = QAction(MainWindow)
         self.w_save.setObjectName(u"w_save")
@@ -642,12 +643,21 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.tabWidget = QTabWidget(self.tab_2)
         self.tabWidget.setObjectName(u"tabWidget")
+        self.tabWidget.setStyleSheet(u"QGroupBox{\n"
+"border: 2px solid #6272a4;\n"
+"}")
         self.tab_5 = QWidget()
         self.tab_5.setObjectName(u"tab_5")
-        self.verticalLayout_6 = QVBoxLayout(self.tab_5)
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.horizontalLayout_18 = QHBoxLayout(self.tab_5)
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
+        self.verticalLayout_14 = QVBoxLayout()
+        self.verticalLayout_14.setObjectName(u"verticalLayout_14")
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_5.addItem(self.horizontalSpacer)
+
         self.groupBox = QGroupBox(self.tab_5)
         self.groupBox.setObjectName(u"groupBox")
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
@@ -655,6 +665,7 @@ class Ui_MainWindow(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
         self.groupBox.setSizePolicy(sizePolicy1)
+        self.groupBox.setStyleSheet(u"")
         self.verticalLayout_4 = QVBoxLayout(self.groupBox)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.label_2 = QLabel(self.groupBox)
@@ -701,6 +712,7 @@ class Ui_MainWindow(object):
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.groupBox_2.sizePolicy().hasHeightForWidth())
         self.groupBox_2.setSizePolicy(sizePolicy3)
+        self.groupBox_2.setStyleSheet(u"")
         self.gridLayout = QGridLayout(self.groupBox_2)
         self.gridLayout.setObjectName(u"gridLayout")
         self.horizontalLayout_3 = QHBoxLayout()
@@ -785,14 +797,26 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.groupBox_2)
 
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
-        self.verticalLayout_6.addLayout(self.horizontalLayout_5)
+        self.horizontalLayout_5.addItem(self.horizontalSpacer_2)
+
+
+        self.verticalLayout_14.addLayout(self.horizontalLayout_5)
 
         self.cpltAreaShowLabel = QLabel(self.tab_5)
         self.cpltAreaShowLabel.setObjectName(u"cpltAreaShowLabel")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.cpltAreaShowLabel.sizePolicy().hasHeightForWidth())
+        self.cpltAreaShowLabel.setSizePolicy(sizePolicy4)
+        self.cpltAreaShowLabel.setStyleSheet(u"\n"
+"border: 2px solid #6272a4;\n"
+"")
         self.cpltAreaShowLabel.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_6.addWidget(self.cpltAreaShowLabel)
+        self.verticalLayout_14.addWidget(self.cpltAreaShowLabel)
 
         self.horizontalLayout_17 = QHBoxLayout()
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
@@ -809,11 +833,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17.addWidget(self.cpltAreaAcqShowBtn)
 
 
-        self.verticalLayout_6.addLayout(self.horizontalLayout_17)
+        self.verticalLayout_14.addLayout(self.horizontalLayout_17)
 
-        self.verticalLayout_6.setStretch(0, 2)
-        self.verticalLayout_6.setStretch(1, 8)
-        self.verticalLayout_6.setStretch(2, 1)
+        self.verticalLayout_14.setStretch(1, 1)
+
+        self.horizontalLayout_18.addLayout(self.verticalLayout_14)
+
         self.tabWidget.addTab(self.tab_5, "")
         self.tab_6 = QWidget()
         self.tab_6.setObjectName(u"tab_6")
@@ -823,10 +848,17 @@ class Ui_MainWindow(object):
         self.verticalLayout_13.setObjectName(u"verticalLayout_13")
         self.horizontalLayout_13 = QHBoxLayout()
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.verticalLayout_6.addItem(self.verticalSpacer)
+
         self.groupBox_3 = QGroupBox(self.tab_6)
         self.groupBox_3.setObjectName(u"groupBox_3")
         sizePolicy3.setHeightForWidth(self.groupBox_3.sizePolicy().hasHeightForWidth())
         self.groupBox_3.setSizePolicy(sizePolicy3)
+        self.groupBox_3.setStyleSheet(u"")
         self.verticalLayout_11 = QVBoxLayout(self.groupBox_3)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.label_5 = QLabel(self.groupBox_3)
@@ -838,10 +870,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_12 = QVBoxLayout()
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.verticalLayout_12.setContentsMargins(-1, 20, -1, -1)
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_12.addItem(self.verticalSpacer)
-
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.label_4 = QLabel(self.groupBox_3)
@@ -886,10 +914,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_12.addLayout(self.horizontalLayout_11)
 
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.verticalLayout_12.addItem(self.verticalSpacer_2)
-
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.dsfSimuDepBtn = QPushButton(self.groupBox_3)
@@ -910,16 +934,25 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_11.addLayout(self.verticalLayout_12)
 
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.horizontalLayout_13.addWidget(self.groupBox_3)
+        self.verticalLayout_11.addItem(self.verticalSpacer_2)
+
+
+        self.verticalLayout_6.addWidget(self.groupBox_3)
+
+
+        self.horizontalLayout_13.addLayout(self.verticalLayout_6)
 
         self.dsfSimuDepShowLabel = QLabel(self.tab_6)
         self.dsfSimuDepShowLabel.setObjectName(u"dsfSimuDepShowLabel")
+        self.dsfSimuDepShowLabel.setStyleSheet(u"\n"
+"border: 2px solid #6272a4;\n"
+"")
         self.dsfSimuDepShowLabel.setAlignment(Qt.AlignCenter)
 
         self.horizontalLayout_13.addWidget(self.dsfSimuDepShowLabel)
 
-        self.horizontalLayout_13.setStretch(0, 3)
         self.horizontalLayout_13.setStretch(1, 8)
 
         self.verticalLayout_13.addLayout(self.horizontalLayout_13)
@@ -961,11 +994,11 @@ class Ui_MainWindow(object):
         __qtablewidgetitem13 = QTableWidgetItem()
         self.dsfSimuDepTable.setVerticalHeaderItem(6, __qtablewidgetitem13)
         self.dsfSimuDepTable.setObjectName(u"dsfSimuDepTable")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.dsfSimuDepTable.sizePolicy().hasHeightForWidth())
-        self.dsfSimuDepTable.setSizePolicy(sizePolicy4)
+        sizePolicy5 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.dsfSimuDepTable.sizePolicy().hasHeightForWidth())
+        self.dsfSimuDepTable.setSizePolicy(sizePolicy5)
         self.dsfSimuDepTable.setTabKeyNavigation(True)
         self.dsfSimuDepTable.setProperty("showDropIndicator", True)
         self.dsfSimuDepTable.horizontalHeader().setDefaultSectionSize(100)
@@ -992,7 +1025,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 747, 704))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 762, 696))
         self.horizontalLayout_10 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
         self.groupBox_4 = QGroupBox(self.scrollAreaWidgetContents)
@@ -1131,8 +1164,8 @@ class Ui_MainWindow(object):
         __qtablewidgetitem72 = QTableWidgetItem()
         self.dcgParaTabel.setItem(18, 1, __qtablewidgetitem72)
         self.dcgParaTabel.setObjectName(u"dcgParaTabel")
-        sizePolicy4.setHeightForWidth(self.dcgParaTabel.sizePolicy().hasHeightForWidth())
-        self.dcgParaTabel.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.dcgParaTabel.sizePolicy().hasHeightForWidth())
+        self.dcgParaTabel.setSizePolicy(sizePolicy5)
         self.dcgParaTabel.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.dcgParaTabel.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.dcgParaTabel.horizontalHeader().setDefaultSectionSize(80)
@@ -1190,8 +1223,8 @@ class Ui_MainWindow(object):
         __qtablewidgetitem86 = QTableWidgetItem()
         self.dcgDetTabel.setItem(3, 1, __qtablewidgetitem86)
         self.dcgDetTabel.setObjectName(u"dcgDetTabel")
-        sizePolicy4.setHeightForWidth(self.dcgDetTabel.sizePolicy().hasHeightForWidth())
-        self.dcgDetTabel.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.dcgDetTabel.sizePolicy().hasHeightForWidth())
+        self.dcgDetTabel.setSizePolicy(sizePolicy5)
         self.dcgDetTabel.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.dcgDetTabel.horizontalHeader().setMinimumSectionSize(90)
         self.dcgDetTabel.horizontalHeader().setDefaultSectionSize(90)
@@ -1199,10 +1232,15 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_10.addWidget(self.dcgDetTabel)
 
-        self.dcgScanGroup = QGroupBox(self.groupBox_6)
+        self.verticalLayout_10.setStretch(0, 1)
+        self.verticalLayout_10.setStretch(1, 2)
+
+        self.verticalLayout_8.addWidget(self.groupBox_6)
+
+        self.dcgScanGroup = QGroupBox(self.scrollAreaWidgetContents)
         self.dcgScanGroup.setObjectName(u"dcgScanGroup")
-        sizePolicy4.setHeightForWidth(self.dcgScanGroup.sizePolicy().hasHeightForWidth())
-        self.dcgScanGroup.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.dcgScanGroup.sizePolicy().hasHeightForWidth())
+        self.dcgScanGroup.setSizePolicy(sizePolicy5)
         self.dcgScanGroup.setMinimumSize(QSize(0, 0))
         self.verticalLayout_9 = QVBoxLayout(self.dcgScanGroup)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
@@ -1276,8 +1314,8 @@ class Ui_MainWindow(object):
         __qtablewidgetitem115 = QTableWidgetItem()
         self.dcgScanTabel.setItem(8, 1, __qtablewidgetitem115)
         self.dcgScanTabel.setObjectName(u"dcgScanTabel")
-        sizePolicy4.setHeightForWidth(self.dcgScanTabel.sizePolicy().hasHeightForWidth())
-        self.dcgScanTabel.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.dcgScanTabel.sizePolicy().hasHeightForWidth())
+        self.dcgScanTabel.setSizePolicy(sizePolicy5)
         self.dcgScanTabel.setMinimumSize(QSize(0, 350))
         self.dcgScanTabel.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.dcgScanTabel.horizontalHeader().setMinimumSectionSize(90)
@@ -1288,12 +1326,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.addWidget(self.dcgScanTabel)
 
 
-        self.verticalLayout_10.addWidget(self.dcgScanGroup)
-
-        self.verticalLayout_10.setStretch(0, 1)
-        self.verticalLayout_10.setStretch(1, 2)
-
-        self.verticalLayout_8.addWidget(self.groupBox_6)
+        self.verticalLayout_8.addWidget(self.dcgScanGroup)
 
         self.horizontalLayout_14 = QHBoxLayout()
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
@@ -1404,11 +1437,11 @@ class Ui_MainWindow(object):
         QTreeWidgetItem(self.treeWidget)
         self.treeWidget.setObjectName(u"treeWidget")
         self.treeWidget.setEnabled(True)
-        sizePolicy5 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.treeWidget.sizePolicy().hasHeightForWidth())
-        self.treeWidget.setSizePolicy(sizePolicy5)
+        sizePolicy6 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.treeWidget.sizePolicy().hasHeightForWidth())
+        self.treeWidget.setSizePolicy(sizePolicy6)
         self.treeWidget.setMinimumSize(QSize(360, 0))
         self.treeWidget.setMaximumSize(QSize(16777215, 16777215))
         self.treeWidget.setFont(font)

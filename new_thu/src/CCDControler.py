@@ -4,6 +4,7 @@
 # @Author  : mihudan~
 # @File    : CCDControler
 # @Description :
+import os.path
 
 import pypylon.pylon as py
 import numpy as np
@@ -17,7 +18,7 @@ from collections import namedtuple
 # the camera is configured to run at high framerate with only two lines hight
 # the acquired rows are concatenated as a virtual frame and this frame is displayed
 
-
+from UI.config import *
 
 class CCD_camera:
     def __init__(self,DEBUG):
@@ -32,6 +33,13 @@ class CCD_camera:
         self.cams = dict()
         self.IsOpen = dict()
         self.Grabbing = dict()
+        if DEBUG:
+            self.img_idx = 0
+            self.img_list = []
+            if os.path.isdir(TEST_CCD_PATH):
+                self.img_list = os.listdir(TEST_CCD_PATH)
+            else:
+                self.img_list = [TEST_CCD_PATH]
 
     def enum(self):
 
@@ -147,7 +155,11 @@ class CCD_camera:
             print("设备未打开")
             return None
         if self.Debug:
-            self.img = cv2.imread("../src/centor_img.tiff")
+            img_path = self.img_list[self.img_idx]
+            self.img_idx += 1
+            if self.img_idx >= len(self.img_list):
+                self.img_idx = 0
+            self.img = cv2.imread(TEST_CCD_PATH + "/" + img_path)
             return self.img
         with self.cam.RetrieveResult(5000) as result:
             if result.GrabSucceeded():

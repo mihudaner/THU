@@ -69,6 +69,10 @@ FE 设备地址
 
 
 def callPower(order):
+    """
+    发送指令到设备并接收响应
+    :param order: 指令字符串
+    """
     global s
     # s = socket.socket()
     # s.connect(("192.168.10.1", 10000))
@@ -95,6 +99,11 @@ def callPower(order):
 # roads = 8
 
 def SetOnRelay(cannel):
+    """
+    打开继电器
+    @param cannel: 通道号
+    @return:
+    """
     global lock
     lock.acquire()
     order = orders["SetOnRelay"][str(cannel)]
@@ -110,6 +119,11 @@ def SetOnRelay(cannel):
 
 
 def SetOffRelay(cannel):
+    """
+    关闭继电器
+    @param cannel: 通道号
+    @return:
+    """
     global lock
     lock.acquire()
     order = orders["SetOffRelay"][str(cannel)]
@@ -127,6 +141,10 @@ def SetOffRelay(cannel):
 
 
 def ReadRelay():
+    """
+    查询继电器状态
+    @return:
+    """
     global lock
     lock.acquire()
     order = orders["ReadRelay"]
@@ -145,6 +163,10 @@ def ReadRelay():
 
 
 def ReadDI():
+    """
+    查询光耦DI状态
+    @return:
+    """
     global lock
     lock.acquire()
     order = orders["ReadDI"]
@@ -163,6 +185,10 @@ def ReadDI():
 
 
 def ReadAI():
+    """
+    查询模拟量AI状态
+    @return:
+    """
     global lock
     lock.acquire()
     order = orders["ReadAI"]
@@ -181,10 +207,20 @@ def ReadAI():
 
 
 def int2string16(x):
+    """
+    将整数转换为16进制字符串
+    @param x: 整数
+    @return:
+    """
     return str(hex(x))[2:].zfill(4)
 
 
 def calculate_crc16(s) -> int:
+    """
+    计算CRC-16校验码
+    @param s:
+    @return:
+    """
     data = bytes.fromhex(s)
     # 初始化crc为0xFFFF
     crc = 0xFFFF
@@ -208,6 +244,11 @@ def calculate_crc16(s) -> int:
 
 
 def add_crc16(s):
+    """
+    添加CRC-16校验码到字符串末尾
+    @param s:
+    @return:
+    """
     add = calculate_crc16(s)
     s += add[2:4]
     s += add[0:2]
@@ -215,6 +256,11 @@ def add_crc16(s):
 
 
 def SetAO(values):
+    """
+    设置模拟量输出
+    @param values:
+    @return:
+    """
     global lock
     lock.acquire()
     order = orders["SetAO"]

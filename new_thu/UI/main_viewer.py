@@ -8,6 +8,9 @@ class NodeType(Enum):
     NodeDir = 0
     NodeFile = 1
 class MainWindow(QMainWindow):
+    """
+    主窗口类，继承自 QMainWindow，用于管理整个应用的主界面、菜单栏、文件系统视图和数据库内容的加载。
+   """
     info_dict = {"具体材料": [], "材料类型": [], "工艺类型": [], "具体设备": [], "模型类型": [], "模型工艺类型": [],
                  "能量": [], "质量": [], "运动": [], "气氛": [], "监控": []}
     def __init__(self, parent=None):
@@ -33,6 +36,9 @@ class MainWindow(QMainWindow):
 
         self.initUI()  # 初始化窗口
     def initUI(self):
+        """
+       初始化界面和控件绑定，包括菜单栏、按钮、树控件等逻辑。
+       """
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         #文件
@@ -196,6 +202,10 @@ class MainWindow(QMainWindow):
 
     #选择总库
     def select_database(self, note=None):
+        """
+       加载数据库总库路径，如果 note 为 "all"，则加载默认数据库路径；
+       否则弹出目录选择框，让用户选择新的数据库路径。
+       """
         self.treeWidget.clear()
         if note == "all":
             self.list_dir(None, self.dataroot)  # 递归遍历
@@ -228,6 +238,10 @@ class MainWindow(QMainWindow):
 
     #选择数据库
     def select_data(self, note=None):
+        """
+        根据指定类型（材料、设备、工艺、程序、模型、项目）选择对应目录，
+        并将其加载到树控件中。
+        """
         self.treeWidget.clear()
         if note == "材料" or note == "cl_fresh":
             self.kupath = osp.join(self.dataroot, "材料库")
@@ -286,6 +300,12 @@ class MainWindow(QMainWindow):
                 self._generate_item(parent, obj, tmp_path, NodeType.NodeFile.value)
 
     def list_dir(self, parent, directory):
+        """
+        递归遍历目录，生成树形结构。
+        @param parent:
+        @param directory:
+        @return:
+        """
         if parent==None:
             # 首先处理 "材料库"
             if "材料库" in os.listdir(directory):
@@ -948,8 +968,9 @@ if __name__ == '__main__':
     MainWindow = PWindow()
     MainWindow.show()
     MainWindow.ui.AIOControlWidget.widgets.btn_enum.click()
-    MainWindow.ui.AIOControlWidget.widgets.Slider_fps.setValue(10)
+    MainWindow.ui.AIOControlWidget.widgets.Slider_fps.setValue(5)
     MainWindow.ui.AIOControlWidget.widgets.checkBox_openccd.click()
     MainWindow.ui.DIOControlWidget.widgets.checkBox_openport.click()
+    time.sleep(0.1)
     MainWindow.ui.DIOControlWidget.widgets.DO0.click()
     sys.exit(app.exec_())

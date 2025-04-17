@@ -31,9 +31,12 @@ import cv2
 import numpy as np
 from src.CCDControler import CCD_camera
 
+# 定义全局缓存数组 PlotBuffer：用于存储每个通道的波形数据（8通道，每通道500个点）
 global PlotBuffer
 PlotBuffer = np.zeros((8, 500))
+# Checked_AI 数组：用于记录哪些通道被选中（用于波形显示）
 Checked_AI = np.zeros(8)
+
 global DIOWindow_widgts
 global AIOWindow_widgts
 global DO
@@ -74,86 +77,126 @@ def show_warning(title, message):
     msg.exec_()  # 显示消息框并等待用户交互
 
 
-class DIDOINThread(threading.Thread):
+class DIDOThread(threading.Thread):
+    """
+    DIDOINThread 是一个继承自 threading.Thread 的线程类，
+    用于定时采集数字输入（DI）状态并保存到 CSV 文件中。
+
+    参数:
+        DIDO_updatetime (int): 采集间隔时间，单位为毫秒
+        now_select_csv_save_apppath (str): CSV 文件保存路径
+    """
+
     def __init__(self, DIDO_updatetime, now_select_csv_save_apppath):
+        # 初始化父类 Thread
         threading.Thread.__init__(self)
-        self.threadStop = False
-        self.DIDO_updatetime = DIDO_updatetime
-        self.now_select_csv_save_apppath = now_select_csv_save_apppath
-        self.record_state = 0
+        self.threadStop = False  # 控制线程停止的标志
+        self.DIDO_updatetime = DIDO_updatetime  # 采集间隔时间（毫秒）
+        self.now_select_csv_save_apppath = now_select_csv_save_apppath  # CSV 文件保存路径
+        self.record_state = 0  # 控制记录状态的变量（0：未开始，1：准备记录，2：记录中，3：停止记录，4：记录结束）
 
     def do_run(self):
-        global DIOWindow_widgts
+        """
+        线程运行函数，控制数据采集与保存流程。
+        """
+        global DIOWindow_widgts  # 假设这个是外部定义的用于读取 DI 状态的对象
+
         while not self.threadStop:
+            # 当 record_state 为 1 时，初始化 CSV 文件
             if self.record_state == 1:
                 now = datetime.datetime.now()
-                timestamp = now.strftime("%Y%m%d_%H%M%S")
+                timestamp = now.strftime("%Y%m%d_%H%M%S")  # 获取当前时间戳（用于命名文件）
                 header = ['time_stamp', 'DIO1', 'DIO2', 'DIO3', 'DIO4', 'DIO5', 'DIO6', 'DIO7', 'DIO8']
-                filename = f'{self.now_select_csv_save_apppath}/{timestamp}_DI.csv'
-                # filename = f'{set_time}.csv'.replace(":", "-")
-                self.f = open(filename, 'a', newline='')
-                self.writer = csv.writer(self.f)
-                # writer.writerow(new_float_data + new_int_data)
-                self.writer.writerow(header)
-                self.record_state = 2
+                filename = f'{self.now_select_csv_save_apppath}/{timestamp}_DI.csv'  # 构建文件路径
+                self.f = open(filename, 'a', newline='')  # 以追加模式打开 CSV 文件
+                self.writer = csv.writer(self.f)  # 创建 CSV 写入器
+                self.writer.writerow(header)  # 写入表头
+                self.record_state = 2  # 更改状态为记录中
 
-            time.sleep(self.DIDO_updatetime * 0.001)
+            time.sleep(self.DIDO_updatetime * 0.001)  # 按设定时间间隔等待（转换为秒）
+
+            # 读取当前 8 路 DI 状态
             DI8s = DIOWindow_widgts.read_DI_state()
+
+            # 如果正在记录中，则写入数据
             if self.record_state == 2:
                 now = datetime.datetime.now()
-                timestamp = now.strftime("%Y%m%d_%H%M%S")
+                timestamp = now.strftime("%Y%m%d_%H%M%S")  # 获取当前时间戳
                 self.writer.writerow(
                     [timestamp, DI8s[0], DI8s[1], DI8s[2], DI8s[3],
-                     DI8s[4], DI8s[5], DI8s[6], DI8s[7]])
+                     DI8s[4], DI8s[5], DI8s[6], DI8s[7]])  # 写入当前状态数据
 
+            # 如果状态为停止记录，则关闭文件
             if self.record_state == 3:
-                self.f.close()
-                self.record_state = 4
+                self.f.close()  # 关闭 CSV 文件
+                self.record_state = 4  # 设置为已完成状态
 
 
 class AIINThread(threading.Thread):
+    """
+    AIINThread 是用于采集模拟量输入（AI）数据的线程类。
+
+    参数:
+        AI_updatetime (int): 采样时间间隔（毫秒）
+        now_select_csv_save_apppath (str): 保存采集CSV的文件夹路径
+    """
+
     def __init__(self, AI_updatetime, now_select_csv_save_apppath):
+        # 初始化线程
         threading.Thread.__init__(self)
-        self.threadStop = False
-        self.AI_updatetime = AI_updatetime
-        self.now_select_csv_save_apppath = now_select_csv_save_apppath
-        self.record_state = 0
+        self.threadStop = False  # 用于控制线程停止
+        self.AI_updatetime = AI_updatetime  # 采样时间间隔（毫秒）
+        self.now_select_csv_save_apppath = now_select_csv_save_apppath  # 文件保存路径
+        self.record_state = 0  # 采集状态（0=未开始，1=开始，2=进行中，3=停止，4=完成）
 
     def do_run(self):
         global DIOWindow_widgts
         global PlotBuffer
+
         while not self.threadStop:
+
+            # 如果处于准备记录状态（1），初始化 CSV 文件并写入表头
             if self.record_state == 1:
                 now = datetime.datetime.now()
                 timestamp = now.strftime("%Y%m%d_%H%M%S")
-                header = ['time_stamp', 'AD1', 'AD2', 'AD3', 'AD4', 'AD5', 'AD6', 'AD7', 'AD8', 'AD9', 'AD10', 'AD11', 'AD12', 'AD13', 'AD14', 'AD15', 'AD16']
-                filename = f'{self.now_select_csv_save_apppath}/{timestamp}_AI.csv'
-                # filename = f'{set_time}.csv'.replace(":", "-")
-                self.f = open(filename, 'a', newline='')
+                header = ['time_stamp'] + [f'AD{i+1}' for i in range(16)]  # 表头字段
+                filename = f'{self.now_select_csv_save_apppath}/{timestamp}_AI.csv'  # 文件名
+                self.f = open(filename, 'a', newline='')  # 打开文件用于写入
                 self.writer = csv.writer(self.f)
-                # writer.writerow(new_float_data + new_int_data)
-                self.writer.writerow(header)
-                self.record_state = 2
+                self.writer.writerow(header)  # 写入表头
+                self.record_state = 2  # 状态变为采集中
 
-            time.sleep(self.AI_updatetime * 0.001)
-            # 索引从 0 开始
+            time.sleep(self.AI_updatetime * 0.001)  # 采样间隔（毫秒 → 秒）
+
+            # 获取波形图组件
             waveview = getattr(AIOWindow_widgts.widgets, f"waveview_{1}")
+
+            # 读取 AI 数据，更新 PlotBuffer
             DIOWindow_widgts.read_AI_state()
+
+            # 检查每个通道是否被勾选，用于波形图显示
             for i in range(8):
                 ckbox = getattr(AIOWindow_widgts.widgets, f"checkBox_{i + 1}")
-                if ckbox.isChecked():
-                    Checked_AI[i] = 1
-                else:
-                    Checked_AI[i] = 0
+                Checked_AI[i] = 1 if ckbox.isChecked() else 0
+
+            # 更新波形图数据
             waveview.update_data(PlotBuffer, Checked_AI)
-            now = datetime.datetime.now()
+
+            now = datetime.datetime.now()  # 获取当前时间
+
+            # 如果正在记录中，将最新一组数据写入 CSV 文件
             if self.record_state == 2:
                 timestamp = now.strftime("%Y%m%d_%H%M%S")
-                self.writer.writerow(
-                    [timestamp, PlotBuffer[0][-1], PlotBuffer[1][-1], PlotBuffer[2][-1], PlotBuffer[3][-1], PlotBuffer[4][-1], PlotBuffer[5][-1], PlotBuffer[6][-1], PlotBuffer[7][-1], ])
+                self.writer.writerow([
+                    timestamp,
+                    PlotBuffer[0][-1], PlotBuffer[1][-1], PlotBuffer[2][-1], PlotBuffer[3][-1],
+                    PlotBuffer[4][-1], PlotBuffer[5][-1], PlotBuffer[6][-1], PlotBuffer[7][-1]
+                ])
+
+            # 如果状态变为“准备结束”，关闭文件
             if self.record_state == 3:
                 self.f.close()
-                self.record_state = 4
+                self.record_state = 4  # 设置为完成状态
 
 
 class DIOWidget(QWidget):
@@ -169,13 +212,17 @@ class DIOWidget(QWidget):
         self.SampleNumber = None
         self.AD_channe_number = None
 
+        # 加载界面 UI
         self.ui = DIOwidget.Ui_Form()
         self.ui.setupUi(self)
         self.widgets = self.ui
+
+        # 共享 DIO 窗口全局引用
         global DIOWindow_widgts
         DIOWindow_widgts = self
         self.show()
 
+        # 绑定数字输出按钮点击事件（DO0~DO7）
         self.widgets.DO0.clicked.connect(lambda: self.change_DO(0))
         self.widgets.DO1.clicked.connect(lambda: self.change_DO(1))
         self.widgets.DO2.clicked.connect(lambda: self.change_DO(2))
@@ -194,12 +241,16 @@ class DIOWidget(QWidget):
 
         self.is_startin = False
         self.connected = False
+        # 连接滑动条和数值框
         self.connect_AO_slider_spinbox()
         self.widgets.btn_setAO.clicked.connect(lambda: self.set_AI())
 
         self.now_select_csv_save_apppath = '.'
 
     def connect_AO_slider_spinbox(self):
+        """
+       将 AO 控制的滑动条与数值输入框绑定，保持同步
+       """
         self.widgets.Slider1.valueChanged[int].connect(
             lambda: self.widgets.spinBox_AO1.setValue(self.widgets.Slider1.value()))
         self.widgets.spinBox_AO1.editingFinished.connect(
@@ -253,6 +304,9 @@ class DIOWidget(QWidget):
             self.t_in.stop()
 
     def open_port(self):
+        """
+       打开或关闭通信端口，并启动采集线程
+       """
         if self.widgets.checkBox_openport.isChecked():
 
             if not self.DEBUG:
@@ -262,7 +316,7 @@ class DIOWidget(QWidget):
                     dll.s.connect((self.IP, self.port))
                     self.connected = True
 
-            self.tar1 = DIDOINThread(self.widgets.spinBox_DIDO_updatetime.value(), self.now_select_csv_save_apppath)
+            self.tar1 = DIDOThread(self.widgets.spinBox_DIDO_updatetime.value(), self.now_select_csv_save_apppath)
             t1 = threading.Thread(target=self.tar1.do_run, name='in_thread_DIDO')
             t1.start()
             self.tar2 = AIINThread(self.widgets.spinBox_AI_updatetime.value(), self.now_select_csv_save_apppath)
@@ -273,6 +327,10 @@ class DIOWidget(QWidget):
             self.tar2.threadStop = True
 
     def change_DO(self, channel):
+        """
+       控制数字输出通道（继电器开/关）
+       :param channel: 通道号（0~7）
+       """
         global DO
         DOcheckbtn = getattr(self.widgets, f"DO{channel}")
         if DOcheckbtn.isChecked():
@@ -290,7 +348,7 @@ class DIOWidget(QWidget):
 
     def read_DO_state(self):
         """
-        查询继电器状态fe 01 01 21 a184
+        读取当前 DO 状态并同步到界面,查询继电器状态fe 01 01 21 a184
         21
         高位2   L8L7L6L5第二个灯亮就是L6
         低位1   L4L3L2L1第一个灯亮就是L1
@@ -308,7 +366,7 @@ class DIOWidget(QWidget):
 
     def read_DI_state(self):
         """
-        查询DI状态
+        查询DI状态,读取 DI 状态（数字输入）并发出信号
         :return:
         """
         res = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -342,6 +400,9 @@ class DIOWidget(QWidget):
         return res
 
     def read_AI_state(self):
+        """
+        读取模拟量数据（AI），并写入波形缓存 PlotBuffer
+        """
         global debug_cnt
         global PlotBuffer
         global ai
@@ -365,6 +426,9 @@ class DIOWidget(QWidget):
                 PlotBuffer[i] = np.append(PlotBuffer[i], ai / 1000)[1:]
 
     def set_AI(self):
+        """
+        设置模拟输出（AO）值，读取滑动条的当前值发送
+        """
         values = []
         for channel in range(8):
             slider = getattr(self.widgets, f"Slider{channel + 1}")
@@ -422,91 +486,90 @@ class AIOWidget(QWidget):
         self.widgets.Layout_wave_6.addWidget(self.widgets.waveview_6)
 
 
+# class AIOWidget_ShowOne(QWidget):
+#
+#     def __init__(self):
+#         super().__init__()
+#         # 从文件中加载UI定义
+#         # 从 UI 定义中动态 创建一个相应的窗口对象
+#         # 注意：里面的控件对象也成为窗口对象的属性了
+#         # 比如 self.ui.button , self.ui.textEdit
+#         # self.ui = QUiLoader().load('windows.ui')
+#         self.SampleNumber = None
+#         self.AD_channe_number = None
+#
+#         self.ui = AIOwidget.Ui_Form()
+#         self.ui.setupUi(self)
+#         self.widgets = self.ui
+#         global AIOWindow_widgts
+#         AIOWindow_widgts = self
+#         self.show()
+#
+#         # 绘图控件
+#         self.widgets.waveview_1 = RealTimePlotWidget()
+#         self.widgets.Layout_wave_1 = QVBoxLayout(self.widgets.groupBox_waveview_1)
+#         self.widgets.Layout_wave_1.addWidget(self.widgets.waveview_1)
+#
+#         # 绘图控件
+#         self.widgets.waveview_2 = RealTimePlotWidget()
+#         self.widgets.Layout_wave_2 = QVBoxLayout(self.widgets.groupBox_waveview_2)
+#         self.widgets.Layout_wave_2.addWidget(self.widgets.waveview_2)
+#
+#         # 绘图控件
+#         self.widgets.waveview_3 = RealTimePlotWidget()
+#         self.widgets.Layout_wave_3 = QVBoxLayout(self.widgets.groupBox_waveview_3)
+#         self.widgets.Layout_wave_3.addWidget(self.widgets.waveview_3)
+#
+#         # 绘图控件
+#         self.widgets.waveview_4 = RealTimePlotWidget()
+#         self.widgets.Layout_wave_4 = QVBoxLayout(self.widgets.groupBox_waveview_4)
+#         self.widgets.Layout_wave_4.addWidget(self.widgets.waveview_4)
+#
+#         # 绘图控件
+#         self.widgets.waveview_5 = RealTimePlotWidget()
+#         self.widgets.Layout_wave_5 = QVBoxLayout(self.widgets.groupBox_waveview_5)
+#         self.widgets.Layout_wave_5.addWidget(self.widgets.waveview_5)
+#
+#         # 绘图控件
+#         self.widgets.waveview_6 = RealTimePlotWidget()
+#         self.widgets.Layout_wave_6 = QVBoxLayout(self.widgets.groupBox_waveview_6)
+#         self.widgets.Layout_wave_6.addWidget(self.widgets.waveview_6)
+
+
 class AIOWidget_ShowOne(QWidget):
+    select_idx = 0  # 当前选中的相机设备索引
 
-    def __init__(self):
+    def __init__(self, DEBUG):
         super().__init__()
-        # 从文件中加载UI定义
-        # 从 UI 定义中动态 创建一个相应的窗口对象
-        # 注意：里面的控件对象也成为窗口对象的属性了
-        # 比如 self.ui.button , self.ui.textEdit
-        # self.ui = QUiLoader().load('windows.ui')
-        self.SampleNumber = None
-        self.AD_channe_number = None
+        self.DEBUG = DEBUG  # 是否处于调试模式
+        self.SampleNumber = None  # 采样点数，暂未使用
+        self.AD_channe_number = None  # 模拟输入通道数，暂未使用
 
-        self.ui = AIOwidget.Ui_Form()
-        self.ui.setupUi(self)
-        self.widgets = self.ui
-        global AIOWindow_widgts
-        AIOWindow_widgts = self
-        self.show()
-
-        # 绘图控件
-        self.widgets.waveview_1 = RealTimePlotWidget()
-        self.widgets.Layout_wave_1 = QVBoxLayout(self.widgets.groupBox_waveview_1)
-        self.widgets.Layout_wave_1.addWidget(self.widgets.waveview_1)
-
-        # 绘图控件
-        self.widgets.waveview_2 = RealTimePlotWidget()
-        self.widgets.Layout_wave_2 = QVBoxLayout(self.widgets.groupBox_waveview_2)
-        self.widgets.Layout_wave_2.addWidget(self.widgets.waveview_2)
-
-        # 绘图控件
-        self.widgets.waveview_3 = RealTimePlotWidget()
-        self.widgets.Layout_wave_3 = QVBoxLayout(self.widgets.groupBox_waveview_3)
-        self.widgets.Layout_wave_3.addWidget(self.widgets.waveview_3)
-
-        # 绘图控件
-        self.widgets.waveview_4 = RealTimePlotWidget()
-        self.widgets.Layout_wave_4 = QVBoxLayout(self.widgets.groupBox_waveview_4)
-        self.widgets.Layout_wave_4.addWidget(self.widgets.waveview_4)
-
-        # 绘图控件
-        self.widgets.waveview_5 = RealTimePlotWidget()
-        self.widgets.Layout_wave_5 = QVBoxLayout(self.widgets.groupBox_waveview_5)
-        self.widgets.Layout_wave_5.addWidget(self.widgets.waveview_5)
-
-        # 绘图控件
-        self.widgets.waveview_6 = RealTimePlotWidget()
-        self.widgets.Layout_wave_6 = QVBoxLayout(self.widgets.groupBox_waveview_6)
-        self.widgets.Layout_wave_6.addWidget(self.widgets.waveview_6)
-
-
-class AIOWidget_ShowOne(QWidget):
-    select_idx = 0
-
-    def __init__(self,DEBUG):
-        super().__init__()
-        # 从文件中加载UI定义
-        # 从 UI 定义中动态 创建一个相应的窗口对象
-        # 注意：里面的控件对象也成为窗口对象的属性了
-        # 比如 self.ui.button , self.ui.textEdit
-        # self.ui = QUiLoader().load('windows.ui')
-
-        self.DEBUG = DEBUG
-        self.SampleNumber = None
-        self.AD_channe_number = None
-
+        # 初始化 UI
         self.ui = AIO_CCD_Table()
         self.ui.setupUi(self)
-        self.widgets = self.ui
+        self.widgets = self.ui  # 方便引用控件
         global AIOWindow_widgts
         AIOWindow_widgts = self
-        self.show()
+        self.show()  # 显示窗口
 
-        # 绘图控件
+        # 添加实时波形绘图控件
         self.widgets.waveview_1 = RealTimePlotWidget()
         self.widgets.Layout_wave_1 = QVBoxLayout(self.widgets.groupBox_waveview_1)
         self.widgets.Layout_wave_1.addWidget(self.widgets.waveview_1)
 
+        # 初始化相机对象
         self.cam = CCD_camera(self.DEBUG)
-        self.ui.btn_enum.clicked.connect(self.enum)
-        self.ui.checkBox_openccd.clicked.connect(self.change_state)
-        self.ui.comboBox_ccd_device.currentIndexChanged.connect(self.change_select)
-        self.ui.btn_ccd_capture.clicked.connect(self.capture)
-        self.ui.btn_ccd_capture.hide()
-        self.ui.btn_setpara.clicked.connect(self.setpara2)
 
+        # 绑定按钮/控件事件
+        self.ui.btn_enum.clicked.connect(self.enum)  # 枚举设备
+        self.ui.checkBox_openccd.clicked.connect(self.change_state)  # 开关设备
+        self.ui.comboBox_ccd_device.currentIndexChanged.connect(self.change_select)  # 更换设备
+        self.ui.btn_ccd_capture.clicked.connect(self.capture)  # 拍照
+        self.ui.btn_ccd_capture.hide()  # 隐藏拍照按钮（可能仅调试使用）
+        self.ui.btn_setpara.clicked.connect(self.setpara2)  # 设置曝光/增益
+
+        # 绑定图像窗口大小设置相关事件
         self.widgets.spinBox_ccd_hoffset.editingFinished.connect(self.setpara)
         self.widgets.spinBox_ccd_woffset.editingFinished.connect(self.setpara)
         self.widgets.Slider_hoffset.valueChanged.connect(self.setpara)
@@ -515,17 +578,22 @@ class AIOWidget_ShowOne(QWidget):
         self.widgets.spinBox_ccdh.editingFinished.connect(self.setpara)
         self.widgets.Slider_h.valueChanged.connect(self.setpara)
         self.widgets.Slider_w.valueChanged.connect(self.setpara)
-        self.setpara()
+
+        self.setpara()  # 启动时设置一次参数
 
     def setpara2(self):
+        """设置相机曝光和增益等参数"""
         if not self.DEBUG:
-            ret = self.cam.setpara(self.ui.spinBox_gain.value(), self.ui.spinBox_exposure.value(), self.select_idx)
+            ret = self.cam.setpara(self.ui.spinBox_gain.value(),
+                                   self.ui.spinBox_exposure.value(),
+                                   self.select_idx)
             if not ret:
                 show_warning("设置失败", "设置失败，请检查设备是否连接。")
                 return
-        self.capture()
+        self.capture()  # 设置完后拍一张图显示
 
     def setpara(self):
+        """设置图像窗口区域参数"""
         self.cam.H = self.ui.spinBox_ccdh.value()
         self.cam.W = self.ui.spinBox_ccdw.value()
         self.cam.Hoffset = self.ui.spinBox_ccd_hoffset.value()
@@ -534,39 +602,48 @@ class AIOWidget_ShowOne(QWidget):
             self.updateshow(self.cam.get_img())
 
     def capture(self, updateshow=True, timedelay=0):
+        """
+        拍照并返回图像数据
+        :param updateshow: 是否立即显示图像
+        :param timedelay: 拍照延时（毫秒）
+        """
         img = self.cam.capture(self.select_idx)
         if not isinstance(img, np.ndarray):
             show_warning("拍照失败", "拍照失败，请检查设备是否连接。")
             return
+        # 将 BGR 图像转为 RGB 用于 Qt 显示
         rgb_image = cv2.cvtColor(self.cam.get_img(), cv2.COLOR_BGR2RGB)
-        if updateshow: self.updateshow(rgb_image)
+        if updateshow:
+            self.updateshow(rgb_image)
         if timedelay > 0:
-            time.sleep(timedelay*0.001)
+            time.sleep(timedelay * 0.001)
         return img
 
     def updateshow(self, rgb_image):
-        # 将图像转换为 QImage
+        """将图像显示在 QLabel 中"""
         height, width, channel = rgb_image.shape
         bytes_per_line = 3 * width
         q_image = QImage(rgb_image.data, width, height, bytes_per_line, QImage.Format_RGB888)
 
-        # 计算缩放比例
+        # 缩放图像保持纵横比
         label_width = self.ui.label_ccd_img.width()
         label_height = self.ui.label_ccd_img.height()
-
-        # 保持长宽比，缩放 QImage
         scaled_pixmap = QPixmap.fromImage(q_image).scaled(label_width, label_height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+
         self.ui.label_ccd_img.setPixmap(scaled_pixmap)
 
     def change_select(self):
+        """更换当前相机设备"""
         self.select_idx = self.ui.comboBox_ccd_device.currentIndex()
         self.cam.change_select(self.select_idx)
+        # 根据设备状态更新复选框
         if self.cam.get_state(self.select_idx):
             self.ui.checkBox_openccd.setChecked(True)
         else:
             self.ui.checkBox_openccd.setChecked(False)
 
     def change_state(self):
+        """打开或关闭选中的 CCD 相机设备"""
         if self.ui.checkBox_openccd.isChecked():
             ret = self.cam.open(self.select_idx)
             if not ret:
@@ -579,11 +656,10 @@ class AIOWidget_ShowOne(QWidget):
                 show_warning("关闭失败", "关闭失败")
 
     def enum(self):
-
+        """枚举所有可用相机设备并填充到下拉框"""
         deviceList = self.cam.enum()
         self.ui.comboBox_ccd_device.clear()
-        self.ui.comboBox_ccd_device.addItems(extract_last_hex_string(deviceList))
-
+        self.ui.comboBox_ccd_device.addItems(extract_last_hex_string(deviceList))  # 提取设备标识填充
 
 def boot_windows():
     app = QApplication.instance()

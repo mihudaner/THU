@@ -5,10 +5,10 @@ import torch
 import torch.nn as nn
 from torchvision.models import resnet18
 from Cardpage.Two_widget_debug import DIOWidget, AIOWidget_ShowOne
-from PySide2.QtCore import QTimer, QPoint, QRect, QObject, Signal,QThread
+from PySide2.QtCore import QTimer, QPoint, QRect, QObject, Signal, QThread
 from PySide2.QtGui import QPixmap, QImage
 from src.molten_pool import CCD_Pretor
-from src.depositionMorphology import cpltArea,dsfSimuDep,dsfSave,dcgCodegen,dcgSave
+from src.depositionMorphology import cpltArea, dsfSimuDep, dsfSave, dcgCodegen, dcgSave
 import datetime
 import cv2
 from PIL import Image
@@ -22,7 +22,7 @@ from PySide2.QtWidgets import QTableWidget, QComboBox
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
 global flag
 flag = False
-DEBUG = True
+from UI import config
 
 
 class CCD_Window(MainWindow):
@@ -35,8 +35,11 @@ class TabWindow(MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         print("PWindow")
+        # 初始化数据
         self.DataInit()
+        # 初始化UI
         self.InitUI()
+        # 初始化连接信号
         self.InitConnect()
 
     def InitUI(self):
@@ -44,31 +47,32 @@ class TabWindow(MainWindow):
         # self.resize(1900, 1100)
 
         self.ui = cast(Ui_MainWindow, self.ui)
-        # 使用生成的Python文件作为类型提示
+
+        # 初始化标签页布局
         self.ui.tabLayout = QHBoxLayout()
         self.ui.tab.setLayout(self.ui.tabLayout)
-
         self.ui.tab2Layout = QHBoxLayout()
         self.ui.tab_2.setLayout(self.ui.tab2Layout)
-
-        # 隐藏标签选择
-        self.ui.tabWidget_2.tabBar().hide()
-
         self.ui.tab3Layout = QHBoxLayout()
         self.ui.tab_3.setLayout(self.ui.tab3Layout)
-
         self.ui.tab4Layout = QHBoxLayout()
-        # 添加DIO TAB
-        self.ui.DIOControlWidget = DIOWidget(DEBUG = DEBUG)
-        self.ui.DIOControlWidget.hide()
-        # self.ui.tab4Layout.addWidget(self.ui.DIOControlWidget)
+
+        # 初始化数字量控制界面-工艺更新
+        self.ui.DIOControlWidget = DIOWidget(DEBUG=config.DEBUG)
+        # self.ui.DIOControlWidget.hide()
+        self.ui.tab4Layout.addWidget(self.ui.DIOControlWidget)
         self.ui.tab_4.setLayout(self.ui.tab4Layout)
 
-        # 添加AIO TAB
-        self.ui.AIOControlWidget = AIOWidget_ShowOne(DEBUG = DEBUG)
+        # 隐藏实时反馈，沉积形貌，熔池尺寸....标签
+        self.ui.tabWidget_2.tabBar().hide()
+
+
+        # 初始化模拟量控制界面-实时反馈
+        self.ui.AIOControlWidget = AIOWidget_ShowOne(DEBUG=config.DEBUG)
         self.ui.tabLayout.addWidget(self.ui.AIOControlWidget)
 
         self.setWindowFlags(Qt.FramelessWindowHint)
+
         # 设置工具栏拖拽
         self._is_dragging = False
         self._drag_start_pos = QPoint()
@@ -107,6 +111,7 @@ class TabWindow(MainWindow):
         self.ui.toolBar.addWidget(close_button)
         self.ui.toolBar.setMouseTracking(True)  # 启用鼠标跟踪
 
+        self.ui.center.setMouseTracking(True)  # 开启鼠标追踪
         self.ui.center.mousePressEvent = self.mousePressEvent_centor
         self.ui.center.mouseMoveEvent = self.mouseMoveEvent_centor
         self.ui.center.mouseReleaseEvent = self.mouseReleaseEvent_centor
@@ -116,19 +121,18 @@ class TabWindow(MainWindow):
         self._is_resizing = False
         self._resizing_edge = None
 
+        # MP4格式保存CCD数据标志位
         self.mp4_recording = False
+        # cvs保存数字量数据标志位
         self.cvs_recording = False
 
+        # 当前选择的项目保存CCD文件的路径
         self.now_select_ccd_save_apppath = "."
 
-        g_signals.DI1_signal.connect(self.DI1_trigger)
-        g_signals.DI2_signal.connect(self.DI2_trigger)
-
-        # 沉积形貌信号连接
-        self.cpltAreaAcq()
+        for i in range(self.ui.dsfSimuDepTable.columnCount()):
+            self.ui.dsfSimuDepTable.horizontalHeader().setSectionResizeMode(i, QHeaderView.Stretch)
         self.dsf()
         self.dcg()
-
 
     def DI1_trigger(self, state):
         print(f"D1 state: {state}")
@@ -146,7 +150,7 @@ class TabWindow(MainWindow):
                 self.start_recording(save_mp4=True, save_img=True)
 
             else:
-                self.start_recording(save_img=False,save_mp4=False)
+                self.start_recording(save_img=False, save_mp4=False)
         else:  # state == "DOWN"
             self.ui.AIOControlWidget.widgets.radioButton.setChecked(False)
             if self.mp4_recording:
@@ -171,7 +175,15 @@ class TabWindow(MainWindow):
         self.ui.treeWidget.itemClicked.connect(self.on_item_clicked)
         self.ui.AIOControlWidget.widgets.btn_savecddimg.clicked.connect(self.save_ccd_img)
 
+        # 数字量反馈信号连接
+        g_signals.DI1_signal.connect(self.DI1_trigger)
+        g_signals.DI2_signal.connect(self.DI2_trigger)
+
+        # 沉积形貌信号连接
+        self.cpltAreaAcq()
+
     def DataInit(self):
+
         self.ccd_pretor = CCD_Pretor(Debug=False)
 
     def on_item_clicked(self, item):
@@ -214,7 +226,8 @@ class TabWindow(MainWindow):
         img_pil.save(path)
 
     def update_text_browser(self, result_text):
-        self.ui.AIOControlWidget.widgets.textBrowser_ccdres.setText(result_text)  # 在主线程中更新 UI
+        self.ui.AIOControlWidget.widgets.textBrowser_ccdres.append(result_text)  # 在主线程中更新 UI
+
     def start_recording(self, save_mp4=False, save_img=False):
         if self.mp4_recording:
             print("Already mp4_recording!")
@@ -225,11 +238,13 @@ class TabWindow(MainWindow):
         create_time = now.strftime("%Y%m%d_%H%M%S")
         self.worker = Worker()
         self.worker.update_text_signal.connect(self.update_text_browser)  # 连接信号
+        self.worker.update_error_signal.connect(self.ccd_detect_type_error)  # 连接错误信号
+
         record_thread = threading.Thread(target=self.worker._record_loop, args=(self, create_time, save_mp4, save_img))
         # record_thread = threading.Thread(target=self._record_loop, args=(create_time,save_mp4,save_img,))
         record_thread.start()
 
-    def _record_loop(self,create_time,save_mp4=False, save_img=False):
+    def _record_loop(self, create_time, save_mp4=False, save_img=False):
         update_text_signal = Signal(str)
         first_frame = True
         self.fps = self.ui.AIOControlWidget.widgets.Slider_fps.value()
@@ -324,7 +339,7 @@ class TabWindow(MainWindow):
             # 更新显示结果
             # self.ui.AIOControlWidget.widgets.label_ccd_img
             update_text_signal.emit(result_text)  # 发出信号更新 UI
-            # self.ui.AIOControlWidget.widgets.textBrowser_ccdres.setText(result_text)
+            # self.ui.AIOControlWidget.widgets.textBrowser_ccdres.append(result_text)
 
             # 将 PIL 图像转换为 NumPy 数组
             img = np.array(img)
@@ -342,7 +357,7 @@ class TabWindow(MainWindow):
                         self.video_writer = cv2.VideoWriter(self.video_save_path, fourcc, self.fps, self.frame_size)
                         print(f"mp4_recording started: {self.video_save_path}")
                     if save_img:
-                        dir = os.path.join(self.now_select_ccd_save_apppath,f"{create_time}")
+                        dir = os.path.join(self.now_select_ccd_save_apppath, f"{create_time}")
                         if not os.path.exists(dir):
                             os.makedirs(dir)
                         print(f"save_img started: {self.now_select_ccd_save_apppath}")
@@ -416,6 +431,13 @@ class TabWindow(MainWindow):
             self.ui.btn_pre.setText("启动预测")
             flag = False
 
+    def ccd_detect_type_error(self, error_msg):
+        # 在主线程中更新 UI
+        self.ui.AIOControlWidget.widgets.textBrowser_ccdres.append(error_msg)
+        # 弹窗提示
+        # QMessageBox.warning(self, '错误', f'熔覆检测识别状态异常 {error_msg}')
+        self.ui.DIOControlWidget.widgets.DO4.setChecked(True)
+
     def show_pre_ccd(self):
         # self.ui.label_showpre.
         print("show_pre_ccd")
@@ -467,25 +489,64 @@ class TabWindow(MainWindow):
             event.accept()
 
     def _update_cursor_shape(self, pos):
-        # 确定鼠标是否靠近窗口边缘，并相应地改变光标形状
         x, y, w, h = pos.x(), pos.y(), self.ui.center.width(), self.ui.center.height()
+        print(f"x: {x}, y: {y}", f"w: {w}, h: {h}", f"margin: {self._resize_margin}")
         margin = self._resize_margin
-        # print(x, y, w, h)
-        if x > w - margin and y > h - margin:  # 右下角
+
+        self._resizing_edge = None
+        self.setCursor(Qt.ArrowCursor)
+
+        if x <= margin and y <= margin:
+            self._resizing_edge = 'top-left'
+            self.setCursor(Qt.SizeFDiagCursor)
+        elif x >= w - margin and y <= margin:
+            self._resizing_edge = 'top-right'
+            self.setCursor(Qt.SizeBDiagCursor)
+        elif x <= margin and y >= h - margin:
+            self._resizing_edge = 'bottom-left'
+            self.setCursor(Qt.SizeBDiagCursor)
+        elif x >= w - margin and y >= h - margin:
             self._resizing_edge = 'bottom-right'
             self.setCursor(Qt.SizeFDiagCursor)
-        else:
-            self._resizing_edge = None
-            self.setCursor(Qt.ArrowCursor)
+        elif x <= margin:
+            self._resizing_edge = 'left'
+            self.setCursor(Qt.SizeHorCursor)
+        elif x >= w - margin:
+            self._resizing_edge = 'right'
+            self.setCursor(Qt.SizeHorCursor)
+        elif y <= margin:
+            self._resizing_edge = 'top'
+            self.setCursor(Qt.SizeVerCursor)
+        elif y >= h - margin:
+            self._resizing_edge = 'bottom'
+            self.setCursor(Qt.SizeVerCursor)
 
     def _resize_window(self, global_pos):
-        # 根据鼠标位置调整窗口大小
         dx = global_pos.x() - self._start_mouse_pos.x()
         dy = global_pos.y() - self._start_mouse_pos.y()
         new_geometry = QRect(self._start_geometry)
 
-        if self._resizing_edge in ['bottom-left', 'bottom', 'bottom-right']:
+        if self._resizing_edge == 'right':
+            new_geometry.setRight(self._start_geometry.right() + dx)
+        elif self._resizing_edge == 'bottom':
             new_geometry.setBottom(self._start_geometry.bottom() + dy)
+        elif self._resizing_edge == 'bottom-right':
+            new_geometry.setRight(self._start_geometry.right() + dx)
+            new_geometry.setBottom(self._start_geometry.bottom() + dy)
+        elif self._resizing_edge == 'left':
+            new_geometry.setLeft(self._start_geometry.left() + dx)
+        elif self._resizing_edge == 'top':
+            new_geometry.setTop(self._start_geometry.top() + dy)
+        elif self._resizing_edge == 'top-left':
+            new_geometry.setTop(self._start_geometry.top() + dy)
+            new_geometry.setLeft(self._start_geometry.left() + dx)
+        elif self._resizing_edge == 'top-right':
+            new_geometry.setTop(self._start_geometry.top() + dy)
+            new_geometry.setRight(self._start_geometry.right() + dx)
+        elif self._resizing_edge == 'bottom-left':
+            new_geometry.setBottom(self._start_geometry.bottom() + dy)
+            new_geometry.setLeft(self._start_geometry.left() + dx)
+
         self.setGeometry(new_geometry)
 
         # 方法：切换最大化和还原
@@ -511,7 +572,7 @@ class TabWindow(MainWindow):
         self.ui.cpltAreaAcqSaveBtn.clicked.connect(self.cpltAreaAcqSave)
 
     def thread_error(self, error_msg):
-        print("thread_error:",error_msg)
+        print("thread_error:", error_msg)
 
     ## 补形区域获取-浏览按键-选择文件
     def cpltAreaAcqCF(self):
@@ -551,12 +612,13 @@ class TabWindow(MainWindow):
             self.cpltAreathread1.finished.connect(self.cpltAreathread1.deleteLater)
             # 启动线程
             self.cpltAreathread1.start()
+
     ## 补形区域获取-浏览按键-更新补形区域-设置补形区域
-    def setcpltArea(self,x,y,z):
+    def setcpltArea(self, x, y, z):
         self.ui.cpltAreaShowLabel.setText("加载完成")
         self.ui.cpltAreaAcqCFBtn.setEnabled(True)
-        self.cpltdf = [x,y,z]
-        ymin,ymax = np.nanmin(self.cpltdf[1]),np.nanmax(self.cpltdf[1])
+        self.cpltdf = [x, y, z]
+        ymin, ymax = np.nanmin(self.cpltdf[1]), np.nanmax(self.cpltdf[1])
         self.ui.yminDSBox.setValue(ymin)
         self.ui.ymaxDSBox.setValue(ymax)
 
@@ -580,10 +642,10 @@ class TabWindow(MainWindow):
                 }
             if self.cpltdf:
                 self.ui.cpltAreaShowLabel.setText("数据计算中")
-                self.cpltarea = cpltArea(self.cpltdf,params)
+                self.cpltarea = cpltArea(self.cpltdf, params)
                 canvas = self.cpltarea.cpltAreaShow()
                 img_array = np.frombuffer(canvas, dtype=np.uint8)
-                width, height = 8*100, 4*100   # 必须与 figsize 一致
+                width, height = 8 * 100, 4 * 100  # 必须与 figsize 一致
                 img_array = img_array.reshape((height, width, 4))
                 pixmap = (QPixmap.fromImage(
                     QImage(img_array.data, width, height, QImage.Format_RGBA8888)
@@ -609,7 +671,6 @@ class TabWindow(MainWindow):
             print("补形区域获取:", "保存失败:", e)
 
         self.ui.cpltAreaAcqSaveBtn.setEnabled(True)
-
 
     ### 沉积模拟填充 ###
     def dsf(self):
@@ -653,11 +714,10 @@ class TabWindow(MainWindow):
             print("模拟沉积线程启动失败")
             self.ui.dsfSimuDepBtn.setEnabled(True)
 
-
     ## 模拟沉积-显示
-    def dsfSimuDepShowImg(self,canvas):
+    def dsfSimuDepShowImg(self, canvas):
         self.dsfimg_array = np.frombuffer(canvas, dtype=np.uint8)
-        width, height = 8*60, 4*60  # 必须与 figsize 一致
+        width, height = 8 * 60, 4 * 60  # 必须与 figsize 一致
         self.dsfimg_array = self.dsfimg_array.reshape((height, width, 4))
 
         pixmap = QPixmap.fromImage(
@@ -666,7 +726,8 @@ class TabWindow(MainWindow):
         # .scaled(self.ui.cpltAreaShowLabel.size(), aspectMode=Qt.KeepAspectRatio)
         self.ui.cpltAreaShowLabel.setScaledContents(True)
         self.ui.dsfSimuDepShowLabel.setPixmap(pixmap)
-    def dsfSimuDepShowTable(self,df):
+
+    def dsfSimuDepShowTable(self, df):
         # 设置表格的行列数
         self.dsfdf = df
         self.ui.dsfSimuDepTable.setRowCount(self.dsfdf.shape[0])
@@ -736,7 +797,7 @@ class TabWindow(MainWindow):
             except:
                 file_path = os.path.join("../database/项目库/zlc/沉积形貌/表面原位补形.xlsx")
             self.dsfTable2Df()
-            dsfSave(file_path,params,self.dsfdf,self.dsfimg_array)
+            dsfSave(file_path, params, self.dsfdf, self.dsfimg_array)
         except:
             if not hasattr(self, 'dsfdf'):
                 print("请先生成沉积模拟")
@@ -754,13 +815,13 @@ class TabWindow(MainWindow):
 
     ## 沉积程序生成-初始化表格
     def dcgTable(self):
-        powderLocate = [8,1]
+        powderLocate = [8, 1]
         ccdLocate = [0, 1]
         temperatureLocate = [1, 1]
         GaoSuLocate = [2, 1]
         LaserLocate = [3, 1]
         # 粉桶
-        self.powderCombo= QComboBox()
+        self.powderCombo = QComboBox()
         self.powderCombo.addItems(["1", "2"])
         self.ui.dcgParaTabel.setCellWidget(powderLocate[0], powderLocate[1], self.powderCombo)
         # ccd
@@ -780,7 +841,7 @@ class TabWindow(MainWindow):
         self.LaserCombo.addItems(["True", "False"])
         self.ui.dcgDetTabel.setCellWidget(LaserLocate[0], LaserLocate[1], self.LaserCombo)
 
-    def dcgtabel2Df(self,table: QTableWidget, include_index: bool = True,index_as_column: bool = True):
+    def dcgtabel2Df(self, table: QTableWidget, include_index: bool = True, index_as_column: bool = True):
         try:
             # 获取表格维度
             rows = table.rowCount()
@@ -828,6 +889,7 @@ class TabWindow(MainWindow):
         except Exception as e:
             print(f"表格转换错误: {str(e)}")
             return pd.DataFrame()
+
     ## 沉积程序生成-保存参数
     def dcgParaSave(self):
         try:
@@ -838,7 +900,7 @@ class TabWindow(MainWindow):
                     file_path = os.path.join(save_dir, "表面原位补形.xlsx")
             except:
                 file_path = os.path.join("../database/项目库/zlc/沉积形貌/表面原位补形.xlsx")
-            df = self.dcgtabel2Df(self.ui.dcgParaTabel,True,True)
+            df = self.dcgtabel2Df(self.ui.dcgParaTabel, True, True)
             dcgSave(file_path, df, 2, 1)
             df = self.dcgtabel2Df(self.ui.dcgDetTabel, True, True)
             dcgSave(file_path, df, 2, 6)
@@ -859,6 +921,7 @@ class TabWindow(MainWindow):
             self.ui.dcgScanGroup.setSizePolicy(policy)
         else:
             self.ui.dcgScanGroup.setVisible(True)
+
     ## 沉积程序生成-生成程序
     def dcgCodeGen(self):
         try:
@@ -887,7 +950,8 @@ class TabWindow(MainWindow):
             # 获取选择的文件路径
             self.dcgAcqF = file_dialog.selectedFiles()
             if self.dcgAcqF:
-                print("获取到文件：",self.dcgAcqF[0])
+                print("获取到文件：", self.dcgAcqF[0])
+
 
 ### 模拟沉积加载excel并生成图像
 class dsfSimuDepWorker(QObject):
@@ -901,6 +965,7 @@ class dsfSimuDepWorker(QObject):
         super().__init__()
         self.file_path = file_path
         self.params = params
+
     def run(self):
         try:
             canvas, df = dsfSimuDep(self.file_path, self.params)
@@ -912,12 +977,14 @@ class dsfSimuDepWorker(QObject):
         finally:
             self.finished.emit()
 
+
 #### 加载xyz文件的woker
 class cpltAreaFLWorker(QObject):
     # 定义信号
     data_loaded = Signal(np.ndarray, np.ndarray, np.ndarray)  # 数据加载完成
-    error_occurred = Signal(str)                              # 发生错误
-    finished = Signal()                                       # 任务结束
+    error_occurred = Signal(str)  # 发生错误
+    finished = Signal()  # 任务结束
+
     def __init__(self, file_path):
         super().__init__()
         self.file_path = file_path
@@ -947,9 +1014,16 @@ class cpltAreaFLWorker(QObject):
         finally:
             self.finished.emit()
 
+
 class Worker(QObject):
+    """
+    线程工作类，负责处理CCD图像的异常识别
+    """
     # 在类中定义信号
     update_text_signal = Signal(str)
+    update_error_signal = Signal(str)
+    error_warning_frame = config.ERROR_WARNING_FRAME
+
     def _record_loop(self, self_pwin, create_time, save_mp4=False, save_img=False):
 
         self_pwin.fps = self_pwin.ui.AIOControlWidget.widgets.Slider_fps.value()
@@ -1005,28 +1079,36 @@ class Worker(QObject):
             start_time = time.time()  # 记录帧处理开始时间
             self_pwin.ui.AIOControlWidget.capture(updateshow=True, timedelay=0)
             img = self_pwin.ui.AIOControlWidget.cam.get_img()
-
             # img送到网络判读模型
             # 将 NumPy 数组转换为 PIL 图像
             img = Image.fromarray(img)
             img = transform(img).unsqueeze(0)
 
-            # 识别分类
-            with torch.no_grad():
-                outputs = model(img)
-                probabilities = torch.softmax(outputs, dim=1)  # 获取概率分布
-                _, predicted = torch.max(outputs, 1)
-                predicted_class_index = predicted.item()
-                # 因为类别编号从1开始，所以将模型输出的以0为起始的索引值加1
-                predicted_class_index_adjusted = predicted_class_index + 1
-                # 通过调整后的索引从映射关系中获取类别名称
-                predicted_class_name = class_mapping[str(predicted_class_index_adjusted)]
-                predicted_probability = probabilities[0][predicted_class_index].item()  # 获取对应类别的概率
+            if self_pwin.ui.AIOControlWidget.widgets.checkBox_openccd_2.isChecked():
+                # 识别分类
+                with torch.no_grad():
+                    outputs = model(img)
+                    probabilities = torch.softmax(outputs, dim=1)  # 获取概率分布
+                    _, predicted = torch.max(outputs, 1)
+                    predicted_class_index = predicted.item()
+                    # 因为类别编号从1开始，所以将模型输出的以0为起始的索引值加1
+                    predicted_class_index_adjusted = predicted_class_index + 1
+                    if predicted_class_index != 0:
+                        self.error_warning_frame -= 1
+                    else:
+                        self.error_warning_frame = config.ERROR_WARNING_FRAME
 
-            # 将类别名称和概率转换为字符串
-            result_text = f"预测类别: {predicted_class_name}\n预测概率: {predicted_probability:.2f}\n时间: {start_time}"
-            # 更新显示结果
-            self.update_text_signal.emit(result_text)  # 发出信号更新 UI
+                    if self.error_warning_frame == 0:
+                        self.update_error_signal.emit(f"{predicted_class_index_adjusted}")
+
+                    # 通过调整后的索引从映射关系中获取类别名称
+                    predicted_class_name = class_mapping[str(predicted_class_index_adjusted)]
+                    predicted_probability = probabilities[0][predicted_class_index].item()  # 获取对应类别的概率
+
+                # 将类别名称和概率转换为字符串
+                result_text = f"预测类别: {predicted_class_name}\n预测概率: {predicted_probability:.2f}\n时间: {start_time}"
+                # 更新显示结果
+                self.update_text_signal.emit(result_text)  # 发出信号更新 UI
 
             # 将 PIL 图像转换为 NumPy 数组
             img = np.array(img)
@@ -1081,6 +1163,7 @@ class Worker(QObject):
             self_pwin.video_writer.release()
             self_pwin.video_writer = None
             print(f"mp4_recording stopped. Video saved at: {self_pwin.video_save_path}")
+
 
 class PWindow(CCD_Window, TabWindow):
     def __init__(self, *args, **kwargs):

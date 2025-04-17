@@ -392,7 +392,7 @@ class Ui_Form(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.groupBox_waveview_1.sizePolicy().hasHeightForWidth())
         self.groupBox_waveview_1.setSizePolicy(sizePolicy1)
-        self.groupBox_waveview_1.setMinimumSize(QSize(0, 0))
+        self.groupBox_waveview_1.setMinimumSize(QSize(100, 150))
         self.groupBox_waveview_1.setStyleSheet(u"background-color: rgb(230, 230, 230);")
 
         self.verticalLayout.addWidget(self.groupBox_waveview_1)
@@ -993,6 +993,6 @@ class Ui_Form(object):
         self.comboBox.setItemText(3, QCoreApplication.translate("Form", u"jpg+mp4", None))
 
         self.checkBox_openccd_2.setText(QCoreApplication.translate("Form", u"\u6c89\u79ef\u76d1\u63a7", None))
-        self.label_13.setText(QCoreApplication.translate("Form", u"\u76d1\u63a7\u9891\u7387", None))
+        self.label_13.setText(QCoreApplication.translate("Form", u"\u9884\u6d4b\u91c7\u6837\u9891\u7387", None))
     # retranslateUi
 

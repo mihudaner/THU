@@ -1,0 +1,44 @@
+连接失败: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+连接失败: [WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。
+已连接到 192.168.100.147:54600
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+接收出错: [WinError 10053] 你的主机中的软件中止了一个已建立的连接。
+已断开连接
+连接失败: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+已连接到 192.168.100.147:54600
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+接收出错: [WinError 10053] 你的主机中的软件中止了一个已建立的连接。
+已断开连接
+已连接到 192.168.100.147:54600
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+接收出错: [WinError 10053] 你的主机中的软件中止了一个已建立的连接。
+已断开连接
+未连接，无法发送
+已连接到 192.168.100.147:54600
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+已连接到 192.168.100.147:54600
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+接收出错: [WinError 10053] 你的主机中的软件中止了一个已建立的连接。
+已断开连接
+已连接到 192.168.100.147:54600
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+接收: <Robot><Data><RobPos><X>131.690582</X><Y>108.885483</Y><Z>3.000973</Z></RobPos></Data></Robot>
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+接收: <Robot><Data><RobPos><X>131.690582</X><Y>108.885483</Y><Z>3.000973</Z></RobPos></Data></Robot>
+接收: <Robot><Data><RobPos><X>131.690582</X><Y>108.885483</Y><Z>3.000973</Z></RobPos></Data></Robot>
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+接收: <Robot><Data><RobPos><X>131.690582</X><Y>108.885483</Y><Z>3.000973</Z></RobPos></Data></Robot>
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+接收: <Robot><Data><RobPos><X>131.690582</X><Y>108.885483</Y><Z>3.000973</Z></RobPos></Data></Robot>
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+接收: <Robot><Data><RobPos><X>131.690582</X><Y>108.885483</Y><Z>3.000973</Z></RobPos></Data></Robot>
+发送: <Ext><Command><RW>2</RW><Qty>6</Qty><Type>0</Type><Date>13</Date></Command></Ext>
+接收: <Robot><Data><RobPos><X>131.690582</X><Y>108.885483</Y><Z>3.000973</Z></RobPos></Data></Robot>
+接收出错: [WinError 10053] 你的主机中的软件中止了一个已建立的连接。
+已断开连接
