@@ -1,15 +1,12 @@
 from pathlib import Path
 
-from main_viewer_ui import Ui_MainWindow
-from PySide2.QtWidgets import *
 from enum import Enum, unique
 from functools import partial
 from XM_dialogs import *
 from MyDialog import *
-from PySide2.QtGui import QIcon
 import json
 import subprocess
-from dialog2 import *
+from UI.CustomWidget.dialog2 import *
 
 @unique
 class NodeType(Enum):
@@ -458,12 +455,12 @@ def show_context_menu(self, position):
         # choose.triggered.connect(lambda: choose_project(self, item))
         xmimport_action.triggered.connect(lambda: xm_program_import(self, item))
         cxkimport_action.triggered.connect(lambda: cx_program_import(self, item))
-        new_type_action.triggered.connect(lambda: run_exe(self.apppath[item.text(0) + "OrangeEdit"])) # pass
+        new_type_action.triggered.connect(lambda: run_exe(self.apppath["OrangeEdit"])) # pass
         open_action.triggered.connect(lambda: self.open_type_library(item))
         del_action.triggered.connect(lambda: self.delete(item))
-        trans_action.triggered.connect(lambda: run_exe(self.apppath[item.text(0)+"WorkVisual"]))
-        set_codepath1.triggered.connect(lambda: self.open_file_dialog(item.text(0)+"OrangeEdit"))
-        set_codepath2.triggered.connect(lambda: self.open_file_dialog(item.text(0)+"WorkVisual"))
+        trans_action.triggered.connect(lambda: run_exe(self.apppath["WorkVisual"]))
+        set_codepath1.triggered.connect(lambda: self.open_file_dialog("OrangeEdit"))
+        set_codepath2.triggered.connect(lambda: self.open_file_dialog("WorkVisual"))
 
         menu.exec_(self.treeWidget.viewport().mapToGlobal(position))
     elif item.data(0, Qt.UserRole + 1) == "项目子项" and item.text(0) == "分析预测":

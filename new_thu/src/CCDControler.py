@@ -19,6 +19,11 @@ from collections import namedtuple
 # the acquired rows are concatenated as a virtual frame and this frame is displayed
 
 from UI.config import *
+import re
+
+def natural_sort_key(s):
+    return [int(text) if text.isdigit() else text.lower()
+            for text in re.split('(\d+)', s)]
 
 class CCD_camera:
     def __init__(self,DEBUG):
@@ -36,8 +41,21 @@ class CCD_camera:
         if DEBUG:
             self.img_idx = 0
             self.img_list = []
+            # 使用 natural_sort_key 排序文件列表
             if os.path.isdir(TEST_CCD_PATH):
-                self.img_list = os.listdir(TEST_CCD_PATH)
+                self.img_list = sorted(os.listdir(TEST_CCD_PATH), key=natural_sort_key)
+
+            # 如果是mp4文件，把视频拆解成图片存到img_list
+            # elif os.path.isfile(TEST_CCD_PATH) and TEST_CCD_PATH.endswith('.mp4'):
+            #     cap = cv2.VideoCapture(TEST_CCD_PATH)
+            #     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+            #     for i in range(frame_count):
+            #         ret, frame = cap.read()
+            #         if ret:
+            #             img_path = os.path.join(r"E:\Work\THU\code\DEBUG_DATA\frame_imgs", f"frame_{i}.jpg")
+            #             cv2.imwrite(img_path, frame)
+            #             self.img_list.append(img_path)
+            #     cap.release()
             else:
                 self.img_list = [TEST_CCD_PATH]
 

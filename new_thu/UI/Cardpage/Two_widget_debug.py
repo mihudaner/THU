@@ -41,6 +41,8 @@ global DIOWindow_widgts
 global AIOWindow_widgts
 global DO
 from .Signal import g_signals
+from UI.config import *
+ai_debug_index = 0
 
 DO = 0
 ai = [0, 500, 10000, 2000, 5000, 8888, 7777, 2222]
@@ -406,15 +408,24 @@ class DIOWidget(QWidget):
         global debug_cnt
         global PlotBuffer
         global ai
+        global ai_debug_index
         if self.DEBUG:
-            # rev = hex(0xFE041000000000000000000000000000000000712C + debug_cnt)[2:]
-            # debug_cnt += 0x0011001100110000
-            # if debug_cnt > 0x1000000000000000000: debug_cnt = 0x0
             for i in range(8):
-                if ai[i] >= 10000:
-                    ai[i] = 0
-                ai[i] += 10
-                PlotBuffer[i] = np.append(PlotBuffer[i], ai[i] / 1000)[1:]
+                pass
+                # if ai[i] >= 10000:
+                #     ai[i] = 0
+                # ai[i] += 10
+                # PlotBuffer[i] = np.append(PlotBuffer[i], ai[i] / 1000)[1:]
+
+            # 模拟数据调试
+            ai[0] = LASER_POWER_VOLTAGE[ai_debug_index]
+            ai[1] = FEEDING_RATE_VOLTAGE[ai_debug_index]
+            ai[2] = REAL_TIME_SPEED[ai_debug_index]
+            ai_debug_index = (ai_debug_index + 1) % TIMESIZE
+            PlotBuffer[0] = np.append(PlotBuffer[0], ai[0])[1:]
+            PlotBuffer[1] = np.append(PlotBuffer[1], ai[1])[1:]
+            PlotBuffer[2] = np.append(PlotBuffer[2], ai[2])[1:]
+
         else:
             rev = dll.ReadAI()
             # self.widgets.textBrowser.append(f"查询AI状态{rev}")  # 如果位为1，表示高电平

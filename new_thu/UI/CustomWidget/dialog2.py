@@ -1,6 +1,6 @@
 import sys
 from PySide2.QtWidgets import QApplication, QDialog, QVBoxLayout, QLineEdit, QPushButton, QLabel, QMainWindow, \
-    QHBoxLayout
+    QHBoxLayout,QFileSystemModel
 from PySide2.QtGui import QIcon
 
 
@@ -10,7 +10,7 @@ class CustomInputDialog(QDialog):
 
         # 设置窗口标题和图标
         self.setWindowTitle(title)
-        self.setWindowIcon(QIcon('../resource/icon/main.png'))  # 设置窗口图标
+        self.setWindowIcon(QIcon('../../resource/icon/main.png'))  # 设置窗口图标
 
         # 设置对话框宽度
         self.setFixedWidth(260)  # 设置固定宽度为 400 像素
@@ -60,7 +60,7 @@ class WarningDialog(QDialog):
         super().__init__(parent)
         # 设置窗口标题和图标
         self.setWindowTitle(title)
-        self.setWindowIcon(QIcon('../resource/icon/main.png'))  # 设置窗口图标（请确保路径正确）
+        self.setWindowIcon(QIcon('../../resource/icon/main.png'))  # 设置窗口图标（请确保路径正确）
         # 设置对话框固定宽度
         self.setFixedWidth(200)
 

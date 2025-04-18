@@ -1,7 +1,9 @@
 from utils import *
 from openpyxl import load_workbook
+from main_viewer_ui import Ui_MainWindow
 from XM_dialogs import *
 from main_Pwindow import *
+
 @unique
 class NodeType(Enum):
     """节点类型，文件还是文件夹"""
@@ -968,7 +970,7 @@ if __name__ == '__main__':
     MainWindow = PWindow()
     MainWindow.show()
     MainWindow.ui.AIOControlWidget.widgets.btn_enum.click()
-    MainWindow.ui.AIOControlWidget.widgets.Slider_fps.setValue(5)
+    MainWindow.ui.AIOControlWidget.widgets.Slider_fps.setValue(31)
     MainWindow.ui.AIOControlWidget.widgets.checkBox_openccd.click()
     MainWindow.ui.DIOControlWidget.widgets.checkBox_openport.click()
     time.sleep(0.1)

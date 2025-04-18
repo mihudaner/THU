@@ -5,6 +5,8 @@ import torch
 import torch.nn as nn
 from torchvision.models import resnet18
 from Cardpage.Two_widget_debug import DIOWidget, AIOWidget_ShowOne
+from Cardpage.Signal import g_signals
+from CustomWidget.TimeDialog import TimedConfirmDialog
 from PySide2.QtCore import QTimer, QPoint, QRect, QObject, Signal, QThread
 from PySide2.QtGui import QPixmap, QImage
 from src.molten_pool import CCD_Pretor
@@ -12,12 +14,12 @@ from src.depositionMorphology import cpltArea, dsfSimuDep, dsfSave, dcgCodegen, 
 import datetime
 import cv2
 from PIL import Image
-from Cardpage.Signal import g_signals
 import time
 import matplotlib.pyplot as plt
 import torchvision.transforms as transforms
 import threading
-from PySide2.QtWidgets import QTableWidget, QComboBox
+from PySide2.QtWidgets import QTableWidget, QComboBox, QHeaderView,QWidget
+import queue
 
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
 global flag
@@ -129,10 +131,24 @@ class TabWindow(MainWindow):
         # 当前选择的项目保存CCD文件的路径
         self.now_select_ccd_save_apppath = "."
 
+
+        # 设置表格自动调整列宽
         for i in range(self.ui.dsfSimuDepTable.columnCount()):
             self.ui.dsfSimuDepTable.horizontalHeader().setSectionResizeMode(i, QHeaderView.Stretch)
+        #
+        # dcgParaTabel
+        # dcgDetTabel
+        # dcgScanTabel
+        for i in range(self.ui.dcgParaTabel.columnCount()):
+            self.ui.dcgParaTabel.horizontalHeader().setSectionResizeMode(i, QHeaderView.Stretch)
+        for i in range(self.ui.dcgDetTabel.columnCount()):
+            self.ui.dcgDetTabel.horizontalHeader().setSectionResizeMode(i, QHeaderView.Stretch)
+        for i in range(self.ui.dcgScanTabel.columnCount()):
+            self.ui.dcgScanTabel.horizontalHeader().setSectionResizeMode(i, QHeaderView.Stretch)
+
         self.dsf()
         self.dcg()
+
 
     def DI1_trigger(self, state):
         print(f"D1 state: {state}")
@@ -274,11 +290,11 @@ class TabWindow(MainWindow):
         num_ftrs = model.fc.in_features
         # 修改全连接层结构，使其与权重键名对应的结构匹配
         model.fc = nn.Sequential(
-            nn.Linear(num_ftrs, 4),  # some_output_size需根据实际情况填写，比如分类的类别数量等
+            nn.Linear(num_ftrs, 8),  # some_output_size需根据实际情况填写，比如分类的类别数量等
         )
 
         # 加载训练好的模型权重，替换成你的实际.pth 文件路径
-        checkpoint = torch.load('../resource/models/checkpoint4.pth')
+        checkpoint = torch.load(config.CCD_MODEL_PAYH)
 
         # 处理权重字典的键名，将fc.weight和fc.bias修改为fc.0.weight和fc.0.bias。
         # 训练的时候有权重字典的键名的修改，这里要修改
@@ -436,7 +452,15 @@ class TabWindow(MainWindow):
         self.ui.AIOControlWidget.widgets.textBrowser_ccdres.append(error_msg)
         # 弹窗提示
         # QMessageBox.warning(self, '错误', f'熔覆检测识别状态异常 {error_msg}')
-        self.ui.DIOControlWidget.widgets.DO4.setChecked(True)
+
+        def stop_process():
+            print("⚠️ 用户确认终止处理")
+            # 调用终止处理逻辑，比如：
+            self.ui.DIOControlWidget.widgets.DO4.setChecked(True)
+            # 或调用 self.terminate_deposition() 之类函数
+
+        dialog = TimedConfirmDialog("沉积连续异常\n是否终止？", timeout=3, on_confirm=stop_process, parent=None)
+        dialog.exec_()  # 阻塞等待，直到用户操作或倒计时结束
 
     def show_pre_ccd(self):
         # self.ui.label_showpre.
@@ -571,8 +595,13 @@ class TabWindow(MainWindow):
         #
         self.ui.cpltAreaAcqSaveBtn.clicked.connect(self.cpltAreaAcqSave)
 
+        self.ui.dcgCodeTransBtn.clicked.connect(self.dcgCodeTrans)
+
     def thread_error(self, error_msg):
         print("thread_error:", error_msg)
+
+    def dcgCodeTrans(self):
+        run_exe(self.apppath["WorkVisual"])
 
     ## 补形区域获取-浏览按键-选择文件
     def cpltAreaAcqCF(self):
@@ -626,6 +655,7 @@ class TabWindow(MainWindow):
     def cpltAreaAcqVF(self):
         if self.cpltAreaAcqF:
             print("cpltAreaAcqVF:", self.cpltAreaAcqF)
+            run_exe(self.apppath["OrangeEdit"])
         else:
             print("cpltAreaAcqF didnt choose a file")
 
@@ -647,11 +677,12 @@ class TabWindow(MainWindow):
                 img_array = np.frombuffer(canvas, dtype=np.uint8)
                 width, height = 8 * 100, 4 * 100  # 必须与 figsize 一致
                 img_array = img_array.reshape((height, width, 4))
-                pixmap = (QPixmap.fromImage(
-                    QImage(img_array.data, width, height, QImage.Format_RGBA8888)
-                ))
-                self.ui.cpltAreaShowLabel.setScaledContents(True)
-                self.ui.cpltAreaShowLabel.setPixmap(pixmap)
+
+                # self.ui.cpltAreaShowLabel.setScaledContents(True)
+                pixmap = QPixmap.fromImage(QImage(img_array.data, width, height, QImage.Format_RGBA8888))
+                label_size = self.ui.cpltAreaShowLabel.size()  # 获取当前 QLabel 尺寸
+                scaled_pixmap = pixmap.scaled(label_size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                self.ui.cpltAreaShowLabel.setPixmap(scaled_pixmap)
 
         except:
             print("cpltAreaAcqShow:", "error")
@@ -723,9 +754,12 @@ class TabWindow(MainWindow):
         pixmap = QPixmap.fromImage(
             QImage(self.dsfimg_array.data, width, height, QImage.Format_RGBA8888)
         )
-        # .scaled(self.ui.cpltAreaShowLabel.size(), aspectMode=Qt.KeepAspectRatio)
-        self.ui.cpltAreaShowLabel.setScaledContents(True)
-        self.ui.dsfSimuDepShowLabel.setPixmap(pixmap)
+
+        label_size = self.ui.dsfSimuDepShowLabel.size()
+        scaled_pixmap = pixmap.scaled(label_size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+
+        self.ui.dsfSimuDepShowLabel.setPixmap(scaled_pixmap)
+        self.ui.dsfSimuDepShowLabel.setAlignment(Qt.AlignCenter)  # 居中可选
 
     def dsfSimuDepShowTable(self, df):
         # 设置表格的行列数
@@ -938,7 +972,7 @@ class TabWindow(MainWindow):
         self.ui.dcgCodeGenBtn.setEnabled(True)
 
     def dcgCodeTrans(self):
-        print("open WorkVisual")
+        run_exe(self.apppath["WorkVisual"])
 
     def dcgCodeUpdate(self):
         # 创建文件对话框
@@ -1024,43 +1058,42 @@ class Worker(QObject):
     update_error_signal = Signal(str)
     error_warning_frame = config.ERROR_WARNING_FRAME
 
-    def _record_loop(self, self_pwin, create_time, save_mp4=False, save_img=False):
+    def __init__(self):
+        super().__init__()
+        self.prediction_queue = queue.Queue(maxsize=5)
+        self._start_predict_thread()
 
-        self_pwin.fps = self_pwin.ui.AIOControlWidget.widgets.Slider_fps.value()
-        frame_time = 1 / self_pwin.fps  # 每帧期望的时间间隔（秒）
-        first_frame = True
-        i = 0
-        # 设置中文字体，这里使用系统自带的黑体字体示例，你可以根据实际情况更换为其他支持中文的字体
-        plt.rcParams['font.sans-serif'] = ['SimHei']
-        plt.rcParams['axes.unicode_minus'] = False
+    def _start_predict_thread(self):
+        self.predict_thread = threading.Thread(target=self._predict_worker, daemon=True)
+        self.predict_thread.start()
+
+    def _predict_worker(self):
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
         class_mapping = {
-            '1': 'normal',
-            '2': 'Zero spot voltage',
-            '3': 'No powder',
-            '4': 'No laser'
+            "1": "Normal",
+            "2": "No laser",
+            "3": "Not enough powder",
+            "4": "No powder",
+            "5": "Smaller distance",
+            "6": "Larger distance",
+            "7": "Not enough gas",
+            "8": "No gas"
         }
-        # 定义图像预处理的转换操作
+
         transform = transforms.Compose([
-            transforms.Grayscale(num_output_channels=3),  # 将灰度图转换为3通道图
+            transforms.Grayscale(num_output_channels=3),
             transforms.Resize(256),
             transforms.CenterCrop(224),
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         ])
 
-        # 初始化模型，这里以ResNet18为例，如果你训练的是其他模型，要做相应替换
         model = resnet18()
         num_ftrs = model.fc.in_features
-        # 修改全连接层结构，使其与权重键名对应的结构匹配
-        model.fc = nn.Sequential(
-            nn.Linear(num_ftrs, 4),  # some_output_size需根据实际情况填写，比如分类的类别数量等
-        )
+        model.fc = nn.Sequential(nn.Linear(num_ftrs, 8))
 
-        # 加载训练好的模型权重，替换成你的实际.pth 文件路径
-        checkpoint = torch.load('../resource/models/checkpoint4.pth')
-
-        # 处理权重字典的键名，将fc.weight和fc.bias修改为fc.0.weight和fc.0.bias。
-        # 训练的时候有权重字典的键名的修改，这里要修改
+        checkpoint = torch.load(config.CCD_MODEL_PAYH, map_location=device)
         new_state_dict = {}
         for key, value in checkpoint['state_dict'].items():
             if key == "fc.weight":
@@ -1071,28 +1104,24 @@ class Worker(QObject):
                 new_key = key
             new_state_dict[new_key] = value
 
-        # 使用修改后的权重字典加载权重到模型
         model.load_state_dict(new_state_dict)
+        model.to(device)
         model.eval()
 
-        while self_pwin.mp4_recording:
-            start_time = time.time()  # 记录帧处理开始时间
-            self_pwin.ui.AIOControlWidget.capture(updateshow=True, timedelay=0)
-            img = self_pwin.ui.AIOControlWidget.cam.get_img()
-            # img送到网络判读模型
-            # 将 NumPy 数组转换为 PIL 图像
-            img = Image.fromarray(img)
-            img = transform(img).unsqueeze(0)
+        while True:
+            img = self.prediction_queue.get()
+            try:
+                pil_img = Image.fromarray(img)
+                input_tensor = transform(pil_img).unsqueeze(0).to(device)
 
-            if self_pwin.ui.AIOControlWidget.widgets.checkBox_openccd_2.isChecked():
-                # 识别分类
                 with torch.no_grad():
-                    outputs = model(img)
-                    probabilities = torch.softmax(outputs, dim=1)  # 获取概率分布
+                    outputs = model(input_tensor)
+                    probabilities = torch.softmax(outputs, dim=1)
                     _, predicted = torch.max(outputs, 1)
+
                     predicted_class_index = predicted.item()
-                    # 因为类别编号从1开始，所以将模型输出的以0为起始的索引值加1
                     predicted_class_index_adjusted = predicted_class_index + 1
+
                     if predicted_class_index != 0:
                         self.error_warning_frame -= 1
                     else:
@@ -1101,17 +1130,38 @@ class Worker(QObject):
                     if self.error_warning_frame == 0:
                         self.update_error_signal.emit(f"{predicted_class_index_adjusted}")
 
-                    # 通过调整后的索引从映射关系中获取类别名称
                     predicted_class_name = class_mapping[str(predicted_class_index_adjusted)]
-                    predicted_probability = probabilities[0][predicted_class_index].item()  # 获取对应类别的概率
+                    predicted_probability = probabilities[0][predicted_class_index].item()
 
-                # 将类别名称和概率转换为字符串
-                result_text = f"预测类别: {predicted_class_name}\n预测概率: {predicted_probability:.2f}\n时间: {start_time}"
-                # 更新显示结果
-                self.update_text_signal.emit(result_text)  # 发出信号更新 UI
+                    result_text = f"预测类别: {predicted_class_name}\n预测概率: {predicted_probability:.2f}\n时间: {datetime.datetime.now()}"
+                    self.update_text_signal.emit(result_text)
 
-            # 将 PIL 图像转换为 NumPy 数组
-            img = np.array(img)
+            except Exception as e:
+                print(f"[预测错误] {e}")
+
+    def _record_loop(self, self_pwin, create_time, save_mp4=False, save_img=False):
+        self_pwin.fps = self_pwin.ui.AIOControlWidget.widgets.Slider_fps.value()
+        frame_time = 1 / self_pwin.fps
+        first_frame = True
+        i = 0
+
+        plt.rcParams['font.sans-serif'] = ['SimHei']
+        plt.rcParams['axes.unicode_minus'] = False
+
+        while self_pwin.mp4_recording:
+            start_time = time.time()
+            self_pwin.ui.AIOControlWidget.capture(updateshow=True, timedelay=0)
+            img = self_pwin.ui.AIOControlWidget.cam.get_img()
+
+            # ✅ 异步送入识别线程（每3帧一次）
+            if self_pwin.ui.AIOControlWidget.widgets.checkBox_openccd_2.isChecked() and i % 3 == 0:
+                try:
+                    if not self.prediction_queue.full():
+                        self.prediction_queue.put_nowait(img.copy())
+                except queue.Full:
+                    pass  # 跳帧不等
+
+            # ✅ 图像保存 / 视频写入
             if isinstance(img, np.ndarray):
                 now = datetime.datetime.now()
                 timestamp = now.strftime("%Y%m%d_%H%M%S")
@@ -1124,45 +1174,35 @@ class Worker(QObject):
                         self_pwin.video_save_path = os.path.join(self_pwin.now_select_ccd_save_apppath, f"video_{timestamp}.mp4")
                         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
                         self_pwin.video_writer = cv2.VideoWriter(self_pwin.video_save_path, fourcc, self_pwin.fps, self_pwin.frame_size)
-                        print(f"mp4_recording started: {self_pwin.video_save_path}")
+                        print(f"[视频录制] 开始: {self_pwin.video_save_path}")
+
                     if save_img:
                         dir = os.path.join(self_pwin.now_select_ccd_save_apppath, f"{create_time}")
-                        if not os.path.exists(dir):
-                            os.makedirs(dir)
-                        print(f"save_img started: {self_pwin.now_select_ccd_save_apppath}")
+                        os.makedirs(dir, exist_ok=True)
+                        print(f"[图像保存] 路径: {dir}")
 
-                resized_img = cv2.resize(img, self_pwin.frame_size)
-                font = cv2.FONT_HERSHEY_SIMPLEX  # 字体
-                font_scale = 0.7  # 字体大小
-                font_color = (0, 255, 255)  # 文字颜色（黄色）
-                thickness = 2  # 字体粗细
-                text_size = cv2.getTextSize(timestamp + f"{i}", font, font_scale, thickness)[0]
-                text_x = resized_img.shape[1] - text_size[0] - 10  # 右上角横坐标
-                text_y = 30  # 右上角纵坐标
-                cv2.putText(resized_img, timestamp + f"{i}", (text_x, text_y), font, font_scale, font_color, thickness)
                 if save_mp4:
-                    self_pwin.video_writer.write(resized_img)
+                    self_pwin.video_writer.write(img)
+
                 if save_img:
-                    path = os.path.join(dir, f"{timestamp}_{i}.jpg")
-                    print(f"save to {path}")
-                    # 假设 img 是 OpenCV 的 numpy 数组
+                    path = os.path.join(self_pwin.now_select_ccd_save_apppath, f"{create_time}/{timestamp}_{i}.jpg")
                     img_pil = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
                     img_pil.save(path)
+
             i += 1
 
-            # 计算实际处理时间和动态调整休眠
-            elapsed_time = time.time() - start_time  # 当前帧的处理时间
-            remaining_time = frame_time - elapsed_time  # 剩余时间
-
+            # ✅ 保持恒定帧率
+            elapsed_time = time.time() - start_time
+            remaining_time = frame_time - elapsed_time
             if remaining_time > 0:
-                time.sleep(remaining_time)  # 补偿时间，保证帧率
+                time.sleep(remaining_time)
             else:
-                print(f"Warning: Frame took {elapsed_time:.3f}s, which exceeds the target frame time {frame_time:.3f}s")
+                print(f"[警告] 帧处理超时: {elapsed_time:.3f}s (目标: {frame_time:.3f}s)")
 
-        if save_mp4:
+        if save_mp4 and self_pwin.video_writer is not None:
             self_pwin.video_writer.release()
             self_pwin.video_writer = None
-            print(f"mp4_recording stopped. Video saved at: {self_pwin.video_save_path}")
+            print(f"[视频录制] 结束: {self_pwin.video_save_path}")
 
 
 class PWindow(CCD_Window, TabWindow):
