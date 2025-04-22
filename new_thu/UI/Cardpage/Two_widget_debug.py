@@ -42,7 +42,7 @@ global AIOWindow_widgts
 global DO
 from .Signal import g_signals
 from UI.config import *
-ai_debug_index = 0
+
 
 DO = 0
 ai = [0, 500, 10000, 2000, 5000, 8888, 7777, 2222]
@@ -205,6 +205,9 @@ class DIOWidget(QWidget):
 
     def __init__(self,DEBUG):
         super().__init__()
+
+        self.ai_debug_index = 0
+
         self.DEBUG = DEBUG
         # 从文件中加载UI定义
         # 从 UI 定义中动态 创建一个相应的窗口对象
@@ -408,7 +411,6 @@ class DIOWidget(QWidget):
         global debug_cnt
         global PlotBuffer
         global ai
-        global ai_debug_index
         if self.DEBUG:
             for i in range(8):
                 pass
@@ -417,11 +419,17 @@ class DIOWidget(QWidget):
                 # ai[i] += 10
                 # PlotBuffer[i] = np.append(PlotBuffer[i], ai[i] / 1000)[1:]
 
-            # 模拟数据调试
-            ai[0] = LASER_POWER_VOLTAGE[ai_debug_index]
-            ai[1] = FEEDING_RATE_VOLTAGE[ai_debug_index]
-            ai[2] = REAL_TIME_SPEED[ai_debug_index]
-            ai_debug_index = (ai_debug_index + 1) % TIMESIZE
+            if self.ai_debug_index < TIMESIZE:
+                # 模拟数据调试
+                ai[0] = LASER_POWER_VOLTAGE[self.ai_debug_index]
+                ai[1] = FEEDING_RATE_VOLTAGE[self.ai_debug_index]
+                ai[2] = REAL_TIME_SPEED[self.ai_debug_index]
+            else:
+                ai[0] = 0
+                ai[1] = 0
+                ai[2] = 0
+            # ai_debug_index = (ai_debug_index + 1) % TIMESIZE
+            self.ai_debug_index += 1
             PlotBuffer[0] = np.append(PlotBuffer[0], ai[0])[1:]
             PlotBuffer[1] = np.append(PlotBuffer[1], ai[1])[1:]
             PlotBuffer[2] = np.append(PlotBuffer[2], ai[2])[1:]

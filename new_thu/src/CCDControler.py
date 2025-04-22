@@ -165,7 +165,7 @@ class CCD_camera:
         # 将裁剪区域复制到黑色图像中
         result_img[dest_start_y:dest_end_y, dest_start_x:dest_end_x] = self.img[src_start_y:src_end_y, src_start_x:src_end_x]
 
-        return result_img
+        return self.img # result_img
 
     def capture(self,idx):
         name = f"{self.deviceList[idx]}"

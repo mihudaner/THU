@@ -18,7 +18,7 @@ CCD_MODEL_PAYH = r'E:\Work\THU\code\DEBUG_DATA\更新的网络及熔池分类\ch
 # CCD_MODEL_PAYH = '../resource/models/checkpoint4.pth'
 
 # 错误连续帧数
-ERROR_WARNING_FRAME = 5
+ERROR_WARNING_FRAME = 6
 
 # 时间轴（0~30秒，每0.1秒一个点）
 _time_cfg = np.arange(0, 25.1, 0.05)
@@ -35,23 +35,14 @@ LASER_POWER_VOLTAGE[(_time_cfg >= 18) & (_time_cfg < 23)] = 5
 FEEDING_RATE_VOLTAGE[_time_cfg < 13] = 0.75
 # 3.设置实时速度（带波动）
 # 第1段上升：5~6s
-mask1 = (_time_cfg >= 5) & (_time_cfg < 6)
+mask1 = (_time_cfg >= 5) & (_time_cfg < 5.5)
 REAL_TIME_SPEED[mask1] = np.linspace(0, 2.4, mask1.sum())
 # 第1段恒定+波动：6~13s
-mask_const1 = (_time_cfg >= 6) & (_time_cfg < 13)
+mask_const1 = (_time_cfg >= 5.5) & (_time_cfg < 25.5)
 REAL_TIME_SPEED[mask_const1] = 2.4 + np.random.normal(0, 0.05, mask_const1.sum())
 # 第1段下降：13~14s
-mask2 = (_time_cfg >= 13) & (_time_cfg < 14)
+mask2 = (_time_cfg >= 25.5) & (_time_cfg < 26)
 REAL_TIME_SPEED[mask2] = np.linspace(2.4, 0, mask2.sum())
-# 第2段上升：18~19s
-mask3 = (_time_cfg >= 18) & (_time_cfg < 19)
-REAL_TIME_SPEED[mask3] = np.linspace(0, 2.4, mask3.sum())
-# 第2段恒定+波动：19~25s
-mask_const2 = (_time_cfg >= 19) & (_time_cfg < 25)
-REAL_TIME_SPEED[mask_const2] = 2.4 + np.random.normal(0, 0.05, mask_const2.sum())
-# 第2段下降：25~26s
-mask4 = (_time_cfg >= 25) & (_time_cfg < 26)
-REAL_TIME_SPEED[mask4] = np.linspace(2.4, 0, mask4.sum())
 # 限制最大最小值防止超出范围
 REAL_TIME_SPEED = np.clip(REAL_TIME_SPEED, 0, 2.5)
 # # ----------------------------

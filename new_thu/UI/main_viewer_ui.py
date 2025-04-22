@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_viewerhtRAXn.ui'
+## Form generated from reading UI file 'main_viewerfsEQhG.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1214, 798)
+        MainWindow.resize(1212, 791)
         MainWindow.setMaximumSize(QSize(2500, 16777215))
         MainWindow.setStyleSheet(u"#styleSheet{\n"
 "border: none;\n"
@@ -699,6 +699,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_16.addWidget(self.cpltAreaAcqVFBtn)
 
+        self.ptshow_pathupdate_Btn = QPushButton(self.groupBox)
+        self.ptshow_pathupdate_Btn.setObjectName(u"ptshow_pathupdate_Btn")
+
+        self.horizontalLayout_16.addWidget(self.ptshow_pathupdate_Btn)
+
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_16)
 
@@ -1025,7 +1030,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 762, 696))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 345, 696))
         self.horizontalLayout_10 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
         self.groupBox_4 = QGroupBox(self.scrollAreaWidgetContents)
@@ -1512,9 +1517,9 @@ class Ui_MainWindow(object):
         self.action_save.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58", None))
         self.action_other.setText(QCoreApplication.translate("MainWindow", u"\u53e6\u5b58\u4e3a", None))
         self.file_menu.setText(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6", None))
-        self.action_updateIO.setText(QCoreApplication.translate("MainWindow", u"\u5de5\u827a", None))
+        self.action_updateIO.setText(QCoreApplication.translate("MainWindow", u"\u66f4\u65b0", None))
 #if QT_CONFIG(tooltip)
-        self.action_updateIO.setToolTip(QCoreApplication.translate("MainWindow", u"\u5de5\u827a", None))
+        self.action_updateIO.setToolTip(QCoreApplication.translate("MainWindow", u"\u66f4\u65b0", None))
 #endif // QT_CONFIG(tooltip)
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"\u5b9e\u65f6\u53cd\u9988", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"\u5f62\u8c8c\u70b9\u4e91", None))
@@ -1522,6 +1527,7 @@ class Ui_MainWindow(object):
         self.cpltAreaAcqFLabel.setText(QCoreApplication.translate("MainWindow", u"\u8bf7\u9009\u62e9\u6587\u4ef6", None))
         self.cpltAreaAcqCFBtn.setText(QCoreApplication.translate("MainWindow", u"\u6d4f\u89c8", None))
         self.cpltAreaAcqVFBtn.setText(QCoreApplication.translate("MainWindow", u"\u67e5\u770b", None))
+        self.ptshow_pathupdate_Btn.setText(QCoreApplication.translate("MainWindow", u"\u66f4\u65b0\u70b9\u4e91\u663e\u793a\u8f6f\u4ef6\u8def\u5f84", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"\u8865\u5f62\u533a\u57df", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Xmin", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Ymax", None))

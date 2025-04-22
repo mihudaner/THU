@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1210</width>
-    <height>784</height>
+    <width>1212</width>
+    <height>791</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -597,7 +597,7 @@ QPushButton:pressed {
           <string notr="true">border:0px solid rgb(86, 86, 86);</string>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -1231,8 +1231,8 @@ border: 2px solid #6272a4;
                   <property name="geometry">
                    <rect>
                     <x>0</x>
-                    <y>-85</y>
-                    <width>758</width>
+                    <y>0</y>
+                    <width>345</width>
                     <height>696</height>
                    </rect>
                   </property>
@@ -2281,10 +2281,10 @@ border: 2px solid #6272a4;
   </action>
   <action name="action_updateIO">
    <property name="text">
-    <string>工艺</string>
+    <string>更新</string>
    </property>
    <property name="toolTip">
-    <string>工艺</string>
+    <string>更新</string>
    </property>
   </action>
  </widget>

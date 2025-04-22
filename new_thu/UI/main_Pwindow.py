@@ -20,6 +20,7 @@ import torchvision.transforms as transforms
 import threading
 from PySide2.QtWidgets import QTableWidget, QComboBox, QHeaderView,QWidget
 import queue
+from config import TIMESIZE
 
 #  D:\\soft\\Anaconda\\envs\\py37\\Scripts\\pyside2-uic -o  E:\Work\THU\code\THU_Project_project\QTui\module\ui_main.py E:\Work\THU\code\THU_Project_project\QTui\main.ui
 global flag
@@ -447,20 +448,42 @@ class TabWindow(MainWindow):
             self.ui.btn_pre.setText("启动预测")
             flag = False
 
+    def stop_process(self):
+        print("⚠️ 用户确认终止处理")
+        self.ui.DIOControlWidget.widgets.DO4.setChecked(True)
+        self.ui.DIOControlWidget.widgets.DO4.click()
+        self.ui.DIOControlWidget.widgets.DO0.click()
+        self.mp4_recording = False
+
+        size = self.ui.AIOControlWidget.cam.get_img().shape
+        black_image = np.zeros((size[0], size[1], 3), dtype=np.uint8)
+        self.ui.AIOControlWidget.updateshow(black_image)
+
+        QApplication.processEvents()  # 👈 强制刷新 UI 显示黑图
+
+        self.ui.DIOControlWidget.ai_debug_index = TIMESIZE
+
     def ccd_detect_type_error(self, error_msg):
-        # 在主线程中更新 UI
         self.ui.AIOControlWidget.widgets.textBrowser_ccdres.append(error_msg)
-        # 弹窗提示
-        # QMessageBox.warning(self, '错误', f'熔覆检测识别状态异常 {error_msg}')
 
-        def stop_process():
-            print("⚠️ 用户确认终止处理")
-            # 调用终止处理逻辑，比如：
-            self.ui.DIOControlWidget.widgets.DO4.setChecked(True)
-            # 或调用 self.terminate_deposition() 之类函数
+        size = self.ui.AIOControlWidget.cam.get_img().shape
+        black_image = np.zeros((size[0], size[1], 3), dtype=np.uint8)
+        self.ui.AIOControlWidget.updateshow(black_image)
 
-        dialog = TimedConfirmDialog("沉积连续异常\n是否终止？", timeout=3, on_confirm=stop_process, parent=None)
-        dialog.exec_()  # 阻塞等待，直到用户操作或倒计时结束
+        QApplication.processEvents()  # 👈 关键在这里
+
+        dialog = TimedConfirmDialog("沉积连续异常\n是否终止？", timeout=3, on_confirm=self.stop_process, parent=None)
+        dialog.exec_()
+
+        time.sleep(0.2)
+
+        if dialog.result() == QDialog.Accepted:
+            size = self.ui.AIOControlWidget.cam.get_img().shape
+            black_image = np.zeros((size[0], size[1], 3), dtype=np.uint8)
+            self.ui.AIOControlWidget.updateshow(black_image)
+            QApplication.processEvents()  # 👈 再次刷新黑图（可选）
+
+            QMessageBox.warning(self, '错误', f'DO5已触发，沉积终止')
 
     def show_pre_ccd(self):
         # self.ui.label_showpre.
@@ -1057,7 +1080,7 @@ class Worker(QObject):
     update_text_signal = Signal(str)
     update_error_signal = Signal(str)
     error_warning_frame = config.ERROR_WARNING_FRAME
-
+    last_predicted_class_index_adjusted = 1
     def __init__(self):
         super().__init__()
         self.prediction_queue = queue.Queue(maxsize=5)
@@ -1121,10 +1144,12 @@ class Worker(QObject):
 
                     predicted_class_index = predicted.item()
                     predicted_class_index_adjusted = predicted_class_index + 1
+                    if predicted_class_index_adjusted != 2 and predicted_class_index_adjusted != 4:
+                        predicted_class_index_adjusted = 1
 
-                    if predicted_class_index != 0:
+                    if predicted_class_index_adjusted != 1:
                         self.error_warning_frame -= 1
-                    else:
+                    if predicted_class_index_adjusted != self.last_predicted_class_index_adjusted:
                         self.error_warning_frame = config.ERROR_WARNING_FRAME
 
                     if self.error_warning_frame == 0:
@@ -1135,7 +1160,7 @@ class Worker(QObject):
 
                     result_text = f"预测类别: {predicted_class_name}\n预测概率: {predicted_probability:.2f}\n时间: {datetime.datetime.now()}"
                     self.update_text_signal.emit(result_text)
-
+                self.last_predicted_class_index_adjusted = predicted_class_index_adjusted
             except Exception as e:
                 print(f"[预测错误] {e}")
 
@@ -1151,12 +1176,12 @@ class Worker(QObject):
         while self_pwin.mp4_recording:
             start_time = time.time()
             self_pwin.ui.AIOControlWidget.capture(updateshow=True, timedelay=0)
-            img = self_pwin.ui.AIOControlWidget.cam.get_img()
+            img = self_pwin.ui.AIOControlWidget.cam.img
 
             # ✅ 异步送入识别线程（每3帧一次）
-            if self_pwin.ui.AIOControlWidget.widgets.checkBox_openccd_2.isChecked() and i % 3 == 0:
+            if self_pwin.ui.AIOControlWidget.widgets.checkBox_openccd_2.isChecked():
                 try:
-                    if not self.prediction_queue.full():
+                    if i == 0  and not self.prediction_queue.full():
                         self.prediction_queue.put_nowait(img.copy())
                 except queue.Full:
                     pass  # 跳帧不等
@@ -1189,7 +1214,7 @@ class Worker(QObject):
                     img_pil = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
                     img_pil.save(path)
 
-            i += 1
+            i = (i+1) % 10
 
             # ✅ 保持恒定帧率
             elapsed_time = time.time() - start_time

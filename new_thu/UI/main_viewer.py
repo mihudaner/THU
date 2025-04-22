@@ -974,5 +974,6 @@ if __name__ == '__main__':
     MainWindow.ui.AIOControlWidget.widgets.checkBox_openccd.click()
     MainWindow.ui.DIOControlWidget.widgets.checkBox_openport.click()
     time.sleep(0.1)
+    MainWindow.ui.tabWidget_2.setCurrentIndex(0)
     MainWindow.ui.DIOControlWidget.widgets.DO0.click()
     sys.exit(app.exec_())
